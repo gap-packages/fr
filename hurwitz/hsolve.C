@@ -236,7 +236,7 @@ int main(void)
     cerr << "success after " << iter << " iterations, " << info[7] << " function evals, " << info[8] << " jacobians, " << info[9] << " linear systems." << endl;
     break;
   case 7:
-    cerr << "stopped by invalid (i.e. NaN or Inf) ) function values. repent." << endl;
+    cerr << "stopped by invalid (i.e. NaN or Inf) function values. Repent." << endl;
     return -1;
   }
 
