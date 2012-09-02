@@ -294,9 +294,9 @@ BindGlobal("OPTIMIZELAYOUT@", function(spider,lift)
             y := scanp1(sout[6+2*i]);
         fi;
         if x>0 then
-            Add(data.zeros,rec(degree := x, pos := y, to := linf.cover));
+            Add(data.zeros,rec(degree := x, pos := y, to := l0.cover));
         else
-            Add(data.poles,rec(degree := -x, pos := y, to := l0.cover));
+            Add(data.poles,rec(degree := -x, pos := y, to := linf.cover));
         fi;
     od;
     Assert(0,sout[2*numzero+6]="CRITICAL" and Int(sout[2*numzero+7])=numcv);
@@ -310,22 +310,24 @@ BindGlobal("OPTIMIZELAYOUT@", function(spider,lift)
         Add(data.cp,rec(degree := x, pos := y, to := cv[i+1]));
     od;
     Assert(0,sout[2*numzero+3*numcv+9]="END");
-    Add(data.poles,rec(degree := 2*data.degree-1-Sum(Concatenation(data.cp,data.zeros,data.poles),x->x.degree-1), pos := P1infinity));
+    Add(data.poles,rec(degree := 2*data.degree-1-Sum(Concatenation(data.cp,data.zeros,data.poles),x->x.degree-1), pos := P1infinity, to := linf.cover));
     
     return data;
 end);
 
-BindGlobal("HURWITZ@", function(spider,monodromy)
+BindGlobal("HURWITZ@", function(pts,monodromy)
     # compute the critical points, zeros and poles of a map whose
     # critical values are vertices of "spider", with monodromy given
     # by the homomorphism "monodromy".
-    local t, d;
+    local t, d, spider;
     
-    if IsList(spider) then # we're just given points
-        spider := TRIVIALSPIDER@FR(spider);
+    if IsList(pts) then # we're just given points
+        spider := TRIVIALSPIDER@FR(pts);
         IMGMARKING@FR(spider,Source(monodromy));
         # let's hope the IMG relation is the same as that given by the
         # spanning tree in the trivial spider. Maybe we have to fix this.
+    else
+	spider := pts;
     fi;
 
     Assert(0,Source(spider!.marking)=Source(monodromy));
@@ -337,7 +339,15 @@ BindGlobal("HURWITZ@", function(spider,monodromy)
     t := LIFTBYMONODROMY@(spider,monodromy,d);
     REFINETRIANGULATION@(t,0.5);
     LAYOUTTRIANGULATION@(t);
-    return OPTIMIZELAYOUT@(spider,t);
+    d := OPTIMIZELAYOUT@(spider,t);
+
+    if IsList(pts) then
+        for t in d.zeros do t.to := t.to.pos; od;
+        for t in d.poles do t.to := t.to.pos; od;
+        for t in d.cp do t.to := t.to.pos; od;
+    fi;
+
+    return d;
 end);
 
 #############################################################################
