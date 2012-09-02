@@ -36,35 +36,30 @@ while true
             ivertex = fscanf(fid,'%d',1);
         case 'FACES'
             numfaces = fscanf(fid,'%d',1);
-            f = fscanf(fid,'%d',[3,numfaces])';
-        case 'EDGES'
-            numedges = fscanf(fid,'%d',1);
-            e = fscanf(fid,'%f',[3,numedges]);
-            edgelength = sparse(e(1,:),e(2,:),e(3,:),numvertices,numvertices,numedges);
-            clear e
+        loglength = zeros(numfaces,3);
+	    f = zeros(numfaces,3);
+        for n = 1:numfaces
+            f(n,:) = fscanf(fid,'%d',3);
+            loglength(n,:) = reallog(fscanf(fid,'%f',3));
+        end
         case ''
             break
     end
 end
 fclose(fid);
 
-loglength = zeros(numfaces,3);
-
-for n=1:numfaces
-    for m=1:3
-        loglength(n,m) = reallog(full(edgelength(f(n,1+mod(m,3)),f(n,1+mod(m+1,3)))));
-    end
-end
-
-if numedges ~= 6*(numvertices-2) || numfaces ~= 2*(numvertices-2) || all(all(edgelength ~= edgelength'))
-    fprintf(1, 'Error: numvertices = %d, numedges = %d, numfaces = %d\n', numvertices, numedges, numfaces);
+if numfaces ~= 2*(numvertices-2)
+    fprintf(1, 'Error: numvertices = %d, numfaces = %d\n', numvertices, numfaces);
 end
 
 numangles = 3 * numfaces;
 
 boundaryvertices = false(numvertices,1);
-boundaryvertices(find(edgelength(ivertex,:))) = true;
-boundaryvertices(ivertex) = true;
+for n=1:numfaces
+    if ivertex==f(n,1) || ivertex==f(n,2) || ivertex==f(n,3)
+        boundaryvertices(f(n,:)) = true;       
+    end
+end
 interiorvertices = ~boundaryvertices;
 
 fprintf('infty=%d, %u boundary vertices, %u interior vertices.\n', ivertex, nnz(boundaryvertices), nnz(interiorvertices));
@@ -149,8 +144,14 @@ lastfunctionvalue = 0;
     end
 
 % allocate vector u used in targetfunction.
-u = zeros(numvertices, 1);
-u(boundaryvertices) = -reallog(full(edgelength(boundaryvertices,ivertex)));
+u = zeros(numvertices,1);
+for n=1:numfaces
+    for m=1:3
+        if f(n,m)==ivertex
+            u(f(n,mod(m,3)+1)) = -loglength(n,mod(m+1,3)+1);
+        end
+    end
+end
 u(ivertex) = 0.;
 
     % Clip boundaryvertices out of dcfunctional.
@@ -347,8 +348,8 @@ traversedualspanningtree(@travroot, @travleft, @travright);
 % center points
 vt = vt - repmat(sum(vt)/numvertices,numvertices,1);
 ptnorm = vt(:,1).^2 + vt(:,2).^2 + 1.;
-sph = [2*vt(:,1)./ptnorm,2*vt(:,2)./ptnorm,(2.-ptnorm)./ptnorm];
-sph(ivertex,:) = [0.,0.,-1.];
+sph = [2*vt(:,1)./ptnorm,2*vt(:,2)./ptnorm,(ptnorm-2.)./ptnorm];
+sph(ivertex,:) = [0.,0.,1.];
 
 if false % show the flat mesh.
     figure();

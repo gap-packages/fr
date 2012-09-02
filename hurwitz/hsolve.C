@@ -6,6 +6,7 @@
 #include <iostream>
 #include <complex>
 using namespace std;
+#include <string.h>
 #include "levmar.h"
 
 typedef complex<double> cdouble;
@@ -144,7 +145,7 @@ int main(void)
 			     { 2, 2 }, // orders of non-pole/zero critical points
 			     { 9.0 } // critical values
   };
-  cdouble p[2*MAXDEGREE] = { 1.5, 2.0 }; // initial zeros/poles
+  cdouble p[2*MAXDEGREE-2] = { 1.5, 2.0 }; // initial zeros/poles
   cdouble c[2*MAXDEGREE-1] = { 3.1 }; // initial critical points; really 3
 #elif 0
  // degree-2 polynomial: A*z*(z-p0)
@@ -155,8 +156,8 @@ int main(void)
 			     { 2 }, // orders of non-pole/zero critical points
 			     { } // critical values
   };
-  cdouble p[2*MAXDEGREE] = { cdouble(1.0,1.0) }; // initial zeros/poles
-  cdouble c[2*MAXDEGREE-1] = { }; // initial critical points
+  cdouble p[2*MAXDEGREE-2] = { cdouble(1.0,1.0) }; // initial zeros/poles
+  cdouble c[2*MAXDEGREE-2] = { }; // initial critical points
 #elif 0 // degree-3 polynomial map: A*z*(z-p0)*(z-p1)
   const hurwitzdata data = { 3, // degree
 			     2, // number of zeros/poles, excluding 0,infty
@@ -165,8 +166,8 @@ int main(void)
 			     { 2, 2 }, // orders of non-pole/zero critical points
 			     { -0.411522633 } // critical values; really -100/243
   };
-  cdouble p[2*MAXDEGREE] = { 4.4, 2.8 }; // initial zeros/poles; really 4,10/2
-  cdouble c[2*MAXDEGREE-1] = { 3.1 }; // initial critical points; really 10/3
+  cdouble p[2*MAXDEGREE-2] = { 4.4, 2.8 }; // initial zeros/poles; really 4,10/2
+  cdouble c[2*MAXDEGREE-2] = { 3.1 }; // initial critical points; really 10/3
 #elif 0 // degree-3 polynomial map: A*z*(z-p0)*(z-p1)
   const hurwitzdata data = { 3, // degree
 			     2, // number of zeros/poles, excluding 0,infty
@@ -175,9 +176,9 @@ int main(void)
 			     { 3 }, // orders of non-pole/zero critical points
 			     { } // critical values
   };
-  cdouble p[2*MAXDEGREE] = { cdouble(1.5,0.86), cdouble(1.5,-0.87) }; // initial zeros/poles; really (3+-sqrt(-3))/2
-  cdouble c[2*MAXDEGREE-1] = { }; // initial critical points
-#elif 1 // degree-13 rational map
+  cdouble p[2*MAXDEGREE-2] = { cdouble(1.5,0.86), cdouble(1.5,-0.87) }; // initial zeros/poles; really (3+-sqrt(-3))/2
+  cdouble c[2*MAXDEGREE-2] = { }; // initial critical points
+#elif 0 // degree-13 rational map
   const hurwitzdata data = { 13, // degree
 			     8, // number of zeros/poles, excluding 0,infty
 			     4, // number of critical points, excluding zeros,poles,1
@@ -185,7 +186,7 @@ int main(void)
 			     { 3, 2, 2, 2, 4 }, // orders of non-pole/zero critical points
 			     { 1.0, 1.0, 1.0, 1.0 } // critical values
   };
-  cdouble p[2*MAXDEGREE] = {
+  cdouble p[2*MAXDEGREE-2] = {
     // initial zeros
     cdouble(1.1,-1.0),
     cdouble(2.0,-0.2),
@@ -197,14 +198,46 @@ int main(void)
     cdouble(0.5,0.0),
     cdouble(-0.6,-0.5)
   };
-  cdouble c[2*MAXDEGREE-1] = { // initial critical points
+  cdouble c[2*MAXDEGREE-2] = { // initial critical points
     cdouble(-0.1,-1.0),
     cdouble(0.4,-0.2),
     cdouble(-1.0,-0.2),
     cdouble(2.0,-0.8)
   };
 #else
-#error please specify hurwitz data and initial parameters
+  hurwitzdata data;
+  cdouble p[2*MAXDEGREE-2], c[2*MAXDEGREE-2];
+
+  for (;;) {
+    char s[100];
+    if (!cin.good())
+      strcpy(s,"EOF");
+    cin >> s;
+    if (!strcmp(s,"END")) {
+      break;
+    } else if (!strcmp(s,"DEGREE")) {
+      cin >> data.degree;
+    } else if (!strcmp(s,"ZEROS/POLES")) {
+      cin >> data.numzero;
+      for (int i = 0; i <= data.numzero; i++) {
+	cin >> data.e[i];
+	if (i != data.numzero)
+	  cin >> p[i];
+      }
+    } else if (!strcmp(s,"CRITICAL")) {
+      cin >> data.numcv;
+      for (int i = 0; i <= data.numcv; i++) {
+	cin >> data.d[i];
+	if (i != data.numcv) {
+	  cin >> c[i];
+	  cin >> data.v[i];
+	}
+      }
+    } else {
+      cerr << "Unknown input " << s << ". Repent." << endl;
+      return -1;
+    }
+  }
 #endif
 
   double info[LM_INFO_SZ];
@@ -212,7 +245,7 @@ int main(void)
   int iter = solvehd (data, p, c, maxiter, info);
 
   if (iter < 0) {
-    cerr << "hurwitz data is invalid. check again the degrees" << endl;
+    cerr << "Hurwitz data is invalid. Check again the degrees." << endl;
     return -1;
   }
 
@@ -242,19 +275,21 @@ int main(void)
 
   cerr << "|e|₂ = " << info[1] << ", |J⁺e|ₒₒ = " << info[2] << ", |Dp|₂ = " << info[3] << ", μ/max[J⁺J]ₖₖ ] = " << info[4] << endl << endl;
 
-  cdouble A = 1.0;
-  for (int i = 0; i < data.numzero; i++)
-    A *= ipow(1.0-p[i],data.e[i]);
-  
-  cout << "f(z) = " << 1.0/A;
-  for (int i = 0; i < data.numzero; i++)
-    cout << " * (z-" << p[i] << ")^" << data.e[i];
-  cout << " * z^" << data.e[data.numzero] << endl << endl;
-
-  cout << "Critical points:";
-  for (int i = 0; i < data.numcv; i++)
-    cout << " " << c[i];
-  cout << endl;
+  cout.precision(20);
+  cout << "DEGREE " << data.degree << endl;
+  cout << "ZEROS/POLES " << data.numzero << endl;
+  for (int i = 0; i <= data.numzero; i++) {
+    cout << data.e[i];
+    if (i != data.numzero) cout << " " << p[i];
+    cout << endl;
+  }
+  cout << "CRITICAL " << data.numcv << endl;
+  for (int i = 0; i <= data.numcv; i++) {
+    cout << data.d[i];
+    if (i != data.numcv) cout << " " << c[i] << " " << data.v[i];
+    cout << endl;
+  }
+  cout << "END" << endl;
 
   return 0;
 }
