@@ -1,4 +1,0 @@
-fr
-==
-
-FR package
