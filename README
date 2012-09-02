@@ -1,7 +1,6 @@
                              The FR package
 
-This is the README file for the GAP package "FR",
-version $Id$
+This is the README file for the GAP package "FR".
 
 This package implements Functionally Recursive and Mealy automata in
 GAP. These objects can be manipulated as group elements, and various
@@ -18,7 +17,9 @@ for complex dynamics, etc.
 The package is distributed in source form, and does not require anything
 else than a running GAP 4.5 or later. For updates, check
 
-     http://www.uni-math.gwdg.de/laurent/FR/
+     http://www.uni-math.gwdg.de/laurent/FR/ (tar.gz formats)
+and
+     https://github.com/laurentbartholdi/fr (git)
 
 To use the package, start GAP and type
 
@@ -38,7 +39,7 @@ subdirectory (view the file `manual.pdf' via a PDF viewer).
 An optional external module (DLL) provides floating-point functions used
 by the "iterated monodromy groups" part of FR. Its presence or absence
 does not affect the remainder of FR. To compile it, first make sure that
-your system has C, FORTRAN and JAVA compilers, and that the libraries
+your system has C and JAVA compilers, and that the libraries
 libcblas and libgcj are installed. Then compile by running
 
 './configure && make' in FR's root directory.
@@ -57,4 +58,4 @@ You should have received a copy of the GNU General Public License
 along with this program, in the file COPYING.  If not, see
 <http://www.gnu.org/licenses/>.
 
-  Laurent Bartholdi, Göttingen, $Date$
+  Laurent Bartholdi, Göttingen, 2 September 2012
