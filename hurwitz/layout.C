@@ -1,25 +1,37 @@
 // solve Hurwitz problem by laying out triangulation
 
+#undef PRINT_DOGLEG
+#undef PRINT_U
+#undef PRINT_XY
+
 #include <iostream>
+#include <queue>
+#include <map>
 using namespace std;
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
-#include "levmar.h"
+#include <cholmod.h>
+extern "C" {
+#include "dogleg.h"
+}
 
-#define MAXVERTICES 10000
+cholmod_common cholmod;
+
+#define MAXVERTICES 100000
 #define MAXFACES (2*(MAXVERTICES-2))
 #define maxiter 1000
 
-int numvertices, innervertices, ivertex, numfaces;
-int face[MAXFACES][3]; // vertices of face
+int numvertices, innervertices, ivertex, numfaces, jac_nnz;
+int vertex[MAXFACES][3]; // vertices of face
+int face[MAXFACES][3]; // face[f][i] is face opposite vertex[f][i]
 double loglength[MAXFACES][3]; // log-lengths of edges opposite to vertices
 bool boundary[MAXVERTICES];
+double u[MAXVERTICES]; // will hold the scaling at vertices
+double x[MAXVERTICES], y[MAXVERTICES]; // laid-out positions on the plane
 
 // inner2v enumerates the inner vertices, v2inner gives the inner# of a vertex
 int v2inner[MAXVERTICES], inner2v[MAXVERTICES];
-
-double u[MAXVERTICES]; // will hold the scaling at vertices
 
 double clausen (double x)
 // Clausen's integral
@@ -64,7 +76,7 @@ double clausen (double x)
   }
 }
 
-int numbrokentriangs; // statistics
+int numbrokentriangles; // statistics
 
 void triangle_angles (double loglen[3], double angles[3], double cot[3])
 {
@@ -75,7 +87,7 @@ void triangle_angles (double loglen[3], double angles[3], double cot[3])
   for (int i = 0; i < 3; i++) s[i] = s0 - 2*len[i];
 
   if (s[0] <= 0. || s[1] <= 0. || s[2] <= 0.) {
-    numbrokentriangs++;
+    numbrokentriangles++;
     for (int i = 0; i < 3; i++) angles[i] = M_PI * (s[i] <= 0.), cot[i] = 0.;
     return;
   }
@@ -86,81 +98,216 @@ void triangle_angles (double loglen[3], double angles[3], double cot[3])
     cot[i] = p * (s[i] * s0 - s[(1+i)%3] * s[(2+i)%3]);
 }
 
-double lastfunctionvalue, thisfunctionvalue;
+void add_triplet (cholmod_triplet *matrix, int i, int j, double x)
+{
+  ((int *)matrix->i)[matrix->nnz] = i;
+  ((int *)matrix->j)[matrix->nnz] = j;
+  ((double *)matrix->x)[matrix->nnz] = x;
+  matrix->nnz++;
+}
 
-void layout_fdf (double x[], double y[], double z[])
+void layout_fdf (const double x[], double y[], cholmod_sparse *jacobian, void* cookie __attribute__ ((unused)))
 {
   for (int i = 0; i < innervertices; i++) // fill in u values
     u[inner2v[i]] = x[i];
 
-  numbrokentriangs = 0;
+  numbrokentriangles = 0; // for statistics
+
+  cholmod_triplet *j_triplet = cholmod_allocate_triplet (innervertices, innervertices, jac_nnz, 0, CHOLMOD_REAL, &cholmod); // in fact, is symmetric
 
   double value = 0., gradient[numvertices];
 
-  for (int i = 0; i < numvertices; i++) {
+  for (int i = 0; i < numvertices; i++)
     value += 2.*M_PI*u[i];
-    gradient[i] = 2.*M_PI;
-  }
+
+  for (int i = 0; i < innervertices; i++)
+    y[i] = 2.*M_PI;
 
   for (int i = 0; i < numfaces; i++) {
     double newloglength[3], angle[3], cot[3];
 
     for (int j = 0; j < 3; j++)
-      newloglength[j] = loglength[i][j] + u[face[i][(j+1)%3]] + u[face[i][(j+2)%3]];
+      newloglength[j] = loglength[i][j] + u[vertex[i][(j+1)%3]] + u[vertex[i][(j+2)%3]];
     triangle_angles(newloglength, angle, cot);
 
     for (int j = 0; j < 3; j++) {
-      value -= M_PI*u[face[i][j]];
+      value -= M_PI*u[vertex[i][j]];
       value += angle[j]*newloglength[j];
       value += 0.5 * clausen(2.*angle[j]);
-    }
 
-    lastfunctionvalue = thisfunctionvalue;
-    thisfunctionvalue = value;
+      int faceij = v2inner[vertex[i][j]];
+      if (faceij == -1)
+	continue;
 
-    for (int j = 0; j < 3; j++)
-      gradient[face[i][j]] -= angle[j];
+      y[faceij] -= angle[j];
 
-#ifdef WITH_HESSIAN
-    for (int j = 0; j < 3; j++) {
-      hessian[face[i][j]][face[i][j]] = cot[(j+1)%3] + cot[(j+2)%3];
+      add_triplet (j_triplet, faceij, faceij, cot[(j+1)%3] + cot[(j+2)%3]);
       for (int k = 0; k < 3; k++) {
 	if (j == k) continue;
-	hessian[face[i][j]][face[i][k]] = -cot[3-j-k];
+	int faceik = v2inner[vertex[i][k]];
+	if (faceik == -1)
+	  continue;
+	add_triplet (j_triplet, faceij, faceik, -cot[3-j-k]);
       }
     }
-
-    for (int i = 0; i < innervertices; i++)
-      for (int j = 0; j < innervertices; j++)
-	hess[i][j] = hessian[inner2v[i]][inner2v[j]];
-#endif
   }
 
-  if (y)
-    y[0] = value;
+  cholmod_sparse *jac = cholmod_triplet_to_sparse (j_triplet, jac_nnz, &cholmod);
+  memcpy (jacobian->p, jac->p, (jac->ncol+1)*sizeof(int));
+  memcpy (jacobian->i, jac->i, jac->nzmax*sizeof(int));
+  memcpy (jacobian->x, jac->x, jac->nzmax*sizeof(double));
 
-  if (z)
-    for (int i = 0; i < innervertices; i++)
-      z[i] = gradient[inner2v[i]];
+  cholmod_free_sparse (&jac, &cholmod);
+  cholmod_free_triplet (&j_triplet, &cholmod);
+
+#if 1
+  cerr.precision(16);
+  cerr << numbrokentriangles << " broken triangles, value = " << value << endl;
+#endif
 }
 
-void layout_f (double *p, double *hx, int m, int n, void *data)
+void computelengths (void)
 {
-  layout_fdf (p, hx, NULL);
+  innervertices = 0;
+  for (int i = 0; i < numvertices; i++)
+    if (boundary[i])
+      v2inner[i] = -1;
+    else {
+      v2inner[i] = innervertices;
+      inner2v[innervertices++] = i;
+    }
+  jac_nnz = 9*numfaces;
+
+  cerr << "infty = " << ivertex << ", " << numvertices-innervertices << " boundary vertices, " << innervertices << " interior vertices." << endl;
+
+  double inneru[innervertices];
+  for (int i = 0; i < innervertices; i++)
+    inneru[i] = 0.;
+
+#ifdef PRINT_DOGLEG
+  dogleg_setDebug(1);
+#else
+  dogleg_setDebug(0);
+#endif
+  dogleg_setMaxIterations (1000);
+  dogleg_setThresholds (1.e-12,0.,-1.);
+
+#ifdef CHECK_GRADIENT
+  fprintf(stderr, "have %d variables\n", innervertices);
+  for(int i=0; i<innervertices; i++)
+  {
+    fprintf(stderr, "checking gradients for variable %d\n", i);
+    dogleg_testGradient(i, u, innervertices, innervertices, jac_nnz, layout_fdf, NULL);
+  }
+#endif
+ 
+  double optimum = dogleg_optimize(inneru, innervertices, innervertices, jac_nnz, layout_fdf, NULL, NULL);
+
+#ifdef PRINT_DOGLEG
+  cerr << "Achieved norm " << optimum << endl;
+#endif
+
+  for (int i = 0; i < innervertices; i++)
+    u[inner2v[i]] = inneru[i];
 }
 
-void layout_df (double *p, double *j, int m, int n, void *data)
+void makefaces (void)
 {
-  layout_fdf (p, NULL, j);
+  typedef pair<int,int> edge;
+
+  map<edge,int> edge2triangle;
+
+  for (int i = 0; i < numfaces; i++)
+    for (int j = 0; j < 3; j++)
+      edge2triangle.insert (pair<edge,int>(edge(vertex[i][j],vertex[i][(j+1)%3]),i));
+
+  for (int i = 0; i < numfaces; i++)
+    for (int j = 0; j < 3; j++)
+      face[i][j] = edge2triangle[edge(vertex[i][(j+2)%3],vertex[i][(j+1)%3])];
 }
 
-void printinfo (int iter, int call_iter, double x[], double *f, double *g,  double* gnorm)
+void layoutfaces (void)
 {
-  cout << iter << ": " << call_iter << " " << *f << " " << *gnorm  << " broken: " << numbrokentriangs << "... \r";
+  queue<int> q;
+  bool tag[numvertices];
+  double length[numfaces][3];
+
+  for (int i = 0; i < numvertices; i++)
+    tag[i] = false;
+  tag[ivertex] = true;
+
+  for (int i = 0; i < numfaces; i++)
+    for (int j = 0; j < 3; j++)
+      length[i][j] = exp(loglength[i][j] + u[vertex[i][(j+1)%3]] + u[vertex[i][(j+2)%3]]);
+
+  int rootface;
+  for (rootface = 0;; rootface++) {
+    int j;
+    for (j = 0; j < 3; j++)
+      if (tag[vertex[rootface][j]]) break;
+    if (j == 3) break;
+  }
+  q.push (rootface);
+
+  while (!q.empty()) {
+    int f = q.front();
+    q.pop();
+    for (int j = 0; j < 3; j++) {
+      int v0 = vertex[f][j];
+      if (tag[v0])
+	continue;
+
+      tag[v0] = true;
+      int v1 = vertex[f][(j+1)%3], v2 = vertex[f][(j+2)%3];
+
+      if (!tag[v1] && !tag[v2]) { // very first vertex
+	x[v0] = y[v0] = 0.;
+	continue;
+      }
+
+      // ok, so definitely v2 has already been laid out. push face v2-v0
+      q.push (face[f][(j+1)%3]);
+
+      if (!tag[v1]) { // very second vertex
+	x[v0] = length[f][(j+1)%3];
+	y[v0] = 0.;
+	continue;
+      }
+      // now v1 and v2 have already been laid out. compute pos. of v0
+
+      double e0 = length[f][j],
+	e1 = length[f][(j+1)%3],
+	e2 = length[f][(j+2)%3];
+      double angle1 = (e0*e0 + e2*e2 - e1*e1) / (2.*e0*e2);
+      if (angle1 >= 1.0) // safety, for roundoffs
+	angle1 = 0.0;
+      else if (angle1 <= -1.0)
+	angle1 = M_PI;
+      else
+	angle1 = acos(angle1);
+
+      double slope12 = atan2(y[v2]-y[v1],x[v2]-x[v1]);
+      double dx, dy;
+      sincos (slope12+angle1, &dy, &dx);
+      x[v0] = x[v1] + e2*dx;
+      y[v0] = y[v1] + e2*dy;
+
+      q.push (face[f][(j+2)%3]);
+    }
+  }
+#if 0 // sanity check
+  for (int i = 0; i < numfaces; i++)
+    for (int j = 0; j < 3; j++) {
+      int v0 = vertex[i][(j+1)%3], v1 = vertex[i][(j+2)%3];
+      cerr << "face " << i << " edge " << j << ": length " << hypot(x[v0]-x[v1],y[v0]-y[v1]) << " (expected " << length[i][j] << ")\n";
+    }
+#endif
 }
 
 int main(int argc, char *argv[])
 {
+  cholmod_start (&cholmod);
+
   for (;;) {
     char s[100];
     if (scanf("%s", s) != 1)
@@ -169,12 +316,16 @@ int main(int argc, char *argv[])
       scanf("%d", &numvertices);
       scanf("%d", &ivertex);
       ivertex--; // C array indexing
+      if (numvertices >= MAXVERTICES) {
+	cerr << "numvertices = " << numvertices << " > MAXVERTICES = " << MAXVERTICES << ". Repent." << endl;
+	return -1;
+      }
     } else if (!strcmp(s,"FACES")) {
       scanf ("%d", &numfaces);
       for (int i = 0; i < numfaces; i++) {
 	for (int j = 0; j < 3; j++) {
-	  scanf("%d", face[i]+j);
-	  face[i][j]--; // C arrays start at 0
+	  scanf("%d", vertex[i]+j);
+	  vertex[i][j]--; // C arrays start at 0
 	}
 	for (int j = 0; j < 3; j++) {
 	  double d;
@@ -199,63 +350,63 @@ int main(int argc, char *argv[])
 
   for (int i = 0; i < numfaces; i++)
     for (int j = 0; j < 3; j++)
-      if (face[i][j] == ivertex) {
-	boundary[face[i][(j+1)%3]] = true;
-	u[face[i][(j+1)%3]] = -loglength[i][(j+2)%3];
+      if (vertex[i][j] == ivertex) {
+	boundary[vertex[i][(j+1)%3]] = true;
+	u[vertex[i][(j+1)%3]] = -loglength[i][(j+2)%3];
       }
 
-  innervertices = 0;
+  computelengths();
+
+#ifdef PRINT_U
+  cerr << "u vector:\n--------\n";
   for (int i = 0; i < numvertices; i++)
-    if (boundary[i])
-      v2inner[i] = -1;
-    else {
-      v2inner[i] = innervertices;
-      inner2v[innervertices++] = i;
+    cerr << u[i] << endl;
+#endif
+
+  cholmod_finish (&cholmod);
+
+  makefaces ();
+  layoutfaces ();
+
+#ifdef PRINT_XY
+  cerr << "points:\n------\n";
+  for (int i = 0; i < numvertices; i++)
+    cerr << "(" << x[i] << "," << y[i] << ")" << endl;
+#endif
+
+  // center the points
+  double sx = 0., sy = 0., s = 0.;
+  for (int i = 0; i < numvertices; i++)
+    sx += x[i], sy += y[i];
+  sx /= numvertices; sy /= numvertices;
+  for (int i = 0; i < numvertices; i++)
+    x[i] -= sx, y[i] -= sy;
+
+  // spread them out
+  for (int i = 0; i < numvertices; i++)
+    s += x[i]*x[i]+y[i]*y[i];
+  s = sqrt(s / numvertices);
+
+  for (int i = 0; i < numvertices; i++)
+    x[i] /= s, y[i] /= s;
+
+  if (s != s) // we got NaN, because one of the values is invalid
+    return -1;
+    
+  // print stereographic projection
+  cout.precision(20);
+  cout << "[";
+  for (int i = 0; i < numvertices; i++) {
+    double n = x[i]*x[i] + y[i]*y[i] + 1.;
+
+    if (i == ivertex) {
+      x[i] = y[i] = 0.;
+      n = 1.e300; // just as good as infinity, if we don't have 300 sig.digits
     }
 
-  cerr << "infty = " << ivertex << ", " << numvertices-innervertices << " boundary vertices, " << innervertices << " interior vertices." << endl;
+    cout << "[" << 2.*x[i]/n << "," << 2.*y[i]/n << "," << (n-2.)/n << "]," << endl;
+  } 
+  cout << "fail];" << endl;
 
-  double inneru[innervertices];
-  for (int i = 0; i < innervertices; i++)
-    inneru[i] = 0.;
-  double min;
-  double info[LM_INFO_SZ];
-
-  int iter = dlevmar_der (layout_f, layout_df, inneru, &min, innervertices, 1, 100, NULL, info, NULL, NULL, NULL);
-
-  if (iter < 0) {
-    cerr << "I freaked out." << endl;
-    return -1;
-  }
-
-  cerr << min << endl;
-
-  switch ((int) info[6]) {
-  case 1:
-    cerr << "stopped by small gradient J^T e" << endl;
-    break;
-  case 2:
-    cerr << "stopped by small Dp" << endl;
-    break;
-  case 3:
-    cerr << "stopped by itmax" << endl;
-    break;
-  case 4:
-    cerr << "singular matrix. Restart from current p with increased μ" << endl;
-    break;
-  case 5:
-    cerr << "no further error reduction is possible. Restart with increased μ" << endl;
-    break;
-  case 6:
-    cerr << "success after " << iter << " iterations, " << info[7] << " function evals, " << info[8] << " jacobians, " << info[9] << " linear systems." << endl;
-    break;
-  case 7:
-    cerr << "stopped by invalid (i.e. NaN or Inf) function values. Repent." << endl;
-    return -1;
-  }
-
-  cerr << "|e|₂ = " << info[1] << ", |J⁺e|ₒₒ = " << info[2] << ", |Dp|₂ = " << info[3] << ", μ/max[J⁺J]ₖₖ ] = " << info[4] << endl << endl;
-
-  for (int i = 0; i < innervertices; i++)
-    u[inner2v[i]] = inneru[i];
+  return 0;
 }
