@@ -144,17 +144,15 @@ BindGlobal("REFINETRIANGULATION@", function(triangulation,maxlen)
 end);
 
 BindGlobal("LAYOUTTRIANGULATION@", function(triangulation)
-    # run matlab code to optimize point placement.
+    # run C code to optimize point placement.
     # "triangulation" is topologically a triangulated sphere. Its edge
     # lengths should be adjusted, by multiplying each edge (say from v to w)
     # by u[v]*u[w] for some scaling function u defined on the vertices;
     # in such a way that the resulting metric object is a conformal sphere.
-    local i, e, f, v, m, max, infty, tmpin, tmpout, dir, file;
+    local i, e, f, v, m, max, infty, sin, sout, stdin, stdout;
     
-    dir := DirectoryTemporary();
-    tmpin := Filename(dir,"triangulation");
-    tmpout := Filename(dir,"positions");
-    file := OutputTextFile(tmpin,false);
+    sin := "";
+    stdin := OutputTextString(sin,false);
     
     max := 0;
     for v in triangulation!.v do
@@ -164,28 +162,30 @@ BindGlobal("LAYOUTTRIANGULATION@", function(triangulation)
             max := m;
         fi;
     od;
-    PrintTo(file,"VERTICES ",Length(triangulation!.v),"\n",infty,"\n");
+    PrintTo(stdin,"VERTICES ",Length(triangulation!.v),"\n",infty,"\n");
     
-    PrintTo(file,"FACES ",Length(triangulation!.f),"\n");
+    PrintTo(stdin,"FACES ",Length(triangulation!.f),"\n");
     for f in triangulation!.f do
         for e in f.n do
-            PrintTo(file,e.from.index," ");
+            PrintTo(stdin,e.from.index," ");
         od;
         for e in f.n{[2,3,1]} do
-            PrintTo(file,P1Distance(e.from.pos,e.to.pos)," ");
+            PrintTo(stdin,P1Distance(e.from.pos,e.to.pos)," ");
         od;
-        PrintTo(file,"\n");
+        PrintTo(stdin,"\n");
     od;
-    CloseStream(file);
-    Process(DirectoryCurrent(),"/usr/local/bin/matlab",
-            InputTextNone(),OutputTextUser(),
-            ["-nosplash","-nojvm",
-             "-r",Concatenation("layout('",tmpin,"','",tmpout,"');")]);
-    file := InputTextFile(tmpout);
-    m := ReadAll(file);
-    CloseStream(file);
-    m := EvalString(m);
-    Remove(m);
+    CloseStream(stdin);
+    
+    stdin := InputTextString(sin);
+    sout := "";
+    stdout := OutputTextString(sout,false);
+    Process(DirectoryCurrent(),"layout",stdin,stdout,[]);
+    CloseStream(stdin);
+    CloseStream(stdout);
+    
+    m := EvalString(sout);
+    Remove(m); # there's a trailing "fail" in the file, to simplify printing
+    m := 1.0*m; # make sure all entries are floats
     
     v := List(m,P1Sphere);
     m := NORMALIZINGMAP@FR(v,fail);
@@ -225,7 +225,7 @@ BindGlobal("OPTIMIZELAYOUT@", function(spider,lift)
         return STRINGS2P1POINT(str[1],str[2]);
     end;
     
-   sin := "";
+    sin := "";
     stdin := OutputTextString(sin,false);
 
     cp := Filtered(lift!.v,x->IsBound(x.degree) and IsBound(x.cover));
@@ -354,14 +354,26 @@ end);
 
 # driver code:
 
-g := FreeGroup(3);
+if false then
+    g := FreeGroup(3);
 #permrep := GroupHomomorphismByImages(g,SymmetricGroup(5),GeneratorsOfGroup(g),[(1,2,3,4,5),(1,2),((1,2,3,4,5)*(1,2))^-1]);
 #permrep := GroupHomomorphismByImages(g,SymmetricGroup(3),GeneratorsOfGroup(g),[(1,2,3),(1,2),(2,3)]);
-permrep := GroupHomomorphismByImages(g,SymmetricGroup(13),GeneratorsOfGroup(g),
+    permrep := GroupHomomorphismByImages(g,SymmetricGroup(13),GeneratorsOfGroup(g),
                    [(1,3,12,4)(5,9)(6,7)(10,13,11)(2,8),
                     (1,5,13,6)(7,10)(2,3)(8,11,12)(4,9),
                     (1,7,11,2)(3,8)(4,5)(9,12,13)(6,10)]);
 
-lift := HURWITZ@([P1infinity,P1one,P1zero],permrep);
+    lift := HURWITZ@([P1infinity,P1one,P1zero],permrep);
+fi;
+
+danny := function(d)
+    local z, g, perms;
+    z := List([0..2*d-3], i->P1Point(Exp(i*PMCOMPLEX.constants.2IPI/(2*d-2))));
+    perms := List([1..d-1],i->(i,i+1));
+    Append(perms,Reversed(perms));
+    g := FreeGroup(2*d-2);
+    perms := GroupHomomorphismByImages(g,SymmetricGroup(d),GeneratorsOfGroup(g),perms);
+    return HURWITZ@(z,perms);
+end;
 
 #E hurwitz.g . . . . . . . . . . . . . . . . . . . . . . . . . . . .ends here
