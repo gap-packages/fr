@@ -1,0 +1,18 @@
+# Makefile for Hurwitz data programs
+
+SUITESPARSEINC=/usr/include/suitesparse
+DOGLEGINC=/usr/local/src/libdogleg
+DOGLEGLIB=$(DOGLEGINC)
+LEVMARINC=/usr/local/src/levmar-2.6
+LEVMARLIB=$(LEVMARINC)
+
+all: layout hsolve
+
+layout: layout.C
+	g++ -g -I$(SUITESPARSEINC) -I$(DOGLEGINC) -L$(DOGLEGLIB) $< -o $@ @LDDOGLEG@ @LDSUITESPARSE@
+
+hsolve: hsolve.C
+	g++ -g -I$(LEVMARINC) $< -o $@ -L$(LEVMARINC) @LDLEVMAR@
+
+clean:
+	rm hsolve layout Makefile config.h

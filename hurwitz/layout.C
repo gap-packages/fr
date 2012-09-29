@@ -4,6 +4,7 @@
 #undef PRINT_U
 #undef PRINT_XY
 
+#include "config.h"
 #include <iostream>
 #include <queue>
 #include <map>
@@ -15,6 +16,14 @@ using namespace std;
 extern "C" {
 #include "dogleg.h"
 }
+
+#ifndef HAVE_SINCOS
+void inline sincos(double x, double *s, double *c)
+{
+  *s = sin(x);
+  *c = cos(x);
+}
+#endif
 
 cholmod_common cholmod;
 
@@ -229,12 +238,14 @@ void makefaces (void)
 void layoutfaces (void)
 {
   queue<int> q;
-  bool tag[numvertices];
+  bool vtag[numvertices], ftag[numfaces];
   double length[numfaces][3];
 
   for (int i = 0; i < numvertices; i++)
-    tag[i] = false;
-  tag[ivertex] = true;
+    vtag[i] = false;
+  for (int i = 0; i < numfaces; i++)
+    ftag[i] = false;
+  vtag[ivertex] = true;
 
   for (int i = 0; i < numfaces; i++)
     for (int j = 0; j < 3; j++)
@@ -244,7 +255,7 @@ void layoutfaces (void)
   for (rootface = 0;; rootface++) {
     int j;
     for (j = 0; j < 3; j++)
-      if (tag[vertex[rootface][j]]) break;
+      if (vertex[rootface][j] == ivertex) break;
     if (j == 3) break;
   }
   q.push (rootface);
@@ -252,23 +263,27 @@ void layoutfaces (void)
   while (!q.empty()) {
     int f = q.front();
     q.pop();
+    if (ftag[f])
+      continue;
+    ftag[f] = true;
     for (int j = 0; j < 3; j++) {
+      q.push(face[f][j]);
+
       int v0 = vertex[f][j];
-      if (tag[v0])
+      if (vtag[v0])
 	continue;
 
-      tag[v0] = true;
+      // v0 has not been laid. Lay it now.
+
+      vtag[v0] = true;
       int v1 = vertex[f][(j+1)%3], v2 = vertex[f][(j+2)%3];
 
-      if (!tag[v1] && !tag[v2]) { // very first vertex
+      if (!vtag[v1] && !vtag[v2]) { // very first vertex
 	x[v0] = y[v0] = 0.;
 	continue;
       }
 
-      // ok, so definitely v2 has already been laid out. push face v2-v0
-      q.push (face[f][(j+1)%3]);
-
-      if (!tag[v1]) { // very second vertex
+      if (!vtag[v1] || !vtag[v2]) { // very second vertex
 	x[v0] = length[f][(j+1)%3];
 	y[v0] = 0.;
 	continue;
@@ -291,8 +306,6 @@ void layoutfaces (void)
       sincos (slope12+angle1, &dy, &dx);
       x[v0] = x[v1] + e2*dx;
       y[v0] = y[v1] + e2*dy;
-
-      q.push (face[f][(j+2)%3]);
     }
   }
 #if 0 // sanity check
@@ -302,6 +315,12 @@ void layoutfaces (void)
       cerr << "face " << i << " edge " << j << ": length " << hypot(x[v0]-x[v1],y[v0]-y[v1]) << " (expected " << length[i][j] << ")\n";
     }
 #endif
+
+  for (int i = 0; i < numvertices; i++)
+    if (!vtag[i]) {
+      cerr << "Didn't tag vertex " << i << ". Repent.\n";
+      exit(-1);
+    }
 }
 
 int main(int argc, char *argv[])
@@ -311,12 +330,14 @@ int main(int argc, char *argv[])
   for (;;) {
     char s[100];
     if (scanf("%s", s) != 1)
+      strcpy(s,"EOF");
+    if (!strcmp(s,"END"))
       break;
-    if (!strcmp(s,"VERTICES")) {
+    else if (!strcmp(s,"VERTICES")) {
       scanf("%d", &numvertices);
       scanf("%d", &ivertex);
       ivertex--; // C array indexing
-      if (numvertices >= MAXVERTICES) {
+      if (numvertices > MAXVERTICES) {
 	cerr << "numvertices = " << numvertices << " > MAXVERTICES = " << MAXVERTICES << ". Repent." << endl;
 	return -1;
       }

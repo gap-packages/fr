@@ -2,9 +2,7 @@
 ##
 #W hurwitz.g                                                Laurent Bartholdi
 ##
-#H   @(#)$Id$
-##
-#Y Copyright (C) 2011, Laurent Bartholdi
+#Y Copyright (C) 2011-2012, Laurent Bartholdi
 ##
 #############################################################################
 ##
@@ -50,12 +48,12 @@ BindGlobal("LIFTBYMONODROMY@", function(spider,monodromy,d)
             edges[i][j].right := edges[i][j].reverse.left;
         od;
     od;
-    
+
     # create the triangulation, except for the vertices
     lift := rec(v := [],
                 e := Concatenation(edges),
                 f := Concatenation(faces));
-    
+
     # create new vertices, attach the edges to them
     for e in lift.e do
         if e.from.type='v' then # old vertex, replace it simply
@@ -88,7 +86,7 @@ BindGlobal("LIFTBYMONODROMY@", function(spider,monodromy,d)
             v.degree := v.degree * Length(v.n);
         fi;
     od;
-    
+
     for v in lift.v do
         v.type := 'v';
     od;
@@ -106,6 +104,16 @@ BindGlobal("REFINETRIANGULATION@", function(triangulation,maxlen)
     # the length of every edge (say connecting v to w) is at most
     # maxlen^Maximum(v.degree*w.degree)
     local idle, e, f, maxdegree, len, mult, p;
+
+#!!! subdivide by adding vertices close to critical points
+
+    for e in triangulation!.e do
+        if e.from.degree>1 and e.to.degree>1 then
+            ADDTOTRIANGULATION@FR(triangulation,e.left,P1Midpoint(e.from.pos,e.to.pos));
+            triangulation!.v[Length(triangulation!.v)].degree := 1;
+            triangulation!.v[Length(triangulation!.v)].fake := true;
+        fi;
+    od;
     
     maxdegree := Maximum(List(triangulation!.v,v->v.degree));
     mult := Int(Log(7./maxlen)/Log(1.5));
@@ -143,6 +151,15 @@ BindGlobal("REFINETRIANGULATION@", function(triangulation,maxlen)
     od;
 end);
 
+nodup := function(tri)
+    local l;
+    l := List(tri!.e,x->[x.from.index,x.to.index]);
+    l := Filtered(Collected(l),x->x[2]>1);
+    if l<>[] then
+        Error(l);
+    fi;
+end;
+
 BindGlobal("LAYOUTTRIANGULATION@", function(triangulation)
     # run C code to optimize point placement.
     # "triangulation" is topologically a triangulated sphere. Its edge
@@ -150,7 +167,7 @@ BindGlobal("LAYOUTTRIANGULATION@", function(triangulation)
     # by u[v]*u[w] for some scaling function u defined on the vertices;
     # in such a way that the resulting metric object is a conformal sphere.
     local i, e, f, v, m, max, infty, sin, sout, stdin, stdout;
-    
+
     sin := "";
     stdin := OutputTextString(sin,false);
     
@@ -174,15 +191,16 @@ BindGlobal("LAYOUTTRIANGULATION@", function(triangulation)
         od;
         PrintTo(stdin,"\n");
     od;
+    PrintTo(stdin,"END\n");
     CloseStream(stdin);
-    
+PrintTo("data-layout",sin);    
     stdin := InputTextString(sin);
     sout := "";
     stdout := OutputTextString(sout,false);
     Process(DirectoryCurrent(),"layout",stdin,stdout,[]);
     CloseStream(stdin);
     CloseStream(stdout);
-    
+PrintTo("result-layout",sout);    
     m := EvalString(sout);
     Remove(m); # there's a trailing "fail" in the file, to simplify printing
     m := 1.0*m; # make sure all entries are floats
@@ -337,7 +355,7 @@ BindGlobal("HURWITZ@", function(pts,monodromy)
     Assert(0,SPIDERRELATOR@FR(spider)^monodromy=());
 
     t := LIFTBYMONODROMY@(spider,monodromy,d);
-    REFINETRIANGULATION@(t,0.5);
+    REFINETRIANGULATION@(t,0.3);
     LAYOUTTRIANGULATION@(t);
     d := OPTIMIZELAYOUT@(spider,t);
 
@@ -375,5 +393,7 @@ danny := function(d)
     perms := GroupHomomorphismByImages(g,SymmetricGroup(d),GeneratorsOfGroup(g),perms);
     return HURWITZ@(z,perms);
 end;
+
+sol := danny(25);
 
 #E hurwitz.g . . . . . . . . . . . . . . . . . . . . . . . . . . . .ends here

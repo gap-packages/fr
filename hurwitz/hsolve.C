@@ -11,7 +11,7 @@ using namespace std;
 
 typedef complex<double> cdouble;
 
-#define MAXDEGREE 20
+#define MAXDEGREE 100
 
 const int maxiter = 1000;
 
@@ -209,7 +209,7 @@ int main(void)
   cdouble p[2*MAXDEGREE-2], c[2*MAXDEGREE-2];
 
   for (;;) {
-    char s[100];
+    char s[1000];
     if (!cin.good())
       strcpy(s,"EOF");
     cin >> s;
@@ -217,6 +217,10 @@ int main(void)
       break;
     } else if (!strcmp(s,"DEGREE")) {
       cin >> data.degree;
+      if (data.degree > MAXDEGREE) {
+	cerr << data.degree << " > MAXDEGREE = " << MAXDEGREE << ". Repent.\n";
+	return -1;
+      }
     } else if (!strcmp(s,"ZEROS/POLES")) {
       cin >> data.numzero;
       for (int i = 0; i <= data.numzero; i++) {
