@@ -8,6 +8,108 @@ AC_CONFIG_AUX_DIR(../cnf)
 AC_PROG_CXX
 AC_CANONICAL_TARGET
 
+# check for cholmod library
+
+AC_ARG_WITH(cholmod,
+ [  --with-cholmod=<location>
+    Location at which the cholmod library, needed for layout, was installed.
+ ],
+ [CHOLMODINCLUDE="-I$withval/include"; CHOLMODLIB="-L$withval/lib"]
+)
+
+AC_ARG_WITH(cholmod-include,
+ [  --with-cholmod-include=<location>
+    Location at which the cholmod include files were installed.],
+ [CHOLMODINCLUDE="-I$withval"]
+)
+
+AC_ARG_WITH(cholmod-lib,
+ [  --with-cholmod-lib=<location>
+    Location at which the cholmod library files were installed.],
+ [CHOLMODLIB="-L$withval"]
+)
+
+if test "$CHOLMODINCLUDE" == ""; then
+    AC_CHECK_HEADER(cholmod.h,,[CHOLMODINCLUDE="-I/usr/include/sparsesuite"])
+fi
+
+if test "$CHOLMODINCLUDE" != ""; then
+    CPPFLAGS="$CPPFLAGS $CHOLMODINCLUDE"
+fi
+
+AC_CHECK_HEADER(cholmod.h,,AC_MSG_ERROR([cholmod.h not found. Specify its location using --with-cholmod.]))
+
+if test "$CHOLMODLIB" != ""; then
+    LDFLAGS="$LDFLAGS $CHOLMODLIB"
+fi
+AC_CHECK_LIB(cholmod,cholmod_allocate_triplet,,AC_MSG_ERROR([libcholmod not found. Specify its location using --with-cholmod.]))
+
+# check for dogleg library
+
+AC_ARG_WITH(libdogleg,
+ [  --with-libdogleg=<location>
+    Location at which the libdogleg library, needed for layout, was installed.
+ ],
+ [LIBDOGLEGINCLUDE="-I$withval/include"; LIBDOGLEGDIR="-L$withval/lib"]
+)
+
+AC_ARG_WITH(libdogleg-include,
+ [  --with-libdogleg-include=<location>
+    Location at which the libdogleg include files were installed.],
+ [LIBDOGLEGINCLUDE="-I$withval"]
+)
+
+AC_ARG_WITH(libdogleg-lib,
+ [  --with-libdogleg-lib=<location>
+    Location at which the libdogleg library files were installed.],
+ [LIBDOGLEGLIB="-L$withval"]
+)
+
+if test "$LIBDOGLEGINCLUDE" != ""; then
+    CPPFLAGS="$CPPFLAGS $LIBDOGLEGINCLUDE"
+fi
+AC_CHECK_HEADER(dogleg.h,,AC_MSG_ERROR([dogleg.h not found. Specify its location using --with-libdogleg.
+The package may be downloaded from https://github.com/Oblong/libdogleg.git]))
+
+if test "$LIBDOGLEGLIB" != ""; then
+    LDFLAGS="$LDFLAGS $LIBDOGLEGLIB"
+fi
+AC_CHECK_LIB(dogleg,dogleg_optimize,,AC_MSG_ERROR([libdogleg not found. Specify its location using --with-libdogleg.]))
+
+# check for levmar library
+
+AC_ARG_WITH(levmar,
+ [  --with-levmar=<location>
+    Location at which the levmar library, needed for layout, was installed.
+ ],
+ [LEVMARINCLUDE="-I$withval/include"; LEVMARDIR="-L$withval/lib"]
+)
+
+AC_ARG_WITH(levmar-include,
+ [  --with-levmar-include=<location>
+    Location at which the levmar include files were installed.],
+ [LEVMARINCLUDE="-I$withval"]
+)
+
+AC_ARG_WITH(levmar-lib,
+ [  --with-levmar-lib=<location>
+    Location at which the levmar library files were installed.],
+ [LEVMARLIB="-L$withval"]
+)
+
+if test "$LEVMARINCLUDE" != ""; then
+    CPPFLAGS="$CPPFLAGS $LEVMARINCLUDE"
+fi
+AC_CHECK_HEADER(levmar.h,,AC_MSG_ERROR([levmar.h not found. Specify its location using --with-levmar.
+The package may be downloaded from http://www.ics.forth.gr/~lourakis/levmar/]))
+
+if test "$LEVMARLIB" != ""; then
+    LDFLAGS="$LDFLAGS $LEVMARLIB"
+fi
+AC_CHECK_LIB(levmar,dlevmar_dif,,AC_MSG_ERROR([liblevmar not found. Specify its location using --with-levmar.]),[-llapack -lblas])
+
+# check for standard C++ stuff
+
 AC_CHECK_HEADERS(malloc/malloc.h)
 AC_CHECK_HEADERS(malloc.h)
 
@@ -24,18 +126,24 @@ case "$host" in
         ;;
 esac
 
+# hack to specify correct location of DLL, for Linux
+
 if test "$SYS_IS_DARWIN" == 1; then
-    LDDOGLEG="-ldogleg"
-    LDSUITESPARSE="-lcholmod -lblas -lcolamd -lamd -llapack -lsuitesparseconfig"
+    LDDOGLEG="-lcholmod -ldogleg"
 else
-    LDDOGLEG="-Wl,-rpath,/usr/local/src/libdogleg -ldogleg"
-    LDSUITESPARSE="-lcholmod"
+    LDDOGLEG="-lcholmod -Wl,-rpath,/usr/local/src/libdogleg -ldogleg"
 fi
 
 LDLEVMAR="-llevmar -llapack -lblas"
 
+AC_SUBST(CHOLMODINCLUDE)
+AC_SUBST(CHOLMODLIB)
+AC_SUBST(LIBDOGLEGINCLUDE)
+AC_SUBST(LIBDOGLEGLIB)
+AC_SUBST(LEVMARINCLUDE)
+AC_SUBST(LEVMARLIB)
+
 AC_SUBST(LDDOGLEG)
-AC_SUBST(LDSUITESPARSE)
 AC_SUBST(LDLEVMAR)
 
 AC_OUTPUT(Makefile)

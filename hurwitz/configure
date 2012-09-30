@@ -624,8 +624,13 @@ ac_includes_default="\
 ac_subst_vars='LTLIBOBJS
 LIBOBJS
 LDLEVMAR
-LDSUITESPARSE
 LDDOGLEG
+LEVMARLIB
+LEVMARINCLUDE
+LIBDOGLEGLIB
+LIBDOGLEGINCLUDE
+CHOLMODLIB
+CHOLMODINCLUDE
 EGREP
 GREP
 CPP
@@ -692,6 +697,15 @@ SHELL'
 ac_subst_files=''
 ac_user_opts='
 enable_option_checking
+with_cholmod
+with_cholmod_include
+with_cholmod_lib
+with_libdogleg
+with_libdogleg_include
+with_libdogleg_lib
+with_levmar
+with_levmar_include
+with_levmar_lib
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1314,6 +1328,31 @@ if test -n "$ac_init_help"; then
      short | recursive ) echo "Configuration of fr/hurwitz 0.0:";;
    esac
   cat <<\_ACEOF
+
+Optional Packages:
+  --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
+  --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+  --with-cholmod=<location>
+    Location at which the cholmod library, needed for layout, was installed.
+
+  --with-cholmod-include=<location>
+    Location at which the cholmod include files were installed.
+  --with-cholmod-lib=<location>
+    Location at which the cholmod library files were installed.
+  --with-libdogleg=<location>
+    Location at which the libdogleg library, needed for layout, was installed.
+
+  --with-libdogleg-include=<location>
+    Location at which the libdogleg include files were installed.
+  --with-libdogleg-lib=<location>
+    Location at which the libdogleg library files were installed.
+  --with-levmar=<location>
+    Location at which the levmar library, needed for layout, was installed.
+
+  --with-levmar-include=<location>
+    Location at which the levmar include files were installed.
+  --with-levmar-lib=<location>
+    Location at which the levmar library files were installed.
 
 Some influential environment variables:
   CXX         C++ compiler command
@@ -2731,7 +2770,34 @@ test -n "$target_alias" &&
     NONENONEs,x,x, &&
   program_prefix=${target_alias}-
 
-ac_ext=c
+# check for cholmod library
+
+
+# Check whether --with-cholmod was given.
+if test "${with_cholmod+set}" = set; then :
+  withval=$with_cholmod; CHOLMODINCLUDE="-I$withval/include"; CHOLMODLIB="-L$withval/lib"
+
+fi
+
+
+
+# Check whether --with-cholmod-include was given.
+if test "${with_cholmod_include+set}" = set; then :
+  withval=$with_cholmod_include; CHOLMODINCLUDE="-I$withval"
+
+fi
+
+
+
+# Check whether --with-cholmod-lib was given.
+if test "${with_cholmod_lib+set}" = set; then :
+  withval=$with_cholmod_lib; CHOLMODLIB="-L$withval"
+
+fi
+
+
+if test "$CHOLMODINCLUDE" == ""; then
+    ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
@@ -3668,6 +3734,262 @@ fi
 done
 
 
+ac_fn_c_check_header_mongrel "$LINENO" "cholmod.h" "ac_cv_header_cholmod_h" "$ac_includes_default"
+if test "x$ac_cv_header_cholmod_h" = xyes; then :
+
+else
+  CHOLMODINCLUDE="-I/usr/include/sparsesuite"
+fi
+
+
+fi
+
+if test "$CHOLMODINCLUDE" != ""; then
+    CPPFLAGS="$CPPFLAGS $CHOLMODINCLUDE"
+fi
+
+ac_fn_c_check_header_mongrel "$LINENO" "cholmod.h" "ac_cv_header_cholmod_h" "$ac_includes_default"
+if test "x$ac_cv_header_cholmod_h" = xyes; then :
+
+else
+  as_fn_error $? "cholmod.h not found. Specify its location using --with-cholmod." "$LINENO" 5
+fi
+
+
+
+if test "$CHOLMODLIB" != ""; then
+    LDFLAGS="$LDFLAGS $CHOLMODLIB"
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for cholmod_allocate_triplet in -lcholmod" >&5
+$as_echo_n "checking for cholmod_allocate_triplet in -lcholmod... " >&6; }
+if ${ac_cv_lib_cholmod_cholmod_allocate_triplet+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lcholmod  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char cholmod_allocate_triplet ();
+int
+main ()
+{
+return cholmod_allocate_triplet ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_cholmod_cholmod_allocate_triplet=yes
+else
+  ac_cv_lib_cholmod_cholmod_allocate_triplet=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_cholmod_cholmod_allocate_triplet" >&5
+$as_echo "$ac_cv_lib_cholmod_cholmod_allocate_triplet" >&6; }
+if test "x$ac_cv_lib_cholmod_cholmod_allocate_triplet" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBCHOLMOD 1
+_ACEOF
+
+  LIBS="-lcholmod $LIBS"
+
+else
+  as_fn_error $? "libcholmod not found. Specify its location using --with-cholmod." "$LINENO" 5
+fi
+
+
+# check for dogleg library
+
+
+# Check whether --with-libdogleg was given.
+if test "${with_libdogleg+set}" = set; then :
+  withval=$with_libdogleg; LIBDOGLEGINCLUDE="-I$withval/include"; LIBDOGLEGDIR="-L$withval/lib"
+
+fi
+
+
+
+# Check whether --with-libdogleg-include was given.
+if test "${with_libdogleg_include+set}" = set; then :
+  withval=$with_libdogleg_include; LIBDOGLEGINCLUDE="-I$withval"
+
+fi
+
+
+
+# Check whether --with-libdogleg-lib was given.
+if test "${with_libdogleg_lib+set}" = set; then :
+  withval=$with_libdogleg_lib; LIBDOGLEGLIB="-L$withval"
+
+fi
+
+
+if test "$LIBDOGLEGINCLUDE" != ""; then
+    CPPFLAGS="$CPPFLAGS $LIBDOGLEGINCLUDE"
+fi
+ac_fn_c_check_header_mongrel "$LINENO" "dogleg.h" "ac_cv_header_dogleg_h" "$ac_includes_default"
+if test "x$ac_cv_header_dogleg_h" = xyes; then :
+
+else
+  as_fn_error $? "dogleg.h not found. Specify its location using --with-libdogleg.
+The package may be downloaded from https://github.com/Oblong/libdogleg.git" "$LINENO" 5
+fi
+
+
+
+if test "$LIBDOGLEGLIB" != ""; then
+    LDFLAGS="$LDFLAGS $LIBDOGLEGLIB"
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for dogleg_optimize in -ldogleg" >&5
+$as_echo_n "checking for dogleg_optimize in -ldogleg... " >&6; }
+if ${ac_cv_lib_dogleg_dogleg_optimize+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-ldogleg  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char dogleg_optimize ();
+int
+main ()
+{
+return dogleg_optimize ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_dogleg_dogleg_optimize=yes
+else
+  ac_cv_lib_dogleg_dogleg_optimize=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_dogleg_dogleg_optimize" >&5
+$as_echo "$ac_cv_lib_dogleg_dogleg_optimize" >&6; }
+if test "x$ac_cv_lib_dogleg_dogleg_optimize" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBDOGLEG 1
+_ACEOF
+
+  LIBS="-ldogleg $LIBS"
+
+else
+  as_fn_error $? "libdogleg not found. Specify its location using --with-libdogleg." "$LINENO" 5
+fi
+
+
+# check for levmar library
+
+
+# Check whether --with-levmar was given.
+if test "${with_levmar+set}" = set; then :
+  withval=$with_levmar; LEVMARINCLUDE="-I$withval/include"; LEVMARDIR="-L$withval/lib"
+
+fi
+
+
+
+# Check whether --with-levmar-include was given.
+if test "${with_levmar_include+set}" = set; then :
+  withval=$with_levmar_include; LEVMARINCLUDE="-I$withval"
+
+fi
+
+
+
+# Check whether --with-levmar-lib was given.
+if test "${with_levmar_lib+set}" = set; then :
+  withval=$with_levmar_lib; LEVMARLIB="-L$withval"
+
+fi
+
+
+if test "$LEVMARINCLUDE" != ""; then
+    CPPFLAGS="$CPPFLAGS $LEVMARINCLUDE"
+fi
+ac_fn_c_check_header_mongrel "$LINENO" "levmar.h" "ac_cv_header_levmar_h" "$ac_includes_default"
+if test "x$ac_cv_header_levmar_h" = xyes; then :
+
+else
+  as_fn_error $? "levmar.h not found. Specify its location using --with-levmar.
+The package may be downloaded from http://www.ics.forth.gr/~lourakis/levmar/" "$LINENO" 5
+fi
+
+
+
+if test "$LEVMARLIB" != ""; then
+    LDFLAGS="$LDFLAGS $LEVMARLIB"
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for dlevmar_dif in -llevmar" >&5
+$as_echo_n "checking for dlevmar_dif in -llevmar... " >&6; }
+if ${ac_cv_lib_levmar_dlevmar_dif+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-llevmar -llapack -lblas $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char dlevmar_dif ();
+int
+main ()
+{
+return dlevmar_dif ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_levmar_dlevmar_dif=yes
+else
+  ac_cv_lib_levmar_dlevmar_dif=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_levmar_dlevmar_dif" >&5
+$as_echo "$ac_cv_lib_levmar_dlevmar_dif" >&6; }
+if test "x$ac_cv_lib_levmar_dlevmar_dif" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBLEVMAR 1
+_ACEOF
+
+  LIBS="-llevmar $LIBS"
+
+else
+  as_fn_error $? "liblevmar not found. Specify its location using --with-levmar." "$LINENO" 5
+fi
+
+
+# check for standard C++ stuff
+
 for ac_header in malloc/malloc.h
 do :
   ac_fn_c_check_header_mongrel "$LINENO" "malloc/malloc.h" "ac_cv_header_malloc_malloc_h" "$ac_includes_default"
@@ -3751,15 +4073,21 @@ $as_echo "#define SYS_IS_DARWIN 0" >>confdefs.h
         ;;
 esac
 
+# hack to specify correct location of DLL, for Linux
+
 if test "$SYS_IS_DARWIN" == 1; then
-    LDDOGLEG="-ldogleg"
-    LDSUITESPARSE="-lcholmod -lblas -lcolamd -lamd -llapack -lsuitesparseconfig"
+    LDDOGLEG="-lcholmod -ldogleg"
 else
-    LDDOGLEG="-Wl,-rpath,/usr/local/src/libdogleg -ldogleg"
-    LDSUITESPARSE="-lcholmod"
+    LDDOGLEG="-lcholmod -Wl,-rpath,/usr/local/src/libdogleg -ldogleg"
 fi
 
 LDLEVMAR="-llevmar -llapack -lblas"
+
+
+
+
+
+
 
 
 
