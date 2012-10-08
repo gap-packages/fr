@@ -13,7 +13,7 @@ typedef complex<double> cdouble;
 
 #define MAXDEGREE 100
 
-const int maxiter = 1000;
+const int maxiter = 2000;
 
 // rational maps are normalized so that 0 -> 0, 1 -> 1, infty -> infty;
 // so they have the form A\prod_{i=0}^numzero (z-p_i)^e_i for some e_i in Z\{0},
@@ -230,6 +230,20 @@ int main(void)
       }
     } else if (!strcmp(s,"CRITICAL")) {
       cin >> data.numcv;
+
+      if (data.numcv < 0) { // all critical points are 0,infty, no place for other
+	cout << "DEGREE " << data.degree << endl;
+	cout << "ZEROS/POLES " << data.numzero << endl;
+	for (int i = 0; i <= data.numzero; i++) {
+	  cout << data.e[i];
+	  if (i != data.numzero) cout << " " << p[i];
+	  cout << endl;
+	}
+	cout << "CRITICAL " << data.numcv << endl;
+	cout << "END" << endl;
+	return 0;
+      }
+
       for (int i = 0; i <= data.numcv; i++) {
 	cin >> data.d[i];
 	if (i != data.numcv) {

@@ -3,3 +3,5 @@ config.log
 www
 sandbox
 bin/*
+*.dSYM
+*~

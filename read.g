@@ -51,10 +51,6 @@ ReadPackage("fr", "gap/linear.gi");
 ReadPackage("fr", "gap/algebra.gi");
 ReadPackage("fr", "gap/img.gi");
 ReadPackage("fr", "gap/examples.gi");
-
-ReadPackage("fr","hurwitz/gap/utils.gi");
-ReadPackage("fr","hurwitz/gap/padicLift.gi");
-ReadPackage("fr","hurwitz/gap/hurwitz.gi");
 #############################################################################
 
 #############################################################################

@@ -29,7 +29,6 @@ if test $ns_cv_cc__nostackprotector = yes; then
      CFLAGS="$CFLAGS -fno-stack-protector"
 fi
 
-################################################################
 # Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS([float.h stdlib.h])
@@ -38,10 +37,12 @@ AC_CHECK_HEADERS([float.h stdlib.h])
 AC_C_CONST
 AC_C_INLINE
 
+################################################################
+# check for GAP
 AC_ARG_VAR([GAPDIR], [Location of the GAP root directory, e.g. ../..])
 
 if test -z "$GAPDIR"; then
-    for dir in ../.. /Applications/gap4r5; do
+    for dir in ../.. /Applications/gap4r5 /usr/local/src/gap /usr/local/gap; do
 	if test -f $dir/sysinfo.gap; then
 	    GAPDIR=$dir
 	    break
@@ -79,7 +80,7 @@ if test "$XTARGET" != "$GAParch_system"; then
 fi
 AC_SUBST(TARGET)
 
-echo checking gap executable ... "$GAPPROG"
+echo checking gap executable... "$GAPPROG"
 
 if ! test -e "$GAPPROG"; then
     AC_WARN([Could not find GAP executable $GAPPROG; I won't compile the documentation])
@@ -108,57 +109,45 @@ AC_SUBST(c_dyn_linking)
 AC_SUBST(c_dynlibs)
 AC_SUBST(c_addlibs)
 
+EXTERN="\$(CURDIR)/bin/$TARGET/extern"
+
 ################################################################
 # gmp configuration
 
-GMPDIR="$GAPDIR/bin/$TARGET/extern/gmp"
-GMPINCLUDE=""
-GMPLIB=""
+eval `grep '^GMP_[[A-Z]]*=' "$GAPDIR/bin/$TARGET/config.log"`
 
 AC_ARG_WITH(gmp,
- [  --with-gmp=<location>|yes|no|gap
-    Location at which the GMP library, needed for FR, was installed.
-    If the argument is omitted, the library is assumed to be reachable
-    under the standard search path (/usr, /usr/local,...).  Otherwise
-    you must give the <path> to the directory which contains the
-    library. The special value "gap", which is the default, asks FR
-    to use the version of gmp included in the GAP distribution.
+ [  --with-gmp=<location>
+    Location at which the GMP library, needed for MPFR, was installed.
+    If the argument is omitted, then MPFR will use the version of gmp
+    included in the GAP distribution.
  ],
- [if test "$withval" != gap; then GMPDIR="$withval"; fi]
+ [GMP_CFLAGS="-I$withval/include"; GMP_LDFLAGS="-L$withval/lib"; GMP_LIBS="-lgmp"]
 )
 
 AC_ARG_WITH(gmp-include,
  [  --with-gmp-include=<location>
     Location at which the GMP include files were installed.],
- [GMPINCLUDE="$withval"]
+ [GMP_CFLAGS="-I$withval"]
 )
 
 AC_ARG_WITH(gmp-lib,
  [  --with-gmp-lib=<location>
     Location at which the GMP library files were installed.],
- [GMPLIB="$withval"]
+ [GMP_LDFLAGS="-L$withval"; GMP_LIBS="-lgmp"]
 )
 
-if test "$GMPDIR" != yes; then
-if test "$GMPINCLUDE" == ""; then GMPINCLUDE="$GMPDIR/include"; fi
-if test "$GMPLIB" == ""; then GMPLIB="$GMPDIR/lib"; fi
-fi
-
-echo using GMP directory... $GMPDIR
-
-if test "$GMPINCLUDE" != ""; then
-    CPPFLAGS="$CPPFLAGS -I$GMPINCLUDE"
-    CFLAGS="$CFLAGS -p -I$GMPINCLUDE"
-fi
+# check gmp presence
+CPPFLAGS="$CPPFLAGS $GMP_CFLAGS"
+GACFLAGS="$GACFLAGS -p $GMP_CFLAGS"
 AC_CHECK_HEADER(gmp.h,[],[AC_MSG_ERROR([library gmp not found. Specify its location using --with-gmp])],[])
 
 ################################################################
 # Check for gsl library
 
-EXTERN="\$(CURDIR)/bin/$TARGET/extern"
 LIB_TARGET=""
 
-GSLDIR="$EXTERN"
+GSLDIR="yes"
 GSLINCLUDE=""
 GSLLIB=""
 AC_ARG_WITH(gsl,
@@ -170,7 +159,7 @@ AC_ARG_WITH(gsl,
     library. The special value "extern", which is the default, asks Float
     to compile a version of gsl in the subdirectory extern/.
  ],
- [if test "$withval" != extern; then GSLDIR="$withval"; fi]
+ [GSLDIR="$withval"]
 )
 
 AC_ARG_WITH(gsl-include,
@@ -185,91 +174,28 @@ AC_ARG_WITH(gsl-lib,
  [GSLLIB="$withval"]
 )
 
-if test "$GSLDIR" != yes; then
-if test "$GSLINCLUDE" == ""; then GSLINCLUDE="$GSLDIR/include"; fi
-if test "$GSLLIB" == ""; then GSLLIB="$GSLDIR/lib"; fi
-fi
-
-echo using GSL directory... $GSLDIR
-
-if test "$GSLINCLUDE" != ""; then
-    CPPFLAGS="$CPPFLAGS -I$GSLINCLUDE"
-    CFLAGS="$CFLAGS -I$GSLINCLUDE"
-fi
-
-if test "$GSLDIR" == "$EXTERN"; then
+if test "$GSLDIR" = extern; then
     LIB_TARGET="$LIB_TARGET gsllib"
 else
+    if test "$GSLDIR" != yes; then
+        if test "$GSLINCLUDE" == ""; then GSLINCLUDE="$GSLDIR/include"; fi
+	if test "$GSLLIB" == ""; then GSLLIB="$GSLDIR/lib"; fi
+	CPPFLAGS="$CPPFLAGS -I$GSLINCLUDE"
+    	GACFLAGS="$GACFLAGS -p -I$GSLINCLUDE"
+        LIBS="$LIBS -L$GSLLIB"
+    fi
     AC_CHECK_HEADER(gsl/gsl_vector.h,[],[AC_MSG_ERROR([library gsl not found. Specify its location using --with-gsl])],[])
-fi
-
-if test "$GSLLIB" != ""; then
-    LIBS="$LIBS -L$GSLLIB"
-    GACFLAGS="$GACFLAGS -L -L$GSLLIB -L -Wl,-rpath,$GSLLIB"
-fi
-
-if test "$GSLLIB" != "$EXTERN/lib"; then
     AC_CHECK_LIB([gsl],[gsl_multiroot_fsolver_set],,
 	[AC_ERROR([The GSL library could not be found. It is needed for IMG calculations.])],[-lgslcblas])
-
     AC_CHECK_LIB([gslcblas],[cblas_ctrmv],,
         [AC_ERROR([The GSL CBlas library could not be found. It is needed for IMG calculations.])])
 fi
 
+if test "$GSLLIB" != ""; then
+    GACFLAGS="$GACFLAGS -L -L$GSLLIB -L -Wl,-rpath,$GSLLIB"
+fi
+
 GACFLAGS="$GACFLAGS -L -lgsl -L -lgslcblas"
-
-################################################################
-# Check for givaro library
-
-GIVARODIR="$EXTERN"
-GIVAROINCLUDE=""
-GIVAROLIB=""
-AC_ARG_WITH(givaro,
- [  --with-givaro=<path>|yes|no|extern
-    Location at which the Givaro library was installed.
-    If the argument is omitted, the library is assumed to be reachable
-    under the standard search path (/usr, /usr/local,...).  Otherwise
-    you must give the <path> to the directory which contains the
-    library. The special value "extern", which is the default, asks Float
-    to compile a version of givaro in the subdirectory extern/.
- ],
- [if test "$withval" != extern; then GIVARODIR="$withval"; fi]
-)
-
-AC_ARG_WITH(givaro-include,
- [  --with-givaro-include=<location>
-    Location at which the Givaro include files were installed.],
- [GIVAROINCLUDE="$withval"]
-)
-
-AC_ARG_WITH(givaro-lib,
- [  --with-givaro-lib=<location>
-    Location at which the Givaro library files were installed.],
- [GIVAROLIB="$withval"]
-)
-
-if test "$GIVARODIR" != yes; then
-if test "$GIVAROINCLUDE" == ""; then GIVAROINCLUDE="$GIVARODIR/include"; fi
-if test "$GIVAROLIB" == ""; then GIVAROLIB="$GIVARODIR/lib"; fi
-fi
-
-echo using Givaro directory... $GIVARODIR
-
-if test "$GIVAROINCLUDE" != ""; then
-    CPPFLAGS="$CPPFLAGS -I$GIVAROINCLUDE"
-    CFLAGS="$CFLAGS -I$GIVAROINCLUDE"
-fi
-
-if test "$GIVARODIR" == "$EXTERN"; then
-    LIB_TARGET="$LIB_TARGET givarolib"
-else
-    AC_CHECK_HEADER(givaro-config.h,[],[AC_MSG_ERROR([library givaro not found. Specify its location using --with-givaro])],[])
-fi
-
-if test "$GIVAROLIB" != ""; then
-    LIBS="$LIBS -L$GIVAROLIB"
-    #GACFLAGS="$GACFLAGS -L -L$GIVAROLIB -L -Wl,-rpath,$GIVAROLIB -L -lgivaro"
-fi
 
 ################################################################
 # external programs configuration
@@ -336,11 +262,6 @@ if test "$MAKEFILE" != Makefile; then
     ln -sf "$MAKEFILE" Makefile
 fi
 
-if test "$GSLDIR" == "$EXTERN" -o "$GIVARODIR" == "$EXTERN"; then
-    echo -n "****** Remember to download:"
-    if test "$GSLDIR" == "$EXTERN"; then echo -n " gsl-1.15.tar.gz"; fi
-    if test "$GIVARODIR" == "$EXTERN"; then echo -n " givaro-3.6.0.tar.gz"; fi
-    echo; echo "****** (instructions in extern/GET_LIBRARIES)"
-fi
+(cd hurwitz; ./configure TARGET=$TARGET)
 
 AC_OUTPUT

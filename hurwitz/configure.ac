@@ -8,13 +8,17 @@ AC_CONFIG_AUX_DIR(../cnf)
 AC_PROG_CXX
 AC_CANONICAL_TARGET
 
+if ! test -d ../bin/$TARGET; then
+    AC_ERROR([$TARGET should be the directory under bin/ to contain the executables; specify it with TARGET=...])
+fi
+
 # check for cholmod library
 
 AC_ARG_WITH(cholmod,
  [  --with-cholmod=<location>
     Location at which the cholmod library, needed for layout, was installed.
  ],
- [CHOLMODINCLUDE="-I$withval/include"; CHOLMODLIB="-L$withval/lib"]
+ [CHOLMODINCLUDE="-I$withval/include"; CHOLMODLIB="$withval/lib"]
 )
 
 AC_ARG_WITH(cholmod-include,
@@ -26,7 +30,7 @@ AC_ARG_WITH(cholmod-include,
 AC_ARG_WITH(cholmod-lib,
  [  --with-cholmod-lib=<location>
     Location at which the cholmod library files were installed.],
- [CHOLMODLIB="-L$withval"]
+ [CHOLMODLIB="$withval"]
 )
 
 if test "$CHOLMODINCLUDE" == ""; then
@@ -40,7 +44,7 @@ fi
 AC_CHECK_HEADER(cholmod.h,,AC_MSG_ERROR([cholmod.h not found. Specify its location using --with-cholmod.]))
 
 if test "$CHOLMODLIB" != ""; then
-    LDFLAGS="$LDFLAGS $CHOLMODLIB"
+    LDFLAGS="$LDFLAGS -L$CHOLMODLIB"
 fi
 AC_CHECK_LIB(cholmod,cholmod_allocate_triplet,,AC_MSG_ERROR([libcholmod not found. Specify its location using --with-cholmod.]))
 
@@ -50,7 +54,7 @@ AC_ARG_WITH(libdogleg,
  [  --with-libdogleg=<location>
     Location at which the libdogleg library, needed for layout, was installed.
  ],
- [LIBDOGLEGINCLUDE="-I$withval/include"; LIBDOGLEGDIR="-L$withval/lib"]
+ [LIBDOGLEGINCLUDE="-I$withval/include"; LIBDOGLEGDIR="$withval/lib"]
 )
 
 AC_ARG_WITH(libdogleg-include,
@@ -62,7 +66,7 @@ AC_ARG_WITH(libdogleg-include,
 AC_ARG_WITH(libdogleg-lib,
  [  --with-libdogleg-lib=<location>
     Location at which the libdogleg library files were installed.],
- [LIBDOGLEGLIB="-L$withval"]
+ [LIBDOGLEGLIB="$withval"]
 )
 
 if test "$LIBDOGLEGINCLUDE" != ""; then
@@ -72,7 +76,7 @@ AC_CHECK_HEADER(dogleg.h,,AC_MSG_ERROR([dogleg.h not found. Specify its location
 The package may be downloaded from https://github.com/Oblong/libdogleg.git]))
 
 if test "$LIBDOGLEGLIB" != ""; then
-    LDFLAGS="$LDFLAGS $LIBDOGLEGLIB"
+    LDFLAGS="$LDFLAGS -L$LIBDOGLEGLIB"
 fi
 AC_CHECK_LIB(dogleg,dogleg_optimize,,AC_MSG_ERROR([libdogleg not found. Specify its location using --with-libdogleg.]))
 
@@ -82,7 +86,7 @@ AC_ARG_WITH(levmar,
  [  --with-levmar=<location>
     Location at which the levmar library, needed for layout, was installed.
  ],
- [LEVMARINCLUDE="-I$withval/include"; LEVMARDIR="-L$withval/lib"]
+ [LEVMARINCLUDE="-I$withval/include"; LEVMARLIB="$withval/lib"]
 )
 
 AC_ARG_WITH(levmar-include,
@@ -94,7 +98,7 @@ AC_ARG_WITH(levmar-include,
 AC_ARG_WITH(levmar-lib,
  [  --with-levmar-lib=<location>
     Location at which the levmar library files were installed.],
- [LEVMARLIB="-L$withval"]
+ [LEVMARLIB="$withval"]
 )
 
 if test "$LEVMARINCLUDE" != ""; then
@@ -104,7 +108,7 @@ AC_CHECK_HEADER(levmar.h,,AC_MSG_ERROR([levmar.h not found. Specify its location
 The package may be downloaded from http://www.ics.forth.gr/~lourakis/levmar/]))
 
 if test "$LEVMARLIB" != ""; then
-    LDFLAGS="$LDFLAGS $LEVMARLIB"
+    LDFLAGS="$LDFLAGS -L$LEVMARLIB"
 fi
 AC_CHECK_LIB(levmar,dlevmar_dif,,AC_MSG_ERROR([liblevmar not found. Specify its location using --with-levmar.]),[-llapack -lblas])
 
@@ -128,22 +132,27 @@ esac
 
 # hack to specify correct location of DLL, for Linux
 
-if test "$SYS_IS_DARWIN" == 1; then
-    LDDOGLEG="-lcholmod -ldogleg"
-else
-    LDDOGLEG="-lcholmod -Wl,-rpath,/usr/local/src/libdogleg -ldogleg"
+LDLAYOUT="-lcholmod -ldogleg"
+LDHSOLVE="-llevmar -llapack -lblas"
+
+if test "$CHOLMODLIB" != ""; then
+    LDLAYOUT="-LCHOLMODLIB $LDLAYOUT"
+fi
+if test "$LIBDOGLEGLIB" != ""; then
+    LDLAYOUT="-L$LIBDOGLEGLIB -Wl,-rpath,$LIBDOGLEGLIB $LDLAYOUT"
 fi
 
-LDLEVMAR="-llevmar -llapack -lblas"
+if test "$LEVMARLIB" != ""; then
+    LDHSOLVE="-L$LEVMARLIB $LDHSOLVE"
+fi
 
 AC_SUBST(CHOLMODINCLUDE)
-AC_SUBST(CHOLMODLIB)
 AC_SUBST(LIBDOGLEGINCLUDE)
-AC_SUBST(LIBDOGLEGLIB)
 AC_SUBST(LEVMARINCLUDE)
-AC_SUBST(LEVMARLIB)
 
-AC_SUBST(LDDOGLEG)
-AC_SUBST(LDLEVMAR)
+AC_SUBST(LDLAYOUT)
+AC_SUBST(LDHSOLVE)
+
+AC_SUBST(TARGET)
 
 AC_OUTPUT(Makefile)

@@ -1,14 +1,15 @@
 # Makefile for Hurwitz data programs
 
 CXX = g++ -ggdb
+LOCALBIN = ../bin/@TARGET@
 
-all: layout hsolve
+all: $(LOCALBIN)/layout $(LOCALBIN)/hsolve
 
-layout: layout.C
-	$(CXX) @CHOLMODINCLUDE@ @LIBDOGLEGINCLUDE@ $< -o $@ @CHOLMODLIB@ @LIBDOGLEGLIB@ @LDDOGLEG@
+$(LOCALBIN)/layout: layout.C
+	$(CXX) @CHOLMODINCLUDE@ @LIBDOGLEGINCLUDE@ $< -o $@ @LDLAYOUT@
 
-hsolve: hsolve.C
-	$(CXX) @LEVMARINCLUDE@ $< -o $@ @LEVMARLIB@ @LDLEVMAR@
+$(LOCALBIN)/hsolve: hsolve.C
+	$(CXX) @LEVMARINCLUDE@ $< -o $@ @LDHSOLVE@
 
 clean:
 	rm -rf hsolve layout *.dSYM Makefile config.h

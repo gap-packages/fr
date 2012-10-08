@@ -79,7 +79,7 @@ BindGlobal("LIFTBYMONODROMY@", function(spider,monodromy,d)
             repeat
                 e.from := v;
                 Add(v.n,e);
-                i := POSITIONID@FR(e.left.n,e)-1;
+                i := POSITIONID@(e.left.n,e)-1;
                 if i=0 then i := Length(e.left.n); fi;
                 e := e.left.n[i].reverse;
             until IsIdenticalObj(e,v.n[1]);
@@ -109,7 +109,7 @@ BindGlobal("REFINETRIANGULATION@", function(triangulation,maxlen)
 
     for e in triangulation!.e do
         if e.from.degree>1 and e.to.degree>1 then
-            ADDTOTRIANGULATION@FR(triangulation,e.left,P1Midpoint(e.from.pos,e.to.pos));
+            ADDTOTRIANGULATION@(triangulation,e.left,P1Midpoint(e.from.pos,e.to.pos));
             triangulation!.v[Length(triangulation!.v)].degree := 1;
             triangulation!.v[Length(triangulation!.v)].fake := true;
         fi;
@@ -129,7 +129,7 @@ BindGlobal("REFINETRIANGULATION@", function(triangulation,maxlen)
                     f.centre := p[1];
                     f.radius := p[2];
                 fi;
-                ADDTOTRIANGULATION@FR(triangulation,f,f.centre);
+                ADDTOTRIANGULATION@(triangulation,f,f.centre);
                 triangulation!.v[Length(triangulation!.v)].degree := 1;
                 triangulation!.v[Length(triangulation!.v)].fake := true;
             fi;
@@ -141,7 +141,7 @@ BindGlobal("REFINETRIANGULATION@", function(triangulation,maxlen)
     for e in triangulation!.e do
         if not IsBound(e.pos) then
             e.pos := P1Barycentre(e.from.pos,e.to.pos);
-            e.map := EDGEMAP@FR(e);
+            e.map := EDGEMAP@(e);
         fi;
     od;
     for f in triangulation!.f do
@@ -197,7 +197,7 @@ PrintTo("data-layout",sin);
     stdin := InputTextString(sin);
     sout := "";
     stdout := OutputTextString(sout,false);
-    Process(DirectoryCurrent(),"layout",stdin,stdout,[]);
+    Process(DirectoryCurrent(),Filename(DirectoriesPackagePrograms("fr"),"layout"),stdin,stdout,[]);
     CloseStream(stdin);
     CloseStream(stdout);
 PrintTo("result-layout",sout);    
@@ -206,7 +206,7 @@ PrintTo("result-layout",sout);
     m := 1.0*m; # make sure all entries are floats
     
     v := List(m,P1Sphere);
-    m := NORMALIZINGMAP@FR(v,fail);
+    m := NORMALIZINGMAP@(v,fail);
     v := List(v,v->P1Image(m,v));
     
     for i in [1..Length(v)] do
@@ -292,7 +292,7 @@ BindGlobal("OPTIMIZELAYOUT@", function(spider,lift)
     sout := "";
     stdout := OutputTextString(sout,false);
     
-    Process(DirectoryCurrent(),"./hsolve",stdin,stdout,[]);
+    Process(DirectoryCurrent(),Filename(DirectoriesPackagePrograms("fr"),"hsolve"),stdin,stdout,[]);
     CloseStream(stdin);
     CloseStream(stdout);
     
@@ -327,7 +327,9 @@ BindGlobal("OPTIMIZELAYOUT@", function(spider,lift)
         fi;
         Add(data.cp,rec(degree := x, pos := y, to := cv[i+1]));
     od;
-    Assert(0,sout[2*numzero+3*numcv+9]="END");
+    if numcv >= 0 then
+        Assert(0,sout[2*numzero+3*numcv+9]="END");
+    fi;
     Add(data.poles,rec(degree := 2*data.degree-1-Sum(Concatenation(data.cp,data.zeros,data.poles),x->x.degree-1), pos := P1infinity, to := linf.cover));
     
     return data;
@@ -340,8 +342,8 @@ BindGlobal("HURWITZ@", function(pts,monodromy)
     local t, d, spider;
     
     if IsList(pts) then # we're just given points
-        spider := TRIVIALSPIDER@FR(pts);
-        IMGMARKING@FR(spider,Source(monodromy));
+        spider := TRIVIALSPIDER@(pts);
+        IMGMARKING@(spider,Source(monodromy));
         # let's hope the IMG relation is the same as that given by the
         # spanning tree in the trivial spider. Maybe we have to fix this.
     else
@@ -352,7 +354,7 @@ BindGlobal("HURWITZ@", function(pts,monodromy)
     
     d := Maximum(LargestMovedPoint(Range(monodromy)),1);
     Assert(0,IsTransitive(Image(monodromy),[1..d]));
-    Assert(0,SPIDERRELATOR@FR(spider)^monodromy=());
+    Assert(0,SPIDERRELATOR@(spider)^monodromy=());
 
     t := LIFTBYMONODROMY@(spider,monodromy,d);
     REFINETRIANGULATION@(t,0.3);
@@ -368,23 +370,27 @@ BindGlobal("HURWITZ@", function(pts,monodromy)
     return d;
 end);
 
+BindGlobal("DESSIN@", function(degree,perms)
+    local g, permrep;
+    
+    g := FreeGroup(3);
+    permrep := GroupHomomorphismByImages(g,SymmetricGroup(degree),GeneratorsOfGroup(g),perms);
+    return HURWITZ@([P1infinity,P1one,P1zero],permrep);
+end);
+
 #############################################################################
 
 # driver code:
 
 if false then
-    g := FreeGroup(3);
-#permrep := GroupHomomorphismByImages(g,SymmetricGroup(5),GeneratorsOfGroup(g),[(1,2,3,4,5),(1,2),((1,2,3,4,5)*(1,2))^-1]);
-#permrep := GroupHomomorphismByImages(g,SymmetricGroup(3),GeneratorsOfGroup(g),[(1,2,3),(1,2),(2,3)]);
-    permrep := GroupHomomorphismByImages(g,SymmetricGroup(13),GeneratorsOfGroup(g),
-                   [(1,3,12,4)(5,9)(6,7)(10,13,11)(2,8),
-                    (1,5,13,6)(7,10)(2,3)(8,11,12)(4,9),
-                    (1,7,11,2)(3,8)(4,5)(9,12,13)(6,10)]);
-
-    lift := HURWITZ@([P1infinity,P1one,P1zero],permrep);
+    DESSIN@(5,[(1,2,3,4,5),(1,2),((1,2,3,4,5)*(1,2))^-1]);
+    DESSIN@(3,[(1,2,3),(1,2),(2,3)]);
+    DESSIN@(13,[(1,3,12,4)(5,9)(6,7)(10,13,11)(2,8),
+            (1,5,13,6)(7,10)(2,3)(8,11,12)(4,9),
+            (1,7,11,2)(3,8)(4,5)(9,12,13)(6,10)]);
 fi;
 
-danny := function(d)
+DANNY@ := function(d)
     local z, g, perms;
     z := List([0..2*d-3], i->P1Point(Exp(i*PMCOMPLEX.constants.2IPI/(2*d-2))));
     perms := List([1..d-1],i->(i,i+1));
@@ -393,7 +399,5 @@ danny := function(d)
     perms := GroupHomomorphismByImages(g,SymmetricGroup(d),GeneratorsOfGroup(g),perms);
     return HURWITZ@(z,perms);
 end;
-
-sol := danny(25);
 
 #E hurwitz.g . . . . . . . . . . . . . . . . . . . . . . . . . . . .ends here

@@ -42,10 +42,6 @@ ReadPackage("fr", "gap/algebra.gd");
 ReadPackage("fr", "gap/img.gd");
 ReadPackage("fr", "gap/examples.gd");
 
-ReadPackage("fr","hurwitz/gap/utils.gd");
-ReadPackage("fr","hurwitz/gap/padicLift.gd");
-ReadPackage("fr","hurwitz/gap/hurwitz.gd");
-
 CallFuncList(function()
     local dirs, dll, w;
     dirs := DirectoriesPackagePrograms("fr");

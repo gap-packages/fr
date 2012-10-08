@@ -623,13 +623,11 @@ ac_includes_default="\
 
 ac_subst_vars='LTLIBOBJS
 LIBOBJS
-LDLEVMAR
-LDDOGLEG
-LEVMARLIB
+TARGET
+LDHSOLVE
+LDLAYOUT
 LEVMARINCLUDE
-LIBDOGLEGLIB
 LIBDOGLEGINCLUDE
-CHOLMODLIB
 CHOLMODINCLUDE
 EGREP
 GREP
@@ -2770,12 +2768,16 @@ test -n "$target_alias" &&
     NONENONEs,x,x, &&
   program_prefix=${target_alias}-
 
+if ! test -d ../bin/$TARGET; then
+    as_fn_error $? "$TARGET should be the directory under bin/ to contain the executables; specify it with TARGET=..." "$LINENO" 5
+fi
+
 # check for cholmod library
 
 
 # Check whether --with-cholmod was given.
 if test "${with_cholmod+set}" = set; then :
-  withval=$with_cholmod; CHOLMODINCLUDE="-I$withval/include"; CHOLMODLIB="-L$withval/lib"
+  withval=$with_cholmod; CHOLMODINCLUDE="-I$withval/include"; CHOLMODLIB="$withval/lib"
 
 fi
 
@@ -2791,7 +2793,7 @@ fi
 
 # Check whether --with-cholmod-lib was given.
 if test "${with_cholmod_lib+set}" = set; then :
-  withval=$with_cholmod_lib; CHOLMODLIB="-L$withval"
+  withval=$with_cholmod_lib; CHOLMODLIB="$withval"
 
 fi
 
@@ -3758,7 +3760,7 @@ fi
 
 
 if test "$CHOLMODLIB" != ""; then
-    LDFLAGS="$LDFLAGS $CHOLMODLIB"
+    LDFLAGS="$LDFLAGS -L$CHOLMODLIB"
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for cholmod_allocate_triplet in -lcholmod" >&5
 $as_echo_n "checking for cholmod_allocate_triplet in -lcholmod... " >&6; }
@@ -3813,7 +3815,7 @@ fi
 
 # Check whether --with-libdogleg was given.
 if test "${with_libdogleg+set}" = set; then :
-  withval=$with_libdogleg; LIBDOGLEGINCLUDE="-I$withval/include"; LIBDOGLEGDIR="-L$withval/lib"
+  withval=$with_libdogleg; LIBDOGLEGINCLUDE="-I$withval/include"; LIBDOGLEGDIR="$withval/lib"
 
 fi
 
@@ -3829,7 +3831,7 @@ fi
 
 # Check whether --with-libdogleg-lib was given.
 if test "${with_libdogleg_lib+set}" = set; then :
-  withval=$with_libdogleg_lib; LIBDOGLEGLIB="-L$withval"
+  withval=$with_libdogleg_lib; LIBDOGLEGLIB="$withval"
 
 fi
 
@@ -3848,7 +3850,7 @@ fi
 
 
 if test "$LIBDOGLEGLIB" != ""; then
-    LDFLAGS="$LDFLAGS $LIBDOGLEGLIB"
+    LDFLAGS="$LDFLAGS -L$LIBDOGLEGLIB"
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for dogleg_optimize in -ldogleg" >&5
 $as_echo_n "checking for dogleg_optimize in -ldogleg... " >&6; }
@@ -3903,7 +3905,7 @@ fi
 
 # Check whether --with-levmar was given.
 if test "${with_levmar+set}" = set; then :
-  withval=$with_levmar; LEVMARINCLUDE="-I$withval/include"; LEVMARDIR="-L$withval/lib"
+  withval=$with_levmar; LEVMARINCLUDE="-I$withval/include"; LEVMARLIB="$withval/lib"
 
 fi
 
@@ -3919,7 +3921,7 @@ fi
 
 # Check whether --with-levmar-lib was given.
 if test "${with_levmar_lib+set}" = set; then :
-  withval=$with_levmar_lib; LEVMARLIB="-L$withval"
+  withval=$with_levmar_lib; LEVMARLIB="$withval"
 
 fi
 
@@ -3938,7 +3940,7 @@ fi
 
 
 if test "$LEVMARLIB" != ""; then
-    LDFLAGS="$LDFLAGS $LEVMARLIB"
+    LDFLAGS="$LDFLAGS -L$LEVMARLIB"
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for dlevmar_dif in -llevmar" >&5
 $as_echo_n "checking for dlevmar_dif in -llevmar... " >&6; }
@@ -4075,14 +4077,19 @@ esac
 
 # hack to specify correct location of DLL, for Linux
 
-if test "$SYS_IS_DARWIN" == 1; then
-    LDDOGLEG="-lcholmod -ldogleg"
-else
-    LDDOGLEG="-lcholmod -Wl,-rpath,/usr/local/src/libdogleg -ldogleg"
+LDLAYOUT="-lcholmod -ldogleg"
+LDHSOLVE="-llevmar -llapack -lblas"
+
+if test "$CHOLMODLIB" != ""; then
+    LDLAYOUT="-LCHOLMODLIB $LDLAYOUT"
+fi
+if test "$LIBDOGLEGLIB" != ""; then
+    LDLAYOUT="-L$LIBDOGLEGLIB -Wl,-rpath,$LIBDOGLEGLIB $LDLAYOUT"
 fi
 
-LDLEVMAR="-llevmar -llapack -lblas"
-
+if test "$LEVMARLIB" != ""; then
+    LDHSOLVE="-L$LEVMARLIB $LDHSOLVE"
+fi
 
 
 

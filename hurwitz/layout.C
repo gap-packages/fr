@@ -3,6 +3,7 @@
 #undef PRINT_DOGLEG
 #undef PRINT_U
 #undef PRINT_XY
+#define PRINT_STATS
 
 #include "config.h"
 #include <iostream>
@@ -144,19 +145,19 @@ void layout_fdf (const double x[], double y[], cholmod_sparse *jacobian, void* c
       value += angle[j]*newloglength[j];
       value += 0.5 * clausen(2.*angle[j]);
 
-      int faceij = v2inner[vertex[i][j]];
-      if (faceij == -1)
+      int vertexij = v2inner[vertex[i][j]];
+      if (vertexij == -1)
 	continue;
 
-      y[faceij] -= angle[j];
+      y[vertexij] -= angle[j];
 
-      add_triplet (j_triplet, faceij, faceij, cot[(j+1)%3] + cot[(j+2)%3]);
+      add_triplet (j_triplet, vertexij, vertexij, cot[(j+1)%3] + cot[(j+2)%3]);
       for (int k = 0; k < 3; k++) {
 	if (j == k) continue;
-	int faceik = v2inner[vertex[i][k]];
-	if (faceik == -1)
+	int vertexik = v2inner[vertex[i][k]];
+	if (vertexik == -1)
 	  continue;
-	add_triplet (j_triplet, faceij, faceik, -cot[3-j-k]);
+	add_triplet (j_triplet, vertexij, vertexik, -cot[3-j-k]);
       }
     }
   }
@@ -169,7 +170,7 @@ void layout_fdf (const double x[], double y[], cholmod_sparse *jacobian, void* c
   cholmod_free_sparse (&jac, &cholmod);
   cholmod_free_triplet (&j_triplet, &cholmod);
 
-#if 1
+#ifdef PRINT_STATS
   cerr.precision(16);
   cerr << numbrokentriangles << " broken triangles, value = " << value << endl;
 #endif

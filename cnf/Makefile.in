@@ -13,7 +13,7 @@
 ##
 #############################################################################
 
-.PHONY: all lib doc clean distribute mrproper wwwdir checkblocks tarballs
+.PHONY: all lib doc clean distribute mrproper wwwdir checkblocks tarballs hurwitz
 
 LOCALBIN=bin/@TARGET@
 EXTERN=$(CURDIR)/bin/@TARGET@/extern
@@ -26,12 +26,14 @@ GAC=@GAC@
 GSLLIB=gsl-1.15
 GIVAROLIB=givaro-3.6.0
 
-all: $(LOCALBIN) @LIB_TARGET@ $(LOCALBIN)/fr_dll.so @JAVABUILD@
+all: $(LOCALBIN) @LIB_TARGET@ $(LOCALBIN)/fr_dll.so @JAVABUILD@ hurwitz
 
 lib:
-	echo Make sure you downloaded extern/$(GSLLIB).tar.gz and extern/$(GIVAROLIB).tar.gz (instructions in extern/GET_LIBARIES)
+	echo Make sure you downloaded extern/$(GSLLIB).tar.gz (instructions in extern/GET_LIBARIES)
 	$(MAKE) gsllib
-	$(MAKE) givarolib
+
+hurwitz:
+	$(MAKE) -C $@
 
 extern/$(GSLLIB).tar.gz:
 	echo "I can't find $(GSLLIB), so I'm going to download it"
@@ -52,10 +54,7 @@ gsllib: extern/$(GSLLIB).tar.gz
 	    $(MAKE) install; \
 	fi
 
-givarolib: # disable for now, too hard to compile on MacOS systems
-	@true
-
-__givarolib: extern/$(GIVAROLIB).tar.gz
+givarolib: extern/$(GIVAROLIB).tar.gz
 	if ! test -r $(EXTERN)/include/givaro-config.h; then \
 	    cd extern && \
 	    rm -rf $(GIVAROLIB) &&
@@ -96,12 +95,14 @@ java/javaview.jar:
 
 clean:
 	rm -rf .version config.log $(LOCALBIN) `find doc -type l`
+	make -C hurwitz clean
 
 configure: cnf/Makefile.in cnf/configure.ac
 	(cd cnf; autoconf; mv -f configure ..)
 
 mrproper: clean
 	rm Makefile
+	rm hurwitz/Makefile
 
 .version: PackageInfo.g
 	grep '^Version :=' $< | awk -F'"' '{print $$2}' > $@
