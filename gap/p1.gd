@@ -123,6 +123,21 @@
 ## </ManSection>
 ##
 ## <ManSection>
+##   <Oper Name="CompositionP1Map" Arg="map1, ..."/>
+##   <Returns>The composition of the maps passed as arguments, in the functional (<A>map1</A> last) order.</Returns>
+## </ManSection>
+##
+## <ManSection>
+##   <Oper Name="InverseP1Map" Arg="map"/>
+##   <Returns>The functional inverse of the Möbius transformation <A>map</A>.</Returns>
+## </ManSection>
+##
+## <ManSection>
+##   <Oper Name="ConjugatedP1Map" Arg="map, mobius"/>
+##   <Returns>The map <C>CompositionP1Map(InverseP1Map(mobius),map,mobius)</C>.</Returns>
+## </ManSection>
+##
+## <ManSection>
 ##   <Oper Name="CoefficientsOfP1Map" Arg="map"/>
 ##   <Returns>Coefficients of numerator and denominator of <A>map</A>, lowest degree first.</Returns>
 ## </ManSection>
@@ -265,6 +280,7 @@ DeclareSynonym("P1PreImages",PreImagesElm);
 DeclareAttribute("DegreeOfP1Map",IsP1Map);
 DeclareSynonym("InverseP1Map",InverseGeneralMapping);
 DeclareSynonym("CompositionP1Map",CompositionMapping2);
+DeclareOperation("ConjugatedP1Map",[IsP1Map,IsP1Map]);
 DeclareOperation("ImageElm",[IsP1Map,IsP1Point]);
 DeclareOperation("PreImagesElm",[IsP1Map,IsP1Point]);
 DeclareAttribute("CriticalPointsOfP1Map",IsP1Map);

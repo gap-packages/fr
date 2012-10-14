@@ -489,6 +489,11 @@ InstallOtherMethod(InverseP1Map, "(FR) generic P1 map", [IsP1Map],
     return P1MapByCoefficients([-c[1][1],c[2][1]],[c[1][2],-c[2][2]]);
 end);
 
+InstallMethod(ConjugatedP1Map, "(FR) generic P1 map", [IsP1Map,IsP1Map],
+        function(map,mobius)
+    return CompositionP1Map(InverseP1Map(mobius),map,mobius);
+end);
+
 BindGlobal("POLY_DER@", function(coeff)
     local v, i;
     v := [];

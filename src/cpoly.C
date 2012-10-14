@@ -329,6 +329,10 @@ int cpoly(int degree, const xcomplex poly[], xcomplex Roots[])
   xcomplex P[degree+1], H[degree+1], h[degree+1], p[degree+1], zero, s, bnd;
   unsigned int conv = 0;
 
+  for (int i = 0; i <= degree; i++)
+    if (isnan(poly[i]))
+      return -1; // otherwise we may get stuck in infinite loops
+
   while(poly[0] == xdata.ZERO) {
     poly++;
     degree--;
@@ -357,7 +361,7 @@ int cpoly(int degree, const xcomplex poly[], xcomplex Roots[])
     Roots[degree-1] = - P[1] / P[0];
     return degree;
   }
-  
+
   // compute a bound of the moduli of the roots (Newton-Raphson)
   bnd = cauchy(deg, P);
      

@@ -1411,68 +1411,36 @@ InstallMethod(VERTICES@, [IsMarkedSphere],
     return List(Filtered(spider!.cut!.v,v->not IsBound(v.fake)),v->v.pos);
 end);
 
-BindGlobal("STRINGTHETAPHI@", function(point)
-    return CONCAT@(ATAN2_MACFLOAT(point[2],point[1])," ",
-                   ACOS_MACFLOAT(point[3]));
-end);
-
-BindGlobal("SOLVE_HURWITZ@", function(d,v,c,f)
-    # d is list of degrees
-    # v is list of critical values, with last three (0,1,infinity) omitted
-    # c is approximation to critical points
-    # f is approximation to rational map
-    # returns [newc,newf] using Newton's method
-    local z, num, den, status, i, degree, d8;
+BindGlobal("GENERALHURWITZMAP@", function(z,spider,perm,oldf,oldlifts)
+    # returns [f,full preimage of VERTICES@(spider)]
+    local d, r, v, pre, new, old, i, dist, mindist, permrep;
     
-    Error("This code is experimental! Proceed at your own risk.");
-
-    z := IndeterminateOfUnivariateRationalFunction(f);
-    num := ShallowCopy(CoefficientsOfUnivariatePolynomial(NumeratorOfRationalFunction(f)));
-    den := ShallowCopy(CoefficientsOfUnivariatePolynomial(DenominatorOfRationalFunction(f)));
-    c := ShallowCopy(c);
-    degree := (Sum(d)-Length(d))/2+1;
-    d8 := d[Length(d)];
-    if Length(num)=degree and Length(den)=degree-d8 then
-        i := Sqrt(d8*num[degree]*den[degree-d8]);
-        num := num/i; den := den/i;
-    fi;    
+    #!! should create a new spider with only the critical values, not the
+    # whole post-critical set.
     
-    status := FIND_RATIONALFUNCTION(d,v,c,num,den,[1000,@.ratprec,@.ratprec]);
+    permrep := GroupHomomorphismByImages(Source(spider!.marking),
+                       SymmetricGroup(Length(perm[1])),
+                       GeneratorsOfGroup(Source(spider!.marking)),
+                       List(perm,PermList));
+    d := HurwitzMap(spider,permrep);
     
-    if status<>0 then
-        return status;
-    fi;
-    
-    return [c,P1MapByCoefficients(num,den)];
-end);
-
-BindGlobal("RUNCIRCLEPACK@", function(values,perm,oldf,oldlifts)
-    local spider, s, output, f, i, j, p;
-
-    spider := TRIVIALSPIDER@(values);
-    IMGMARKING@(spider,FreeGroup(Length(values)));
-    f := GroupHomomorphismByImagesNC(spider!.model,SymmetricGroup(Length(perm[1])),GeneratorsOfGroup(spider!.model),List(perm,PermList));
-    s := "";
-    output := OUTPUTTEXTSTRING@(s);
-
-    PrintTo(output,"SLITCOUNT: ",Length(spider!.treeedge),"\n");
-    for i in spider!.treeedge do
-        PrintTo(output,STRINGTHETAPHI@(i.from.pos)," ",STRINGTHETAPHI@(i.to.pos),"\n");
-    od;
-
-    PrintTo(output,"\nPASTECOUNT: ",Length(spider!.treeedge)*Length(perm[1]),"\n");
-    for i in [1..Length(spider!.treeedge)] do
-        p := PreImagesRepresentative(spider!.marking,spider!.group.(i))^f;
-        for j in [1..Length(perm[1])] do
-            PrintTo(output,j," ",2*i-1," ",j^p," ",2*i,"\n");
+    pre := [];
+    for v in spider!.cut!.v do
+        if IsBound(v.fake) then continue; fi;
+        new := P1PreImages(d.map,P1PreImages(d.post,v.pos)[1]);
+        old := Filtered(Concatenation(d.cp,d.poles,d.zeros),r->r.to=v);
+        for r in old do
+            Add(pre,r.pos);
+            for i in [1..r.degree] do
+                dist := List(new,p->P1Distance(r.pos,p));
+                mindist := Minimum(dist);
+                Remove(new,Position(dist,mindist));
+            od;
         od;
+        Append(pre,new);
     od;
-    Print(s);
-    CHECKEXEC@("mycirclepack");
-    output := "";
-    Process(DirectoryCurrent(), EXEC@.mycirclepack, InputTextString(s),
-            OUTPUTTEXTSTRING@(output), []);
-    Error("Interface to circlepack is not yet written. Contact the developers for more information. Output is ", output);
+    
+    return [CompositionP1Map(d.map,d.post),pre];
 end);
 
 BindGlobal("TRICRITICAL@", function(z,perm)
@@ -1491,7 +1459,7 @@ BindGlobal("TRICRITICAL@", function(z,perm)
     # [[degree],[m,degree-m+1]]
     # [[degree],[m,degree-m],[2]]
     local deg, cl, i, j, k, m, points, f, order, p;
-
+    
     deg := Length(perm[1]);
     perm := List(perm,PermList);
     cl := List(perm,x->SortedList(CycleLengths(x,[1..deg])));
@@ -1617,11 +1585,13 @@ BindGlobal("QUADRICRITICAL@", function(z,perm,values)
     return [f, [P1zero, P1one, P1infinity, P1Point(c*(c-2)/(c^2-1))]];
 end);
 
-BindGlobal("RATIONALMAP@", function(z,values,perm,oldf,oldlifts)
-    # find a rational map that has critical values at <values>, with
+BindGlobal("RATIONALMAP@", function(z,spider,perm,oldf,oldlifts)
+    # find a rational map that has critical values at <feet(spider)>, with
     # monodromy action given by <perm>, a list of permutations (as lists).
     # returns [map,points] where <points> is the full preimage of <values>
-    local cv, p, f, points, deg, i;
+    local cv, values, p, f, points, deg, i;
+    
+    values := VERTICES@(spider);
     cv := Filtered([1..Length(values)],i->not ISONE@(perm[i]));
     deg := Length(perm[1]);
     if Length(cv)=2 then # bicritical
@@ -1639,16 +1609,14 @@ BindGlobal("RATIONALMAP@", function(z,values,perm,oldf,oldlifts)
         points := p[2];
     fi;
 
-    if not IsBound(points) then # run circlepack
-        p := RUNCIRCLEPACK@(values{cv},perm{cv},oldf,oldlifts);
-        Error(p);
-        f := fail;
-        points := fail;
+    if not IsBound(points) then # run hurwitz specialized code
+        return GENERALHURWITZMAP@(z,spider,perm,oldf,oldlifts);
     fi;
 
     for i in [1..Length(values)] do if not i in cv then
         Append(points,P1PreImages(f,values[i]));
     fi; od;
+
     return [f,points];
 end);
 
@@ -2035,17 +2003,22 @@ BindGlobal("NORMALIZEV@", function(f,M,param)
         if Length(p[3])=2 then
             return [z^degree,mobius];
         fi;
-        i := CleanedP1Map(CompositionP1Map(InverseP1Map(mobius),f,mobius),@.p1eps); # polynomial
-        coeff := CoefficientsOfP1Map(i);
+        k := First([1..Length(p[2])],k->p[2][k][1]<>p[3][j]); # other critical point
+        mobius := MoebiusMap(p[2][k][1],p[3][j]);
+        i := CleanedP1Map(ConjugatedP1Map(f,mobius),@.p1eps); # polynomial
+        coeff := CoefficientsOfP1Map(i);        
         mobius := CompositionP1Map(mobius,P1MapSL2([[@.o/coeff[1][degree+1]^(1/(degree-1)),-coeff[1][degree]/degree/coeff[1][degree+1]],[@.z,@.o]]));
         m := P1MapSL2([[Exp(@.2ipi/(degree-1)),@.z],[@.z,@.o]]);
+    if false then #!!! disabled; this could be an infinite loop
         j := SupportingRays(M);
+        
         repeat
-            k := SupportingRays(IMGMachine(CompositionP1Map(InverseP1Map(mobius),f,mobius)));
+            k := SupportingRays(IMGMachine(ConjugatedP1Map(f,mobius)));
             if k=j then break; fi; #!!! maybe should be: "equivalent"rays?
-            mobius := mobius*m;
+            mobius := CompositionP1Map(mobius,m);
             Info(InfoFR,1,"param:=IsPolynomial: trying to rotate around infinity");
         until false;
+    fi;
     else # parameterize on slice V_n
         while degree<>2 do
             Error("'param:=<positive integer>' only makes sense for degree-2 maps");
@@ -2080,7 +2053,7 @@ BindGlobal("NORMALIZEV@", function(f,M,param)
             mobius := MoebiusMap(p[2][i][1],p[3][k],p[3][j]);
         fi;
     fi;
-    f := CleanedP1Map(CompositionP1Map(InverseP1Map(mobius),f,mobius),@.p1eps);
+    f := CleanedP1Map(ConjugatedP1Map(f,mobius),@.p1eps);
     numer := List([0..degree],i->@.z);
     denom := List([0..degree],i->@.z);
     if param=2 then # special cleanup
@@ -2214,7 +2187,7 @@ BindGlobal("FRMACHINE2RAT@", function(z,M)
     repeat
         oldspider := spider;
         # find a rational map that has the right critical values
-        f := RATIONALMAP@(z,VERTICES@(spider),List(gens,g->Output(M,g)),f,lifts);
+        f := RATIONALMAP@(z,spider,List(gens,g->Output(M,g)),f,lifts);
         lifts := f[2]; f := f[1];
         Info(InfoFR,3,"1: found rational map ",f," on vertices ",lifts);
 
