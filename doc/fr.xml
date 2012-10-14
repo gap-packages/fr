@@ -851,6 +851,7 @@ are:<List>
 
 <#Include Label="Triangulations">
 <#Include Label="MarkedSpheres">
+<#Include Label="Hurwitz">
 <#Include Label="Conversions">
 </Section>
 </Chapter>

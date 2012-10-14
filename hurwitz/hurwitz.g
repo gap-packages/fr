@@ -105,8 +105,6 @@ BindGlobal("REFINETRIANGULATION@", function(triangulation,maxlen)
     # maxlen^Maximum(v.degree*w.degree)
     local idle, e, f, maxdegree, len, mult, p;
 
-#!!! subdivide by adding vertices close to critical points
-
     for e in triangulation!.e do
         if e.from.degree>1 and e.to.degree>1 then
             ADDTOTRIANGULATION@(triangulation,e.left,P1Midpoint(e.from.pos,e.to.pos));
@@ -335,20 +333,13 @@ BindGlobal("OPTIMIZELAYOUT@", function(spider,lift)
     return data;
 end);
 
-BindGlobal("HURWITZ@", function(pts,monodromy)
+InstallMethod(HurwitzMap, "(FR) for a spider and a homomorphism",
+        [IsMarkedSphere,IsGroupHomomorphism],
+        function(spider,monodromy)
     # compute the critical points, zeros and poles of a map whose
     # critical values are vertices of "spider", with monodromy given
     # by the homomorphism "monodromy".
-    local t, d, spider;
-    
-    if IsList(pts) then # we're just given points
-        spider := TRIVIALSPIDER@(pts);
-        IMGMARKING@(spider,Source(monodromy));
-        # let's hope the IMG relation is the same as that given by the
-        # spanning tree in the trivial spider. Maybe we have to fix this.
-    else
-	spider := pts;
-    fi;
+    local t, d;
 
     Assert(0,Source(spider!.marking)=Source(monodromy));
     
@@ -360,44 +351,55 @@ BindGlobal("HURWITZ@", function(pts,monodromy)
     REFINETRIANGULATION@(t,0.3);
     LAYOUTTRIANGULATION@(t);
     d := OPTIMIZELAYOUT@(spider,t);
-
-    if IsList(pts) then
-        for t in d.zeros do t.to := t.to.pos; od;
-        for t in d.poles do t.to := t.to.pos; od;
-        for t in d.cp do t.to := t.to.pos; od;
-    fi;
+    
+    d.map := P1MapByZerosPoles(Concatenation(List(d.zeros,x->ListWithIdenticalEntries(x.degree,x.pos))),
+                     Concatenation(List(d.poles,x->ListWithIdenticalEntries(x.degree,x.pos))),
+                     
+                     P1one,P1one);
 
     return d;
 end);
 
-BindGlobal("DESSIN@", function(degree,perms)
-    local g, permrep;
+InstallMethod(DessinByPermutations, "(FR) for three permutations",
+        [IsPerm,IsPerm,IsPerm],
+        function(s0,s1,sinf)
+    local permrep, f, g, spider, d, i, above1, p, dist, distmin;
     
-    g := FreeGroup(3);
-    permrep := GroupHomomorphismByImages(g,SymmetricGroup(degree),GeneratorsOfGroup(g),perms);
-    return HURWITZ@([P1infinity,P1one,P1zero],permrep);
+    Assert(0,s0*s1*sinf=());
+    f := FreeGroup(3);
+    g := Group(s0,s1,sinf);
+    
+    spider := TRIVIALSPIDER@([P1zero,P1one,P1infinity]);
+    IMGMARKING@(spider,f);
+    permrep := GroupHomomorphismByImages(f,g,GeneratorsOfGroup(f),GeneratorsOfGroup(g));
+    
+    d := HurwitzMap(spider,permrep);
+    
+    for i in d.zeros do Unbind(i.to); od;
+    for i in d.poles do Unbind(i.to); od;
+    d.above1 := [];
+    for i in d.cp do Add(d.above1,rec(degree := i.degree, pos := i.pos)); od;
+    above1 := P1PreImages(d.map,P1PreImages(d.post,P1one)[1]);
+    
+    for p in Concatenation(List(d.cp,x->ListWithIdenticalEntries(x.degree,x.pos))) do
+        dist := List(above1,q->P1Distance(p,q));
+        distmin := Minimum(dist);
+        i := Position(dist,distmin);
+        Remove(above1,i);
+    od;
+    for p in above1 do
+        Add(d.above1, rec(degree := 1, pos := p));
+    od;
+    
+    Unbind(d.cp);
+    
+    return d;
 end);
 
-#############################################################################
-
-# driver code:
-
-if false then
-    DESSIN@(5,[(1,2,3,4,5),(1,2),((1,2,3,4,5)*(1,2))^-1]);
-    DESSIN@(3,[(1,2,3),(1,2),(2,3)]);
-    DESSIN@(13,[(1,3,12,4)(5,9)(6,7)(10,13,11)(2,8),
-            (1,5,13,6)(7,10)(2,3)(8,11,12)(4,9),
-            (1,7,11,2)(3,8)(4,5)(9,12,13)(6,10)]);
-fi;
-
-DANNY@ := function(d)
-    local z, g, perms;
-    z := List([0..2*d-3], i->P1Point(Exp(i*PMCOMPLEX.constants.2IPI/(2*d-2))));
-    perms := List([1..d-1],i->(i,i+1));
-    Append(perms,Reversed(perms));
-    g := FreeGroup(2*d-2);
-    perms := GroupHomomorphismByImages(g,SymmetricGroup(d),GeneratorsOfGroup(g),perms);
-    return HURWITZ@(z,perms);
-end;
-
+InstallMethod(DessinByPermutations, "(FR) for two permutations",
+        [IsPerm,IsPerm],
+        function(s0,s1)
+    return DessinByPermutations(s0,s1,(s0*s1)^-1);
+end);
+    
 #E hurwitz.g . . . . . . . . . . . . . . . . . . . . . . . . . . . .ends here
