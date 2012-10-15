@@ -34,16 +34,17 @@
   <URL>http://gap-system.org</URL>.
   <P/>
   This documentation for <Package>FR</Package> is available at
-  <URL>http://www.uni-math.gwdg.de/laurent/FR/manual.pdf</URL> in PDF
+  <URL>http://laurentbartholdi.github.com/fr/doc/manual.pdf</URL> in PDF
   format, and may be accessed online at
-  <URL>http://www.uni-math.gwdg.de/laurent/FR/</URL>.
+  <URL>http://laurentbartholdi.github.com/fr/</URL>.
   <P/>
   The latest source of the package may be downloaded as
-  <URL>http://www.uni-math.gwdg.de/laurent/FR/fr.tar.gz</URL> (tar, gzipped), or
-  explored at <URL>http://www.uni-math.gwdg.de/laurent/FR/fr</URL>.
+  <URL>https://github.com/laurentbartholdi/fr/tarball/master</URL> (tar, gzipped),
+  <URL>https://github.com/laurentbartholdi/fr.git</URL> (git repository), or
+  explored at <URL>https://github.com/laurentbartholdi/fr/tree/master/</URL>.
   <P/>
   The last source compatible with GAP 4.4.12 may be downloaded as
-  <URL>http://www.uni-math.gwdg.de/laurent/FR/fr-1.1.2.tar.gz</URL> (tar, gzipped).
+  <URL>https://github.com/downloads/laurentbartholdi/fr/fr-1.1.2.tar.gz</URL> (tar, gzipped).
   </Alt>
   <P/>
     Groups defined by a recursive action on a rooted tree can
