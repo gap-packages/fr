@@ -1470,8 +1470,6 @@ continue.
 
 </Chapter>
 
-<#Include SYSTEM "../hurwitz/examples.xml">
-
 <Chapter><Heading>Miscellanea</Heading>
 
 <Section><Heading>Generic operations</Heading>
