@@ -8,7 +8,7 @@ bin/*
 frbib.xml.bib
 autom4te.cache
 .DS_Store
-doc/chap*.txt
+doc/chap*
 doc/*.aux
 doc/*.pnr
 doc/*.tex
@@ -21,4 +21,6 @@ doc/*.ilg
 doc/*.ind
 doc/*.out
 doc/*.toc
+doc/manual.*
 myconfigure
+.version
