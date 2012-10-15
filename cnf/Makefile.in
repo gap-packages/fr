@@ -18,13 +18,12 @@
 LOCALBIN=bin/@TARGET@
 EXTERN=$(CURDIR)/bin/@TARGET@/extern
 
-CFLAGS=@CFLAGS@ -fPIC -std=c99 -Wall
+CFLAGS=@CFLAGS@ -fPIC -std=c99 -Wall -I@GAPDIR@ -I@GAPDIR@/$(LOCALBIN) @GMP_CFLAGS@
 CC=@CC@ $(CFLAGS)
 JAVAC=@JAVAC@
 GAPPROG=@GAPPROG@
 GAC=@GAC@
 GSLLIB=gsl-1.15
-GIVAROLIB=givaro-3.6.0
 
 all: $(LOCALBIN) @LIB_TARGET@ $(LOCALBIN)/fr_dll.so @JAVABUILD@ hurwitz
 
@@ -39,10 +38,6 @@ extern/$(GSLLIB).tar.gz:
 	echo "I can't find $(GSLLIB), so I'm going to download it"
 	(cd extern; wget --no-verbose http://ftpmirror.gnu.org/gsl/$(GSLLIB).tar.gz)
 
-extern/$(GIVAROLIB).tar.gz:
-	echo "I can't find $(GIVAROLIB), so I'm going to download it"
-	(cd extern; wget --no-verbose --no-check-certificate https://forge.imag.fr/frs/download.php/202/$(GIVAROLIB).tar.gz)
-
 gsllib: extern/$(GSLLIB).tar.gz
 	if ! test -r $(EXTERN)/include/gsl/gsl_vector.h; then \
 	    cd extern && \
@@ -50,17 +45,6 @@ gsllib: extern/$(GSLLIB).tar.gz
 	    tar -x -f $(GSLLIB).tar.gz -z && \
 	    cd $(GSLLIB) && \
 	    ./configure --prefix=$(EXTERN) CFLAGS="$(CFLAGS) @c_options@" && \
-	    $(MAKE) && \
-	    $(MAKE) install; \
-	fi
-
-givarolib: extern/$(GIVAROLIB).tar.gz
-	if ! test -r $(EXTERN)/include/givaro-config.h; then \
-	    cd extern && \
-	    rm -rf $(GIVAROLIB) &&
-	    tar -x -f $(GIVAROLIB).tar.gz -z && \
-	    cd $(GIVAROLIB) && \
-	    ./configure @WITHGMP@ --prefix=$(EXTERN) && \
 	    $(MAKE) && \
 	    $(MAKE) install; \
 	fi
@@ -74,13 +58,13 @@ $(LOCALBIN)/rpoly.o: src/rpoly.c src/poly.h
 	$(CC) -c $< -o $@
 
 $(LOCALBIN)/p1.o: src/p1.c src/cpoly.C src/fr_dll.h
-	$(CC) -c $< -o $@ -I@GAPDIR@ -I@GAPDIR@/$(LOCALBIN) -DCONFIG_H
+	$(CC) -c $< -o $@ -DCONFIG_H
 
 $(LOCALBIN)/fr_dll.o: src/fr_dll.c src/cpoly.C src/fr_dll.h
-	$(CC) -c $< -o $@ -I@GAPDIR@ -I@GAPDIR@/$(LOCALBIN) -DCONFIG_H
+	$(CC) -c $< -o $@ -DCONFIG_H
 
 $(LOCALBIN)/findrat.o: src/findrat.c src/fr_dll.h
-	$(CC) -c $< -o $@ -I@GAPDIR@ -I@GAPDIR@/$(LOCALBIN) -DCONFIG_H
+	$(CC) -c $< -o $@ -DCONFIG_H
 
 $(LOCALBIN)/fr_dll.so: $(LOCALBIN)/fr_dll.o $(LOCALBIN)/findrat.o $(LOCALBIN)/rpoly.o $(LOCALBIN)/p1.o
 	$(GAC) -d -o $@ $+ @GACFLAGS@
@@ -108,16 +92,10 @@ mrproper: clean
 	grep '^Version :=' $< | awk -F'"' '{print $$2}' > $@
 
 wwwdir: .version tarballs
-	mkdir -p www
-	rm -f `find www -type l`
-	cp README www/README.fr
-	cp PackageInfo.g www/PackageInfo.g
-	ln -s chap0.html www/index.html
-	ln -sf fr-`cat .version`.tar.gz www/fr.tar.gz
-	cp doc/manual.pdf www/manual.pdf
-	(cd doc; for i in *.html; do cp $$i ../www/$$i; done)
-	cp doc/manual.css www/manual.css
-	rsync -arvp --delete www/ laurent@rlaurent.uni-math.gwdg.de:public_html/FR/
+	git checkout gh-pages
+	git rebase master
+	git commit -am 'New html files'
+	git push
 
 doc: doc/chap0.html
 
@@ -134,9 +112,9 @@ checkblocks:
 	@rm @@-blocks @@-in
 
 tarballs: .version doc
-	rm -rf www/fr
 	mkdir -p www
 	tar -c -f - --exclude '*~' --exclude 'config.[ls]*' --exclude 'fr/Makefile*' --exclude .cvsignore --exclude autom4te.cache --exclude sandbox --exclude www --exclude bin --exclude 'extern/[a-z]*' --exclude CVS --exclude .version -C .. fr | (cd www; tar -x -f -)
 	tar -c -f www/fr-`cat .version`.tar.gz -z -C www fr
+	ln -sf fr-`cat .version`.tar.gz www/fr.tar.gz
 
 #E Makefile . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here

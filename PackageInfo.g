@@ -7,9 +7,9 @@
 SetPackageInfo( rec(
 PackageName := "FR",
 Subtitle := "Computations with functionally recursive groups",
-Version := "1.2.7.0",
+Version := "1.2.7.1",
 ## <#GAPDoc Label="Version">
-## 1.2.7.0
+## 1.2.7.1
 ## <#/GAPDoc>
 Date := "28/06/2012",
 ArchiveURL := Concatenation("http://www.uni-math.gwdg.de/laurent/FR/fr-",~.Version),

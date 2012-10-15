@@ -142,6 +142,10 @@ CPPFLAGS="$CPPFLAGS $GMP_CFLAGS"
 GACFLAGS="$GACFLAGS -p $GMP_CFLAGS"
 AC_CHECK_HEADER(gmp.h,[],[AC_MSG_ERROR([library gmp not found. Specify its location using --with-gmp])],[])
 
+AC_SUBST(GMP_CFLAGS)
+AC_SUBST(GMP_LDFLAGS)
+AC_SUBST(GMP_LIBS)
+
 ################################################################
 # Check for gsl library
 
@@ -262,6 +266,6 @@ if test "$MAKEFILE" != Makefile; then
     ln -sf "$MAKEFILE" Makefile
 fi
 
-(cd hurwitz; ./configure TARGET=$TARGET)
+AC_CONFIG_SUBDIRS(hurwitz)
 
 AC_OUTPUT
