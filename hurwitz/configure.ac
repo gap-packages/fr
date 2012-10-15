@@ -5,19 +5,63 @@ AC_INIT(fr/hurwitz, 0.0, laurent.bartholdi@gmail.com)
 AC_CONFIG_HEADERS(config.h)
 AC_CONFIG_AUX_DIR(../cnf)
 
+AC_PROG_CC
 AC_PROG_CXX
 AC_CANONICAL_TARGET
+
+################################################################
+# check for GAP
+AC_ARG_VAR([GAPDIR], [Location of the GAP root directory, e.g. ../..])
+
+if test -z "$GAPDIR"; then
+    for dir in ../../.. /Applications/gap4r5 /usr/local/src/gap /usr/local/gap; do
+	if test -f $dir/sysinfo.gap; then
+	    GAPDIR=$dir
+	    break
+	fi
+    done
+fi
+
+AC_ARG_VAR([CONFIGNAME],[Name of GAP build configuration])
+if test -n "$CONFIGNAME"; then
+    SYSINFO="$GAPDIR/sysinfo.gap-$CONFIGNAME"
+    MAKEFILE="Makefile-$CONFIGNAME"
+    GAPPROG="$GAPDIR/bin/gap-$CONFIGNAME.sh"
+else
+    SYSINFO="$GAPDIR/sysinfo.gap"
+    MAKEFILE="Makefile"
+    GAPPROG="$GAPDIR/bin/gap.sh"
+fi
+
+if ! test -f "$SYSINFO"; then
+    AC_ERROR([Could not locate the GAP root directory;
+        specify its location with './configure GAPDIR=DIR [CONFIGNAME=NAME)]'])
+fi
+
+GAPDIR=`cd $GAPDIR && pwd` # make path absolute
+AC_SUBST(GAPDIR)
+
+. "$SYSINFO"
+TARGET="$GAParch"
+
+echo checking target... "$TARGET"
+
+XTARGET="`../cnf/config.guess`-$CC-`echo $TARGET | sed 's/.*-//'`"
+if test "$XTARGET" != "$GAParch_system"; then
+   AC_WARN([The guessed target $XTARGET is not the gap target $GAParch_system. Cross your fingers])
+fi
+AC_SUBST(TARGET)
 
 if ! test -d ../bin/$TARGET; then
     AC_ERROR([$TARGET should be the directory under bin/ to contain the executables; specify it with TARGET=...])
 fi
 
+################################################################
 # check for cholmod library
 
 AC_ARG_WITH(cholmod,
  [  --with-cholmod=<location>
-    Location at which the cholmod library, needed for layout, was installed.
- ],
+    Location at which the cholmod library, needed for layout, was installed.],
  [CHOLMODINCLUDE="-I$withval/include"; CHOLMODLIB="$withval/lib"]
 )
 
@@ -29,13 +73,12 @@ AC_ARG_WITH(cholmod-include,
 
 AC_ARG_WITH(cholmod-lib,
  [  --with-cholmod-lib=<location>
-    Location at which the cholmod library files were installed.],
+    Location at which the cholmod library files were installed.
+ ],
  [CHOLMODLIB="$withval"]
 )
 
-if test "$CHOLMODINCLUDE" == ""; then
-    AC_CHECK_HEADER(cholmod.h,,[CHOLMODINCLUDE="-I/usr/include/sparsesuite"])
-fi
+AC_CHECK_HEADER(suitesparse/cholmod.h,[CHOLMODINCLUDE="-I/usr/include/suitesparse"])
 
 if test "$CHOLMODINCLUDE" != ""; then
     CPPFLAGS="$CPPFLAGS $CHOLMODINCLUDE"
@@ -52,8 +95,7 @@ AC_CHECK_LIB(cholmod,cholmod_allocate_triplet,,AC_MSG_ERROR([libcholmod not foun
 
 AC_ARG_WITH(libdogleg,
  [  --with-libdogleg=<location>
-    Location at which the libdogleg library, needed for layout, was installed.
- ],
+    Location at which the libdogleg library, needed for layout, was installed.],
  [LIBDOGLEGINCLUDE="-I$withval/include"; LIBDOGLEGDIR="$withval/lib"]
 )
 
@@ -65,7 +107,8 @@ AC_ARG_WITH(libdogleg-include,
 
 AC_ARG_WITH(libdogleg-lib,
  [  --with-libdogleg-lib=<location>
-    Location at which the libdogleg library files were installed.],
+    Location at which the libdogleg library files were installed.
+ ],
  [LIBDOGLEGLIB="$withval"]
 )
 
@@ -84,8 +127,7 @@ AC_CHECK_LIB(dogleg,dogleg_optimize,,AC_MSG_ERROR([libdogleg not found. Specify 
 
 AC_ARG_WITH(levmar,
  [  --with-levmar=<location>
-    Location at which the levmar library, needed for layout, was installed.
- ],
+    Location at which the levmar library, needed for layout, was installed.],
  [LEVMARINCLUDE="-I$withval/include"; LEVMARLIB="$withval/lib"]
 )
 
@@ -97,7 +139,8 @@ AC_ARG_WITH(levmar-include,
 
 AC_ARG_WITH(levmar-lib,
  [  --with-levmar-lib=<location>
-    Location at which the levmar library files were installed.],
+    Location at which the levmar library files were installed.
+ ],
  [LEVMARLIB="$withval"]
 )
 

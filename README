@@ -39,8 +39,25 @@ subdirectory (view the file `manual.pdf' via a PDF viewer).
 An optional external module (DLL) provides floating-point functions used
 by the "iterated monodromy groups" part of FR. Its presence or absence
 does not affect the remainder of FR. To compile it, first make sure that
-your system has C and JAVA compilers, and that the libraries
-libcblas and libgcj are installed. Then compile by running
+your system has C and JAVA compilers. You will need some external libraries,
+in particular gsl, levmar, and libdogleg. To install them:
+
+* on Linux, use a package-manager such as 'apt-get', 'rpm' if possible. On
+  debian/ubuntu systems, you will need libgsl0-dev and libsuitesparse-dev.
+* on UNIX systems, install the libraries:
+  The gsl library may be found at http://ftpmirror.gnu.org/gsl/gsl-1.15.tar.gz
+  The dogleg library may be found at https://github.com/Oblong/libdogleg.git
+  The levmar library may be found at http://www.ics.forth.gr/~lourakis/levmar/levmar-2.6.tar.gz
+
+* on Mac OSX, use 'homebrew' (http://mxcl.github.com/homebrew/), and install the formulas by invoking
+  % brew install libgsl
+  % brew install https://raw.github.com/laurentbartholdi/homebrew/levenberg-marquardt-lib/Library/Formula/levmar.rb 
+  % brew install https://raw.github.com/laurentbartholdi/homebrew/libdogleg/Library/Formula/libdogleg.rb
+
+* on Windows, use an appropriate UNIX-like environment such as cygwin, and follow the UNIX
+instructions.
+
+In all cases, then run
 
 './configure && make' in FR's root directory.
 
