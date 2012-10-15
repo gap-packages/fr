@@ -116,6 +116,11 @@ EXTERN="\$(CURDIR)/bin/$TARGET/extern"
 
 eval `grep '^GMP_[[A-Z]]*=' "$GAPDIR/bin/$TARGET/config.log"`
 
+if ! test -f `echo "$GMP_CFLAGS" | cut -c3-`/gmp.h; then # broken install
+   GMP_CFLAGS="-I$GAPDIR/bin/$TARGET/extern/gmp/include"
+   GMP_LIBS="$GAPDIR/bin/$TARGET/extern/gmp/libgmp.a"
+fi
+
 AC_ARG_WITH(gmp,
  [  --with-gmp=<location>
     Location at which the GMP library, needed for MPFR, was installed.
@@ -141,6 +146,8 @@ AC_ARG_WITH(gmp-lib,
 CPPFLAGS="$CPPFLAGS $GMP_CFLAGS"
 GACFLAGS="$GACFLAGS -p $GMP_CFLAGS"
 AC_CHECK_HEADER(gmp.h,[],[AC_MSG_ERROR([library gmp not found. Specify its location using --with-gmp])],[])
+
+echo using gmp.h from `echo "$GMP_CFLAGS" | cut -c3-`
 
 AC_SUBST(GMP_CFLAGS)
 AC_SUBST(GMP_LDFLAGS)

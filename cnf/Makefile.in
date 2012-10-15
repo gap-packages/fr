@@ -96,11 +96,8 @@ doc: doc/chap0.html
 doc/chap0.html: doc/fr.xml doc/frbib.xml gap/algebra.gd gap/frelement.gd \
 	gap/group.gd gap/img.gd gap/perlist.gd gap/vector.gd gap/examples.gd \
 	gap/frmachine.gd gap/helpers.gd gap/mealy.gd gap/trans.gd
-	git checkout gh-pages
-	git rebase master
 	echo 'LoadPackage("fr"); DOC@FR();' | $(GAPPROG) -r -q
-	git commit -am 'New html files'
-	git push
+	(cd doc; git add *.html manual.pdf manual.css; git commit -m 'New html files'; git push github master:gh-pages)
 
 checkblocks:
 	grep '<#GAPDoc' PackageInfo.g gap/*d | awk -F'"' '{print $$2}' | sort > @@-blocks

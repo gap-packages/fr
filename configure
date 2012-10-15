@@ -3517,6 +3517,11 @@ EXTERN="\$(CURDIR)/bin/$TARGET/extern"
 
 eval `grep '^GMP_[A-Z]*=' "$GAPDIR/bin/$TARGET/config.log"`
 
+if ! test -f `echo "$GMP_CFLAGS" | cut -c3-`/gmp.h; then # broken install
+   GMP_CFLAGS="-I$GAPDIR/bin/$TARGET/extern/gmp/include"
+   GMP_LIBS="$GAPDIR/bin/$TARGET/extern/gmp/libgmp.a"
+fi
+
 
 # Check whether --with-gmp was given.
 if test "${with_gmp+set}" = set; then :
@@ -3552,6 +3557,8 @@ else
 fi
 
 
+
+echo using gmp.h from `echo "$GMP_CFLAGS" | cut -c3-`
 
 
 
