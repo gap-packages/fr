@@ -8,26 +8,19 @@
 ##
 #############################################################################
 
-AC_PREREQ(2.00)
+AC_PREREQ(2.68)
+LT_PREREQ([2.4.2])
 AC_INIT(fr,,laurent.bartholdi@gmail.com)
 AC_CONFIG_SRCDIR([src/fr_dll.c])
-AC_CONFIG_AUX_DIR(cnf)
+AC_CONFIG_AUX_DIR([cnf])
+AC_CONFIG_MACRO_DIR([cnf/m4])
+LT_INIT([disable-static dlopen win32-dll])
+
+AC_PREFIX_DEFAULT([${PWD}])
 
 # Checks for programs.
 AC_PROG_CC
-
-# Check for -fno-stack-protector, because we link within GAP
-AC_CACHE_CHECK([whether $CC accepts -fno-stack-protector],
-    [ns_cv_cc__nostackprotector],
-    [save_CFLAGS=$CFLAGS
-     CFLAGS="$CFLAGS -fno-stack-protector"
-     AC_LINK_IFELSE([AC_LANG_PROGRAM([], [])],
-                    [ns_cv_cc__nostackprotector=yes],
-                    [ns_cv_cc__nostackprotector=no])
-     CFLAGS=$save_CFLAGS])
-if test $ns_cv_cc__nostackprotector = yes; then
-     CFLAGS="$CFLAGS -fno-stack-protector"
-fi
+AX_CC_MAXOPT
 
 # Checks for header files.
 AC_HEADER_STDC
@@ -37,121 +30,28 @@ AC_CHECK_HEADERS([float.h stdlib.h])
 AC_C_CONST
 AC_C_INLINE
 
-################################################################
-# check for GAP
-AC_ARG_VAR([GAPDIR], [Location of the GAP root directory, e.g. ../..])
+# Locates GAP
+AC_FIND_GAP
 
-if test -z "$GAPDIR"; then
-    for dir in ../.. /Applications/gap4r5 /usr/local/src/gap /usr/local/gap; do
-	if test -f $dir/sysinfo.gap; then
-	    GAPDIR=$dir
-	    break
-	fi
-    done
-fi
-
-AC_ARG_VAR([CONFIGNAME],[Name of GAP build configuration])
-if test -n "$CONFIGNAME"; then
-    SYSINFO="$GAPDIR/sysinfo.gap-$CONFIGNAME"
-    MAKEFILE="Makefile-$CONFIGNAME"
-    GAPPROG="$GAPDIR/bin/gap-$CONFIGNAME.sh"
+# Finds if DOS/MacOSX install
+AC_CYGWIN
+AM_CONDITIONAL([SYS_IS_CYGWIN], [test "$CYGWIN" = "yes"])
+if test "$CYGWIN" = "yes"; then
+  AC_DEFINE(SYS_IS_CYGWIN32, 1, are we on CYGWIN?)
 else
-    SYSINFO="$GAPDIR/sysinfo.gap"
-    MAKEFILE="Makefile"
-    GAPPROG="$GAPDIR/bin/gap.sh"
+  AC_DEFINE(SYS_IS_CYGWIN32, 0, are we on CYGWIN?)
 fi
 
-if ! test -f "$SYSINFO"; then
-    AC_ERROR([Could not locate the GAP root directory;
-        specify its location with './configure GAPDIR=DIR [CONFIGNAME=NAME)]'])
-fi
-
-GAPDIR=`cd $GAPDIR && pwd` # make path absolute
-AC_SUBST(GAPDIR)
-
-. "$SYSINFO"
-TARGET="$GAParch"
-
-echo checking target... "$TARGET"
-
-XTARGET="`cnf/config.guess`-$CC-`echo $TARGET | sed 's/.*-//'`"
-if test "$XTARGET" != "$GAParch_system"; then
-   AC_WARN([The guessed target $XTARGET is not the gap target $GAParch_system. Cross your fingers])
-fi
-AC_SUBST(TARGET)
-
-echo checking gap executable... "$GAPPROG"
-
-if ! test -e "$GAPPROG"; then
-    AC_WARN([Could not find GAP executable $GAPPROG; I won't compile the documentation])
-fi
-AC_SUBST(GAPPROG)
-
-GAC="$GAPDIR/bin/$TARGET/gac"
-
-echo checking gac compiler... $GAC
-
-if ! test -e "$GAC"; then
-    AC_ERROR([Could not find GAP compiler $GAC])
-fi
-AC_SUBST(GAC)
-
-eval `grep '^c_[[a-z_]]*=' $GAC`
-
-AC_SUBST(c_compiler)
-AC_SUBST(c_options)
-AC_SUBST(c_linker)
-AC_SUBST(c_link_options)
-AC_SUBST(c_libs)
-AC_SUBST(c_dyn_options)
-AC_SUBST(c_dyn_linker)
-AC_SUBST(c_dyn_linking)
-AC_SUBST(c_dynlibs)
-AC_SUBST(c_addlibs)
+case "$host" in
+  *-darwin* )
+  AC_DEFINE(SYS_IS_DARWIN, 1, are we on DARWIN?)
+  ;;
+  * )
+  AC_DEFINE(SYS_IS_DARWIN, 0, are we on DARWIN?)
+  ;;
+esac
 
 EXTERN="\$(CURDIR)/bin/$TARGET/extern"
-
-################################################################
-# gmp configuration
-
-eval `grep '^GMP_[[A-Z]]*=' "$GAPDIR/bin/$TARGET/config.log"`
-
-if ! test -f `echo "$GMP_CFLAGS" | cut -c3-`/gmp.h; then # broken install
-   GMP_CFLAGS="-I$GAPDIR/bin/$TARGET/extern/gmp/include"
-   GMP_LIBS="$GAPDIR/bin/$TARGET/extern/gmp/libgmp.a"
-fi
-
-AC_ARG_WITH(gmp,
- [  --with-gmp=<location>
-    Location at which the GMP library, needed for MPFR, was installed.
-    If the argument is omitted, then MPFR will use the version of gmp
-    included in the GAP distribution.
- ],
- [GMP_CFLAGS="-I$withval/include"; GMP_LDFLAGS="-L$withval/lib"; GMP_LIBS="-lgmp"]
-)
-
-AC_ARG_WITH(gmp-include,
- [  --with-gmp-include=<location>
-    Location at which the GMP include files were installed.],
- [GMP_CFLAGS="-I$withval"]
-)
-
-AC_ARG_WITH(gmp-lib,
- [  --with-gmp-lib=<location>
-    Location at which the GMP library files were installed.],
- [GMP_LDFLAGS="-L$withval"; GMP_LIBS="-lgmp"]
-)
-
-# check gmp presence
-CPPFLAGS="$CPPFLAGS $GMP_CFLAGS"
-GACFLAGS="$GACFLAGS -p $GMP_CFLAGS"
-AC_CHECK_HEADER(gmp.h,[],[AC_MSG_ERROR([library gmp not found. Specify its location using --with-gmp])],[])
-
-echo using gmp.h from `echo "$GMP_CFLAGS" | cut -c3-`
-
-AC_SUBST(GMP_CFLAGS)
-AC_SUBST(GMP_LDFLAGS)
-AC_SUBST(GMP_LIBS)
 
 ################################################################
 # Check for gsl library
@@ -192,7 +92,7 @@ else
         if test "$GSLINCLUDE" == ""; then GSLINCLUDE="$GSLDIR/include"; fi
 	if test "$GSLLIB" == ""; then GSLLIB="$GSLDIR/lib"; fi
 	CPPFLAGS="$CPPFLAGS -I$GSLINCLUDE"
-    	GACFLAGS="$GACFLAGS -p -I$GSLINCLUDE"
+    	GAP_CPPFLAGS="$GAP_CPPFLAGS -I$GSLINCLUDE"
         LIBS="$LIBS -L$GSLLIB"
     fi
     AC_CHECK_HEADER(gsl/gsl_vector.h,[],[AC_MSG_ERROR([library gsl not found. Specify its location using --with-gsl])],[])
@@ -203,10 +103,10 @@ else
 fi
 
 if test "$GSLLIB" != ""; then
-    GACFLAGS="$GACFLAGS -L -L$GSLLIB -L -Wl,-rpath,$GSLLIB"
+    LIBS="$GAP_LDFLAGS -L$GSLLIB -Wl,-rpath,$GSLLIB"
 fi
 
-GACFLAGS="$GACFLAGS -L -lgsl -L -lgslcblas"
+LIBS="$LIBS -lgsl -lgslcblas"
 
 ################################################################
 # external programs configuration
@@ -238,39 +138,19 @@ else
     JAVABUILD="java/javaplot.class java/javaview.jar"
 fi
 AC_SUBST(JAVABUILD)
-AC_SUBST(GACFLAGS)
 AC_SUBST(LIBS)
 AC_SUBST(LIB_TARGET)
 
 ################################################################
 # generate files
 
-WITHGMP=""
-INCLGMP=""
-LINKGMP=""
-if test "$GMPDIR" != ""; then
-   WITHGMP="$WITHGMP --with-gmp=$GMPDIR"
-fi
-if test "$GMPINCLUDE" != ""; then
-   WITHGMP="$WITHGMP --with-gmp-include=$GMPINCLUDE"
-   INCLGMP="-I$GMPINCLUDE"
-fi
-if test "$GMPLIB" != ""; then
-   WITHGMP="$WITHGMP --with-gmp-lib=$GMPLIB"
-   LINKGMP="-L$GMPLIB"
-fi
+mkdir -p bin/$GAPARCH
+CONFIG_STATUS=bin/$GAPARCH/config.status
 
-AC_SUBST(WITHGMP)
-AC_SUBST(INCLGMP)
-AC_SUBST(LINKGMP)
+AC_CONFIG_FILES([$GAP_MAKEFILE:cnf/Makefile.in])
 
-mkdir -p bin/$TARGET
-CONFIG_STATUS=bin/$TARGET/config.status
-
-AC_CONFIG_FILES([$MAKEFILE:cnf/Makefile.in])
-
-if test "$MAKEFILE" != Makefile; then
-    ln -sf "$MAKEFILE" Makefile
+if test "$GAP_MAKEFILE" != Makefile; then
+    ln -sf "$GAP_MAKEFILE" Makefile
 fi
 
 AC_CONFIG_SUBDIRS(hurwitz)

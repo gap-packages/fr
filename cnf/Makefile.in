@@ -15,14 +15,12 @@
 
 .PHONY: all lib doc clean distribute mrproper wwwdir checkblocks tarballs hurwitz
 
-LOCALBIN=bin/@TARGET@
-EXTERN=$(CURDIR)/bin/@TARGET@/extern
+LOCALBIN=bin/@GAPARCH@
+EXTERN=$(CURDIR)/bin/@GAPARCH@/extern
 
-CFLAGS=@CFLAGS@ -fPIC -std=c99 -Wall -I@GAPDIR@ -I@GAPDIR@/$(LOCALBIN) @GMP_CFLAGS@
-CC=@CC@ $(CFLAGS)
+MYCC=./libtool --mode=compile @CC@ $(CFLAGS) @CFLAGS@ @GAP_CPPFLAGS@ -std=c99 -g -Wall
+MYLD=./libtool --mode=link @CC@ $(CFLAGS) -g
 JAVAC=@JAVAC@
-GAPPROG=@GAPPROG@
-GAC=@GAC@
 GSLLIB=gsl-1.15
 
 all: $(LOCALBIN) @LIB_TARGET@ $(LOCALBIN)/fr_dll.so @JAVABUILD@ hurwitz
@@ -44,7 +42,7 @@ gsllib: extern/$(GSLLIB).tar.gz
 	    rm -rf $(GSLLIB) && \
 	    tar -x -f $(GSLLIB).tar.gz -z && \
 	    cd $(GSLLIB) && \
-	    ./configure --prefix=$(EXTERN) CFLAGS="$(CFLAGS) @c_options@" && \
+	    ./configure --prefix=$(EXTERN) && \
 	    $(MAKE) && \
 	    $(MAKE) install; \
 	fi
@@ -54,20 +52,18 @@ distribute: wwwdir doc tarballs
 $(LOCALBIN):
 	mkdir -p $(LOCALBIN)
 
-$(LOCALBIN)/rpoly.o: src/rpoly.c src/poly.h
-	$(CC) -c $< -o $@
+$(LOCALBIN)/rpoly.lo: src/rpoly.c src/poly.h
+	$(MYCC) -c $< -o $@
 
-$(LOCALBIN)/p1.o: src/p1.c src/cpoly.C src/fr_dll.h
-	$(CC) -c $< -o $@ -DCONFIG_H
+$(LOCALBIN)/p1.lo: src/p1.c src/cpoly.C src/fr_dll.h
+	$(MYCC) -c $< -o $@ -DCONFIG_H
 
-$(LOCALBIN)/fr_dll.o: src/fr_dll.c src/cpoly.C src/fr_dll.h
-	$(CC) -c $< -o $@ -DCONFIG_H
+$(LOCALBIN)/fr_dll.lo: src/fr_dll.c src/cpoly.C src/fr_dll.h
+	$(MYCC) -c $< -o $@ -DCONFIG_H
 
-$(LOCALBIN)/findrat.o: src/findrat.c src/fr_dll.h
-	$(CC) -c $< -o $@ -DCONFIG_H
-
-$(LOCALBIN)/fr_dll.so: $(LOCALBIN)/fr_dll.o $(LOCALBIN)/findrat.o $(LOCALBIN)/rpoly.o $(LOCALBIN)/p1.o
-	$(GAC) -d -o $@ $+ @GACFLAGS@
+$(LOCALBIN)/fr_dll.so: $(LOCALBIN)/fr_dll.lo $(LOCALBIN)/rpoly.lo $(LOCALBIN)/p1.lo
+	$(MYLD) -module -o $(LOCALBIN)/fr_dll.la $+ -lgsl -rpath $(PWD)/$(LOCALBIN)
+	cp $(LOCALBIN)/.libs/fr_dll.so $@
 
 java/javaplot.class: src/javaplot.java
 	$(JAVAC) -cp java/javaview.jar $< -d java
@@ -81,12 +77,12 @@ clean:
 	rm -rf .version config.log $(LOCALBIN) `find doc -type l`
 	make -C hurwitz clean
 
-configure: cnf/Makefile.in cnf/configure.ac
-	(cd cnf; autoconf; mv -f configure ..)
-
 mrproper: clean
 	rm Makefile
-	rm hurwitz/Makefile
+	make -C hurwitz mrproper
+
+configure: cnf/Makefile.in cnf/configure.ac
+	(cd cnf; aclocal -Im4; autoconf; mv -f configure ..)
 
 .version: PackageInfo.g
 	grep '^Version :=' $< | awk -F'"' '{print $$2}' > $@
@@ -96,7 +92,7 @@ doc: doc/chap0.html
 doc/chap0.html: doc/fr.xml doc/frbib.xml gap/algebra.gd gap/frelement.gd \
 	gap/group.gd gap/img.gd gap/perlist.gd gap/vector.gd gap/examples.gd \
 	gap/frmachine.gd gap/helpers.gd gap/mealy.gd gap/trans.gd
-	echo 'LoadPackage("fr"); DOC@FR();' | $(GAPPROG) -r -q
+	echo 'LoadPackage("fr"); DOC@FR();' | @GAP_EXEC@ -r -q
 	(cd doc; git add *.html manual.pdf manual.css; git commit -m 'New html files'; git push github master:gh-pages)
 
 checkblocks:

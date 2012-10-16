@@ -12,4 +12,7 @@ $(LOCALBIN)/hsolve: hsolve.C
 	$(CXX) @LEVMARINCLUDE@ $< -o $@ @LDHSOLVE@
 
 clean:
-	rm -rf hsolve layout *.dSYM Makefile config.h
+	rm -rf hsolve layout *.dSYM
+
+mrproper:
+	rm Makefile config.h
