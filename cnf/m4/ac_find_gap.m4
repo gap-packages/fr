@@ -106,7 +106,7 @@ AC_DEFUN([AC_FIND_GAP],
     AC_MSG_ERROR([Unable to find plausible GAParch information.])
   fi  
 
-  GAPARCH_SYSTEM_GUESS="`cnf/config.guess`-$CC-`echo $GAPARCH | sed 's/.*-//'`"
+  GAPARCH_SYSTEM_GUESS="`$ac_aux_dir/config.guess`-$CC-`echo $GAPARCH | sed 's/.*-//'`"
   if test "$GAPARCH_SYSTEM_GUESS" != "$GAParch_system"; then
     echo "********************************************************************"
     AC_WARN([The guessed target $GAPARCH_SYSTEM_GUESS is not the gap target $GAParch_system. Cross your fingers])

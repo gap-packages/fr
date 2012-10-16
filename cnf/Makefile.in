@@ -83,6 +83,7 @@ mrproper: clean
 
 configure: cnf/Makefile.in cnf/configure.ac
 	(cd cnf; aclocal -Im4; autoconf; mv -f configure ..)
+	make -C hurwitz configure
 
 .version: PackageInfo.g
 	grep '^Version :=' $< | awk -F'"' '{print $$2}' > $@

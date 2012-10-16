@@ -603,9 +603,12 @@ CHOLMODINCLUDE
 EGREP
 GREP
 CPP
-TARGET
+GMP_ROOT
+GAP_EXEC
+GAP_CPPFLAGS
+GAPROOT
+GAPARCH
 CONFIGNAME
-GAPDIR
 target_os
 target_vendor
 target_cpu
@@ -669,6 +672,8 @@ SHELL'
 ac_subst_files=''
 ac_user_opts='
 enable_option_checking
+with_gaproot
+with_gaparch
 with_cholmod
 with_cholmod_include
 with_cholmod_lib
@@ -690,7 +695,6 @@ CPPFLAGS
 CXX
 CXXFLAGS
 CCC
-GAPDIR
 CONFIGNAME
 CPP'
 
@@ -1307,6 +1311,8 @@ if test -n "$ac_init_help"; then
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+  --with-gaproot=<path>   specify root of GAP installation
+  --with-gaparch=<path>   override GAP architecture string
   --with-cholmod=<location>
     Location at which the cholmod library, needed for layout, was installed.
   --with-cholmod-include=<location>
@@ -1339,8 +1345,9 @@ Some influential environment variables:
               you have headers in a nonstandard directory <include dir>
   CXX         C++ compiler command
   CXXFLAGS    C++ compiler flags
-  GAPDIR      Location of the GAP root directory, e.g. ../..
-  CONFIGNAME  Name of GAP build configuration
+  CONFIGNAME  Set this to the CONFIGNAME of the GAP compilation against which
+              you want to compile this package. Leave this variable empty for
+              GAP versions < 4.5.
   CPP         C preprocessor
 
 Use these variables to override the choices made by `configure' or to help
@@ -3286,50 +3293,216 @@ test -n "$target_alias" &&
 ################################################################
 # check for GAP
 
+  ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
-if test -z "$GAPDIR"; then
-    for dir in ../../.. /Applications/gap4r5 /usr/local/src/gap /usr/local/gap; do
-	if test -f $dir/sysinfo.gap; then
-	    GAPDIR=$dir
-	    break
-	fi
-    done
+
+  # Make sure CDPATH is portably set to a sensible value
+  CDPATH=${ZSH_VERSION+.}:
+
+  GAP_CPPFLAGS=""
+
+  #Allow the user to specify a configname:
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for CONFIGNAME" >&5
+$as_echo_n "checking for CONFIGNAME... " >&6; }
+
+  if test "x$CONFIGNAME" = "x"; then
+    SYSINFO="sysinfo.gap"
+    GAP_MAKEFILE="Makefile"
+    GAP_EXEC="gap.sh"
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: none" >&5
+$as_echo "none" >&6; }
+  else
+    SYSINFO="sysinfo.gap-$CONFIGNAME"
+    GAP_MAKEFILE="Makefile-$CONFIGNAME"
+    GAP_EXEC="gap-$CONFIGNAME.sh"
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $CONFIGNAME" >&5
+$as_echo "$CONFIGNAME" >&6; }
+  fi
+
+  ######################################
+  # Find the GAP root directory by
+  # checking for the sysinfo.gap file
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for GAP root directory" >&5
+$as_echo_n "checking for GAP root directory... " >&6; }
+  DEFAULT_GAPROOTS="../.. /usr/local/src/gap /usr/local/gap4r5"
+
+  #Allow the user to specify the location of GAP
+  #
+
+# Check whether --with-gaproot was given.
+if test "${with_gaproot+set}" = set; then :
+  withval=$with_gaproot; DEFAULT_GAPROOTS="$withval"
 fi
 
 
-if test -n "$CONFIGNAME"; then
-    SYSINFO="$GAPDIR/sysinfo.gap-$CONFIGNAME"
-    MAKEFILE="Makefile-$CONFIGNAME"
-    GAPPROG="$GAPDIR/bin/gap-$CONFIGNAME.sh"
-else
-    SYSINFO="$GAPDIR/sysinfo.gap"
-    MAKEFILE="Makefile"
-    GAPPROG="$GAPDIR/bin/gap.sh"
+  havesysinfo=0
+  # Otherwise try likely directories
+  for GAPROOT in ${DEFAULT_GAPROOTS}
+  do
+    # Convert the path to absolute
+    GAPROOT=`cd $GAPROOT > /dev/null 2>&1 && pwd`
+    if test -e ${GAPROOT}/${SYSINFO}; then
+      havesysinfo=1
+      break
+    fi
+  done
+
+  if test "x$havesysinfo" = "x1"; then
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${GAPROOT}" >&5
+$as_echo "${GAPROOT}" >&6; }
+  else
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: Not found" >&5
+$as_echo "Not found" >&6; }
+
+    echo ""
+    echo "********************************************************************"
+    echo "  ERROR"
+    echo ""
+    echo "  Cannot find your GAP installation. Please specify the location of"
+    echo "  GAP's root directory using --with-gaproot=<path>"
+    echo ""
+    echo "  The GAP root directory (as far as this package is concerned) is"
+    echo "  the one containing the file sysinfo.gap and the subdirectories "
+    echo "  src/ and bin/."
+    echo "********************************************************************"
+    echo ""
+
+    as_fn_error "Unable to find GAP root directory" "$LINENO" 5
+  fi
+
+  #####################################
+  # Now find the architecture
+
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for GAP architecture" >&5
+$as_echo_n "checking for GAP architecture... " >&6; }
+  GAPARCH="Unknown"
+  . $GAPROOT/$SYSINFO
+  if test "x$GAParch" != "x"; then
+    GAPARCH=$GAParch
+  fi
+
+
+# Check whether --with-gaparch was given.
+if test "${with_gaparch+set}" = set; then :
+  withval=$with_gaparch; GAPARCH=$withval
 fi
 
-if ! test -f "$SYSINFO"; then
-    as_fn_error "Could not locate the GAP root directory;
-        specify its location with './configure GAPDIR=DIR CONFIGNAME=NAME)'" "$LINENO" 5
-fi
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${GAPARCH}" >&5
+$as_echo "${GAPARCH}" >&6; }
 
-GAPDIR=`cd $GAPDIR && pwd` # make path absolute
+  if test "x$GAPARCH" = "xUnknown" -o ! -d $GAPROOT/bin/$GAPARCH ; then
+    echo ""
+    echo "********************************************************************"
+    echo "  ERROR"
+    echo ""
+    echo "  Found a GAP installation at $GAPROOT but could not find"
+    echo "  information about GAP's architecture in the"
+    echo "  file ${GAPROOT}/${SYSINFO} or did not find the directory"
+    echo "  ${GAPROOT}/bin/${GAPARCH}."
+    echo "  This file and directory should be present: please check your"
+    echo "  GAP installation."
+    echo "********************************************************************"
+    echo ""
+
+    as_fn_error "Unable to find plausible GAParch information." "$LINENO" 5
+  fi
+
+  GAPARCH_SYSTEM_GUESS="`$ac_aux_dir/config.guess`-$CC-`echo $GAPARCH | sed 's/.*-//'`"
+  if test "$GAPARCH_SYSTEM_GUESS" != "$GAParch_system"; then
+    echo "********************************************************************"
+    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: The guessed target $GAPARCH_SYSTEM_GUESS is not the gap target $GAParch_system. Cross your fingers" >&5
+$as_echo "$as_me: WARNING: The guessed target $GAPARCH_SYSTEM_GUESS is not the gap target $GAParch_system. Cross your fingers" >&2;}
+    echo "********************************************************************"
+  fi
+
+  #####################################
+  # Now check for the GAP header files
+
+  bad=0
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for GAP include files" >&5
+$as_echo_n "checking for GAP include files... " >&6; }
+  if test -r $GAPROOT/src/compiled.h; then
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $GAPROOT/src/compiled.h" >&5
+$as_echo "$GAPROOT/src/compiled.h" >&6; }
+  else
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: Not found" >&5
+$as_echo "Not found" >&6; }
+    bad=1
+  fi
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for GAP config.h" >&5
+$as_echo_n "checking for GAP config.h... " >&6; }
+  if test -r $GAPROOT/bin/$GAPARCH/config.h; then
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $GAPROOT/bin/$GAPARCH/config.h" >&5
+$as_echo "$GAPROOT/bin/$GAPARCH/config.h" >&6; }
+  else
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: Not found" >&5
+$as_echo "Not found" >&6; }
+    bad=1
+  fi
+
+  if test "x$bad" = "x1"; then
+    echo ""
+    echo "********************************************************************"
+    echo "  ERROR"
+    echo ""
+    echo "  Failed to find the GAP source header files in src/ and"
+    echo "  GAP's config.h in the architecture dependend directory"
+    echo ""
+    echo "  The kernel build process expects to find the normal GAP "
+    echo "  root directory structure as it is after building GAP itself, and"
+    echo "  in particular the files"
+    echo "      <gaproot>/sysinfo.gap"
+    echo "      <gaproot>/src/<includes>"
+    echo "  and <gaproot>/bin/<architecture>/bin/config.h."
+    echo "  Please make sure that your GAP root directory structure"
+    echo "  conforms to this layout, or give the correct GAP root using"
+    echo "  --with-gaproot=<path>"
+    echo "********************************************************************"
+    echo ""
+    as_fn_error "Unable to find GAP include files in /src subdirectory" "$LINENO" 5
+  fi
+
+  ARCHPATH=$GAPROOT/bin/$GAPARCH
+  GAP_CPPFLAGS="-I$GAPROOT -I$ARCHPATH"
+
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for GAP's gmp.h location" >&5
+$as_echo_n "checking for GAP's gmp.h location... " >&6; }
+  if test -r "$ARCHPATH/extern/gmp/include/gmp.h"; then
+    GAP_CPPFLAGS="$GAP_CPPFLAGS -I$ARCHPATH/extern/gmp/include"
+    GMP_ROOT="$ARCHPATH/extern/gmp"
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ARCHPATH/extern/gmp/include/gmp.h" >&5
+$as_echo "$ARCHPATH/extern/gmp/include/gmp.h" >&6; }
+  elif `grep -q 'define USE_GMP 1' $ARCHPATH/config.h`; then
+    eval `grep '^GMP_CFLAGS=' $GAPROOT/$GAP_MAKEFILE`
+    GAP_CPPFLAGS="$GAP_CPPFLAGS $GMP_CFLAGS"
+    GMP_ROOT=`echo "$GMP_CFLAGS" | cut -c3- | sed 's,/include$,,'`
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $GMP_ROOT/include/gmp.h" >&5
+$as_echo "$GMP_ROOT/include/gmp.h" >&6; }
+  else
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: not found, GAP was compiled without GMP" >&5
+$as_echo "not found, GAP was compiled without GMP" >&6; }
+  fi
+
+  GAP_EXEC="$GAPROOT/bin/$GAP_EXEC"
 
 
-. "$SYSINFO"
-TARGET="$GAParch"
-
-echo checking target... "$TARGET"
-
-XTARGET="`../cnf/config.guess`-$CC-`echo $TARGET | sed 's/.*-//'`"
-if test "$XTARGET" != "$GAParch_system"; then
-   { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: The guessed target $XTARGET is not the gap target $GAParch_system. Cross your fingers" >&5
-$as_echo "$as_me: WARNING: The guessed target $XTARGET is not the gap target $GAParch_system. Cross your fingers" >&2;}
-fi
 
 
-if ! test -d ../bin/$TARGET; then
-    as_fn_error "$TARGET should be the directory under bin/ to contain the executables; specify it with TARGET=..." "$LINENO" 5
-fi
+
+
+  ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
+
+mkdir -p ../bin/$GAPARCH
 
 ################################################################
 # check for cholmod library
@@ -4108,8 +4281,6 @@ fi
 if test "$LEVMARLIB" != ""; then
     LDHSOLVE="-L$LEVMARLIB $LDHSOLVE"
 fi
-
-
 
 
 

@@ -4,6 +4,7 @@ AC_PREREQ(2.61)
 AC_INIT(fr/hurwitz, 0.0, laurent.bartholdi@gmail.com)
 AC_CONFIG_HEADERS(config.h)
 AC_CONFIG_AUX_DIR(../cnf)
+AC_CONFIG_MACRO_DIR(../cnf/m4)
 
 AC_PROG_CC
 AC_PROG_CXX
@@ -11,50 +12,9 @@ AC_CANONICAL_TARGET
 
 ################################################################
 # check for GAP
-AC_ARG_VAR([GAPDIR], [Location of the GAP root directory, e.g. ../..])
+AC_FIND_GAP
 
-if test -z "$GAPDIR"; then
-    for dir in ../../.. /Applications/gap4r5 /usr/local/src/gap /usr/local/gap; do
-	if test -f $dir/sysinfo.gap; then
-	    GAPDIR=$dir
-	    break
-	fi
-    done
-fi
-
-AC_ARG_VAR([CONFIGNAME],[Name of GAP build configuration])
-if test -n "$CONFIGNAME"; then
-    SYSINFO="$GAPDIR/sysinfo.gap-$CONFIGNAME"
-    MAKEFILE="Makefile-$CONFIGNAME"
-    GAPPROG="$GAPDIR/bin/gap-$CONFIGNAME.sh"
-else
-    SYSINFO="$GAPDIR/sysinfo.gap"
-    MAKEFILE="Makefile"
-    GAPPROG="$GAPDIR/bin/gap.sh"
-fi
-
-if ! test -f "$SYSINFO"; then
-    AC_ERROR([Could not locate the GAP root directory;
-        specify its location with './configure GAPDIR=DIR [CONFIGNAME=NAME)]'])
-fi
-
-GAPDIR=`cd $GAPDIR && pwd` # make path absolute
-AC_SUBST(GAPDIR)
-
-. "$SYSINFO"
-TARGET="$GAParch"
-
-echo checking target... "$TARGET"
-
-XTARGET="`../cnf/config.guess`-$CC-`echo $TARGET | sed 's/.*-//'`"
-if test "$XTARGET" != "$GAParch_system"; then
-   AC_WARN([The guessed target $XTARGET is not the gap target $GAParch_system. Cross your fingers])
-fi
-AC_SUBST(TARGET)
-
-if ! test -d ../bin/$TARGET; then
-    AC_ERROR([$TARGET should be the directory under bin/ to contain the executables; specify it with TARGET=...])
-fi
+mkdir -p ../bin/$GAPARCH
 
 ################################################################
 # check for cholmod library
@@ -195,7 +155,5 @@ AC_SUBST(LEVMARINCLUDE)
 
 AC_SUBST(LDLAYOUT)
 AC_SUBST(LDHSOLVE)
-
-AC_SUBST(TARGET)
 
 AC_OUTPUT(Makefile)
