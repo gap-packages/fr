@@ -2,8 +2,6 @@
 
 <?LaTeX ExtraPreamble="\usepackage{graphicx}"?>
 
-<!-- $Id$ -->
-
 <!DOCTYPE Book SYSTEM "gapdoc.dtd"
  [ <!ENTITY see '<Alt Only="LaTeX">$\to$</Alt><Alt Not="LaTeX">--&tgt;</Alt>'>]>
 <Book Name="FR">
@@ -20,7 +18,7 @@
 		 <Alt Not="HTML">laurent.bartholdi@gmail.com</Alt></Email>
 	  <Homepage>http://www.uni-math.gwdg.de/laurent/</Homepage>
   </Author>
-  <Date>$Date$</Date>
+  <Date>16 October 2012</Date>
   <Address>
   Mathematisches Institut<Br/>Bunsenstraße 3-5<Br/>D-37073 Göttingen<Br/>Germany
   </Address>
