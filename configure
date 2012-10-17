@@ -12870,8 +12870,8 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
-lm_CFLAGS=$CFLAGS
-CFLAGS="$CFLAGS $LEVMAR_CFLAGS"
+lm_CPPFLAGS=$CPPFLAGS
+CPPFLAGS="$CPPFLAGS $LEVMAR_CFLAGS"
 ac_fn_c_check_header_mongrel "$LINENO" "levmar.h" "ac_cv_header_levmar_h" "$ac_includes_default"
 if test "x$ac_cv_header_levmar_h" = xyes; then :
 
@@ -12881,7 +12881,7 @@ The package may be downloaded from http://www.ics.forth.gr/~lourakis/levmar/" "$
 fi
 
 
-CFLAGS=$lm_CFLAGS
+CPPFLAGS=$lm_CPPFLAGS
 
 lm_LDFLAGS=$LDFLAGS
 LDFLAGS="$LDFLAGS $LEVMAR_LDFLAGS"
@@ -12891,7 +12891,7 @@ if ${ac_cv_lib_levmar_dlevmar_dif+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-llevmar -llapack -lblas $LIBS"
+LIBS="-llevmar -llapack -lblas -lm $LIBS"
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 

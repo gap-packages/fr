@@ -26,15 +26,15 @@ LEVMAR_LIBS="-llevmar -llapack -lblas"
 
 AC_LANG_PUSH([C])
 
-lm_CFLAGS=$CFLAGS
-CFLAGS="$CFLAGS $LEVMAR_CFLAGS"
+lm_CPPFLAGS=$CPPFLAGS
+CPPFLAGS="$CPPFLAGS $LEVMAR_CFLAGS"
 AC_CHECK_HEADER(levmar.h,,AC_MSG_ERROR([levmar.h not found. Specify its location using --with-levmar.
 The package may be downloaded from http://www.ics.forth.gr/~lourakis/levmar/]))
-CFLAGS=$lm_CFLAGS
+CPPFLAGS=$lm_CPPFLAGS
 
 lm_LDFLAGS=$LDFLAGS
 LDFLAGS="$LDFLAGS $LEVMAR_LDFLAGS"
-AC_CHECK_LIB(levmar,dlevmar_dif,,AC_MSG_ERROR([liblevmar not found. Specify its location using --with-levmar.]),[-llapack -lblas])
+AC_CHECK_LIB(levmar,dlevmar_dif,,AC_MSG_ERROR([liblevmar not found. Specify its location using --with-levmar.]),[-llapack -lblas -lm])
 LDFLAGS=$lm_LDFLAGS
 
 AC_LANG_POP([C])
