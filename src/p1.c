@@ -63,14 +63,17 @@ static ldcomplex p1map_eval (int deg, ldcomplex *numer, ldcomplex *denom, p1poin
  ****************************************************************/
 static p1point GET_P1POINT(Obj obj) {
   guarantee(IsP1Point, "P1 point", obj);
-  return * (p1point *) (ADDR_OBJ(obj)+1);
+  p1point p;
+  memcpy (&p, ADDR_OBJ(obj)+1, sizeof p);
+  return p;
 }
 
 static Obj NEW_P1POINT (p1point p)
 {
   Obj obj = NewBag(T_DATOBJ,sizeof(Obj)+sizeof p);
   SET_TYPE_DATOBJ(obj,TYPE_P1POINT);
-  * (p1point *) (ADDR_OBJ(obj)+1) = p;
+  memcpy (ADDR_OBJ(obj)+1, &p, sizeof p);
+  __asm__("int3");
   return obj;
 }
 
