@@ -4,6 +4,7 @@ AC_PREREQ(2.61)
 AC_INIT(fr/hurwitz, 0.0, laurent.bartholdi@gmail.com)
 AC_CONFIG_HEADERS(config.h)
 AC_CONFIG_AUX_DIR(../cnf)
+AC_CONFIG_MACRO_DIR(../cnf/m4)
 
 AC_PROG_CC
 AC_PROG_CXX
@@ -11,50 +12,9 @@ AC_CANONICAL_TARGET
 
 ################################################################
 # check for GAP
-AC_ARG_VAR([GAPDIR], [Location of the GAP root directory, e.g. ../..])
+AC_FIND_GAP
 
-if test -z "$GAPDIR"; then
-    for dir in ../../.. /Applications/gap4r5 /usr/local/src/gap /usr/local/gap; do
-	if test -f $dir/sysinfo.gap; then
-	    GAPDIR=$dir
-	    break
-	fi
-    done
-fi
-
-AC_ARG_VAR([CONFIGNAME],[Name of GAP build configuration])
-if test -n "$CONFIGNAME"; then
-    SYSINFO="$GAPDIR/sysinfo.gap-$CONFIGNAME"
-    MAKEFILE="Makefile-$CONFIGNAME"
-    GAPPROG="$GAPDIR/bin/gap-$CONFIGNAME.sh"
-else
-    SYSINFO="$GAPDIR/sysinfo.gap"
-    MAKEFILE="Makefile"
-    GAPPROG="$GAPDIR/bin/gap.sh"
-fi
-
-if ! test -f "$SYSINFO"; then
-    AC_ERROR([Could not locate the GAP root directory;
-        specify its location with './configure GAPDIR=DIR [CONFIGNAME=NAME)]'])
-fi
-
-GAPDIR=`cd $GAPDIR && pwd` # make path absolute
-AC_SUBST(GAPDIR)
-
-. "$SYSINFO"
-TARGET="$GAParch"
-
-echo checking target... "$TARGET"
-
-XTARGET="`../cnf/config.guess`-$CC-`echo $TARGET | sed 's/.*-//'`"
-if test "$XTARGET" != "$GAParch_system"; then
-   AC_WARN([The guessed target $XTARGET is not the gap target $GAParch_system. Cross your fingers])
-fi
-AC_SUBST(TARGET)
-
-if ! test -d ../bin/$TARGET; then
-    AC_ERROR([$TARGET should be the directory under bin/ to contain the executables; specify it with TARGET=...])
-fi
+mkdir -p ../bin/$GAPARCH
 
 ################################################################
 # check for cholmod library
@@ -125,35 +85,7 @@ AC_CHECK_LIB(dogleg,dogleg_optimize,,AC_MSG_ERROR([libdogleg not found. Specify 
 
 # check for levmar library
 
-AC_ARG_WITH(levmar,
- [  --with-levmar=<location>
-    Location at which the levmar library, needed for layout, was installed.],
- [LEVMARINCLUDE="-I$withval/include"; LEVMARLIB="$withval/lib"]
-)
-
-AC_ARG_WITH(levmar-include,
- [  --with-levmar-include=<location>
-    Location at which the levmar include files were installed.],
- [LEVMARINCLUDE="-I$withval"]
-)
-
-AC_ARG_WITH(levmar-lib,
- [  --with-levmar-lib=<location>
-    Location at which the levmar library files were installed.
- ],
- [LEVMARLIB="$withval"]
-)
-
-if test "$LEVMARINCLUDE" != ""; then
-    CPPFLAGS="$CPPFLAGS $LEVMARINCLUDE"
-fi
-AC_CHECK_HEADER(levmar.h,,AC_MSG_ERROR([levmar.h not found. Specify its location using --with-levmar.
-The package may be downloaded from http://www.ics.forth.gr/~lourakis/levmar/]))
-
-if test "$LEVMARLIB" != ""; then
-    LDFLAGS="$LDFLAGS -L$LEVMARLIB"
-fi
-AC_CHECK_LIB(levmar,dlevmar_dif,,AC_MSG_ERROR([liblevmar not found. Specify its location using --with-levmar.]),[-llapack -lblas])
+AC_CHECK_LEVMAR
 
 # check for standard C++ stuff
 
@@ -162,21 +94,12 @@ AC_CHECK_HEADERS(malloc.h)
 
 AC_CHECK_LIB(m,sincos,AC_DEFINE(HAVE_SINCOS,1,do we have sincos?))
 
-case "$host" in
-    *-darwin*)
-        AC_DEFINE(SYS_IS_DARWIN, 1, are we on DARWIN?)
-        SYS_IS_DARWIN=1
-        ;;
-    *)
-        AC_DEFINE(SYS_IS_DARWIN, 0, are we on DARWIN?)
-        SYS_IS_DARWIN=0
-        ;;
-esac
+AC_SYS_IS_CYGWIN
+AC_SYS_IS_DARWIN
 
 # hack to specify correct location of DLL, for Linux
 
 LDLAYOUT="-lcholmod -ldogleg"
-LDHSOLVE="-llevmar -llapack -lblas"
 
 if test "$CHOLMODLIB" != ""; then
     LDLAYOUT="-LCHOLMODLIB $LDLAYOUT"
@@ -185,17 +108,9 @@ if test "$LIBDOGLEGLIB" != ""; then
     LDLAYOUT="-L$LIBDOGLEGLIB -Wl,-rpath,$LIBDOGLEGLIB $LDLAYOUT"
 fi
 
-if test "$LEVMARLIB" != ""; then
-    LDHSOLVE="-L$LEVMARLIB $LDHSOLVE"
-fi
-
 AC_SUBST(CHOLMODINCLUDE)
 AC_SUBST(LIBDOGLEGINCLUDE)
-AC_SUBST(LEVMARINCLUDE)
 
 AC_SUBST(LDLAYOUT)
-AC_SUBST(LDHSOLVE)
-
-AC_SUBST(TARGET)
 
 AC_OUTPUT(Makefile)

@@ -1,4 +1,6 @@
 Makefile
+Makefile-*
+confdefs.h
 config.log
 www
 sandbox

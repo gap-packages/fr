@@ -1,7 +1,7 @@
 # Makefile for Hurwitz data programs
 
 CXX = g++ -ggdb
-LOCALBIN = ../bin/@TARGET@
+LOCALBIN = ../bin/@GAPARCH@
 
 all: $(LOCALBIN)/layout $(LOCALBIN)/hsolve
 
@@ -9,7 +9,14 @@ $(LOCALBIN)/layout: layout.C
 	$(CXX) @CHOLMODINCLUDE@ @LIBDOGLEGINCLUDE@ $< -o $@ @LDLAYOUT@
 
 $(LOCALBIN)/hsolve: hsolve.C
-	$(CXX) @LEVMARINCLUDE@ $< -o $@ @LDHSOLVE@
+	$(CXX) @LEVMAR_CFLAGS@ @LEVMAR_LDFLAGS@ $< -o $@ @LEVMAR_LIBS@
+
+configure: configure.ac Makefile.in
+	aclocal -I../cnf/m4
+	autoconf
 
 clean:
-	rm -rf hsolve layout *.dSYM Makefile config.h
+	rm -rf hsolve layout *.dSYM
+
+mrproper:
+	rm Makefile config.h
