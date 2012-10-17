@@ -9,7 +9,7 @@ $(LOCALBIN)/layout: layout.C
 	$(CXX) @CHOLMODINCLUDE@ @LIBDOGLEGINCLUDE@ $< -o $@ @LDLAYOUT@
 
 $(LOCALBIN)/hsolve: hsolve.C
-	$(CXX) @LEVMARINCLUDE@ $< -o $@ @LDHSOLVE@
+	$(CXX) @LEVMAR_CFLAGS@ @LEVMAR_LDFLAGS@ $< -o $@ @LEVMAR_LIBS@
 
 configure: configure.ac Makefile.in
 	aclocal -I../cnf/m4

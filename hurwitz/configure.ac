@@ -85,35 +85,7 @@ AC_CHECK_LIB(dogleg,dogleg_optimize,,AC_MSG_ERROR([libdogleg not found. Specify 
 
 # check for levmar library
 
-AC_ARG_WITH(levmar,
- [  --with-levmar=<location>
-    Location at which the levmar library, needed for layout, was installed.],
- [LEVMARINCLUDE="-I$withval/include"; LEVMARLIB="$withval/lib"]
-)
-
-AC_ARG_WITH(levmar-include,
- [  --with-levmar-include=<location>
-    Location at which the levmar include files were installed.],
- [LEVMARINCLUDE="-I$withval"]
-)
-
-AC_ARG_WITH(levmar-lib,
- [  --with-levmar-lib=<location>
-    Location at which the levmar library files were installed.
- ],
- [LEVMARLIB="$withval"]
-)
-
-if test "$LEVMARINCLUDE" != ""; then
-    CPPFLAGS="$CPPFLAGS $LEVMARINCLUDE"
-fi
-AC_CHECK_HEADER(levmar.h,,AC_MSG_ERROR([levmar.h not found. Specify its location using --with-levmar.
-The package may be downloaded from http://www.ics.forth.gr/~lourakis/levmar/]))
-
-if test "$LEVMARLIB" != ""; then
-    LDFLAGS="$LDFLAGS -L$LEVMARLIB"
-fi
-AC_CHECK_LIB(levmar,dlevmar_dif,,AC_MSG_ERROR([liblevmar not found. Specify its location using --with-levmar.]),[-llapack -lblas])
+AC_CHECK_LEVMAR
 
 # check for standard C++ stuff
 
@@ -122,21 +94,12 @@ AC_CHECK_HEADERS(malloc.h)
 
 AC_CHECK_LIB(m,sincos,AC_DEFINE(HAVE_SINCOS,1,do we have sincos?))
 
-case "$host" in
-    *-darwin*)
-        AC_DEFINE(SYS_IS_DARWIN, 1, are we on DARWIN?)
-        SYS_IS_DARWIN=1
-        ;;
-    *)
-        AC_DEFINE(SYS_IS_DARWIN, 0, are we on DARWIN?)
-        SYS_IS_DARWIN=0
-        ;;
-esac
+AC_SYS_IS_CYGWIN
+AC_SYS_IS_DARWIN
 
 # hack to specify correct location of DLL, for Linux
 
 LDLAYOUT="-lcholmod -ldogleg"
-LDHSOLVE="-llevmar -llapack -lblas"
 
 if test "$CHOLMODLIB" != ""; then
     LDLAYOUT="-LCHOLMODLIB $LDLAYOUT"
@@ -145,15 +108,9 @@ if test "$LIBDOGLEGLIB" != ""; then
     LDLAYOUT="-L$LIBDOGLEGLIB -Wl,-rpath,$LIBDOGLEGLIB $LDLAYOUT"
 fi
 
-if test "$LEVMARLIB" != ""; then
-    LDHSOLVE="-L$LEVMARLIB $LDHSOLVE"
-fi
-
 AC_SUBST(CHOLMODINCLUDE)
 AC_SUBST(LIBDOGLEGINCLUDE)
-AC_SUBST(LEVMARINCLUDE)
 
 AC_SUBST(LDLAYOUT)
-AC_SUBST(LDHSOLVE)
 
 AC_OUTPUT(Makefile)

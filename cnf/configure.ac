@@ -33,80 +33,15 @@ AC_C_INLINE
 # Locates GAP
 AC_FIND_GAP
 
-# Finds if DOS/MacOSX install
-AC_CYGWIN
-AM_CONDITIONAL([SYS_IS_CYGWIN], [test "$CYGWIN" = "yes"])
-if test "$CYGWIN" = "yes"; then
-  AC_DEFINE(SYS_IS_CYGWIN32, 1, are we on CYGWIN?)
-else
-  AC_DEFINE(SYS_IS_CYGWIN32, 0, are we on CYGWIN?)
-fi
-
-case "$host" in
-  *-darwin* )
-  AC_DEFINE(SYS_IS_DARWIN, 1, are we on DARWIN?)
-  ;;
-  * )
-  AC_DEFINE(SYS_IS_DARWIN, 0, are we on DARWIN?)
-  ;;
-esac
-
-EXTERN="\$(CURDIR)/bin/$TARGET/extern"
+AC_SYS_IS_CYGWIN
+AC_SYS_IS_DARWIN
 
 ################################################################
-# Check for gsl library
-
+# external libraries configuration
+EXTERN="\$(CURDIR)/bin/$TARGET/extern"
 LIB_TARGET=""
 
-GSLDIR="yes"
-GSLINCLUDE=""
-GSLLIB=""
-AC_ARG_WITH(gsl,
- [  --with-gsl=<path>|yes|extern
-    Location at which the GSL library was installed.
-    If the argument is omitted, the library is assumed to be reachable
-    under the standard search path (/usr, /usr/local,...).  Otherwise
-    you must give the <path> to the directory which contains the
-    library. The special value "extern", which is the default, asks Float
-    to compile a version of gsl in the subdirectory extern/.
- ],
- [GSLDIR="$withval"]
-)
-
-AC_ARG_WITH(gsl-include,
- [  --with-gsl-include=<location>
-    Location at which the GSL include files were installed.],
- [GSLINCLUDE="$withval"]
-)
-
-AC_ARG_WITH(gsl-lib,
- [  --with-gsl-lib=<location>
-    Location at which the GSL library files were installed.],
- [GSLLIB="$withval"]
-)
-
-if test "$GSLDIR" = extern; then
-    LIB_TARGET="$LIB_TARGET gsllib"
-else
-    if test "$GSLDIR" != yes; then
-        if test "$GSLINCLUDE" == ""; then GSLINCLUDE="$GSLDIR/include"; fi
-	if test "$GSLLIB" == ""; then GSLLIB="$GSLDIR/lib"; fi
-	CPPFLAGS="$CPPFLAGS -I$GSLINCLUDE"
-    	GAP_CPPFLAGS="$GAP_CPPFLAGS -I$GSLINCLUDE"
-        LIBS="$LIBS -L$GSLLIB"
-    fi
-    AC_CHECK_HEADER(gsl/gsl_vector.h,[],[AC_MSG_ERROR([library gsl not found. Specify its location using --with-gsl])],[])
-    AC_CHECK_LIB([gsl],[gsl_multiroot_fsolver_set],,
-	[AC_ERROR([The GSL library could not be found. It is needed for IMG calculations.])],[-lgslcblas])
-    AC_CHECK_LIB([gslcblas],[cblas_ctrmv],,
-        [AC_ERROR([The GSL CBlas library could not be found. It is needed for IMG calculations.])])
-fi
-
-if test "$GSLLIB" != ""; then
-    LIBS="$GAP_LDFLAGS -L$GSLLIB -Wl,-rpath,$GSLLIB"
-fi
-
-LIBS="$LIBS -lgsl -lgslcblas"
+AC_CHECK_LEVMAR
 
 ################################################################
 # external programs configuration

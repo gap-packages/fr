@@ -1704,20 +1704,12 @@ BindGlobal("NORMALIZINGMAP@", function(points,oldpoints)
         fi;
     fi;
     
-    prec := 1.e-10_l; # no sense in seeking more precision; maybe less?
+    prec := 1.e-10_l; # field is currently ignored
     start := [0._l,0._l,0._l];
     rpoints := List(points,p->List(SphereP1(p),x->NewFloat(IsIEEE754FloatRep,x)));
-    while true do
-        barycenter := FIND_BARYCENTER(rpoints,start,100,prec);
-        if IsString(barycenter) then
-            prec := 2._l*prec;
-            while prec>0.001_l do # this is hopeless. we got stuck.
-                Error("FIND_BARYCENTER returned '",barycenter,"'. Repent.");
-            od;
-        else
-            break;
-        fi;
-    od;
+    barycenter := FIND_BARYCENTER(rpoints,start,100,prec);
+    Info(InfoFR,3,"Barycenter returned ",barycenter[2]," in ",barycenter[3]," iterations");
+    
     barycenter := List(barycenter[1],x->NewFloat(@.isr,x));
     
     dilate := Sqrt(barycenter^2);
