@@ -275,9 +275,7 @@ my_free_hook (void *ptr, const void *caller)
 }
 #endif
 
-#define bpoints (((bparams *) param)->points)
-
-static int barycenter (const gsl_vector *x, void *param, gsl_vector *f)
+static void barycenter (const double x[], double y[], int m, int n, const bparams *param)
 {
   /* x is a "shifting" parameter; it is a vector in R^3, and
      describes the M\"obius transformation with north-south dynamics.
@@ -288,29 +286,26 @@ static int barycenter (const gsl_vector *x, void *param, gsl_vector *f)
      The M\"obius transformation is 
   */
   int i, j;
-  const int n = ((bparams *) param)->n;
-  long double v[3];
+  long double v[3]; /* a little extra precision */
 
-  for (i = 0; i < 3; i++) v[i] = gsl_vector_get (x, i);
+  for (i = 0; i < 3; i++) v[i] = x[i];
   long double t = sqrtl(v[0]*v[0] + v[1]*v[1] + v[2]*v[2]);
   long double sum[3] = { 0.0, 0.0, 0.0 };
 
-  for (j = 0; j < n; j++) {
+  for (j = 0; j < param->n; j++) {
     long double x[3], z = 0.0;
 
     for (i = 0; i < 3; i++) /* z = v*P */
-      z += bpoints[j][i] * v[i];
+      z += param->points[j][i] * v[i];
 
     long double d = 1.0 + (1.0-t)*(1.0-t) + (2.0 - t)*z;
     for (i = 0; i < 3; i++)
-      x[i] = (2.0*(1.0-t)*bpoints[j][i] + (2.0-t+z)*v[i]) / d;
+      x[i] = (2.0*(1.0-t)*param->points[j][i] + (2.0-t+z)*v[i]) / d;
 
     for (i = 0; i < 3; i++) sum[i] += x[i];
   }
 
-  for (i = 0; i < 3; i++) gsl_vector_set (f, i, sum[i] / n);
-
-  return GSL_SUCCESS;
+  for (i = 0; i < 3; i++) y[i] = sum[i] / param->n;
 }
 
 /* given a set of points on S^2 \subset R^3, there is, up to rotations
@@ -352,6 +347,8 @@ static int barycenter (const gsl_vector *x, void *param, gsl_vector *f)
    This is also proven in <Cite Ref="MR2121737">.
 */
 
+#include <levmar.h>
+
 static Obj FIND_BARYCENTER (Obj self, Obj gap_points, Obj gap_init, Obj gap_iter, Obj gap_tol)
 {
 #ifdef MALLOC_HACK
@@ -364,121 +361,37 @@ static Obj FIND_BARYCENTER (Obj self, Obj gap_points, Obj gap_init, Obj gap_iter
   UInt i, j, n = LEN_PLIST(gap_points);
 
   Double __points[n][3];
-  bparams bparam = { n, __points };
+  bparams param = { n, __points };
   
   for (i = 0; i < n; i++)
     for (j = 0; j < 3; j++)
-      bparam.points[i][j] = VAL_FLOAT(ELM_PLIST(ELM_PLIST(gap_points,i+1),j+1));
+      param.points[i][j] = VAL_FLOAT(ELM_PLIST(ELM_PLIST(gap_points,i+1),j+1));
 
-  const gsl_multiroot_fsolver_type *T;
-  gsl_multiroot_fsolver *s;
-
-  int status;
-  size_t iter = 0, max_iter = INT_INTOBJ(gap_iter);
+  int iter, max_iter = INT_INTOBJ(gap_iter);
   double precision = VAL_FLOAT(gap_tol);
+  double info[LM_INFO_SZ];
 
-  gsl_multiroot_function f = {&barycenter, 3, &bparam};
-  gsl_vector *x = gsl_vector_alloc (3);
+  Double x[3];
 
-  for (i = 0; i < 3; i++) gsl_vector_set (x, i, VAL_FLOAT(ELM_PLIST(gap_init,i+1)));
+  for (i = 0; i < 3; i++) x[i] = VAL_FLOAT(ELM_PLIST(gap_init,i+1));
 
-  T = gsl_multiroot_fsolver_hybrids;
-  s = gsl_multiroot_fsolver_alloc (T, 3);
-  gsl_multiroot_fsolver_set (s, &f, x);
+  iter = dlevmar_dif ((void (*)(double*, double*, int, int, void*)) barycenter,
+		      (double*) x, NULL, 3, 3, max_iter, NULL, info, NULL, NULL, (void *) &param);
 
-  do {
-    iter++;
-    status = gsl_multiroot_fsolver_iterate (s);
-
-    if (status)   /* check if solver is stuck */
-      break;
-
-    status = gsl_multiroot_test_residual (s->f, precision);
-  }
-  while (status == GSL_CONTINUE && iter < max_iter);
-
-  Obj result = ALLOC_PLIST(2);
+  Obj result = ALLOC_PLIST(3);
   Obj list = ALLOC_PLIST(3); set_elm_plist(result, 1, list);
   for (i = 0; i < 3; i++)
-    set_elm_plist(list, i+1, NEW_FLOAT(gsl_vector_get (s->x, i)));
-  list = ALLOC_PLIST(3); set_elm_plist(result, 2, list);
-  for (i = 0; i < 3; i++)
-    set_elm_plist(list, i+1, NEW_FLOAT(gsl_vector_get (s->f, i)));
-
-  gsl_multiroot_fsolver_free (s);
-  gsl_vector_free (x);
-
-  if (status != 0) {
-    const char *s = gsl_strerror (status);
-    C_NEW_STRING(result, strlen(s), s);
-  }
+    set_elm_plist(list, i+1, NEW_FLOAT(x[i]));
+  list = ALLOC_PLIST(LM_INFO_SZ); set_elm_plist(result, 2, list);
+  for (i = 0; i < LM_INFO_SZ; i++)
+    set_elm_plist(list, i+1, NEW_FLOAT(info[i]));
+  set_elm_plist(result, 3, INTOBJ_INT(iter));
 
 #ifdef MALLOC_HACK
   __malloc_hook = old_malloc_hook;
   __free_hook = old_free_hook;
 #endif
   return result;
-}
-
-/****************************************************************************
- * FIND_RATIONALFUNCTION solves the Hurwitz problem
- ****************************************************************************/
-static Obj FIND_RATIONALFUNCTION (Obj self, Obj gap_degrees, Obj gap_values, Obj gap_c, Obj gap_num, Obj gap_den, Obj params)
-{
-  size_t degree = 2, s;
-
-  s = LEN_PLIST(gap_degrees);
-
-  if (s != LEN_PLIST(gap_values)+3 || s != LEN_PLIST(gap_c)+3)
-    return Fail;
-
-  size_t d[s], i;
-  gsl_complex c[s-3], v[s];
-
-  for (i = 0; i < s; i++) {
-    d[i] = INT_INTOBJ(ELM_PLIST(gap_degrees,i+1));
-    degree += d[i]-1;
-    if (i < s-3) {
-      v[i] = VAL_GSL_COMPLEX(ELM_PLIST(gap_values,i+1));
-      c[i] = VAL_GSL_COMPLEX(ELM_PLIST(gap_c,i+1));
-    } else if (i == s-3)
-      GSL_SET_COMPLEX(v+i, 1.0, 0.0);
-    else if (i == s-2)
-      GSL_SET_COMPLEX(v+i, 0.0, 0.0);
-    else if (i == s-1)
-      GSL_SET_COMPLEX(v+i, HUGE_VAL, HUGE_VAL);
-  }
-  degree /= 2;
-
-  gsl_complex num_data[degree+1], den_data[degree+1];
-  polynomial num = { LEN_PLIST(gap_num)-1, num_data },
-    den = { LEN_PLIST(gap_den)-1, den_data };
-    
-  for (i = 0; i <= num.degree; i++)
-    num.data[i] = VAL_GSL_COMPLEX(ELM_PLIST(gap_num,i+1));
-  for (i = 0; i <= den.degree; i++)
-    den.data[i] = VAL_GSL_COMPLEX(ELM_PLIST(gap_den,i+1));
-    
-  int status = solve_hurwitz (degree, s, d, v, c, &num, &den,
-    INT_INTOBJ(ELM_PLIST(params,1)), VAL_FLOAT(ELM_PLIST(params,2)), VAL_FLOAT(ELM_PLIST(params,3)));
-
-  if (status != GSL_SUCCESS)
-    return INTOBJ_INT(status);
-
-  for (i = 0; i < s-3; i++)
-    set_elm_plist(gap_c,i+1, NEW_COMPLEX_GSL(c+i));
-
-  GROW_PLIST(gap_num, num.degree+1);
-  SET_LEN_PLIST(gap_num, num.degree+1);
-  for (i = 0; i <= num.degree; i++)
-    set_elm_plist(gap_num,i+1, NEW_COMPLEX_GSL(num.data+i));
-
-  GROW_PLIST(gap_den, den.degree+1);
-  SET_LEN_PLIST(gap_den, den.degree+1);
-  for (i = 0; i <= den.degree; i++)
-    set_elm_plist(gap_den,i+1, NEW_COMPLEX_GSL(den.data+i));
-
-  return INTOBJ_INT(status);
 }
 
 /****************************************************************************
@@ -493,7 +406,6 @@ static StructGVarFunc GVarFuncs [] = {
   { "REAL_ROOTS_FR", 1, "coeffs", REAL_ROOTS, "fr_dll.c:REAL_ROOTS" },
   { "NFFUNCTION_FR", 3, "rel, dir, word", NFFUNCTION, "fr_dll.c:NFFUNCTION" },
   { "FIND_BARYCENTER", 4, "points, init, iter, tol", FIND_BARYCENTER, "fr_dll.c:FIND_BARYCENTER" },
-  { "FIND_RATIONALFUNCTION", 6, "degrees, values, points, num, den, params", FIND_RATIONALFUNCTION, "fr_dll.c:FIND_RATIONALFUNCTION" },
   { 0 }
 };
 

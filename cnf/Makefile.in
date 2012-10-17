@@ -63,10 +63,7 @@ $(LOCALBIN)/p1.o: src/p1.c src/cpoly.C src/fr_dll.h
 $(LOCALBIN)/fr_dll.o: src/fr_dll.c src/cpoly.C src/fr_dll.h
 	$(CC) -c $< -o $@ -DCONFIG_H
 
-$(LOCALBIN)/findrat.o: src/findrat.c src/fr_dll.h
-	$(CC) -c $< -o $@ -DCONFIG_H
-
-$(LOCALBIN)/fr_dll.so: $(LOCALBIN)/fr_dll.o $(LOCALBIN)/findrat.o $(LOCALBIN)/rpoly.o $(LOCALBIN)/p1.o
+$(LOCALBIN)/fr_dll.so: $(LOCALBIN)/fr_dll.o $(LOCALBIN)/rpoly.o $(LOCALBIN)/p1.o
 	$(GAC) -d -o $@ $+ @GACFLAGS@
 
 java/javaplot.class: src/javaplot.java
