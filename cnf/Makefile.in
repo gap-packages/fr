@@ -28,18 +28,20 @@ all: $(LOCALBIN) @LIB_TARGET@ $(LOCALBIN)/fr_dll.so @JAVABUILD@ hurwitz
 
 lib: liblevmar libdogleg
 
-levmar:
-	if [ ! -f $(LEVMAR)/levmar.h ]; then
-		$(MAKE) -C $(LEVMAR) liblevmar.a CONFIGFLAGS=-fPIC
-		cp $(LEVMAR)/liblevmar.a $(EXTERN)/lib/
-		cp $(LEVMAR)/levmar.h $(EXTERN)/include/
+liblevmar:
+	mkdir -p $(EXTERN)/include $(EXTERN)/lib
+	if [ ! -f $(EXTERN)/include/levmar.h ]; then \
+		$(MAKE) -C $(LEVMAR) liblevmar.a CONFIGFLAGS=-fPIC; \
+		cp $(LEVMAR)/liblevmar.a $(EXTERN)/lib/; \
+		cp $(LEVMAR)/levmar.h $(EXTERN)/include/; \
 	fi
 
 libdogleg:
-	if [ ! -f $(LIBDOGLEG)/dogleg.h ]; then
-		$(MAKE) -C $(LIBDOGLEG)
-		cp $(LIBDOGLEG)/libdogleg.* $(EXTERN)/lib/
-		cp $(LIBDOGLEG)/dogleg.h $(EXTERN)/include/
+	mkdir -p $(EXTERN)/include $(EXTERN)/lib
+	if [ ! -f $(EXTERN)/include/dogleg.h ]; then \
+		$(MAKE) -C $(LIBDOGLEG); \
+		cp $(LIBDOGLEG)/libdogleg.* $(EXTERN)/lib/; \
+		cp $(LIBDOGLEG)/dogleg.h $(EXTERN)/include/; \
 	fi
 
 hurwitz:
