@@ -1,5 +1,0 @@
-FR requires external libraries for its DLL. The compilation script will
-download them automatically for you; they can also be fetched manually,
-using the commands
-
-wget http://ftpmirror.gnu.org/gsl/gsl-1.15.tar.gz

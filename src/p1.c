@@ -73,7 +73,6 @@ static Obj NEW_P1POINT (p1point p)
   Obj obj = NewBag(T_DATOBJ,sizeof(Obj)+sizeof p);
   SET_TYPE_DATOBJ(obj,TYPE_P1POINT);
   memcpy (ADDR_OBJ(obj)+1, &p, sizeof p);
-  __asm__("int3");
   return obj;
 }
 

@@ -26,3 +26,5 @@ doc/*.out
 doc/*.toc
 myconfigure
 .version
+*.a
+*.o
