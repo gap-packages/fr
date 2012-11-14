@@ -1829,7 +1829,7 @@ InstallMethod(IsAmenableGroup, [IsFreeGroup],
 BindGlobal("STRING_ATOM2GAP@", function(s)
     local stream, result;
     stream := InputTextString(Concatenation(s,";"));
-    result := READ_COMMAND(stream,true);
+    result := READ_COMMAND(stream,false);
     CloseStream(stream);
     return result;
 end);
