@@ -904,15 +904,6 @@ DeclareConstructor("LamplighterGroup",[IsFRGroup,IsGroup]);
 ##     ]]></Alt>
 ##   </Description>
 ## </ManSection>
-##
-## <ManSection>
-##   <Func Name="PoirierExamples" Arg="..."/>
-##   <Description>
-##     The examples from Poirier's paper <Cite Key="math.DS/9305207"/>.
-##     See details under <Ref Oper="PolynomialIMGMachine"/>; in particular,
-##     <C>PoirierExamples(1)</C> is the Douady rabbit map.
-##   </Description>
-## </ManSection>
 ## <#/GAPDoc>
 ##
 DeclareAttribute("KneadingSequence",IsFRGroup);
@@ -920,7 +911,6 @@ DeclareGlobalFunction("BinaryKneadingMachine");
 DeclareGlobalFunction("BinaryKneadingGroup");
 DeclareGlobalVariable("BasilicaGroup");
 DeclareGlobalVariable("FornaessSibonyGroup");
-DeclareGlobalFunction("PoirierExamples");
 #############################################################################
 
 #############################################################################

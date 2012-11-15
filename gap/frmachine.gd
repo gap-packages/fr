@@ -871,11 +871,43 @@ DeclareOperation("TreeWreathProduct", [IsFRMachine,IsFRMachine,IsObject,IsObject
 ## ]]></Example>
 ##   </Description>
 ## </ManSection>
+##
+## <ManSection>
+##   <Attr Name="AsGroupFRMachine" Arg="f" Label="endomorphism"/>
+##   <Attr Name="AsMonoidFRMachine" Arg="f" Label="endomorphism"/>
+##   <Attr Name="AsSemigroupFRMachine" Arg="f" Label="endomorphism"/>
+##   <Returns>An FR machine.</Returns>
+##   <Description>
+##     This function creates an FR machine on a 1-letter alphabet,
+##     that represents the endomorphism <A>f</A>. It is specially useful
+##     when combined with products of machines; indeed the usual product
+##     of machines corresponds to composition of endomorphisms.
+## <Example><![CDATA[
+## gap> f := FreeGroup(2);;
+## gap> h := GroupHomomorphismByImages(f,f,[f.1,f.2],[f.2,f.1*f.2]);
+## [ f1, f2 ] -> [ f2, f1*f2 ]
+## gap> m := AsGroupFRMachine(h);
+## <FR machine with alphabet [ 1 ] on Group( [ f1, f2 ] )>
+## gap> mm := TensorProduct(m,m);
+## <FR machine with alphabet [ 1 ] on Group( [ f1, f2 ] )>
+## gap> Display(mm);
+##  G  |         1
+## ----+------------+
+##  f1 |    f1*f2,1
+##  f2 | f2*f1*f2,1
+## ----+------------+
+## ]]></Example>
+##   </Description>
+## </ManSection>
 ## <#/GAPDoc>
 ##
 DeclareAttribute("AsGroupFRMachine", IsFRMachine);
 DeclareAttribute("AsMonoidFRMachine", IsFRMachine);
 DeclareAttribute("AsSemigroupFRMachine", IsFRMachine);
+
+DeclareAttribute("AsGroupFRMachine",IsGroupHomomorphism);
+DeclareAttribute("AsMonoidFRMachine",IsMagmaHomomorphism);
+DeclareAttribute("AsSemigroupFRMachine",IsMagmaHomomorphism);
 #############################################################################
 
 #############################################################################

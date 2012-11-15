@@ -36,29 +36,6 @@ DOC@fr();
 at the GAP prompt. The documentation will then be available in the `doc'
 subdirectory (view the file `manual.pdf' via a PDF viewer).
 
-An optional external module (DLL) provides floating-point functions used
-by the "iterated monodromy groups" part of FR. Its presence or absence
-does not affect the remainder of FR. To compile it, first make sure that
-your system has C and JAVA compilers. You will need some external libraries,
-in particular levmar and libdogleg. To install them:
-
-* on Linux, use a package-manager such as 'apt-get', 'rpm' if possible. On
-  debian/ubuntu systems, you will need libsuitesparse-dev.
-* on UNIX systems, install the libraries:
-  The dogleg library may be found at https://github.com/Oblong/libdogleg.git
-  The levmar library may be found at http://www.ics.forth.gr/~lourakis/levmar/levmar-2.6.tar.gz
-
-* on Mac OSX, use 'homebrew' (http://mxcl.github.com/homebrew/), and install the formulas by invoking
-  % brew install https://raw.github.com/laurentbartholdi/homebrew/levenberg-marquardt-lib/Library/Formula/levmar.rb 
-  % brew install https://raw.github.com/laurentbartholdi/homebrew/libdogleg/Library/Formula/libdogleg.rb
-
-* on Windows, use an appropriate UNIX-like environment such as cygwin, and follow the UNIX
-instructions.
-
-In all cases, then run
-
-'./configure && make' in FR's root directory.
-
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or any

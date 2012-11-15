@@ -17,28 +17,6 @@
 #R Read the install files.
 ##
 ReadPackage("fr", "gap/helpers.gi");
-ReadPackage("fr", "gap/complex.gi");
-ReadPackage("fr", "gap/p1.gi");
-ReadPackage("fr", "gap/p1_ieee754.gi");
-if @.dll then
-    SetP1Points(PMCOMPLEX);
-elif IsPackageMarkedForLoading("float","") then
-    if IsBound(MPC) then
-        SetP1Points(MPC,100);
-    elif IsBound(CXSC) then
-        SetP1Points(CXSC);
-    else
-        Info(InfoPackageLoading, 1, "You installed the Float package but compiled neither the Float nor the FR DLL. That's probably not what you wanted. I'll disable the P1Points code.");
-        @.ro := 1.0_l; # minimal defaults to shut up warnings -- won't be usable.
-        @.o := NewFloat(IsPMComplex,1);
-        @.reps := IEEE754FLOAT.constants.EPSILON;
-    fi;
-else
-    Info(InfoPackageLoading, 2, "You didn't install the Float package, and didn't compile the FR DLL. I'll disable the P1Points code.");
-    @.ro := 1.0_l; # minimal defaults to shut up warnings -- won't be usable.
-    @.o := NewFloat(IsPMComplex,1);
-    @.reps := IEEE754FLOAT.constants.EPSILON;
-fi;
 ReadPackage("fr", "gap/perlist.gi");
 ReadPackage("fr", "gap/trans.gi");
 ReadPackage("fr", "gap/frmachine.gi");
@@ -49,7 +27,6 @@ ReadPackage("fr", "gap/vhgroup.gi");
 ReadPackage("fr", "gap/vector.gi");
 ReadPackage("fr", "gap/linear.gi");
 ReadPackage("fr", "gap/algebra.gi");
-ReadPackage("fr", "gap/img.gi");
 ReadPackage("fr", "gap/examples.gi");
 #############################################################################
 

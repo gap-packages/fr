@@ -7,11 +7,11 @@
 SetPackageInfo( rec(
 PackageName := "FR",
 Subtitle := "Computations with functionally recursive groups",
-Version := "1.2.7.1",
+Version := "2.0.0",
 ## <#GAPDoc Label="Version">
-## 1.2.7.1
+## 2.0.0
 ## <#/GAPDoc>
-Date := "28/06/2012",
+Date := "15/11/2012",
 ArchiveURL := Concatenation("http://www.uni-math.gwdg.de/laurent/FR/fr-",~.Version),
 ArchiveFormats := ".tar.gz",
 Persons := [
@@ -60,12 +60,8 @@ Dependencies := rec(
                       ["GAPDoc",">=1.0"]],
   SuggestedOtherPackages := [["GBNP",">=0.9"],
                       ["NQ",">=2.4"],
-                      ["Float",">=0.4"],
                       ["NQL",">=0.10"]],
   # additional desired packages: graphviz, display
-
-  # for compilation of the external module, one needs:
-  # gcc, gfortran, libcblas, libgsl, javac, appletviewer.
   ExternalConditions := []
 ),
 
