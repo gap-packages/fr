@@ -2,8 +2,6 @@
 ##
 ##  PackageInfo.g for the package `FR'                    Laurent Bartholdi
 ##
-## $Id$
-##
 SetPackageInfo( rec(
 PackageName := "FR",
 Subtitle := "Computations with functionally recursive groups",
