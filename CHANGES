@@ -7,3 +7,5 @@
 0.857142 Submitted to GAP
 
 0.99 added solid IMG code
+
+2.0.0 Removed the Hurwitz stuff, now in separate package

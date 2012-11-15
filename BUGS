@@ -1,5 +1,4 @@
 These bugs will not be fixed in the short term:
-$Id$
 
 IsFiniteState	never detects loops or patterns in the states, if not f.s.
 
