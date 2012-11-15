@@ -101,16 +101,27 @@ BindGlobal("EXEC@", rec());
 CallFuncList(function(file)
     if file<>fail then Read(file); fi;
 end,[Filename(DirectoriesPackagePrograms("fr"),"files.g")]);
-BindGlobal("CHECKEXEC@", function(prog)
-    local s;
-
+BindGlobal("CHECKEXEC@", function(arg)
+    local prog, name;
+    prog := arg[1];
+    
     if IsBound(EXEC@.(prog)) then return; fi;
+    
+    if Length(arg)=1 then
+        name := prog;
+    else
+        name := arg[2]; # supplied default value for a generic command
+    fi;
 
-    s := Filename(DirectoriesSystemPrograms(), prog);
-    while s=fail do
+    name := Filename(DirectoriesSystemPrograms(), name);
+    while name=fail do
         Error("Could not find program \"",prog,"\" -- set manually EXEC@fr.",prog);
     od;
-    EXEC@.(prog) := s;
+    if Length(arg)=1 then
+        EXEC@.(prog) := name;
+    else
+        EXEC@.(prog) := JoinStringsWithSeparator(Concatenation([name],arg{[3..Length(arg)]})," ");
+    fi;
 end);
 
 BindGlobal("OUTPUTTEXTSTRING@", function(s)
@@ -158,9 +169,9 @@ BindGlobal("DOT2DISPLAY@", function(str,prog)
     
     CHECKEXEC@(prog);
     CHECKEXEC@("sh");
-    CHECKEXEC@("psviewer");
+    CHECKEXEC@("psviewer","display","-flatten -");
     if ValueOption("usesvg")<>fail or EXEC@.psviewer="false" then
-        CHECKEXEC@("rsvg-view");
+        CHECKEXEC@("svgviewer","svg-view","--stdin");
         command := Concatenation(EXEC@.(prog)," -Tsvg 2>/dev/null | ",EXEC@.svgviewer);
     else
         CHECKEXEC@("display");

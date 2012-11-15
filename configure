@@ -585,7 +585,8 @@ ac_unique_file="fr"
 ac_default_prefix=${PWD}
 ac_subst_vars='LTLIBOBJS
 LIBOBJS
-DISP
+SVGVIEWER
+PSVIEWER
 DOT
 SYS_IS_CYGWIN_FALSE
 SYS_IS_CYGWIN_TRUE
@@ -2958,12 +2959,12 @@ fi
 set dummy display; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
 $as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_path_DISP+:} false; then :
+if ${ac_cv_path_PSVIEWER+:} false; then :
   $as_echo_n "(cached) " >&6
 else
-  case $DISP in
+  case $PSVIEWER in
   [\\/]* | ?:[\\/]*)
-  ac_cv_path_DISP="$DISP" # Let the user override the test with a path.
+  ac_cv_path_PSVIEWER="$PSVIEWER" # Let the user override the test with a path.
   ;;
   *)
   as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
@@ -2973,7 +2974,7 @@ do
   test -z "$as_dir" && as_dir=.
     for ac_exec_ext in '' $ac_executable_extensions; do
   if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_path_DISP="$as_dir/$ac_word$ac_exec_ext"
+    ac_cv_path_PSVIEWER="$as_dir/$ac_word$ac_exec_ext"
     $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
     break 2
   fi
@@ -2984,10 +2985,97 @@ IFS=$as_save_IFS
   ;;
 esac
 fi
-DISP=$ac_cv_path_DISP
-if test -n "$DISP"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $DISP" >&5
-$as_echo "$DISP" >&6; }
+PSVIEWER=$ac_cv_path_PSVIEWER
+if test -n "$PSVIEWER"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $PSVIEWER" >&5
+$as_echo "$PSVIEWER" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+if test -n "$PSVIEWER"; then
+    PSVIEWER="$PSVIEWER -flatten -";
+else
+    # Extract the first word of "gv", so it can be a program name with args.
+set dummy gv; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_PSVIEWER+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $PSVIEWER in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_PSVIEWER="$PSVIEWER" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_PSVIEWER="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+PSVIEWER=$ac_cv_path_PSVIEWER
+if test -n "$PSVIEWER"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $PSVIEWER" >&5
+$as_echo "$PSVIEWER" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+    if test -n "$PSVIEWER"; then
+        PSVIEWER="$PSVIEWER -";
+    else
+	PSVIEWER=false;
+    	# Extract the first word of "rsvg-view", so it can be a program name with args.
+set dummy rsvg-view; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_SVGVIEWER+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $SVGVIEWER in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_SVGVIEWER="$SVGVIEWER" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_SVGVIEWER="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+SVGVIEWER=$ac_cv_path_SVGVIEWER
+if test -n "$SVGVIEWER"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $SVGVIEWER" >&5
+$as_echo "$SVGVIEWER" >&6; }
 else
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
@@ -2995,9 +3083,13 @@ fi
 
 
 
-if test -z "$DISP"; then
-    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: Could not find 'display' (debian package imagemagick)... you won't be able to draw automata" >&5
-$as_echo "$as_me: WARNING: Could not find 'display' (debian package imagemagick)... you won't be able to draw automata" >&2;}
+    	if test -n "$SVGVIEWER"; then
+            SVGVIEWER="$SVGVIEWER --stdin";
+	else
+	    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: Could not find 'display' (debian package imagemagick) or 'gv' (debian package gv) or 'rsvg-view' (debian package librsvg2-bin)... you won't be able to draw automata" >&5
+$as_echo "$as_me: WARNING: Could not find 'display' (debian package imagemagick) or 'gv' (debian package gv) or 'rsvg-view' (debian package librsvg2-bin)... you won't be able to draw automata" >&2;}
+    	fi
+    fi
 fi
 
 ################################################################
@@ -3006,7 +3098,7 @@ fi
 mkdir -p bin/$GAPARCH
 CONFIG_STATUS=bin/$GAPARCH/config.status
 
-ac_config_files="$ac_config_files $GAP_MAKEFILE:cnf/Makefile.in"
+ac_config_files="$ac_config_files $GAP_MAKEFILE:cnf/Makefile.in bin/$GAPARCH/files.g:cnf/files.g.in"
 
 
 if test "$GAP_MAKEFILE" != Makefile; then
@@ -3723,6 +3815,7 @@ for ac_config_target in $ac_config_targets
 do
   case $ac_config_target in
     "$GAP_MAKEFILE") CONFIG_FILES="$CONFIG_FILES $GAP_MAKEFILE:cnf/Makefile.in" ;;
+    "bin/$GAPARCH/files.g") CONFIG_FILES="$CONFIG_FILES bin/$GAPARCH/files.g:cnf/files.g.in" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac
