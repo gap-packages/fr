@@ -30,10 +30,23 @@ if test -z "$DOT"; then
     AC_WARN([Could not find 'dot' (debian package graphviz)... you won't be able to draw automata])
 fi
 
-AC_PATH_PROG(DISP,[display])
+AC_PATH_PROG(PSVIEWER,[display])
+if test -n "$PSVIEWER"; then
+    PSVIEWER="$PSVIEWER -flatten -";
+else
+    AC_PATH_PROG(PSVIEWER,[gv])
+    if test -n "$PSVIEWER"; then
+        PSVIEWER="$PSVIEWER -";
+    else
+	PSVIEWER=false;
+    	AC_PATH_PROG(SVGVIEWER,[rsvg-view])
 
-if test -z "$DISP"; then
-    AC_WARN([Could not find 'display' (debian package imagemagick)... you won't be able to draw automata])
+    	if test -n "$SVGVIEWER"; then
+            SVGVIEWER="$SVGVIEWER --stdin";
+	else
+	    AC_WARN([Could not find 'display' (debian package imagemagick) or 'gv' (debian package gv) or 'rsvg-view' (debian package librsvg2-bin)... you won't be able to draw automata])
+    	fi
+    fi
 fi
 
 ################################################################
