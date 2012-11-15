@@ -42,7 +42,7 @@ fi
 mkdir -p bin/$GAPARCH
 CONFIG_STATUS=bin/$GAPARCH/config.status
 
-AC_CONFIG_FILES([$GAP_MAKEFILE:cnf/Makefile.in])
+AC_CONFIG_FILES([$GAP_MAKEFILE:cnf/Makefile.in bin/$GAPARCH/files.g:cnf/files.g.in])
 
 if test "$GAP_MAKEFILE" != Makefile; then
     ln -sf "$GAP_MAKEFILE" Makefile

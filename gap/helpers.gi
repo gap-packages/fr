@@ -98,6 +98,9 @@ BindGlobal("COLOURS@", function(i)
 end);
 
 BindGlobal("EXEC@", rec());
+CallFuncList(function(file)
+    if file<>fail then Read(file); fi;
+end,[Filename(DirectoriesPackagePrograms("fr"),"files.g")]);
 BindGlobal("CHECKEXEC@", function(prog)
     local s;
 
@@ -155,12 +158,13 @@ BindGlobal("DOT2DISPLAY@", function(str,prog)
     
     CHECKEXEC@(prog);
     CHECKEXEC@("sh");
-    if ValueOption("usesvg")<>fail then
+    CHECKEXEC@("psviewer");
+    if ValueOption("usesvg")<>fail or EXEC@.psviewer="false" then
         CHECKEXEC@("rsvg-view");
-        command := Concatenation(EXEC@.(prog)," -Tsvg 2>/dev/null | ",EXEC@.("rsvg-view")," --stdin");
+        command := Concatenation(EXEC@.(prog)," -Tsvg 2>/dev/null | ",EXEC@.svgviewer);
     else
         CHECKEXEC@("display");
-        command := Concatenation(EXEC@.(prog)," -Gbgcolor=white -Tps 2>/dev/null | ",EXEC@.display," -flatten -");
+        command := Concatenation(EXEC@.(prog)," -Gbgcolor=white -Tps 2>/dev/null | ",EXEC@.psviewer);
     fi;
     return EXECINSHELL@(str,command,ValueOption("detach"));
 end);
