@@ -8,82 +8,32 @@
 ##
 #############################################################################
 ##
-##  This compiles the C/Java modules, creates archives, or
-##  compiles the documentation
+##  This creates archives, or compiles the documentation
 ##
 #############################################################################
 
-.PHONY: all lib doc clean distribute mrproper wwwdir checkblocks tarballs hurwitz
+.PHONY: all lib doc clean distribute mrproper wwwdir checkblocks tarballs
+
+PWDU:=$(shell dirname $(PWD))
+PWDUU:=$(shell dirname $(PWDU))
 
 LOCALBIN=bin/@GAPARCH@
-EXTERN=$(CURDIR)/bin/@GAPARCH@/extern
-LEVMAR=extern/levmar-2.6
-LIBDOGLEG=extern/Oblong-libdogleg-d48618c
 
-MYCC=./libtool --mode=compile @CC@ $(CFLAGS) @CFLAGS@ @GAP_CPPFLAGS@ -std=c99 -g -Wall
-MYLD=./libtool --mode=link @CC@ $(CFLAGS) -g
-JAVAC=@JAVAC@
-
-all: $(LOCALBIN) @LIB_TARGET@ $(LOCALBIN)/fr_dll.so @JAVABUILD@ hurwitz
-
-lib: liblevmar libdogleg
-
-liblevmar:
-	mkdir -p $(EXTERN)/include $(EXTERN)/lib
-	if [ ! -f $(EXTERN)/include/levmar.h ]; then \
-		$(MAKE) -C $(LEVMAR) liblevmar.a CONFIGFLAGS=-fPIC; \
-		cp $(LEVMAR)/liblevmar.a $(EXTERN)/lib/; \
-		cp $(LEVMAR)/levmar.h $(EXTERN)/include/; \
-	fi
-
-libdogleg:
-	mkdir -p $(EXTERN)/include $(EXTERN)/lib
-	if [ ! -f $(EXTERN)/include/dogleg.h ]; then \
-		$(MAKE) -C $(LIBDOGLEG); \
-		cp $(LIBDOGLEG)/libdogleg.* $(EXTERN)/lib/; \
-		cp $(LIBDOGLEG)/dogleg.h $(EXTERN)/include/; \
-	fi
-
-hurwitz:
-	$(MAKE) -C $@
+all: $(LOCALBIN)
 
 distribute: wwwdir doc tarballs
 
 $(LOCALBIN):
 	mkdir -p $(LOCALBIN)
 
-$(LOCALBIN)/rpoly.lo: src/rpoly.c src/poly.h
-	$(MYCC) -c $< -o $@
-
-$(LOCALBIN)/p1.lo: src/p1.c src/cpoly.C src/fr_dll.h
-	$(MYCC) -c $< -o $@ -DCONFIG_H
-
-$(LOCALBIN)/fr_dll.lo: src/fr_dll.c src/cpoly.C src/fr_dll.h
-	$(MYCC) -c $< -o $@ @LEVMAR_CFLAGS@ -DCONFIG_H
-
-$(LOCALBIN)/fr_dll.so: $(LOCALBIN)/fr_dll.lo $(LOCALBIN)/rpoly.lo $(LOCALBIN)/p1.lo
-	$(MYLD) -module -o $(LOCALBIN)/fr_dll.la $+ @LEVMAR_LDFLAGS@ @LEVMAR_LIBS@ -rpath $(PWD)/$(LOCALBIN)
-	cp $(LOCALBIN)/.libs/fr_dll.so $@
-
-java/javaplot.class: src/javaplot.java
-	$(JAVAC) -cp java/javaview.jar $< -d java
-
-java/javaview.jar:
-	wget --no-verbose -O javaview.zip http://www.javaview.de/download/data/javaview.zip
-	unzip -j -d java javaview.zip jars/javaview.jar
-	rm -f javaview.zip
-
 clean:
 	rm -rf .version config.log $(LOCALBIN) `find doc -type l`
-	make -C hurwitz clean
 
 mrproper: clean
 	rm Makefile
-	make -C hurwitz mrproper
 
 configure: cnf/Makefile.in cnf/configure.ac
 	(cd cnf; aclocal -Im4; autoconf; mv -f configure ..)
-	make -C hurwitz configure
 
 .version: PackageInfo.g
 	grep '^Version :=' $< | awk -F'"' '{print $$2}' > $@
@@ -91,9 +41,9 @@ configure: cnf/Makefile.in cnf/configure.ac
 doc: doc/chap0.html
 
 doc/chap0.html: doc/fr.xml doc/frbib.xml gap/algebra.gd gap/frelement.gd \
-	gap/group.gd gap/img.gd gap/perlist.gd gap/vector.gd gap/examples.gd \
+	gap/group.gd gap/perlist.gd gap/vector.gd gap/examples.gd \
 	gap/frmachine.gd gap/helpers.gd gap/mealy.gd gap/trans.gd
-	echo 'LoadPackage("fr"); DOC@FR();' | @GAP_EXEC@ -r -q
+	echo 'LoadPackage("fr"); DOC@FR();' | @GAP_EXEC@ -r -q -l ";$(PWDUU)"
 	(cd doc; git add *.html manual.pdf manual.css; git commit -m 'New html files'; git push github master:gh-pages)
 
 checkblocks:

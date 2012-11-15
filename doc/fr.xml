@@ -18,7 +18,7 @@
 		 <Alt Not="HTML">laurent.bartholdi@gmail.com</Alt></Email>
 	  <Homepage>http://www.uni-math.gwdg.de/laurent/</Homepage>
   </Author>
-  <Date>16 October 2012</Date>
+  <Date>15 November 2012</Date>
   <Address>
   Mathematisches Institut<Br/>Bunsenstraße 3-5<Br/>D-37073 Göttingen<Br/>Germany
   </Address>
@@ -524,7 +524,6 @@ of their arguments.
 <Section><Heading>Creators for <C>FRMachine</C>s</Heading>
 <#Include Label="FRMachine">
 <#Include Label="AsGroupFRMachine">
-<#Include Label="ChangeFRMachineBasis">
 </Section>
 
 <Section><Heading>Attributes for <C>FRMachine</C>s</Heading>

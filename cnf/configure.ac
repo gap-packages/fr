@@ -15,6 +15,7 @@ AC_CONFIG_MACRO_DIR([cnf/m4])
 AC_PREFIX_DEFAULT([${PWD}])
 
 # Locates GAP
+AC_PROG_CC
 AC_FIND_GAP
 
 AC_SYS_IS_CYGWIN
@@ -33,6 +34,18 @@ AC_PATH_PROG(DISP,[display])
 
 if test -z "$DISP"; then
     AC_WARN([Could not find 'display' (debian package imagemagick)... you won't be able to draw automata])
+fi
+
+################################################################
+# generate files
+
+mkdir -p bin/$GAPARCH
+CONFIG_STATUS=bin/$GAPARCH/config.status
+
+AC_CONFIG_FILES([$GAP_MAKEFILE:cnf/Makefile.in])
+
+if test "$GAP_MAKEFILE" != Makefile; then
+    ln -sf "$GAP_MAKEFILE" Makefile
 fi
 
 AC_OUTPUT
