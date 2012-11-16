@@ -54,7 +54,7 @@ checkblocks:
 
 tarballs: .version doc
 	mkdir -p www
-	tar -c -f - --exclude '*~' --exclude 'config.[ls]*' --exclude 'fr/Makefile*' --exclude .cvsignore --exclude autom4te.cache --exclude sandbox --exclude www --exclude bin --exclude 'extern/[a-z]*' --exclude CVS --exclude .version -C .. fr | (cd www; tar -x -f -)
+	tar -c -f - --exclude '*~' --exclude '.[a-z]*' --exclude 'config.[ls]*' --exclude 'fr/Makefile*' --exclude autom4te.cache --exclude sandbox --exclude www --exclude bin --exclude CVS -C .. fr | (cd www; tar -x -f -)
 	tar -c -f www/fr-`cat .version`.tar.gz -z -C www fr
 	ln -sf fr-`cat .version`.tar.gz www/fr.tar.gz
 
