@@ -32,12 +32,12 @@
   <URL>http://gap-system.org</URL>.
   <P/>
   This documentation for <Package>FR</Package> is available at
-  <URL>http://laurentbartholdi.github.com/fr/doc/manual.pdf</URL> in PDF
+  <URL>http://laurentbartholdi.github.com/fr/manual.pdf</URL> in PDF
   format, and may be accessed online at
   <URL>http://laurentbartholdi.github.com/fr/</URL>.
   <P/>
-  The latest source of the package may be downloaded as
-  <URL>https://github.com/laurentbartholdi/fr/tarball/master</URL> (tar, gzipped),
+  The latest release of the package may be downloaded as
+  <URL>https://github.com/downloads/laurentbartholdi/fr/fr-2.0.0.tar.gz</URL> (tar, gzipped). The latest repository version (possibly unstable) may be downloaded as <URL>https://github.com/laurentbartholdi/fr/tarball/master</URL> (tar, gzipped),
   <URL>https://github.com/laurentbartholdi/fr.git</URL> (git repository), or
   explored at <URL>https://github.com/laurentbartholdi/fr/tree/master/</URL>.
   <P/>
@@ -52,7 +52,7 @@
     For comments or questions on <Package>FR</Package> please contact
     the author; this package is still under development.
   </Abstract>
-  <Copyright>&copyright; 2006-2010 by Laurent Bartholdi
+  <Copyright>&copyright; 2006-2012 by Laurent Bartholdi
   </Copyright>
   <Acknowledgements>Part of this work is/was supported by the
   "Swiss National Fund for Scientific Research" and the

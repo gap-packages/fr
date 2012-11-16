@@ -12,7 +12,7 @@
 ##
 #############################################################################
 
-.PHONY: all lib doc clean distribute mrproper wwwdir checkblocks tarballs
+.PHONY: all lib doc clean distribute mrproper checkblocks tarballs
 
 PWDU:=$(shell dirname $(PWD))
 PWDUU:=$(shell dirname $(PWDU))
@@ -21,7 +21,7 @@ LOCALBIN=bin/@GAPARCH@
 
 all: $(LOCALBIN)
 
-distribute: wwwdir doc tarballs
+distribute: doc tarballs
 
 $(LOCALBIN):
 	mkdir -p $(LOCALBIN)
@@ -36,15 +36,14 @@ configure: cnf/Makefile.in cnf/configure.ac
 	(cd cnf; aclocal -Im4; autoconf; mv -f configure ..)
 
 .version: PackageInfo.g
-	grep '^Version :=' $< | awk -F'"' '{print $$2}' > $@
+	grep '^Version :=' $< | cut -f2 -d'"' | tr -d '\n' > $@
 
 doc: doc/chap0.html
 
 doc/chap0.html: doc/fr.xml doc/frbib.xml gap/algebra.gd gap/frelement.gd \
 	gap/group.gd gap/perlist.gd gap/vector.gd gap/examples.gd \
 	gap/frmachine.gd gap/helpers.gd gap/mealy.gd gap/trans.gd
-	echo 'LoadPackage("fr"); DOC@FR();' | @GAP_EXEC@ -r -q -l ";$(PWDUU)"
-	(cd doc; git add *.html manual.pdf manual.css; git commit -m 'New html files'; git push github master:gh-pages --force)
+	echo 'LoadPackage("fr"); DOC@FR();' | @GAP_EXEC@ -r -q -T -l ";$(PWDUU)"
 
 checkblocks:
 	grep '<#GAPDoc' PackageInfo.g gap/*d | awk -F'"' '{print $$2}' | sort > @@-blocks
@@ -53,10 +52,12 @@ checkblocks:
 	@rm @@-blocks @@-in
 
 tarballs: .version doc
-	mkdir -p www
-	rm -rf www/fr
-	tar -c -f - --exclude '*~' --exclude '.[a-z]*' --exclude 'config.[ls]*' --exclude 'fr/Makefile*' --exclude autom4te.cache --exclude sandbox --exclude www --exclude bin --exclude CVS -C .. fr | (cd www; tar -x -f -)
-	tar -c -f www/fr-`cat .version`.tar.gz -z -C www fr
-	ln -sf fr-`cat .version`.tar.gz www/fr.tar.gz
+	tar -c -f zips/fr-`cat .version`.tar.gz -z --exclude '*~' --exclude '.[a-z]*' --exclude 'config.[ls]*' --exclude 'fr/Makefile*' --exclude autom4te.cache --exclude sandbox --exclude zips --exclude bin --exclude CVS -C .. fr
+	ln -sf fr-`cat .version`.tar.gz zips/fr.tar.gz
+
+wwwdir: doc/chap0.html tarballs
+	cp PackageInfo.g doc/
+	(cd doc; git add *.html manual.pdf manual.css PackageInfo.g; git commit -m 'New html files'; git push github master:gh-pages --force)
+	rm doc/PackageInfo.g
 
 #E Makefile . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
