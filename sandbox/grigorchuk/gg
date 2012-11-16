@@ -1,0 +1,35 @@
+RequirePackage("treegp");
+G := Image(EpimorphismPermGroupFrGroup(GrigorchukGroup,4));
+R := GroupRing(GF(2),G);
+#T := Algebra(GF(2),List(GeneratorsOfGroup(G),x->PermutationMat(x,2^4,GF(2))));
+#m := List(Basis(R),x->Flat(PermutationMat(x,2^4,GF(2))));
+#ConvertToMatrixRep(m);
+#I := List(NullspaceMat(m),v->LinearCombination(Basis(R),v));
+#I := TwoSidedIdeal(R,I);
+
+v2r := v->LinearCombination(Basis(R),v);
+r2v := function(r) local v; v := Coefficients(Basis(R),r); ConvertToVectorRep(v); return v; end;
+
+I := VectorSpace(GF(2),NullspaceMat(m));
+
+der := function(I)
+  local b, i, j, ri;
+  b := [];
+  for i in Basis(I) do
+    ri := v2r(i);
+    for j in GeneratorsOfAlgebra(R) do Add(b,r2v(ri*j-j*ri)); od;
+  od;
+  return VectorSpace(GF(2),b);
+end;
+
+com := function(I,n)
+  local b, i, r, s;
+  b := [];
+  for i in [1..n] do
+    r := v2r(Random(Basis(I)));
+    s := v2r(Random(Basis(I)));
+    Add(b,r2v(r*s-s*r));
+  od;
+  return VectorSpace(GF(2),b);
+end;
+
