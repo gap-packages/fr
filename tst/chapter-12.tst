@@ -29,12 +29,6 @@ gap>
 gap> Info(InfoFR,1,"12.6 Trans");
 #I  12.6 Trans
 gap> 
-gap> Info(InfoFR,1,"12.7 PMCOMPLEX");
-#I  12.7 PMCOMPLEX
-gap> 1.0_z;
-1.
-gap> last/2;
-0.5
 gap> Info(InfoFR,1,"12.9 Dirichlet series");
 #I  12.9 Dirichlet series
 gap> 

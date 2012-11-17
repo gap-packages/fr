@@ -57,7 +57,8 @@ tarballs: .version doc
 
 wwwdir: doc/chap0.html tarballs
 	cp PackageInfo.g doc/
-	(cd doc; git add *.html manual.pdf manual.css PackageInfo.g; git commit -m 'New html files'; git push github master:gh-pages --force)
-	rm doc/PackageInfo.g
+	cp README doc/README.fr
+	(cd doc; git add *.html manual.pdf manual.css PackageInfo.g README.fr; git commit -m 'New html files'; git push github master:gh-pages --force)
+	rm doc/PackageInfo.g doc/README.fr
 
 #E Makefile . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
