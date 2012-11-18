@@ -37,6 +37,7 @@ ReadPackage("fr", "gap/mealy.gd");
 ReadPackage("fr", "gap/group.gd");
 ReadPackage("fr", "gap/vector.gd");
 ReadPackage("fr", "gap/algebra.gd");
+ReadPackage("fr", "gap/bisets.gd");
 ReadPackage("fr", "gap/examples.gd");
 
 if not IsBound(IsLpGroup) then

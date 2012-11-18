@@ -27,6 +27,7 @@ ReadPackage("fr", "gap/vhgroup.gi");
 ReadPackage("fr", "gap/vector.gi");
 ReadPackage("fr", "gap/linear.gi");
 ReadPackage("fr", "gap/algebra.gi");
+ReadPackage("fr", "gap/bisets.gi");
 ReadPackage("fr", "gap/examples.gi");
 #############################################################################
 
