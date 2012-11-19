@@ -11,7 +11,7 @@ Date := "19/11/2012",
 ## <!ENTITY Version "2.0.0">
 ## <!ENTITY Date "19/11/2012">
 ## <#/GAPDoc>
-ArchiveURL := Concatenation("https://github.com/downloads/laurentbartholdi/fr/archive/",~.Version),
+ArchiveURL := Concatenation("https://github.com/laurentbartholdi/fr/archive/",~.Version),
 ArchiveFormats := ".tar.gz",
 Persons := [
   rec(
