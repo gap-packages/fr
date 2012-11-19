@@ -22,5 +22,4 @@ doc/*.ind
 doc/*.out
 doc/*.toc
 myconfigure
-.version
 zips
