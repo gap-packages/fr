@@ -31,7 +31,7 @@ For details on how to use the FR package, please consult the documentation.
 Though this is usually not necessary, it may be recompiled, after the command
 `LoadPackage("FR")', by invoking
 
-DOC@fr();
+DOC@FR();
 
 at the GAP prompt. The documentation will then be available in the `doc'
 subdirectory (view the file `manual.pdf' via a PDF viewer).
