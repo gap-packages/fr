@@ -39,7 +39,7 @@ ReadPackage("fr", "gap/vector.gd");
 ReadPackage("fr", "gap/algebra.gd");
 ReadPackage("fr", "gap/examples.gd");
 
-if not IsBound(IsLpGroup) then
+if not IsBound(IsLpGroup) then # shut up warnings in case LpGroups is not present
     ForAll(["IsLpGroup","IsElementOfLpGroup","LPresentedGroup",
             "ElementOfLpGroup","SetEmbeddingOfAscendingSubgroup"], function(w)
         BIND_GLOBAL(w, fail);
@@ -47,9 +47,6 @@ if not IsBound(IsLpGroup) then
         return true;
     end);
 fi;
-
-InstallMethod(IsMatrixModule,[IsFRAlgebra],SUM_FLAGS,ReturnFalse);
-# otherwise, bug causes SubmoduleNC(algebra,[]) to run indefinitely
 
 #############################################################################
 
