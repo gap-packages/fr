@@ -1,0 +1,179 @@
+#include <iostream>
+#include <stdlib.h>
+
+#define VALENCY 2
+
+bool cancelled = false;
+
+struct gselem {
+  char g;
+  gselem *child[VALENCY];
+
+  gselem (void) {
+    g = '1';
+  }
+
+  gselem (char c) {
+    g = c;
+  }
+
+  gselem (gselem &x) {
+    g = x.g;
+    for (int i = 0; i < VALENCY; i++)
+      if (x.child[i])
+	child[i] = new gselem(*x.child[i]);
+  }
+
+  gselem &operator *= (char c) {
+    if (c == '1')
+      return *this;
+    switch ((g << 8) | c) {
+    case '1'<<8 | 'a':
+    case '1'<<8 | 'A':
+    case '1'<<8 | 't':
+    case '1'<<8 | 'T': g = c; return *this;
+    case 'a'<<8 | 'A':
+    case 'A'<<8 | 'a': g = '1'; return *this;
+    case 't'<<8 | 'T':
+    case 'T'<<8 | 't': g = '1'; cancelled = true;
+      return *this;
+    case 'a'<<8 | 'a': g = 'A'; return *this;
+    case 'A'<<8 | 'A': g = 'a'; return *this;
+    case 't'<<8 | 't': g = 'T'; cancelled = true;
+      return *this;
+    case 'T'<<8 | 'T': g = 't'; cancelled = true;
+      return *this;
+    case 000<<8 | 'a': g = 1; return *this;
+    case 001<<8 | 'a': g = 2; return *this;
+    case 002<<8 | 'a': g = 0; return *this;
+    case 000<<8 | 'A': g = 2; return *this;
+    case 001<<8 | 'A': g = 0; return *this;
+    case 002<<8 | 'A': g = 1; return *this;
+    }
+    if (g < VALENCY) { // c is 't' or 'T'
+      *child[g] *= c;
+      *child[(g+1) % VALENCY] *= (c + 'a' - 't');
+      *child[(g+2) % VALENCY] *= ('A' + 't' - c);
+      return *this;
+    }
+    // upgrade the current entry
+    if (g == 'a' || g == 'A') {
+      g = 001 + (g == 'A');
+      for (int i = 0; i < VALENCY; i++)
+	child[i] = new gselem('1');
+    } else {
+      char oldg = g;
+      g = 000;
+      for (int i = 0; i < VALENCY; i++)
+	child[i] = new gselem('1');
+      *this *= oldg;
+    }
+    return *this *= c;
+  }
+  gselem &operator [] (int i) {
+    if (g < VALENCY)
+      return *child[i];
+    else if (g == 'a' || g == 'A' || g == '1') {
+      gselem *x = new gselem('1');
+      return *x;
+    } else if (i == 0)
+      return *this;
+    else {
+      gselem *x = new gselem(g+'a'-'t'+0x20*(i == 2));
+      return *x;
+    }
+  }
+  bool trivial (void) {
+    if (g < VALENCY) {
+      if (g)
+	return false;
+      for (int i = 0; i < VALENCY; i++)
+	if (!child[i]->trivial())
+	  return false;
+      return true;
+    }
+    return g == '1';
+  }
+  int activity (void) {
+    if (g < VALENCY)
+      return g;
+    switch (g) {
+    case '1':
+    case 't':
+    case 'T':
+      return 0;
+    case 'a': return 1;
+    case 'A': return 2;
+    }
+  }
+};
+
+std::ostream &operator <<(std::ostream &s, gselem &x)
+{
+  if (x.g < VALENCY) {
+    s << "[" << char('0'+x.g) << " ";
+    for (int i = 0; i < VALENCY; i++) {
+      if (i) s << "|";
+      s << *x.child[i];
+    }
+    return s << "]";
+  }
+  return s << x.g;
+}
+
+gselem root('1');
+char history[10000];
+int maxlen, skiplen;
+
+void search (int len)
+{
+  if (len == maxlen) {
+    history[2*len] = 0;
+    // std::cout << x << " " << x.trivial() << "\n";
+    // std::cout << history << "\n";
+    for (int i = skiplen; i < 2*len-skiplen; i++)
+      std::cout << history[i];
+    std::cout << "\n";
+  } else {
+    cancelled = false;
+    root *= 'a';
+    root *= 't';
+    if (cancelled)
+      root *= 'T';
+    else {
+      history[2*len] = 'a';
+      history[2*len+1] = 't';
+      search (len+1);
+      root *= 't';
+      history[2*len+1] = 'T';
+      search (len+1);
+      root *= 't';
+    }
+    cancelled = false;
+    root *= 'a';
+    root *= 't';
+    if (cancelled)
+      root *= 'T';
+    else {
+      history[2*len] = 'A';
+      history[2*len+1] = 't';
+      search (len+1);
+      root *= 't';
+      history[2*len+1] = 'T';
+      search (len+1);
+      root *= 't';
+    }
+    root *= 'a';
+  }
+}
+
+int main (int argc, char *argv[]) {
+  if (argc != 3) {
+    std::cerr << "Use: " << argv[0] << " <depth> <skip-len>\n";
+    return -1;
+  }
+  maxlen = atoi(argv[1]);
+  skiplen = atoi(argv[2]);
+
+  search (0);
+}
