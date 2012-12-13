@@ -4,6 +4,7 @@ config.log
 www
 bin/*
 *~
+sandbox
 frbib.xml.bib
 autom4te.cache
 .DS_Store
