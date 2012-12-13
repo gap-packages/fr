@@ -20,7 +20,7 @@ LOCALBIN=bin/@GAPARCH@
 
 all: $(LOCALBIN)
 
-distribute: wwwdir doc tarballs
+distribute: wwwdir doc
 
 $(LOCALBIN):
 	mkdir -p $(LOCALBIN)
@@ -52,7 +52,9 @@ tarballs: doc
 	tar -c -f zips/fr-$(VERSION).tar.gz -z --exclude '*~' --exclude '.[a-z]*' --exclude 'config.[ls]*' --exclude 'fr/Makefile*' --exclude autom4te.cache --exclude sandbox --exclude zips --exclude bin -C .. fr
 	ln -sf fr-$(VERSION).tar.gz zips/fr.tar.gz
 
-wwwdir: doc/chap0.html tarballs
+wwwdir: doc
+	git tag -f $(VERSION)
+	git push --tags
 	cp PackageInfo.g doc/
 	cp README doc/README.fr
 	(cd doc; git add *.html manual.pdf manual.css PackageInfo.g README.fr; git commit -m 'New html files'; git push github master:gh-pages --force)
