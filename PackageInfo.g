@@ -33,7 +33,7 @@ Persons := [
 
 Status := "deposited",
 CommunicatedBy := "Götz Pfeiffer (NUI Galway)",
-AcceptDate := "",
+#AcceptDate := "",
 
 README_URL := "http://laurentbartholdi.github.com/fr/README.fr",
 PackageInfoURL := "http://laurentbartholdi.github.com/fr/PackageInfo.g",

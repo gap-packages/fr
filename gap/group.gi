@@ -1565,7 +1565,7 @@ BindGlobal("ADJACENCYPOSET@",
     dom := Domain(List(elements,x->nuke{x}));
     rel := [];
     for b in elements do for c in elements do
-        if IsSubset(b,c) then Add(rel,Tuple([nuke{b},nuke{c}])); fi;
+        if IsSubset(b,c) then Add(rel,DirectProductElement([nuke{b},nuke{c}])); fi;
     od; od;
     return BinaryRelationByElements(dom,rel);
 end);
