@@ -1,0 +1,86 @@
+if false then
+
+groups := [];
+groups[67004] := FRGroup("a=<d,c>(1,2)","b=<d,c>(1,2)","c=<b,b>","d=<a,c>":IsFRElement);
+groups[70844] := FRGroup("a=<d,c>(1,2)","b=<d,c>","c=<a,b>","d=<b,a>":IsFRElement);
+groups[70892] := FRGroup("a=<d,c>(1,2)","b=<c,d>(1,2)","c=<a,b>","d=<b,a>":IsFRElement);
+groups[73643] := FRGroup("a=<c,c>(1,2)","b=<c,c>","c=<d,d>","d=<b,a>":IsFRElement);
+groups[198256] := FRGroup("a=<d,d>(1,2)","b=<c,b>(1,2)","c=<c,b>","d=<a,a>":IsFRElement);
+groups[198411] := FRGroup("a=<c,c>(1,2)","b=<a,a>(1,2)","c=<d,b>","d=<a,a>":IsFRElement);
+groups[198568] := FRGroup("a=<d,b>(1,2)","b=<c,c>(1,2)","c=<d,b>","d=<a,a>":IsFRElement);
+groups[200695] := FRGroup("a=<c,b>(1,2)","b=<d,d>(1,2)","c=<d,d>","d=<a,a>":IsFRElement);
+groups[203548] := FRGroup("a=<d,c>(1,2)","b=<b,a>(1,2)","c=<d,c>","d=<b,a>":IsFRElement);
+groups[203698] := FRGroup("a=<b,a>(1,2)","b=<d,c>(1,2)","c=<d,c>","d=<b,a>":IsFRElement);
+groups[206638] := FRGroup("a=<b,d>(1,2)","b=<c,a>(1,2)","c=<d,b>","d=<c,a>":IsFRElement);
+groups[206713] := FRGroup("a=<a,c>(1,2)","b=<d,b>(1,2)","c=<d,b>","d=<c,a>":IsFRElement);
+groups[208168] := FRGroup("a=<d,b>(1,2)","b=<c,a>(1,2)","c=<b,d>","d=<c,a>":IsFRElement);
+groups[208174] := FRGroup("a=<b,d>(1,2)","b=<c,a>(1,2)","c=<b,d>","d=<c,a>":IsFRElement);
+groups[208249] := FRGroup("a=<a,c>(1,2)","b=<d,b>(1,2)","c=<b,d>","d=<c,a>":IsFRElement);
+groups[208678] := FRGroup("a=<b,b>(1,2)","b=<c,a>(1,2)","c=<d,d>","d=<c,a>":IsFRElement);
+groups[208736] := FRGroup("a=<d,d>(1,2)","b=<b,b>(1,2)","c=<d,d>","d=<c,a>":IsFRElement);
+groups[210490] := FRGroup("a=<b,c>(1,2)","b=<d,a>(1,2)","c=<c,b>","d=<d,a>":IsFRElement);
+groups[210541] := FRGroup("a=<b,d>(1,2)","b=<c,a>(1,2)","c=<c,b>","d=<d,a>":IsFRElement);
+groups[211255] := FRGroup("a=<c,b>(1,2)","b=<d,a>(1,2)","c=<b,c>","d=<d,a>":IsFRElement);
+groups[211258] := FRGroup("a=<b,c>(1,2)","b=<d,a>(1,2)","c=<b,c>","d=<d,a>":IsFRElement);
+groups[211300] := FRGroup("a=<d,a>(1,2)","b=<c,b>(1,2)","c=<b,c>","d=<d,a>":IsFRElement);
+groups[211309] := FRGroup("a=<a,d>(1,2)","b=<c,b>(1,2)","c=<b,c>","d=<d,a>":IsFRElement);
+groups[458844] := FRGroup("a=<d,c>(1,2)","b=<b,b>(1,2)","c=<a,a>","d=<a,a>":IsFRElement);
+groups[458934] := FRGroup("a=<b,b>(1,2)","b=<d,c>(1,2)","c=<a,a>","d=<a,a>":IsFRElement);
+groups[463280] := FRGroup("a=<d,d>(1,2)","b=<c,c>(1,2)","c=<b,a>(1,2)","d=<b,a>":IsFRElement);
+groups[463295] := FRGroup("a=<c,d>(1,2)","b=<d,c>(1,2)","c=<b,a>(1,2)","d=<b,a>":IsFRElement);
+groups[463340] := FRGroup("a=<d,d>(1,2)","b=<c,c>(1,2)","c=<b,a>(1,2)","d=<b,a>":IsFRElement);
+
+result := [];
+for i in BoundPositions(groups) do
+    result[i] := rec(index := i, iso := IsomorphismMealyGroup(groups[i]));
+    n := 1;
+    repeat
+	n := n+1;
+	q := PermGroup(groups[i],n);
+    until n>=10 or Size(q)>2^20;
+    result[i].perm := q;
+    if Size(Stabilizer(q,[1..2^(n-1)],OnTuples))=1 then
+        result[i].trivial := true;
+    fi;
+od;
+
+for r in result do
+    if not IsBound(r.trivial) then
+        for x in Ball(Source(r.iso),4) do
+    	    d := DecompositionOfFRElement(x);
+	    if d[2]=[1,2] and IsOne(d[1][1])<>IsOne(d[1][2]) then
+	        r.trivial := x;
+		break;
+	    fi;
+    	od;
+    fi;
+od;
+
+fi;
+
+fpcover := function(g,n)
+    local x, f;
+    x := ShortGroupRelations(g,n);
+    g := FreeGroup("a","b","c","d");
+    f := Source(Remove(x,1));
+    iso := GroupHomomorphismByImagesNC(f,g,GeneratorsOfGroup(f),GeneratorsOfGroup(g));
+    return g/List(x,x->x^iso);
+end;
+
+for r in result do
+    if not IsBound(r.trivial) then
+#        r.cover := fpcover(Range(r.iso),4);
+        Print(r.index,": ",NilpotentQuotient(r.cover,5),"\n");
+#DerivedLength(r.perm12)," ",DerivedLength(r.perm7),"\n");
+    fi;
+od;
+
+for r in result do
+    Print(r.index,": ");
+    if IsBound(r.trivial) then
+        Print(r.trivial);
+    else
+        Print("probably true");
+    fi;
+    Print("\n");
+od;

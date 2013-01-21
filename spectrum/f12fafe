@@ -1,0 +1,2 @@
+#!/bin/sh
+exec env LD_LIBRARY_PATH=$HOME/.../fllux21d9l/lib:$HOME/.../lib/NAGWare:$HOME/.../lib ./f12fafe.bin
