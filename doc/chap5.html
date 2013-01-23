@@ -286,7 +286,7 @@ true
 
 <p>If <var class="Arg">m</var> is initial, the minimized automaton is such that its states are numbered first by distance to the initial state, and then lexicographically by input letter. (in particular, the initial state is 1). This makes comparison of minimized automata efficient.</p>
 
-<p>Furthermore, <code class="code">Correspondence(r)</code> is a list describing, for each (accessible) state of <var class="Arg">m</var>, its corresponding state in <code class="code">r</code>; see <code class="func">Correspondence</code> (<a href="chap3.html#X7C107A42815F91DA"><span class="RefLink">3.5-11</span></a>).</p>
+<p>Furthermore, <code class="code">Correspondence(r)</code> is a list describing, for each (accessible) state of <var class="Arg">m</var>, its corresponding state in <code class="code">r</code>; see <code class="func">Correspondence</code> (<a href="chap3.html#X7C107A42815F91DA"><span class="RefLink">3.5-12</span></a>).</p>
 
 
 <div class="example"><pre>
@@ -657,7 +657,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AsMealyMachine</code>( <var class="Arg">m</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
 <p>Returns: A Mealy machine isomorphic to <var class="Arg">m</var>.</p>
 
-<p>This function constructs a Mealy machine <code class="code">r</code>, which is as close as possible to the FR machine <var class="Arg">m</var>. Furthermore, <code class="code">Correspondence(r)</code> is a list identifying, for every generator of the stateset of <var class="Arg">m</var>, a corresponding state in the new Mealy machine; see <code class="func">Correspondence</code> (<a href="chap3.html#X7C107A42815F91DA"><span class="RefLink">3.5-11</span></a>).</p>
+<p>This function constructs a Mealy machine <code class="code">r</code>, which is as close as possible to the FR machine <var class="Arg">m</var>. Furthermore, <code class="code">Correspondence(r)</code> is a list identifying, for every generator of the stateset of <var class="Arg">m</var>, a corresponding state in the new Mealy machine; see <code class="func">Correspondence</code> (<a href="chap3.html#X7C107A42815F91DA"><span class="RefLink">3.5-12</span></a>).</p>
 
 <p><var class="Arg">m</var> may be a group/monoid/semigroup FR machine, or a Mealy machine; in which case the result is returned unchanged.</p>
 
