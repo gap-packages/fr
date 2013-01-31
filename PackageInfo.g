@@ -5,12 +5,13 @@
 SetPackageInfo( rec(
 PackageName := "FR",
 Subtitle := "Computations with functionally recursive groups",
-Version := "2.0.0",
+Version := "2.0.3",
+Date := "23/01/2013",
 ## <#GAPDoc Label="Version">
-## 2.0.0
+## <!ENTITY Version "2.0.3">
+## <!ENTITY Date "23/01/2013">
 ## <#/GAPDoc>
-Date := "15/11/2012",
-ArchiveURL := Concatenation("https://github.com/downloads/laurentbartholdi/fr/fr-",~.Version),
+ArchiveURL := Concatenation("https://github.com/laurentbartholdi/fr/archive/",~.Version),
 ArchiveFormats := ".tar.gz",
 Persons := [
   rec(
@@ -32,7 +33,7 @@ Persons := [
 
 Status := "deposited",
 CommunicatedBy := "Götz Pfeiffer (NUI Galway)",
-AcceptDate := "",
+#AcceptDate := "",
 
 README_URL := "http://laurentbartholdi.github.com/fr/README.fr",
 PackageInfoURL := "http://laurentbartholdi.github.com/fr/PackageInfo.g",
@@ -52,7 +53,7 @@ PackageDoc := rec(
 ),
 
 Dependencies := rec(
-  GAP := ">=4.5.0",
+  GAP := ">=4.6.0",
   NeededOtherPackages := [["FGA",">=1.1"],
                       ["Polycyclic",">=2.2"],
                       ["GAPDoc",">=1.0"]],

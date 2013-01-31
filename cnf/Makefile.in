@@ -14,27 +14,25 @@
 
 PWDU:=$(shell dirname $(PWD))
 PWDUU:=$(shell dirname $(PWDU))
+VERSION:=$(shell grep '^Version :=' PackageInfo.g | cut -f2 -d'"')
 
 LOCALBIN=bin/@GAPARCH@
 
 all: $(LOCALBIN)
 
-distribute: wwwdir doc tarballs
+distribute: wwwdir doc
 
 $(LOCALBIN):
 	mkdir -p $(LOCALBIN)
 
 clean:
-	rm -rf .version config.log $(LOCALBIN) `find doc -type l`
+	rm -rf config.log $(LOCALBIN) `find doc -type l`
 
 mrproper: clean
 	rm Makefile
 
 configure: cnf/Makefile.in cnf/configure.ac
 	(cd cnf; aclocal -Im4; autoconf; mv -f configure ..)
-
-.version: PackageInfo.g
-	grep '^Version :=' $< | cut -f2 -d'"' | tr -d '\n' > $@
 
 doc: doc/chap0.html
 
@@ -49,12 +47,14 @@ checkblocks:
 	comm -3 @@-blocks @@-in
 	@rm @@-blocks @@-in
 
-tarballs: .version doc
+tarballs: doc
 	mkdir -p zips
-	tar -c -f zips/fr-`cat .version`.tar.gz -z --exclude '*~' --exclude '.[a-z]*' --exclude 'config.[ls]*' --exclude 'fr/Makefile*' --exclude autom4te.cache --exclude sandbox --exclude zips --exclude bin -C .. fr
-	ln -sf fr-`cat .version`.tar.gz zips/fr.tar.gz
+	tar -c -f zips/fr-$(VERSION).tar.gz -z --exclude '*~' --exclude '.[a-z]*' --exclude 'config.[ls]*' --exclude 'fr/Makefile*' --exclude autom4te.cache --exclude sandbox --exclude zips --exclude bin -C .. fr
+	ln -sf fr-$(VERSION).tar.gz zips/fr.tar.gz
 
-wwwdir: doc/chap0.html tarballs
+wwwdir: doc
+	git tag -f $(VERSION)
+	git push --tags
 	cp PackageInfo.g doc/
 	cp README doc/README.fr
 	(cd doc; git add *.html manual.pdf manual.css PackageInfo.g README.fr; git commit -m 'New html files'; git push github master:gh-pages --force)

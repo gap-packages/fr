@@ -1306,7 +1306,7 @@ InstallMethod(EpimorphismPermGroup, "(FR) for a f.g. FR group and a level",
     local q, h;
     q := PermGroup(g,n);
     if HasGeneratorsOfGroup(g) then
-        h := GroupGeneralMappingByImages(q,g,List(GeneratorsOfGroup(g),w->ActivityPerm(w,n)),GeneratorsOfGroup(g));
+        h := GroupGeneralMappingByImagesNC(q,g,List(GeneratorsOfGroup(g),w->ActivityPerm(w,n)),GeneratorsOfGroup(g));
         q := GroupHomomorphismByFunction(g,q,w->ActivityPerm(w,n),false,x->ImagesRepresentative(h,x));
     else
         q := GroupHomomorphismByFunction(g,q,w->ActivityPerm(w,n));
@@ -1325,7 +1325,7 @@ InstallMethod(EpimorphismPermGroup, "(FR) for a full FR group and a level",
         gn := g;
     fi;
     q := PermGroup(gn,n);
-    h := GroupGeneralMappingByImages(q,g,List(GeneratorsOfGroup(gn),w->ActivityPerm(w,n)),GeneratorsOfGroup(gn));
+    h := GroupGeneralMappingByImagesNC(q,g,List(GeneratorsOfGroup(gn),w->ActivityPerm(w,n)),GeneratorsOfGroup(gn));
     q := GroupHomomorphismByFunction(g,q,w->ActivityPerm(w,n),false,x->ImagesRepresentative(h,x));
     SetLevelOfEpimorphismFromFRGroup(q,n);
     return q;
@@ -1565,7 +1565,7 @@ BindGlobal("ADJACENCYPOSET@",
     dom := Domain(List(elements,x->nuke{x}));
     rel := [];
     for b in elements do for c in elements do
-        if IsSubset(b,c) then Add(rel,Tuple([nuke{b},nuke{c}])); fi;
+        if IsSubset(b,c) then Add(rel,DirectProductElement([nuke{b},nuke{c}])); fi;
     od; od;
     return BinaryRelationByElements(dom,rel);
 end);
@@ -3115,7 +3115,7 @@ InstallMethod(EpimorphismGermGroup, "(FR) for a group and a level",
     if n=0 then
         pi := emb[1];
     else
-        pi := GroupGeneralMappingByImages(Image(emb[2]),Image(emb[1]),List(GeneratorsOfGroup(G),x->x^emb[2]),List(GeneratorsOfGroup(G),x->x^emb[1]));
+        pi := GroupGeneralMappingByImagesNC(Image(emb[2]),Image(emb[1]),List(GeneratorsOfGroup(G),x->x^emb[2]),List(GeneratorsOfGroup(G),x->x^emb[1]));
         if IsSingleValued(pi) then
             pi := emb[n+1];
         else

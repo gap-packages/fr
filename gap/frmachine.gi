@@ -1512,4 +1512,81 @@ InstallMethod(SubFRMachine, "(FR) for a machine and a homomorphism",
 end);
 #############################################################################
 
+################################################################
+# change basis of FR machine
+BindGlobal("CHANGEFRMACHINEBASIS@", function(M,l,p)
+    local trans, i, d, newM;
+    d := Size(AlphabetOfFRObject(M));
+    while Length(l)<>d or not ForAll(l,x->x in StateSet(M)) do
+        Error("Invalid base change ",l,"\n");
+    od;
+    while LargestMovedPoint(p)>d do
+	Error("Invalid permutation ",p,"\n");
+    od;
+    trans := [];
+    for i in [1..Length(M!.transitions)] do
+        Add(trans,Permuted(List(AlphabetOfFRObject(M),a->l[a]^-1*M!.transitions[i][a]*l[M!.output[i][a]]),p));
+    od;
+    newM := FRMachineNC(FamilyObj(M),StateSet(M),trans,List(M!.output,r->ListPerm(PermList(r)^p,d)));
+    return newM;
+end);
+
+InstallMethod(ChangeFRMachineBasis, "(FR) for a group FR machine and a list",
+        [IsGroupFRMachine, IsCollection],
+        function(M,l)
+    return CHANGEFRMACHINEBASIS@(M,l,());
+end);	
+InstallMethod(ChangeFRMachineBasis, "(FR) for a group FR machine and a permutation",
+        [IsGroupFRMachine, IsPerm],
+        function(M,p)
+    return CHANGEFRMACHINEBASIS@(M,List(AlphabetOfFRObject(M),x->One(StateSet(M))),p);
+end);	
+InstallMethod(ChangeFRMachineBasis, "(FR) for a group FR machine, a list and a permutation",
+        [IsGroupFRMachine, IsCollection, IsPerm],
+    CHANGEFRMACHINEBASIS@);
+
+InstallMethod(ChangeFRMachineBasis, "(FR) for an FR machine",
+        [IsGroupFRMachine],
+        function(M)
+    local S, l, s, t, u, v;
+
+    S := [];
+    for s in GeneratorsOfFRMachine(M) do
+        for t in Cycles(PermList(Output(M,s)),AlphabetOfFRObject(M)) do
+            if Length(t)>1 then
+                Add(S,[s,t]);
+            fi;
+        od;
+    od;
+    l := [];
+    l[1] := One(StateSet(M));
+#    l[Random([1..Length(AlphabetOfFRObject(M))])] := One(StateSet(M));
+    while S<>[] do
+        t := First([1..Length(S)],i->Number(S[i][2],i->IsBound(l[i]))>0);
+        if t=fail then
+            Error("Action is not transitive");
+            return fail;
+        fi;
+        t := Remove(S,t);
+        s := Filtered(t[2],i->IsBound(l[i]));
+        if Length(s)>1 then
+            Error("Action is not contractible (tree-like)");
+            return fail;
+        fi;
+        s := s[1];
+        u := s;
+        while true do
+            v := Output(M,t[1],u);
+            if v=s then
+                break;
+            else
+                l[v] := LeftQuotient(Transition(M,t[1],u),l[u]);
+                u := v;
+            fi;
+        od;
+    od;
+    return CHANGEFRMACHINEBASIS@(M,l,());
+end);
+################################################################
+
 #E frmachine.gi . . . . . . . . . . . . . . . . . . . . . . . . . . ends here

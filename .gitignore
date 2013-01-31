@@ -4,10 +4,11 @@ config.log
 www
 bin/*
 *~
+sandbox
 frbib.xml.bib
 autom4te.cache
 .DS_Store
-doc/chap*
+doc/chap*txt
 doc/manual.*
 doc/*.aux
 doc/*.pnr
@@ -22,5 +23,4 @@ doc/*.ind
 doc/*.out
 doc/*.toc
 myconfigure
-.version
 zips
