@@ -918,6 +918,29 @@ BindGlobal("ISFINITE_THOMPSONWIELANDT@", function(G)
     return fail;
 end);
 
+BindGlobal("ISFINITE_MINIMIZEDUAL@", function(G)
+    # keep taking dual and minimizing, ask whether we get the trivial machine
+    local gens, m, oldm;
+    
+    if not HasGeneratorsOfGroup(G) then
+        return fail;
+    fi;
+    
+    gens := GeneratorsOfGroup(G);
+    if ForAll(gens,HasIsFiniteStateFRElement) and ForAll(gens,IsFiniteStateFRElement) then
+        m := Sum(List(gens,UnderlyingFRMachine));
+        repeat
+            oldm := m;
+            m := Minimized(DualMachine(m));
+            m := Minimized(DualMachine(m));
+        until m=oldm;
+        if Size(StateSet(m))=1 then
+            return true;
+        fi;
+    fi;
+    return fail;
+end);
+
 InstallMethod(IsFinite, "(FR) for an FR group",
         [IsFRGroup],
         function(G)
@@ -926,14 +949,22 @@ InstallMethod(IsFinite, "(FR) for an FR group",
     if IsFinitaryFRSemigroup(G) then
         return true;
     fi;
+    
+    b := ISFINITE_MINIMIZEDUAL@(G);
+    if b<>fail then
+        return b;
+    fi;
+
     b := ISFINITE_THOMPSONWIELANDT@(G);
     if b<>fail then
         return b;
-    elif IsLevelTransitive(G) then
-        return false;
-    else
-        TryNextMethod();
     fi;
+    
+    if IsLevelTransitive(G) then
+        return false;
+    fi;
+    
+    TryNextMethod();
 end);
 
 BindGlobal("SIZE@", function(G,testorder)
@@ -1862,7 +1893,7 @@ BindGlobal("RANDOMNAME@", function()
     return List([1..10],i->Random("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
 end);
 BindGlobal("STRING_GROUP@", function(freecreator, s_generator, creator, arg)
-    local temp, i, gens, states, action, mgens, data, Error, category;
+    local temp, i, gens, states, action, mgens, data, Error, category, machine, group;
     
     Error := function(arg)
         if IsBound(data) then
@@ -1944,12 +1975,12 @@ BindGlobal("STRING_GROUP@", function(freecreator, s_generator, creator, arg)
     if freecreator=FreeGroup and not ForAll(action,ISINVERTIBLE@) then
         Error("<arg> should have the form g=<...>permutation\n");
     fi;
-    temp := FRMachine(data.holder,states,action);
-    i := Set(GeneratorsOfFRMachine(temp));
+    machine := FRMachine(data.holder,states,action);
+    i := Set(GeneratorsOfFRMachine(machine));
     if HasOne(data.holder) then
         AddSet(i,One(data.holder));
     fi;
-    mgens := List(GeneratorsOfFRMachine(temp),x->FRElement(temp,x));
+    mgens := List(GeneratorsOfFRMachine(machine),x->FRElement(machine,x));
     if category=IsFRMealyElement then
         List(mgens,UnderlyingMealyElement); # set attribute
     else
@@ -1960,11 +1991,12 @@ BindGlobal("STRING_GROUP@", function(freecreator, s_generator, creator, arg)
             od;
         fi;
     fi;
-    i := creator(mgens);
-    SetAlphabetOfFRSemigroup(i,AlphabetOfFRObject(temp));
-    SetIsStateClosed(i,true);
+    group := creator(mgens);
+    SetAlphabetOfFRSemigroup(group,AlphabetOfFRObject(machine));
+    SetUnderlyingFRMachine(group,machine);
+    SetIsStateClosed(group,true);
     MakeReadWriteGlobal(data.holdername); UnbindGlobal(data.holdername);
-    return i;
+    return group;
 end);
 
 InstallGlobalFunction(FRGroup,
