@@ -30,8 +30,9 @@ DeclareCategory("IsBiset", IsObject);
 DeclareCategory("IsFRBiset",
         IsBiset and IsAssociativeROpDProd and IsAssociativeLOpDProd);
 
-DeclareRepresentation("IsFRBisetByFRMachine", IsFRBiset and IsAttributeStoringRep, []);
-DeclareRepresentation("IsFRBisetByHomomorphism", IsFRBiset and IsAttributeStoringRep, []);
+DeclareRepresentation("IsFRBisetByFRMachineRep", IsFRBiset and IsAttributeStoringRep, []);
+DeclareRepresentation("IsFRBisetByFRSemigroupRep", IsFRBiset and IsAttributeStoringRep, []);
+DeclareRepresentation("IsFRBisetByHomomorphismRep", IsFRBiset and IsAttributeStoringRep, []);
 
 DeclareCategory("IsBisetElement",
         IsObject);
@@ -46,7 +47,9 @@ DeclareOperation("BisetByFRMachine", [IsFRMachine]);
 DeclareOperation("BisetByFRSemigroup", [IsFRSemigroup]);
 DeclareSynonym("BisetByFRMonoid", BisetByFRSemigroup);
 DeclareSynonym("BisetByFRGroup", BisetByFRSemigroup);
-DeclareOperation("BisetByHomomorphism", [IsMagmaHomomorphism]);
+
+DeclareAttribute("DualBiset", IsFRBiset);
+DeclareOperation("TensorProductOp", [IsList,IsFRBiset]);
 
 DeclareOperation("BisetElement", [IsFRBiset,IsMultiplicativeElement,IsObject]);
 DeclareOperation("BisetElement", [IsFRBiset,IsMultiplicativeElement]);
@@ -61,7 +64,17 @@ DeclareCategory("IsLeftBisetBasis", IsBisetBasis);
 DeclareCategory("IsRightBisetBasis", IsBisetBasis);
 DeclareAttribute("Basis", IsFRBiset);
 DeclareAttribute("LeftBasis", IsFRBiset);
+DeclareOperation("LeftBasis", [IsFRBiset,IsList]);
+DeclareOperation("LeftBasis", [IsFRBiset,IsPerm,IsList]);
+DeclareOperation("LeftBasis", [IsFRBiset,IsTrans,IsList]);
+DeclareOperation("LeftBasis", [IsFRBiset,IsList,IsList]);
 DeclareAttribute("RightBasis", IsFRBiset);
 DeclareAttribute("CanonicalBasis", IsFRBiset);
+
+DeclareAttribute("WreathRecursion", IsFRBiset);
+DeclareOperation("WreathRecursion", [IsFRBiset,IsLeftBisetBasis]);
+
+DeclareAttribute("FRMachine", IsFRBiset);
+DeclareOperation("FRMachine", [IsFRBiset,IsLeftBisetBasis]);
 
 #E bisets.gd. . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here

@@ -63,10 +63,16 @@ InstallMethod(Output, "(FR) for a Mealy element",
         [IsMealyElement and IsMealyMachineIntRep],
         E->E!.output[E!.initial]);
 
-InstallMethod(Output, "(FR) for a Mealy element, state, and input",
+InstallMethod(Output, "(FR) for a Mealy element and input",
+        [IsMealyElement and IsMealyMachineIntRep, IsInt],
+        function(E, i)
+    return E!.output[E!.initial][i];
+end);
+
+InstallMethod(Output, "(FR) for a Mealy machine, a state and a letter",
         [IsMealyElement and IsMealyMachineIntRep, IsInt, IsInt],
-        function(M, s, i)
-    return M!.output[s][i];
+        function(E, s, a)
+    return E!.output[s][a];
 end);
 
 InstallMethod(Output, "(FR) for a Mealy element",
@@ -74,6 +80,18 @@ InstallMethod(Output, "(FR) for a Mealy element",
         function(E)
     return MappingByFunction(DOMALPHABET@(E), DOMALPHABET@(E),
                    a->E!.output(E!.initial,a));
+end);
+
+InstallMethod(Output, "(FR) for a Mealy element and object",
+        [IsMealyElement and IsMealyMachineDomainRep,IsObject],
+        function(E,a)
+    return E!.output(E!.initial,a);
+end);
+
+InstallMethod(Output, "(FR) for a Mealy element, a state and a letter",
+        [IsMealyElement and IsMealyMachineDomainRep, IsObject, IsObject],
+        function(E, s, a)
+    return E!.output(s,a);
 end);
 
 InstallMethod(Transition, "(FR) for a Mealy machine, state, and input",
