@@ -2,9 +2,7 @@
 ##
 #W helpers.gi                                               Laurent Bartholdi
 ##
-#H   @(#)$Id$
-##
-#Y Copyright (C) 2006, Laurent Bartholdi
+#Y Copyright (C) 2012-2013, Laurent Bartholdi
 ##
 #############################################################################
 ##
@@ -34,9 +32,9 @@ BindGlobal("DOC@", function() MakeGAPDocDoc(Concatenation(PATH@,"/doc"),"fr",
 end);
 
 BindGlobal("INSTALLPRINTERS@", function(filter)
-    InstallMethod(PrintObj, [filter], function(x) Print(String(x)); end);
-    InstallMethod(ViewObj, [filter], function(x) Print(ViewString(x)); end);
-    InstallMethod(Display, [filter], function(x) Print(DisplayString(x)); end);
+    InstallMethod(PrintObj, "(FR)", [filter], 2*SUM_FLAGS, function(x) Print(String(x)); end);
+    InstallMethod(ViewObj, "(FR)", [filter], 2*SUM_FLAGS, function(x) Print(ViewString(x)); end);
+    InstallMethod(Display, "(FR)", [filter], 2*SUM_FLAGS, function(x) Print(DisplayString(x)); end);
 end);
 #############################################################################
 
@@ -55,27 +53,6 @@ InstallGlobalFunction(TensorSum, function(arg)
         arg := arg[1];
     fi;
     d := TensorSumOp(arg,arg[1]);
-    if ForAll(arg, HasSize) then
-        if ForAll(arg, IsFinite) then
-            SetSize(d, Product( List(arg, Size)));
-        else
-            SetSize(d, infinity);
-        fi;
-    fi;
-    return d;
-end);
-
-BindGlobal("TENSORPRODUCT@", function(arg)
-    local d;
-    if Length(arg) = 0 then
-        Error("<arg> must be nonempty");
-    elif Length(arg) = 1 and IsList(arg[1])  then
-        if arg[1]=[]  then
-            Error("<arg>[1] must be nonempty");
-        fi;
-        arg := arg[1];
-    fi;
-    d := TensorProductOp(arg,arg[1]);
     if ForAll(arg, HasSize) then
         if ForAll(arg, IsFinite) then
             SetSize(d, Product( List(arg, Size)));

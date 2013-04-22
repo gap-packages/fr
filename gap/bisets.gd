@@ -25,21 +25,56 @@
 # decompose as amalgamated free product, etc.
 # congruence of G-G-bisets, by conjugation.
 
-DeclareCategory("IsFRBiset",
-        IsAssociativeROpDProd and IsAssociativeLOpDProd);
+DeclareCategory("IsBiset", IsObject);
 
-DeclareRepresentation("IsFRBisetByFRMachine", IsFRBiset, []);
+DeclareCategory("IsFRBiset",
+        IsBiset and IsAssociativeROpDProd and IsAssociativeLOpDProd);
+
+DeclareRepresentation("IsFRBisetByFRMachineRep", IsFRBiset and IsAttributeStoringRep, []);
+DeclareRepresentation("IsFRBisetByFRSemigroupRep", IsFRBiset and IsAttributeStoringRep, []);
+DeclareRepresentation("IsFRBisetByHomomorphismRep", IsFRBiset and IsAttributeStoringRep, []);
+
+DeclareCategory("IsBisetElement",
+        IsObject);
+
+DeclareRepresentation("IsBisetElementByPair", IsBisetElement, []);
+DeclareRepresentation("IsBisetElementByElement", IsBisetElement, []);
 
 BindGlobal("FRBISET_FAMILY",
-        NewFamily("FRBisetsFamily",IsFRBiset));
+        NewFamily("FRBisetsFamily",IsObject));
 
 DeclareOperation("BisetByFRMachine", [IsFRMachine]);
 DeclareOperation("BisetByFRSemigroup", [IsFRSemigroup]);
-DeclareOperation("BisetByHomomorphism", [IsMagmaHomomorphism]);
+DeclareSynonym("BisetByFRMonoid", BisetByFRSemigroup);
+DeclareSynonym("BisetByFRGroup", BisetByFRSemigroup);
 
+DeclareAttribute("DualBiset", IsFRBiset);
+DeclareOperation("TensorProductOp", [IsList,IsFRBiset]);
+
+DeclareOperation("BisetElement", [IsFRBiset,IsMultiplicativeElement,IsObject]);
+DeclareOperation("BisetElement", [IsFRBiset,IsMultiplicativeElement]);
+        
 DeclareProperty("IsLeftFree", IsFRBiset);
 DeclareProperty("IsRightFree", IsFRBiset);
 DeclareProperty("IsLeftTransitive", IsFRBiset);
 DeclareProperty("IsRightTransitive", IsFRBiset);
+
+DeclareCategory("IsBisetBasis", IsBasis);
+DeclareCategory("IsLeftBisetBasis", IsBisetBasis);
+DeclareCategory("IsRightBisetBasis", IsBisetBasis);
+DeclareAttribute("Basis", IsFRBiset);
+DeclareAttribute("LeftBasis", IsFRBiset);
+DeclareOperation("LeftBasis", [IsFRBiset,IsList]);
+DeclareOperation("LeftBasis", [IsFRBiset,IsPerm,IsList]);
+DeclareOperation("LeftBasis", [IsFRBiset,IsTrans,IsList]);
+DeclareOperation("LeftBasis", [IsFRBiset,IsList,IsList]);
+DeclareAttribute("RightBasis", IsFRBiset);
+DeclareAttribute("CanonicalBasis", IsFRBiset);
+
+DeclareAttribute("WreathRecursion", IsFRBiset);
+DeclareOperation("WreathRecursion", [IsFRBiset,IsLeftBisetBasis]);
+
+DeclareAttribute("FRMachine", IsFRBiset);
+DeclareOperation("FRMachine", [IsFRBiset,IsLeftBisetBasis]);
 
 #E bisets.gd. . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here

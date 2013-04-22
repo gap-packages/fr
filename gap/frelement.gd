@@ -629,6 +629,7 @@ DeclareOperation("ComposeElement", [IsFRElementCollection, IsObject]);
 ## <#/GAPDoc>
 ##
 DeclareOperation("Output", [IsFRElement]);
+DeclareOperation("Output", [IsFRElement, IsObject]);
 DeclareOperation("Output", [IsFRElement, IsObject, IsObject]);
 DeclareOperation("Transition", [IsFRElement, IsObject]);
 DeclareOperation("Transition", [IsFRElement, IsObject, IsObject]);
