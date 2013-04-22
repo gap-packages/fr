@@ -109,7 +109,7 @@ InstallMethod(FREFamily, "(FR) for a FR element",
 #O FRElement(FRMachine, Init)
 ##
 BindGlobal("FRETYPE@", function(f)
-    if IsFreeGroup(f) then
+    if IsGroup(f) then
         return IsGroupFRElement and IsFRElementStdRep;
     elif HasIsFreeMonoid(f) and IsFreeMonoid(f) then
         return IsMonoidFRElement and IsFRElementStdRep;

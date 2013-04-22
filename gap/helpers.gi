@@ -62,27 +62,6 @@ InstallGlobalFunction(TensorSum, function(arg)
     fi;
     return d;
 end);
-
-BindGlobal("TENSORPRODUCT@", function(arg)
-    local d;
-    if Length(arg) = 0 then
-        Error("<arg> must be nonempty");
-    elif Length(arg) = 1 and IsList(arg[1])  then
-        if arg[1]=[]  then
-            Error("<arg>[1] must be nonempty");
-        fi;
-        arg := arg[1];
-    fi;
-    d := TensorProductOp(arg,arg[1]);
-    if ForAll(arg, HasSize) then
-        if ForAll(arg, IsFinite) then
-            SetSize(d, Product( List(arg, Size)));
-        else
-            SetSize(d, infinity);
-        fi;
-    fi;
-    return d;
-end);
 #############################################################################
 
 #############################################################################

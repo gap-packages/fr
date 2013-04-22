@@ -2013,6 +2013,28 @@ InstallGlobalFunction(FRSemigroup,
         function(arg)
     return STRING_GROUP@(FreeSemigroup, "GeneratorsOfSemigroup", Semigroup, arg);
 end);
+
+InstallGlobalFunction(NewSemigroupFRMachine,
+        function(arg)
+    if Length(arg)=1 and IsSemigroupFRMachine(arg[1]) then
+        return COPYFRMACHINE@(arg[1]);
+    fi;
+    return UnderlyingFRMachine(CallFuncList(FRSemigroup,arg:IsFRElement).1);
+end);
+InstallGlobalFunction(NewMonoidFRMachine,
+        function(arg)
+    if Length(arg)=1 and IsMonoidFRMachine(arg[1]) then
+        return COPYFRMACHINE@(arg[1]);
+    fi;
+    return UnderlyingFRMachine(CallFuncList(FRMonoid,arg:IsFRElement).1);
+end);
+InstallGlobalFunction(NewGroupFRMachine,
+        function(arg)
+    if Length(arg)=1 and IsGroupFRMachine(arg[1]) then
+        return COPYFRMACHINE@(arg[1]);
+    fi;
+    return UnderlyingFRMachine(CallFuncList(FRGroup,arg:IsFRElement).1);
+end);
 #############################################################################
 
 #############################################################################
@@ -2566,13 +2588,13 @@ InstallMethod(WeaklyBranchedEmbedding, "(FR) for an FR semigroup",
         for i in GeneratorsOfFRMachine(adder) do
             Add(gens,FRElement(m,i^Correspondence(m)[2]));
         od;
-        m := TENSORPRODUCT@(UnderlyingFRMachine(g),UnderlyingFRMachine(g));
+        m := TensorProduct(UnderlyingFRMachine(g),UnderlyingFRMachine(g));
         gensg := List(GeneratorsOfFRMachine(g),x->FRElement(m,x));
     else
         gens := [];
         gensg := [];
         for i in GeneratorsOfGroup(g) do
-            m := TENSORPRODUCT@(UnderlyingFRMachine(i),UnderlyingFRMachine(i));
+            m := TensorProduct(UnderlyingFRMachine(i),UnderlyingFRMachine(i));
             Add(gensg,FRElement(m,InitialState(i)));
             m := TreeWreathProduct(UnderlyingFRMachine(i),adder,1,1);
             Add(gens,FRElement(m,InitialState(i)^Correspondence(m)[1]));

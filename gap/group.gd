@@ -126,11 +126,39 @@ DeclareAttribute("AlphabetOfFRSemigroup", IsFRSemigroup);
 ## ]]></Example>
 ##   </Description>
 ## </ManSection>
+##
+## <ManSection>
+##   <Attr Name="NewSemigroupFRMachine" Arg="..."/>
+##   <Attr Name="NewMonoidFRMachine" Arg="..."/>
+##   <Attr Name="NewGroupFRMachine" Arg="..."/>
+##   <Returns>A new FR machine, based on string descriptions.</Returns>
+##   <Description>
+##     This command constructs a new FR machine, in a format similar to
+##     <Ref Func="FRGroup"/>; namely, the arguments are strings of the form
+##     "gen=&lt;word-1,...,word-d&gt;perm"; each <C>word-i</C> is a word in the
+##     generators; and <C>perm</C> is a transformation,
+##     either written in disjoint cycle or in images notation.
+##
+##     <P/>Except in the semigroup case, <C>word-i</C> is allowed to be the
+##     empty string; and the "&lt;...&gt;" may be skipped altogether.
+##     In the group or IMG case, each <C>word-i</C> may also contain inverses.
+##         
+##     <P/>The following example constructs the "universal Grigorchuk machine".
+## <Example><![CDATA[
+## gap> m := NewGroupFRMachine("a=(1,2)(3,4)(5,6)","b=<a,b,a,b,,b>",
+##      "c=<a,c,,c,a,c>","d=<,d,a,d,a,d>");
+## gap> <FR machine with alphabet [ 1, 2, 3, 4, 5, 6 ] on Group( [ a, b, c, d ] )>
+## ]]></Example>
+##   </Description>
+## </ManSection>
 ## <#/GAPDoc>
 ##
 DeclareGlobalFunction("FRGroup");
 DeclareGlobalFunction("FRSemigroup");
 DeclareGlobalFunction("FRMonoid");
+DeclareGlobalFunction("NewSemigroupFRMachine");
+DeclareGlobalFunction("NewMonoidFRMachine");
+DeclareGlobalFunction("NewGroupFRMachine");
 #############################################################################
 
 #############################################################################

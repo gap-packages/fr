@@ -34,6 +34,12 @@ BindGlobal("DOMALPHABET@", function(M)
     if IsDomain(a) then return a; else return Domain(a); fi;
 end);
 
+InstallMethod(Output, "(FR) for a Mealy machine",
+        [IsMealyMachine and IsMealyMachineIntRep],
+        function(M)
+    return M!.output;
+end);
+
 InstallMethod(Output, "(FR) for a Mealy machine and a state",
         [IsMealyMachine and IsMealyMachineIntRep, IsInt],
         function(M, s)
@@ -44,6 +50,13 @@ InstallMethod(Output, "(FR) for a Mealy machine, a state and a letter",
         [IsMealyMachine and IsMealyMachineIntRep, IsInt, IsInt],
         function(M, s, a)
     return M!.output[s][a];
+end);
+
+InstallMethod(Output, "(FR) for a Mealy machine",
+        [IsMealyMachine and IsMealyMachineDomainRep], 20,
+        function(M)
+    return s->MappingByFunction(DOMALPHABET@(M), DOMALPHABET@(M),
+                   a->M!.output(s,a));
 end);
 
 InstallMethod(Output, "(FR) for a Mealy machine and a state",

@@ -62,7 +62,7 @@ InstallMethod(IsSemigroupFRMachine, [IsFRMachine], ReturnFalse);
 #O FRMachine([Semi]Group, Transitions, Output)
 ##
 InstallOtherMethod(FRMachineNC, "(FR) for a family, a free group, a list of transitions and a list of outputs",
-        [IsFamily, IsFreeGroup, IsList, IsList],
+        [IsFamily, IsGroup, IsList, IsList],
         function(fam,free,transitions,output)
     local M, F;
     F := FamilyObj(Representative(free));
@@ -229,7 +229,7 @@ InstallMethod(FRMachine, "(FR) for a free [semi]group, a list of transitions and
     local t, elfree, r, i;
     t := rec();
     CHECKLENGTHSCONTENTS@(t, transitions, output);
-    if IsFreeGroup(free) and not t.invertible then
+    if IsGroup(free) and not t.invertible then
         Error("Outputs must be invertible in group FR machine: ",t.output);
     fi;
     elfree := FamilyObj(Representative(free));
@@ -798,11 +798,37 @@ end);
 #O Output(Machine, State)
 #O Transition(Machine, State, Letter)
 ##
+InstallMethod(Output, "(FR) for an FR machine",
+        [IsGroupFRMachine and IsFRMachineStdRep],
+        function(M)
+    local image;
+    image := List(M!.output,PermList);
+    return GroupHomomorphismByImages(StateSet(M),Group(image),image);
+end);
+
+InstallMethod(Output, "(FR) for an FR machine",
+        [IsMonoidFRMachine and IsFRMachineStdRep],
+        function(M)
+    local image;
+    image := List(M!.output,TransList);
+    return SemigroupHomomorphismByImagesNC(StateSet(M),Monoid(image),image);
+end);
+
+InstallMethod(Output, "(FR) for an FR machine",
+        [IsSemigroupFRMachine and IsFRMachineStdRep],
+        function(M)
+    local image;
+    image := List(M!.output,TransList);
+    return SemigroupHomomorphismByImagesNC(StateSet(M),Semigroup(image),image);
+end);
+
 InstallMethod(Output, "(FR) for an FR machine and a state expressed as an integer",
         [IsFRMachine and IsFRMachineStdRep, IsInt],
         function(M, i)
     if i > 0 then
         return M!.output[i];
+    elif i = 0 then
+        return AlphabetOfFRObject(M);
     else
         return INVERSE@(M!.output[-i]);
     fi;
@@ -978,13 +1004,14 @@ end);
 InstallMethod(FRMachineRWS, "(FR) for an FR machine",
         [IsFRMachine and IsFRMachineStdRep],
         function(M)
-    local output, alphabet, transitions, inverse, iso, gens, rws;
+    local output, alphabet, transitions, inverse, iso, fpmonoid, gens, mgens, rws;
 
     if IsGroupFRMachine(M) then
         iso := IsomorphismFpMonoidInversesFirst(M!.free);
+        mgens := List(GeneratorsOfMonoid(Range(iso)),x->PreImage(iso,x));
         rws := rec(rws := KnuthBendixRewritingSystem(Range(iso)),
                    letterrep := w->LetterRepAssocWord(UnderlyingElement(w^iso)),
-                   letterunrep := w->Product(GeneratorsOfMonoid(M!.free){w},One(M!.free)));
+                   letterunrep := w->Product(mgens{w},One(M!.free)));
         gens := List(GeneratorsOfMonoid(Range(iso)),
                      w->FRElement(M,PreImagesRepresentative(iso,w)));
         inverse := List(gens,w->rws.letterrep(InitialState(w)^-1)[1]);
@@ -1090,6 +1117,121 @@ InstallGlobalFunction(NewFRMachineRWS, "(FR) will restart with fresh rules",
     return rws;
 end);
 #############################################################################
+
+############################################################################
+##
+#O States(FRMachine)
+##
+InstallMethod(States, "(FR) for an FR machine and an element",
+        [IsFRMachine, IsMultiplicativeElement],
+        function(M,x)
+    return States(M,[x]);
+end);
+
+InstallOtherMethod(States, "(FR) for an FR machine and a list of elements",
+        [IsFRMachine, IsMultiplicativeElementCollection],
+        function(M,L)
+    local states, i, x, stateset;
+    states := ShallowCopy(L);
+    stateset := Set(states);
+    i := 1;
+    while i <= Length(states) do
+        for x in Transitions(M,states[i]) do
+            if not x in stateset then
+                Add(states,x);
+                AddSet(stateset,x);
+            fi;
+        od;
+        i := i+1;
+        if RemInt(i,100)=0 then
+            Info(InfoFR, 2, "The states contain at least ", states);
+        fi;
+    od;
+    return states;
+end);
+
+InstallMethod(FixedStates, "(FR) for an FR machine and an element",
+        [IsFRMachine, IsMultiplicativeElement],
+        function(M,x)
+    return FixedStates(M,[x]);
+end);
+
+InstallMethod(FixedStates, "(FR) for a list of FR elements",
+        [IsFRMachine, IsMultiplicativeElementCollection],
+        function(M,L)
+    local states, alphabet, i, x, addstates, stateset;
+    states := [];
+    stateset := [];
+    alphabet := AlphabetOfFRObject(M);
+    addstates := function(x)
+        local i, o, t;
+        o := Output(M,x);
+        t := Transitions(M,x);
+        for i in [1..Length(alphabet)] do
+            if o[i]=alphabet[i] and not t[i] in stateset then
+                Add(states,t[i]);
+                AddSet(stateset,t[i]);
+            fi;
+        od;
+    end;
+    for x in L do addstates(x); od;
+    i := 1;
+    while i <= Length(states) do
+        addstates(states[i]);
+        i := i+1;
+        if RemInt(i,100)=0 then
+            Info(InfoFR, 2, "The fixed states contain at least ", states);
+        fi;
+    od;
+    return states;
+end);
+
+InstallMethod(LimitStates, "(FR) for an FR machine and element",
+        [IsFRMachine,IsMultiplicativeElement],
+        function(M,x)
+    return LimitStates(M,[x]);
+end);
+
+InstallMethod(LimitStates, "(FR) for an FR machine and a list of elements",
+        [IsFRMachine,IsMultiplicativeElementCollection],
+        function(M,L)
+    local s, d, S, oldS;
+    s := Set(States(M,L));
+    d := List(s,w->BlistList([1..Length(s)],List(DecompositionOfFRElement(w)[1],x->Position(s,x))));
+    S := BlistList([1..Length(s)],[1..Length(s)]);
+    repeat
+        oldS := S;
+        S := UnionBlist(ListBlist(d,S));
+    until oldS=S;
+    return ListBlist(s,S);
+end);
+
+InstallMethod(CoverNucleus, "(FR) for an FR machine",
+        [IsFRMachine],
+        function(M)
+    local s, news, olds, gens, g, h;
+
+    gens := Set(GeneratorsOfFRMachine(M));
+    news := gens;
+    s := [];
+
+    while true do
+        olds := ShallowCopy(s);
+        UniteSet(s,LimitStates(M,news));
+        if Length(s)=Length(olds) then
+            return s;
+        fi;
+
+        news := [];
+        for g in Difference(s,olds) do
+            if g in FixedStates(g) and Order(g)=infinity then
+                return fail;
+            fi;
+            for h in gens do AddSet(news,g*h); od;
+        od;
+        Info(InfoFR, 2, "Nucleus: The nucleus contains at least ",s);
+    od;
+end);
 
 #############################################################################
 ##
@@ -1534,12 +1676,12 @@ end);
 InstallMethod(ChangeFRMachineBasis, "(FR) for a group FR machine and a list",
         [IsGroupFRMachine, IsCollection],
         function(M,l)
-    return CHANGEFRMACHINEBASIS@(M,l,());
+    return ChangeFRMachineBasis(M,l,());
 end);	
 InstallMethod(ChangeFRMachineBasis, "(FR) for a group FR machine and a permutation",
         [IsGroupFRMachine, IsPerm],
         function(M,p)
-    return CHANGEFRMACHINEBASIS@(M,List(AlphabetOfFRObject(M),x->One(StateSet(M))),p);
+    return ChangeFRMachineBasis(M,List(AlphabetOfFRObject(M),x->One(StateSet(M))),p);
 end);	
 InstallMethod(ChangeFRMachineBasis, "(FR) for a group FR machine, a list and a permutation",
         [IsGroupFRMachine, IsCollection, IsPerm],
@@ -1585,7 +1727,7 @@ InstallMethod(ChangeFRMachineBasis, "(FR) for an FR machine",
             fi;
         od;
     od;
-    return CHANGEFRMACHINEBASIS@(M,l,());
+    return ChangeFRMachineBasis(M,l,());
 end);
 ################################################################
 

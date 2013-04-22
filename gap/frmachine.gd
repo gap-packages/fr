@@ -342,6 +342,11 @@ DeclareAttribute("UnderlyingFRMachine",IsFRObject);
 ##
 DeclareAttribute("StateSet", IsFRObject);
 DeclareAttribute("GeneratorsOfFRMachine", IsFRMachine);
+DeclareOperation("States", [IsFRMachine, IsObject]);
+DeclareOperation("LimitStates", [IsFRMachine, IsObject]);
+DeclareOperation("FixedStates", [IsFRMachine, IsObject]);
+DeclareOperation("CoverNucleus", [IsFRMachine]);
+
 #############################################################################
 
 ############################################################################
@@ -352,18 +357,21 @@ DeclareAttribute("GeneratorsOfFRMachine", IsFRMachine);
 ##
 ## <#GAPDoc Label="Output/machine">
 ## <ManSection>
+##   <Oper Name="Output" Arg="m" Label="FR machine,state"/>
 ##   <Oper Name="Output" Arg="m,s" Label="FR machine,state"/>
 ##   <Oper Name="Output" Arg="m,s,x" Label="FR machine,state,letter"/>
 ##   <Returns>A transformation of <A>m</A>'s alphabet.</Returns>
 ##   <Description>
-##     This function returns the transformation of <A>m</A>'s
+##     In the first form, this function returns the output of <A>m</A>.
+##     
+##     <P/> In the second form, this function returns the transformation of <A>m</A>'s
 ##     alphabet associated with state <A>s</A>. This transformation is
 ##     returned as a list of images.
 ##
 ##     <P/> <A>s</A> is also allowed to be a list, in which case it is
 ##     interpreted as the corresponding product of states.
 ##
-##     <P/> In the second form, the result is actually the image of <A>x</A>
+##     <P/> In the third form, the result is actually the image of <A>x</A>
 ##     under <C>Output(m,s)</C>.
 ## <Example><![CDATA[
 ## gap> n := FRMachine(["a","b"],[[[],[2]],[[],[1]]],[(1,2),()]);
@@ -441,6 +449,7 @@ DeclareAttribute("GeneratorsOfFRMachine", IsFRMachine);
 ##
 DeclareAttribute("WreathRecursion", IsFRMachine);
 DeclareOperation("VirtualEndomorphism", [IsFRMachine, IsObject]);
+DeclareOperation("Output", [IsFRMachine]);
 DeclareOperation("Output", [IsFRMachine, IsObject]);
 DeclareOperation("Output", [IsFRMachine, IsObject, IsObject]);
 DeclareOperation("Transition", [IsFRMachine, IsObject, IsObject]);
