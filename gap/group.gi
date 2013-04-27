@@ -2016,24 +2016,24 @@ end);
 
 InstallGlobalFunction(NewSemigroupFRMachine,
         function(arg)
-    if Length(arg)=1 and IsSemigroupFRMachine(arg[1]) then
+    if Length(arg)=1 and HasIsSemigroupFRMachine(arg[1]) and IsSemigroupFRMachine(arg[1]) then
         return COPYFRMACHINE@(arg[1]);
     fi;
-    return UnderlyingFRMachine(CallFuncList(FRSemigroup,arg:IsFRElement).1);
+    return UnderlyingFRMachine(CallFuncList(FRSemigroup,Concatenation(arg,[IsFRElement])).1);
 end);
 InstallGlobalFunction(NewMonoidFRMachine,
         function(arg)
-    if Length(arg)=1 and IsMonoidFRMachine(arg[1]) then
+    if Length(arg)=1 and HasIsMonoidFRMachine(arg[1]) and IsMonoidFRMachine(arg[1]) then
         return COPYFRMACHINE@(arg[1]);
     fi;
-    return UnderlyingFRMachine(CallFuncList(FRMonoid,arg:IsFRElement).1);
+    return UnderlyingFRMachine(CallFuncList(FRMonoid,Concatenation(arg,[IsFRElement])).1);
 end);
 InstallGlobalFunction(NewGroupFRMachine,
         function(arg)
-    if Length(arg)=1 and IsGroupFRMachine(arg[1]) then
+    if Length(arg)=1 and HasIsGroupFRMachine(arg[1]) and IsGroupFRMachine(arg[1]) then
         return COPYFRMACHINE@(arg[1]);
     fi;
-    return UnderlyingFRMachine(CallFuncList(FRGroup,arg:IsFRElement).1);
+    return UnderlyingFRMachine(CallFuncList(FRGroup,Concatenation(arg,[IsFRElement])).1);
 end);
 #############################################################################
 
