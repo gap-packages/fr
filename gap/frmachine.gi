@@ -385,7 +385,7 @@ InstallMethod(InverseOp, "(FR) for a group FR machine",
         function(M)
     local N;
     N := FRMachineNC(FamilyObj(M), M!.free,
-                 List([1..Length(M!.transitions)], i->List(M!.transitions[i]{M!.output[i]},InverseOp)),
+                 List([1..Length(M!.transitions)], i->M!.transitions[i]{M!.output[i]}),
                  List(M!.output, INVERSE@));
     SetInverse(M,N);
     SetInverse(N,M);
@@ -395,9 +395,10 @@ end);
 InstallMethod(IsReversible, "(FR) for a group FR machine",
         [IsGroupFRMachine],
         function(M)
-    local a;
+    local a, hom;
     for a in AlphabetOfFRObject(M) do
-        if Inverse(GroupHomomorphismByImages(StateSet(M),StateSet(M),GeneratorsOfFRMachine(M),M!.transitions{[1..Length(M!.transitions)]}[a]))=fail then
+        hom := GroupHomomorphismByImages(StateSet(M),StateSet(M),GeneratorsOfFRMachine(M),M!.transitions{[1..Length(M!.transitions)]}[a]);
+        if not IsBijective(hom) then
             return false;
         fi;
     od;

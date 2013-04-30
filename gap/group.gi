@@ -1001,16 +1001,6 @@ InstallMethod(IsTrivial, "(FR) for an FR group",
 end);
 
 InstallMethod(Size, "(FR) for an FR semigroup",
-        [IsFRSemigroup], 10,
-        function(G)
-    local b, gens, rays;
-    if IsFinitaryFRSemigroup(G) then
-        return SIZE@(G,false);
-    fi;
-    TryNextMethod();
-end);
-
-InstallMethod(Size, "(FR) for an FR semigroup",
         [IsFRSemigroup],
         function(G)
     return SIZE@(G,false);
