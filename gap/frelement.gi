@@ -1229,10 +1229,10 @@ BindGlobal("ORDER@", function(e)
 end);
 
 InstallMethod(Order, "(FR) for an FR element; not guaranteed to terminate",
-        [IsFRElement and IsFRElementStdRep], ORDER@);
+        [IsFRElement and IsFRElementStdRep and IsInvertible], ORDER@);
         
 InstallMethod(Order, "(FR) for a Mealy element; not guaranteed to terminate",
-        [IsMealyElement], ORDER@);
+        [IsMealyElement and IsInvertible], ORDER@);
         
 InstallMethod(IsLevelTransitive, "(FR) for a group FR element",
         [IsGroupFRMealyElement],

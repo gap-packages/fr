@@ -1016,19 +1016,13 @@ InstallMethod(Size, "(FR) for an FR semigroup",
     return SIZE@(G,false);
 end);
 
-InstallMethod(Size, "(FR) for an FR semigroup",
-        [IsFRSemigroup],
-        function(G)
-    return SIZE@(G,true);
-end);
-
 InstallMethod(Size, "(FR) for an FR group",
         [IsFRGroup],
         function(G)
     local b, gens, rays;
     b := ISFINITE_THOMPSONWIELANDT@(G);
     if b=true then
-        TryNextMethod();
+        return SIZE@(G,false);
     elif b=false then
         return infinity;
     elif IsBoundedFRSemigroup(G) then
@@ -1040,7 +1034,7 @@ InstallMethod(Size, "(FR) for an FR group",
     fi;
     if IsLevelTransitive(G) then return infinity; fi;
     #!!! try to find a subgroup that acts transitively on a subtree
-    TryNextMethod();
+    return SIZE@(G,true);
 end);
 
 SEARCH@.NEXTITERATOR := function(iter)

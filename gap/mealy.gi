@@ -409,6 +409,7 @@ BindGlobal("MMMINIMIZE@", function(fam,alphabet,nrstates,transitions,output,init
                     if IsBound(snart[a][j]) then Append(ci,snart[a][j]); fi;
                 od;
                 if Length(ci) = 0 or Length(ci) = Length(states) then continue; fi;
+                ci := AsSortedList(ci);
                 for j in Set(trap{ci}) do
                     p := part[j];
                     if Length(part[j]) > 1 then
