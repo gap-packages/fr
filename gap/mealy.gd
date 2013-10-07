@@ -740,7 +740,6 @@ DeclareOperation("Depth", [IsFRObject]);
 ## <#/GAPDoc>
 ##
 DeclareOperation("GuessMealyElement", [IsPerm, IsPosInt, IsInt]);
-DeclareOperation("GuessMealyElement", [IsTrans, IsPosInt, IsInt]);
 DeclareOperation("GuessMealyElement", [IsTransformation, IsPosInt, IsInt]);
 #############################################################################
 
@@ -1026,8 +1025,6 @@ DeclareOperation("TopElement", [IsPerm]);
 DeclareOperation("TopElement", [IsPerm,IsInt]);
 DeclareOperation("TopElement", [IsTransformation]);
 DeclareOperation("TopElement", [IsTransformation,IsInt]);
-DeclareOperation("TopElement", [IsTrans]);
-DeclareOperation("TopElement", [IsTrans,IsInt]);
 #############################################################################
 
 #############################################################################

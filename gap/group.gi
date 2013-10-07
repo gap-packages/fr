@@ -590,7 +590,7 @@ InstallGlobalFunction(FullSCMonoid,
         function(arg)
     local M;
     M := FULLGETDATA@(arg,Monoid,IsMonoid,IsFRMonoid,GeneratorsOfMonoid,AsMonoidFRElement,
-                 FullTransMonoid,
+                 FullTransformationMonoid,
                  "Monoid");
     return M;
 end);
@@ -599,7 +599,7 @@ InstallGlobalFunction(FullSCSemigroup,
         function(arg)
     local S;
     S := FULLGETDATA@(arg,Semigroup,IsSemigroup,IsFRSemigroup,GeneratorsOfSemigroup,AsSemigroupFRElement,
-                 FullTransMonoid,"Semigroup");
+                 FullTransformationSemigroup,"Semigroup");
     return S;
 end);
 
@@ -668,7 +668,7 @@ BindGlobal("RANDOMBOUNDED@", function(G)
     M := UnderlyingFRMachine(F);
     for i in [0..5] do
         n := Random([1..4]);
-        E := MealyMachineNC(FRMFamily(AlphabetOfFRSemigroup(G)),List([1..n],i->List([1..s],i->Random(n+[1..M!.nrstates]))),List([1..n],i->ListTrans(Random(FullSCVertex(G)),s)))+M;
+        E := MealyMachineNC(FRMFamily(AlphabetOfFRSemigroup(G)),List([1..n],i->List([1..s],i->Random(n+[1..M!.nrstates]))),List([1..n],i->ListTransformation(Random(FullSCVertex(G)),s)))+M;
         for j in [1..n] do
             E!.transitions[j][Random([1..s])] := 1+RemInt(j,n);
         od;
@@ -854,7 +854,7 @@ InstallMethod(\in, "(FR) for an FR element and a full SC semigroup",
         function ( g, G )
     if FullSCFilter(G)=IsFRObject then
         return fail;
-    elif not ForAll(States(g), s->Trans(Output(s)) in FullSCVertex(G)) then
+    elif not ForAll(States(g), s->TransformationList(Output(s)) in FullSCVertex(G)) then
         return false;
     elif not FullSCFilter(G)(g) then
         return false;
@@ -1258,7 +1258,7 @@ end);
 InstallMethod(TopVertexTransformations, "(FR) for a FR monoid",
         [IsFRMonoid],
         function(g)
-    if GeneratorsOfMonoid(g)=[] then return Monoid(OneTrans); fi;
+    if GeneratorsOfMonoid(g)=[] then return Monoid(IdentityTransformation); fi;
     return Monoid(List(GeneratorsOfMonoid(g),ActivityTransformation));
 end);
 
@@ -1278,7 +1278,7 @@ end);
 InstallMethod(VertexTransformations, "(FR) for a FR monoid",
         [IsFRMonoid],
         function(g)
-    if GeneratorsOfMonoid(g)=[] then return Monoid(OneTrans); fi;
+    if GeneratorsOfMonoid(g)=[] then return Monoid(IdentityTransformation); fi;
     return Monoid(Concatenation(List(GeneratorsOfMonoid(g),g->List(States(g),ActivityTransformation))));
 end);
 
@@ -1352,7 +1352,7 @@ BindGlobal("PERMTRANS2COLL@", function(l)
         return l;
     else # is a combination of permutations and transformations
         for i in [1..Length(l)] do
-            if IsPerm(l[i]) then l[i] := AsTrans(l[i]); fi;
+            if IsPerm(l[i]) then l[i] := AsTransformation(l[i]); fi;
         od;
         return l;
     fi;
@@ -1379,12 +1379,6 @@ InstallMethod(TransformationMonoid, "(FR) for a f.g. FR monoid and a level",
     return TRANSMONOID@(g,n,GeneratorsOfMonoid,[HasGeneratorsOfMonoid,HasGeneratorsOfGroup],FullSCMonoid,Monoid,Transformation,Submonoid,ActivityTransformation);
 end);
 
-InstallMethod(TransMonoid, "(FR) for a f.g. FR monoid and a level",
-        [IsFRMonoid, IsInt],
-        function(g, n)
-    return TRANSMONOID@(g,n,GeneratorsOfMonoid,[HasGeneratorsOfMonoid,HasGeneratorsOfGroup],FullSCMonoid,Monoid,Trans,Submonoid,Activity);
-end);
-
 InstallMethod(EpimorphismTransformationMonoid, "(FR) for a f.g. FR monoid and a level",
         [IsFRMonoid, IsInt],
         function(g, n)
@@ -1395,26 +1389,10 @@ InstallMethod(EpimorphismTransformationMonoid, "(FR) for a f.g. FR monoid and a 
     return f;
 end);
 
-InstallMethod(EpimorphismTransMonoid, "(FR) for a f.g. FR monoid and a level",
-        [IsFRMonoid, IsInt],
-        function(g, n)
-    local q, f;
-    q := TransMonoid(g,n);
-    f := MagmaHomomorphismByFunctionNC(g,q,w->Activity(w,n));
-    f!.prefun := x->Error("Factorization not implemented in monoids");
-    return f;
-end);
-
 InstallMethod(TransformationSemigroup, "(FR) for a f.g. FR semigroup and a level",
         [IsFRSemigroup, IsInt],
         function(g, n)
     return TRANSMONOID@(g,n,GeneratorsOfSemigroup,[HasGeneratorsOfSemigroup,HasGeneratorsOfMonoid,HasGeneratorsOfGroup],FullSCSemigroup,Semigroup,Transformation,Subsemigroup,ActivityTransformation);
-end);
-
-InstallMethod(TransSemigroup, "(FR) for a f.g. FR semigroup and a level",
-        [IsFRSemigroup, IsInt],
-        function( g, n )
-    return TRANSMONOID@(g,n,GeneratorsOfSemigroup,[HasGeneratorsOfSemigroup,HasGeneratorsOfMonoid,HasGeneratorsOfGroup],FullSCSemigroup,Semigroup,Trans,Subsemigroup,Activity);
 end);
 
 InstallMethod(EpimorphismTransformationSemigroup, "(FR) for a f.g. FR semigroup and a level",
@@ -1423,16 +1401,6 @@ InstallMethod(EpimorphismTransformationSemigroup, "(FR) for a f.g. FR semigroup 
     local q ,f;
     q := TransformationSemigroup(g,n);
     f := MagmaHomomorphismByFunctionNC(g,q,w->ActivityTransformation(w,n));
-    f!.prefun := x->Error("Factorization not implemented in semigroups");
-    return f;
-end);
-
-InstallMethod(EpimorphismTransSemigroup, "(FR) for a f.g. FR semigroup and a level",
-        [IsFRSemigroup, IsInt],
-        function( g, n )
-    local q ,f;
-    q := TransSemigroup(g,n);
-    f := MagmaHomomorphismByFunctionNC(g,q,w->Activity(w,n));
     f!.prefun := x->Error("Factorization not implemented in semigroups");
     return f;
 end);
@@ -1866,9 +1834,7 @@ BindGlobal("STRING_TRANSFORMATION2GAP@", function(t,data)
     if IsPerm(p) then
         p := ListPerm(p);
     elif IsTransformation(p) then
-        p := ImageListOfTransformation(p);
-    elif IsTrans(p) then
-        p := ListTrans(p);
+        p := ListTransformation(p);
     fi;
     data.degree := Maximum(data.degree,Length(p),MaximumList(p,0));
     return p;
@@ -2965,8 +2931,8 @@ InstallMethod(GermValue, "(FR) for a Mealy element and germ data",
     elm := ASINTREP@(elm);
     m := UnderlyingFRMachine(elm);
     m0 := m+data.nucleusmachine;
-    corr := [ListTrans(Correspondence(m0)[1],Size(StateSet(m))),
-             ListTrans(Correspondence(m0)[2],Size(StateSet(data.nucleusmachine)))];
+    corr := [ListTransformation(Correspondence(m0)[1],Size(StateSet(m))),
+             ListTransformation(Correspondence(m0)[2],Size(StateSet(data.nucleusmachine)))];
     m := Minimized(m0);
     corr := List(corr,x->List(x,x->x^Correspondence(m)));
 

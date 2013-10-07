@@ -2,9 +2,7 @@
 ##
 #W  frelements.g                  FR Package                Laurent Bartholdi
 ##
-#H  @(#)$Id$
-##
-#Y  Copyright (C) 2006,  Laurent Bartholdi
+#Y  Copyright (C) 2006-2013,  Laurent Bartholdi and Olivier Siegenthaler
 ##
 #############################################################################
 ##
@@ -90,9 +88,9 @@ Add(frel, []);
 f := FreeMonoid(3);
 
 Add(frel[7], List(GeneratorsOfMonoid(f), g -> FRElementNC(FREFamily([1..2]), f, [[f.1, f.3], [f.2, One(f)], [f.2, f.1]], [[1,1], [2,1], [2,2]], g)));
-Add(frel[7], List([1..3], i -> FRElement(["z","y","x"], [[[1], [3]], [[2], []], [[2], [1]]], [Trans([1,1]), (1,2), Trans([2,2])], [i])));
-Add(frel[7], List(GeneratorsOfMonoid(f), g -> FRElement(f, [[f.1, f.3], [f.2, One(f)], [f.2, f.1]], [Trans([1,1]), (1,2), Trans([2,2])], g)));
-m := FRMachine(["z","y","x"], [[[1], [3]], [[2], []], [[2], [1]]], [Trans([1,1]), (1,2), Trans([2,2])]);
+Add(frel[7], List([1..3], i -> FRElement(["z","y","x"], [[[1], [3]], [[2], []], [[2], [1]]], [Transformation([1,1]), (1,2), Transformation([2,2])], [i])));
+Add(frel[7], List(GeneratorsOfMonoid(f), g -> FRElement(f, [[f.1, f.3], [f.2, One(f)], [f.2, f.1]], [Transformation([1,1]), (1,2), Transformation([2,2])], g)));
+m := FRMachine(["z","y","x"], [[[1], [3]], [[2], []], [[2], [1]]], [Transformation([1,1]), (1,2), Transformation([2,2])]);
 Add(frel[7], List([1..3], i -> FRElement(m, i)));
 
 # m8 : a miscellaneous SemigroupFRMachine on a 7-ary tree
@@ -101,9 +99,9 @@ Add(frel, []);
 f := FreeMonoid(2);
 
 Add(frel[8], List(GeneratorsOfMonoid(f), g -> FRElementNC(FREFamily([1..7]), f, [[f.1,f.2,f.1,f.2,f.1,f.2,f.1],[f.2,f.2,f.1,f.2,f.1,f.1,f.2]], [[2,5,4,7,7,4,3],[3,1,6,7,4,7,1]], g)));
-Add(frel[8], List([1,2], i -> FRElement(["a","b"],[[[1],[2],[1],[2],[1],[2],[1]],[[2],[2],[1],[2],[1],[1],[2]]], [Trans([2,5,4,7,7,4,3]),Trans([3,1,6,7,4,7,1])], [i])));
-Add(frel[8], List(GeneratorsOfMonoid(f), g -> FRElement(f, [[f.1,f.2,f.1,f.2,f.1,f.2,f.1],[f.2,f.2,f.1,f.2,f.1,f.1,f.2]], [Trans([2,5,4,7,7,4,3]),Trans([3,1,6,7,4,7,1])], g)));
-m := FRMachine(["a","b"],[[[1],[2],[1],[2],[1],[2],[1]],[[2],[2],[1],[2],[1],[1],[2]]], [Trans([2,5,4,7,7,4,3]),Trans([3,1,6,7,4,7,1])]);
+Add(frel[8], List([1,2], i -> FRElement(["a","b"],[[[1],[2],[1],[2],[1],[2],[1]],[[2],[2],[1],[2],[1],[1],[2]]], [Transformation([2,5,4,7,7,4,3]),Transformation([3,1,6,7,4,7,1])], [i])));
+Add(frel[8], List(GeneratorsOfMonoid(f), g -> FRElement(f, [[f.1,f.2,f.1,f.2,f.1,f.2,f.1],[f.2,f.2,f.1,f.2,f.1,f.1,f.2]], [Transformation([2,5,4,7,7,4,3]),Transformation([3,1,6,7,4,7,1])], g)));
+m := FRMachine(["a","b"],[[[1],[2],[1],[2],[1],[2],[1]],[[2],[2],[1],[2],[1],[1],[2]]], [Transformation([2,5,4,7,7,4,3]),Transformation([3,1,6,7,4,7,1])]);
 Add(frel[8], List(GeneratorsOfFRMachine(m), g -> FRElement(m, g)));
 
 # m9 : a non-Mealy SemigroupFRMachine
@@ -112,9 +110,9 @@ Add(frel, []);
 f := FreeSemigroup(2);
 
 Add(frel[9], List(GeneratorsOfSemigroup(f), g -> FRElementNC(FREFamily([1..3]), f, [[f.1^2,f.2^3*f.1,f.2],[f.1,f.1^7,f.1^2*f.2^2*f.1]], [[3,2,2],[2,1,3]], g)));
-Add(frel[9], List([1..2], i -> FRElement(["a1","a2"],[[[1,1],[2,2,2,1],[2]],[[1],[1,1,1,1,1,1,1],[1,1,2,2,1]]],[Trans([3,2,2]),(1,2)],[i])));
-Add(frel[9], List(GeneratorsOfSemigroup(f), g -> FRElement(f, [[f.1^2,f.2^3*f.1,f.2],[f.1,f.1^7,f.1^2*f.2^2*f.1]],[Trans([3,2,2]),(1,2)],g)));
-m := FRMachine(["a1","a2"],[[[1,1],[2,2,2,1],[2]],[[1],[1,1,1,1,1,1,1],[1,1,2,2,1]]],[Trans([3,2,2]),(1,2)]);
+Add(frel[9], List([1..2], i -> FRElement(["a1","a2"],[[[1,1],[2,2,2,1],[2]],[[1],[1,1,1,1,1,1,1],[1,1,2,2,1]]],[Transformation([3,2,2]),(1,2)],[i])));
+Add(frel[9], List(GeneratorsOfSemigroup(f), g -> FRElement(f, [[f.1^2,f.2^3*f.1,f.2],[f.1,f.1^7,f.1^2*f.2^2*f.1]],[Transformation([3,2,2]),(1,2)],g)));
+m := FRMachine(["a1","a2"],[[[1,1],[2,2,2,1],[2]],[[1],[1,1,1,1,1,1,1],[1,1,2,2,1]]],[Transformation([3,2,2]),(1,2)]);
 Add(frel[9], List([1,2], i -> FRElement(m, [i])));
 
 #E frelements.g . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here

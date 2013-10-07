@@ -2,9 +2,7 @@
 ##
 #W frmachine.gi                                             Laurent Bartholdi
 ##
-#H   @(#)$Id$
-##
-#Y Copyright (C) 2006, Laurent Bartholdi
+#Y Copyright (C) 2006-2013, Laurent Bartholdi
 ##
 #############################################################################
 ##
@@ -112,10 +110,8 @@ end);
 BindGlobal("ANY2OUT@", function(x,n)
     if IsList(x) then
         return x;
-    elif IsTrans(x) then
-        return ListTrans(x,n);
     elif IsTransformation(x) then
-        return ImageListOfTransformation(x);
+        return ListTransformation(x,n);
     elif IsPerm(x) then
         return ListPerm(x,n);
     fi;
@@ -811,7 +807,7 @@ InstallMethod(Output, "(FR) for an FR machine",
         [IsMonoidFRMachine and IsFRMachineStdRep],
         function(M)
     local image;
-    image := List(M!.output,TransList);
+    image := List(M!.output,TransformationList);
     return SemigroupHomomorphismByImagesNC(StateSet(M),Monoid(image),image);
 end);
 
@@ -819,7 +815,7 @@ InstallMethod(Output, "(FR) for an FR machine",
         [IsSemigroupFRMachine and IsFRMachineStdRep],
         function(M)
     local image;
-    image := List(M!.output,TransList);
+    image := List(M!.output,TransformationList);
     return SemigroupHomomorphismByImagesNC(StateSet(M),Semigroup(image),image);
 end);
 

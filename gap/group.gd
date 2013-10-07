@@ -462,14 +462,14 @@ DeclareAttribute("Correspondence", IsFRSemigroup);
 ## 128
 ## gap> g := FullSCMonoid([1..2]);
 ## FullSCMonoid([ 1 .. 2 ])
-## gap> IsSubset(g,AsTrans(FullSCGroup([1..2])));
+## gap> IsSubset(g,AsTransformation(FullSCGroup([1..2])));
 ## true
-## gap> IsSubset(g,AsTrans(GrigorchukGroup));
+## gap> IsSubset(g,AsTransformation(GrigorchukGroup));
 ## true
 ## gap> g := FullSCSemigroup([1..3]);
 ## FullSCSemigroup([ 1 .. 3 ])
-## gap> h := FullSCSemigroup([1..3],Semigroup(Trans([1,1,1])));
-## FullSCSemigroup([ 1 .. 3 ], Semigroup( [ Trans( [ 1, 1, 1 ] ) ] ))
+## gap> h := FullSCSemigroup([1..3],Semigroup(Transformation([1,1,1])));
+## FullSCSemigroup([ 1 .. 3 ], Semigroup( [ [ 1, 1, 1 ] ] ))
 ## gap> Size(h);
 ## 1
 ## gap> IsSubset(g,h);
@@ -504,7 +504,7 @@ DeclareProperty("HasFullSCData", IsFRSemigroup);
 ##     root vertex of the tree on which <A>g</A> acts.
 ##
 ##     <P/> It is a synonym for <C>PermGroup(g,1)</C> or
-##     <C>TransMonoid(g,1)</C> or <C>TransSemigroup(g,1)</C>.
+##     <C>TransformationMonoid(g,1)</C> or <C>TransformationSemigroup(g,1)</C>.
 ## <Example><![CDATA[
 ## gap> TopVertexTransformations(GrigorchukGroup);
 ## Group([ (), (1,2) ])
@@ -552,8 +552,8 @@ DeclareAttribute("VertexTransformations", IsFRSemigroup);
 #O PermGroup. . . . . . . . . . . . . . . . . .group acting on truncated tree
 #O [Epimorphism]PermGroup
 #O [Epimorphism]PcGroup
-#O [Epimorphism]TransMonoid
-#O [Epimorphism]TransSemigroup
+#O [Epimorphism]TransformationMonoid
+#O [Epimorphism]TransformationSemigroup
 ##
 ## <#GAPDoc Label="PermGroup">
 ## <ManSection>
@@ -633,9 +633,7 @@ DeclareAttribute("VertexTransformations", IsFRSemigroup);
 ## </ManSection>
 ##
 ## <ManSection>
-##   <Oper Name="TransMonoid" Arg="g,l"/>
 ##   <Oper Name="TransformationMonoid" Arg="g,l"/>
-##   <Oper Name="EpimorphismTransMonoid" Arg="g,l"/>
 ##   <Oper Name="EpimorphismTransformationMonoid" Arg="g,l"/>
 ##   <Returns>[An epimorphism to] the transformation monoid of <A>g</A>'s action on level <A>l</A>.</Returns>
 ##   <Description>
@@ -649,13 +647,13 @@ DeclareAttribute("VertexTransformations", IsFRSemigroup);
 ## <Example><![CDATA[
 ## gap> i4 := SCMonoid(MealyMachine([[3,3],[1,2],[3,3]],[(1,2),[1,1],()]));
 ## <self-similar monoid over [ 1 .. 2 ] with 3 generators>
-## gap> g := TransMonoid(i4,6);
+## gap> g := TransformationMonoid(i4,6);
 ## <monoid with 3 generators>
-## gap> List([1..6],i->Size(TransMonoid(i4,i)));
+## gap> List([1..6],i->Size(TransformationMonoid(i4,i)));
 ## [ 4, 14, 50, 170, 570, 1882 ]
-## gap> Collected(List(g,RankOfTrans));
+## gap> Collected(List(g,RankOfTransformation));
 ## [ [ 1, 64 ], [ 2, 1280 ], [ 4, 384 ], [ 8, 112 ], [ 16, 32 ], [ 32, 8 ], [ 64, 2 ] ]
-## gap> pi := EpimorphismTransMonoid(i4,9);
+## gap> pi := EpimorphismTransformationMonoid(i4,9);
 ## MappingByFunction( <self-similar monoid over [ 1 .. 2 ] with 3 generators>,
 ## <monoid with 3 generators>, function( w ) ... end )
 ## gap> f := GeneratorsOfMonoid(i4){[1,2]};;
@@ -669,9 +667,7 @@ DeclareAttribute("VertexTransformations", IsFRSemigroup);
 ## </ManSection>
 ##
 ## <ManSection>
-##   <Oper Name="TransSemigroup" Arg="g,l"/>
 ##   <Oper Name="TransformationSemigroup" Arg="g,l"/>
-##   <Oper Name="EpimorphismTransSemigroup" Arg="g,l"/>
 ##   <Oper Name="EpimorphismTransformationSemigroup" Arg="g,l"/>
 ##   <Returns>[An epimorphism to] the transformation semigroup of <A>g</A>'s action on level <A>l</A>.</Returns>
 ##   <Description>
@@ -685,14 +681,14 @@ DeclareAttribute("VertexTransformations", IsFRSemigroup);
 ## <Example><![CDATA[
 ## gap> i2 := SCSemigroup(MealyMachine([[1,1],[2,1]],[(1,2),[2,2]]));
 ## <self-similar semigroup over [ 1 .. 2 ] with 2 generators>
-## gap> g := TransSemigroup(i2,6);
+## gap> g := TransformationSemigroup(i2,6);
 ## <semigroup with 2 generators>
-## gap> List([1..6],i->Size(TransSemigroup(i2,i)));
+## gap> List([1..6],i->Size(TransformationSemigroup(i2,i)));
 ## [ 4, 14, 42, 114, 290, 706 ]
-## gap> Collected(List(g,RankOfTrans));
+## gap> Collected(List(g,RankOfTransformation));
 ## [ [ 1, 64 ], [ 2, 384 ], [ 4, 160 ], [ 8, 64 ], [ 16, 24 ], [ 32, 8 ], [ 64, 2 ] ]
 ## gap> f0 := GeneratorsOfSemigroup(i2)[1];; f1 := GeneratorsOfSemigroup(i2)[2];;
-## gap> pi := EpimorphismTransSemigroup(i2,10);
+## gap> pi := EpimorphismTransformationSemigroup(i2,10);
 ## MappingByFunction( <self-similar semigroup over [ 1 .. 2 ] with
 ## 2 generators>, <semigroup with 2 generators>, function( w ) ... end )
 ## gap> (f1*(f1*f0)^10)=((f1*f0)^10);
@@ -769,14 +765,10 @@ DeclareOperation("PermGroup", [IsFRGroup, IsInt]);
 DeclareOperation("EpimorphismPermGroup", [IsFRGroup, IsInt]);
 DeclareOperation("PcGroup", [IsFRGroup, IsInt]);
 DeclareOperation("EpimorphismPcGroup", [IsFRGroup, IsInt]);
-DeclareOperation("TransMonoid", [IsFRMonoid, IsInt]);
 DeclareOperation("TransformationMonoid", [IsFRMonoid, IsInt]);
 DeclareOperation("EpimorphismTransformationMonoid", [IsFRMonoid, IsInt]);
-DeclareOperation("EpimorphismTransMonoid", [IsFRMonoid, IsInt]);
-DeclareOperation("TransSemigroup", [IsFRSemigroup, IsInt]);
 DeclareOperation("TransformationSemigroup", [IsFRSemigroup, IsInt]);
 DeclareOperation("EpimorphismTransformationSemigroup", [IsFRSemigroup, IsInt]);
-DeclareOperation("EpimorphismTransSemigroup", [IsFRSemigroup, IsInt]);
 DeclareOperation("EpimorphismGermGroup",[IsFRGroup, IsInt]);
 DeclareOperation("EpimorphismGermGroup",[IsFRGroup]);
 #############################################################################

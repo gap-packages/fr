@@ -889,9 +889,9 @@ gap> Size(AlphabetOfFRObject(m)) = 14;
 true
 gap> IsMealyMachine(m);
 true
-gap> Activity(m[1]) = Trans(Concatenation(List([0,1], i -> ListTrans(Activity(mm[8][1][1])) + 7*i)));
+gap> Activity(m[1]) = Transformation(Concatenation(List([0,1], i -> ListTransformation(Activity(mm[8][1][1])) + 7*i)));
 true
-gap> Size(TransMonoid(SCMonoid(m), 1)) = Size(TransMonoid(SCMonoid(mm[8][1]),1));
+gap> Size(TransformationMonoid(SCMonoid(m), 1)) = Size(TransformationMonoid(SCMonoid(mm[8][1]),1));
 true
 gap> m := TensorSum(mealym[8][2],mealym[4][2]);
 <Mealy machine on alphabet [ 1 .. 12 ] with 2 states>
@@ -899,9 +899,9 @@ gap> Size(AlphabetOfFRObject(m)) = 12;
 true
 gap> IsMealyMachine(m);
 true
-gap> Activity(m[1]) = Trans(Concatenation([2,5,4,7,7,4,3], 7+[2,3,4,5,1]));
+gap> Activity(m[1]) = Transformation(Concatenation([2,5,4,7,7,4,3], 7+[2,3,4,5,1]));
 true
-gap> Activity(m[2]) = Trans([3,1,6,7,4,7,1]);
+gap> Activity(m[2]) = Transformation([3,1,6,7,4,7,1]);
 true
 gap> 
 gap> Info(InfoFR,1,"3.5.5 TensorProductOp");
@@ -927,14 +927,14 @@ gap> Size(AlphabetOfFRObject(m)) = 4;
 true
 gap> IsMealyMachine(m);
 true
-gap> Activity(m[1]) = Trans([2,1,1,2]);
-true
-gap> Size(TransMonoid(SCMonoid(m), 1)) = 6;
-true
+gap> Activity(m[1]);
+Transformation( [ 2, 1, 1, 2 ] )
+gap> Size(TransformationMonoid(SCMonoid(m), 1));
+6
 gap> m := TensorProduct(mealym[8][2],mealym[4][2]);
 <Mealy machine on alphabet [ 1 .. 35 ] with 2 states>
-gap> Size(AlphabetOfFRObject(m)) = 35;
-true
+gap> Size(AlphabetOfFRObject(m));
+35
 gap> IsMealyMachine(m);
 true
 gap> ForAll([1,2], n -> Output(m[n]) = Flat(List([1..7], i -> Output(mealym[4][2][Transition(mealym[8][2], n, i)])+(Output(mealym[8][2][n])[i]-1)*5)));
@@ -975,13 +975,13 @@ gap> IsMealyMachine(m);
 true
 gap> Activity(m[1]) = Activity(mm[4][1][1]);
 true
-gap> Activity(m[3]) = TransList(Concatenation([1,2,3,4,5],ListTrans(Activity(mealym[7][1][1]))+5));
+gap> Activity(m[3]) = TransformationList(Concatenation([1,2,3,4,5],ListTransformation(ActivityTransformation(mealym[7][1][1]))+5));
 true
 gap> ForAll([1..2], n -> WreathRecursion(m)(n)[1] = Concatenation(WreathRecursion(mealym[4][1])(n)[1], ListWithIdenticalEntries(2,n)));
 true
 gap> ForAll([1..4], n -> WreathRecursion(m)(2+n)[1] = 2+Concatenation([n,n,n,n,n],WreathRecursion(mealym[7][1])(n)[1]));
 true
-gap> Size(TransMonoid(SCMonoid(m),2)) = Size(TransMonoid(SCMonoid(mealym[4][1]),2))*Size(TransMonoid(SCMonoid(mealym[7][1]),2));
+gap> Size(TransformationMonoid(SCMonoid(m),2)) = Size(TransformationMonoid(SCMonoid(mealym[4][1]),2))*Size(TransformationMonoid(SCMonoid(mealym[7][1]),2));
 true
 gap> m := DirectSum(mealym[1][1],mealym[8][2]);
 <Mealy machine on alphabet [ 1 .. 9 ] with 7 states>
@@ -993,7 +993,7 @@ gap> IsMealyMachine(m);
 true
 gap> Activity(m[2]) = Activity(mealym[1][1][2]);
 true
-gap> Activity(m[6]) = TransList(Concatenation([1,2],ListTrans(Activity(mealym[8][1][1]))+2));
+gap> Activity(m[6]) = TransformationList(Concatenation([1,2],ListTransformation(Activity(mealym[8][1][1]))+2));
 true
 gap> 
 gap> Info(InfoFR,1,"3.5.7 DirectProductOp");
@@ -1019,7 +1019,7 @@ gap> Size(StateSet(m)) = 20;
 true
 gap> IsMealyMachine(m);
 true
-gap> Size(TransMonoid(SCMonoid(m),2)) = Size(TransMonoid(SCMonoid(mealym[7][1]),2))*Size(TransMonoid(SCMonoid(mealym[1][1]),2));
+gap> Size(TransformationMonoid(SCMonoid(m),2)) = Size(TransformationMonoid(SCMonoid(mealym[7][1]),2))*Size(TransformationMonoid(SCMonoid(mealym[1][1]),2));
 true
 gap> m := DirectProduct(mealym[8][1],mealym[7][1]);
 <Mealy machine on alphabet [ 1 .. 14 ] with 8 states>
@@ -1029,7 +1029,7 @@ gap> Size(StateSet(m)) = 8;
 true
 gap> IsMealyMachine(m);
 true
-gap> Size(TransMonoid(SCMonoid(m),1)) = Size(TransMonoid(SCMonoid(mealym[8][1]),1))*Size(TransMonoid(SCMonoid(mealym[7][1]),1))-3;
+gap> Size(TransformationMonoid(SCMonoid(m),1)) = Size(TransformationMonoid(SCMonoid(mealym[8][1]),1))*Size(TransformationMonoid(SCMonoid(mealym[7][1]),1))-3;
 true
 gap> 
 gap> Info(InfoFR,1,"3.5.8 TreeWreathProduct");
@@ -1037,12 +1037,12 @@ gap> Info(InfoFR,1,"3.5.8 TreeWreathProduct");
 gap> 
 gap> m := TreeWreathProduct(mealym[1][1],mealym[3][1],2,2);
 <Mealy machine on alphabet [ 1 .. 4 ] with 12 states>
-gap> Size(AlphabetOfFRObject(m)) = 4;
-true
-gap> Size(StateSet(m)) = 12;
-true
-gap> Collected(Flat(List([1..12], i -> WreathRecursion(m)(i)[1]))){[1..12]}[2] = [1,3,32,1,2,1,1,2,2,1,1,1];
-true
+gap> Size(AlphabetOfFRObject(m));
+4
+gap> Size(StateSet(m));
+12
+gap> Collected(Flat(List([1..12], i -> WreathRecursion(m)(i)[1]))){[1..12]}[2];
+[ 1, 3, 32, 1, 2, 1, 1, 2, 2, 1, 1, 1 ]
 gap> m := TreeWreathProduct(mealym[7][1], mealym[8][2],2,5);
 <Mealy machine on alphabet [ 1 .. 14 ] with 9 states>
 gap> Size(AlphabetOfFRObject(m)) = 14;
@@ -1080,17 +1080,18 @@ gap> m := mealym[1][1];
 <Mealy machine on alphabet [ 1 .. 2 ] with 5 states>
 gap> min := Minimized(m);
 <Mealy machine on alphabet [ 1 .. 2 ] with 5 states>
-gap> Permuted([1..5],Correspondence(min)) = [2,4,1,3,5];
-true
+gap> InverseOfTransformation(Correspondence(min));
+Transformation( [ 2, 4, 1, 3 ] )
 gap> 
 gap> m2 := m + m;
 <Mealy machine on alphabet [ 1 .. 2 ] with 10 states>
-gap> Correspondence(m2) = [(),Trans([6..10])];
-true
+gap> Correspondence(m2);
+[ IdentityTransformation, Transformation( [ 6, 7, 8, 9, 10, 6, 7, 8, 9, 10 ] )
+ ]
 gap> min := Minimized(m2);
 <Mealy machine on alphabet [ 1 .. 2 ] with 5 states>
-gap> Correspondence(min) = Trans([3,1,4,2,5,3,1,4,2,5]);
-true
+gap> Correspondence(min);
+Transformation( [ 3, 1, 4, 2, 5, 3, 1, 4, 2, 5 ] )
 gap> 
 gap> m := AsGroupFRMachine(mealym[5][1]);
 <FR machine with alphabet [ 1 .. 7 ] on Group( [ f1, f2, f3 ] )>
@@ -1273,7 +1274,7 @@ gap> Info(InfoFR,1,"4.1.6 DiagonalElement");
 #I  4.1.6 DiagonalElement
 gap> 
 gap> a := mealyel[1][1][2];
-<Mealy element on alphabet [ 1, 2 ] with 2 states>
+<Mealy element on alphabet [ 1 .. 2 ] with 2 states>
 gap> DiagonalElement(0,a) = VertexElement(1,a);
 true
 gap> DiagonalElement(1,a) = VertexElement(1,a)*VertexElement(2,a);
@@ -1397,7 +1398,7 @@ true
 gap> Activity(mealyel[5][1][2], 2) = (1,23,2,24,3,25,4,26,5,22)(6,27)(7,28)(8,18,11,15,13,20,10,16,12,19,9,17)(14,
 > 21)(29,34,31)(30,33)(36,39)(37,38)(43,44,45,46,47);
 true
-gap> Activity(mealyel[7][1][3], 2) = Trans([ 4, 3, 3, 3 ]);
+gap> Activity(mealyel[7][1][3], 2) = Transformation([ 4, 3, 3, 3 ]);
 true
 gap> 
 gap> Info(InfoFR,1,"4.2.5 Transition");
@@ -1562,7 +1563,7 @@ gap>
 gap> Info(InfoFR,1,"4.2.15 \\*");
 #I  4.2.15 \*
 gap> 
-gap> Activity(mealyel[7][1][1]*mealyel[1][1][3], 2) = Trans([2,2,1,1]);
+gap> Activity(mealyel[7][1][1]*mealyel[1][1][3], 2) = Transformation([2,2,1,1]);
 true
 gap> 
 gap> Info(InfoFR,1,"4.2.16 \\[\\]");
@@ -1591,6 +1592,6 @@ true
 gap> 
 gap> STOP_TEST( "chapter-5-a.tst", 2*10^9 );
 fr:chapter 5 (1/2)
-GAP4stones: 135000
+GAP4stones: 350000
 
 #E chapter-5-a.tst . . . . . . . . . . . . . . . . . . . . . . . . .ends here

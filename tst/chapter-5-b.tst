@@ -30,34 +30,34 @@ gap>
 gap> Info(InfoFR,1,"5.1.4 AllMealyMachines");
 #I  5.1.4 AllMealyMachines
 gap> 
-gap> ForAll([1..6], n -> Length(AllMealyMachines(n, 1, IsInvertible)) = Factorial(n));
-true
-gap> Length(AllMealyMachines(2, 2)) = 256;
-true
-gap> Length(AllMealyMachines(2, 2, IsInvertible)) = 64;
-true
-gap> Length(AllMealyMachines(2, 2, IsTransitive, IsInvertible)) = 48;
-true
-gap> Length(AllMealyMachines(2, 2, IsBireversible)) = 12;
-true
-gap> Length(AllMealyMachines(2, 2, IsInvertible, IsReversible)) = 16;
-true
-gap> Length(AllMealyMachines(2, 2, IsReversible)) = 64;
-true
-gap> Length(AllMealyMachines(2, 2, EquivalenceClasses)) = 76;
-true
-gap> Length(AllMealyMachines(2, 2, IsInvertible, EquivalenceClasses)) = 24;
-true
-gap> Length(AllMealyMachines(2, 2, IsBireversible, EquivalenceClasses)) = 8;
-true
-gap> Length(AllMealyMachines(2, 2, IsBireversible, IsTransitive, EquivalenceClasses)) = 5;
-true
-gap> Length(AllMealyMachines(3, 2, Group((1,2,3)))) = 576;
-true
-gap> Length(AllMealyMachines(3, 2, Group((1,2,3)), IsSurjective)) = 512;
-true
-gap> Length(AllMealyMachines(3, 2, Group((1,2,3)), IsBireversible, EquivalenceClasses)) = 12;
-true
+gap> List([1..6], n -> Length(AllMealyMachines(n, 1, IsInvertible)));
+[ 1, 2, 6, 24, 120, 720 ]
+gap> Length(AllMealyMachines(2, 2));
+256
+gap> Length(AllMealyMachines(2, 2, IsInvertible));
+64
+gap> Length(AllMealyMachines(2, 2, IsTransitive, IsInvertible));
+48
+gap> Length(AllMealyMachines(2, 2, IsBireversible));
+12
+gap> Length(AllMealyMachines(2, 2, IsInvertible, IsReversible));
+16
+gap> Length(AllMealyMachines(2, 2, IsReversible));
+64
+gap> Length(AllMealyMachines(2, 2, EquivalenceClasses));
+76
+gap> Length(AllMealyMachines(2, 2, IsInvertible, EquivalenceClasses));
+24
+gap> Length(AllMealyMachines(2, 2, IsBireversible, EquivalenceClasses));
+8
+gap> Length(AllMealyMachines(2, 2, IsBireversible, IsTransitive, EquivalenceClasses));
+5
+gap> Length(AllMealyMachines(3, 2, Group((1,2,3))));
+576
+gap> Length(AllMealyMachines(3, 2, Group((1,2,3)), IsSurjective));
+512
+gap> Length(AllMealyMachines(3, 2, Group((1,2,3)), IsBireversible, EquivalenceClasses));
+12
 gap> 
 gap> Info(InfoFR,1,"5.2 Operations and Attributes for MealyMachines and MealyElements");
 #I  5.2 Operations and Attributes for MealyMachines and MealyElements
@@ -303,8 +303,18 @@ gap>
 gap> Info(InfoFR,1,"5.2.14 Signatures");
 #I  5.2.14 Signatures
 gap> 
-gap> List(Flat(mealyel{[1..5]}{[2]}), Signatures) = [PeriodicList([],[()]), PeriodicList([(1,2)],[()]), PeriodicList([],[(),(1,2),(1,2)]), PeriodicList([()],[(1,2),(),(1,2)]), PeriodicList([()], [(),(1,2),(1,2)]), PeriodicList([(1,5)(2,6)(3,7)(4,8)],[()]), PeriodicList([],[(1,3)(2,4)(5,6)]), PeriodicList([(1,3)(2,4)],[(1,7,3,5)(2,8,4,6)]), PeriodicList([],[()]), PeriodicList([(1,2)],[()]), PeriodicList([],[(),(1,2)]), PeriodicList([()],[(),(1,2)]), PeriodicList([],[()]), PeriodicList([],[(1,2,3,4,5)]), PeriodicList([],[()]), PeriodicList([(1,2,3,4,5),(1,6)(2,4,3,5),(1,6,4)(2,5,3),(1,4,2)(3,5,6),(1,3)(4,5),(1,2,5)(3,6,4),(1,5,6,4,3)],[(1,3,4)(2,5,6)]), PeriodicList([(1,4)(2,3),(1,6)(2,4,3,5),(1,6,4)(2,5,3),(1,4,2)(3,5,6),(1,3)(4,5),(1,2,5)(3,6,4),(1,5,6,4,3)],[(1,3,4)(2,5,6)]), PeriodicList([(1,6,3)(2,5),(1,6,4,5,3,2)],[(1,3,5,6,2,4),(1,3,5,6,2,4),(1,3,5,6,2,4),(1,3,4,6,2,5),(1,3,4,6,2,5),(1,3,4,6,2,5),(1,2,4,6,3,5),(1,2,4,6,3,5),(1,2,4,6,3,5)]), PeriodicList([],[()])];
-true
+gap> List(Flat(mealyel{[1..5]}{[2]}), Signatures);
+[ [/ () ], [ (1,2), / () ], [/ (), (1,2), (1,2) ], [ (), / (1,2), (), (1,2) ],
+  [ (), / (), (1,2), (1,2) ], [ (1,5)(2,6)(3,7)(4,8), / () ], [/ (1,3)(2,4)
+  (5,6) ], [ (1,3)(2,4), / (1,7,3,5)(2,8,4,6) ], [/ () ], [ (1,2), / () ],
+  [/ (), (1,2) ], [ (), / (), (1,2) ], [/ () ], [/ (1,2,3,4,5) ], [/ () ],
+  [ (1,2,3,4,5), (1,6)(2,4,3,5), (1,6,4)(2,5,3), (1,4,2)(3,5,6), (1,3)
+  (4,5), (1,2,5)(3,6,4), (1,5,6,4,3), / (1,3,4)(2,5,6) ], [ (1,4)(2,3), (1,6)
+  (2,4,3,5), (1,6,4)(2,5,3), (1,4,2)(3,5,6), (1,3)(4,5), (1,2,5)
+  (3,6,4), (1,5,6,4,3), / (1,3,4)(2,5,6) ], [ (1,6,3)(2,5), (1,6,4,5,3,
+   2), / (1,3,5,6,2,4), (1,3,5,6,2,4), (1,3,5,6,2,4), (1,3,4,6,2,5), (1,3,4,6,
+   2,5), (1,3,4,6,2,5), (1,2,4,6,3,5), (1,2,4,6,3,5), (1,2,4,6,3,5) ],
+  [/ () ] ]
 gap> 
 gap> Info(InfoFR,1,"5.2.15 VertexTransformations");
 #I  5.2.15 VertexTransformations
@@ -365,14 +375,14 @@ gap> TopElement((1,5)(2,6)(3,7)(4,8)) = mealyel[2][2][1];
 true
 gap> One(mealyel[4][2][1]) = TopElement((),5);
 true
-gap> One(mealyel[4][2][1]) = TopElement(Transformation([1..5]));
+gap> One(mealyel[4][2][1]) = TopElement(IdentityTransformation, 5);
 true
 gap> perm := Random(SymmetricGroup(5));
 (2,4,3)
 gap> ComposeElement(ListWithIdenticalEntries(5, One(mealym[4][2][1])), perm) = TopElement(perm, 5);
 true
-gap> Activity(TopElement(Transformation([3,2,2]), 4)) = Trans([3,2,2,4]);
-true
+gap> Activity(TopElement(Transformation([3,2,2]), 4));
+Transformation( [ 3, 2, 2 ] )
 gap> 
 gap> Info(InfoFR,1,"5.2.23 ConfinalityClasses, IsWeaklyFinitaryFRElement");
 #I  5.2.23 ConfinalityClasses, IsWeaklyFinitaryFRElement
@@ -440,6 +450,6 @@ gap> Info(InfoFR,1,"Not tested");
 gap> 
 gap> STOP_TEST( "chapter-5-b.tst", 5*10^8 );
 fr:chapter 5 (2/2)
-GAP4stones: 142000
+GAP4stones: 330000
 
 #E chapter-5-b.tst . . . . . . . . . . . . . . . . . . . . . . . . .ends here

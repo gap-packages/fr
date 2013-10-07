@@ -18,7 +18,6 @@
 ##
 ReadPackage("fr", "gap/helpers.gi");
 ReadPackage("fr", "gap/perlist.gi");
-ReadPackage("fr", "gap/trans.gi");
 ReadPackage("fr", "gap/frmachine.gi");
 ReadPackage("fr", "gap/frelement.gi");
 ReadPackage("fr", "gap/mealy.gi");

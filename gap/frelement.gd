@@ -2,9 +2,7 @@
 ##
 #W frelement.gd                                             Laurent Bartholdi
 ##
-#H   @(#)$Id$
-##
-#Y Copyright (C) 2006, Laurent Bartholdi
+#Y Copyright (C) 2006-2013, Laurent Bartholdi
 ##
 #############################################################################
 ##
@@ -505,8 +503,8 @@ DeclareOperation("ComposeElement", [IsFRElementCollection, IsObject]);
 ##     <M>1</M> on the position in <M>L</M>.
 ##
 ##     <P/> In its first form, this command returns a permutation (for
-##     group elements) or a <Ref Func="Trans"/> (for other elements).
-##     In the second form, it returns the
+##     group elements) or a <Ref Func="Transformation" BookName="ref"/>
+##     (for other elements). In the second form, it returns the
 ##     unique integer <C>i</C> such that the transformation <A>e</A> acts
 ##     on <C>[1..Length(AlphabetOfFRObject(e))&circum;n]</C> as adding
 ##     <C>i</C> in base <C>Length(alphabet(e))</C>, or
@@ -572,6 +570,7 @@ DeclareOperation("ComposeElement", [IsFRElementCollection, IsObject]);
 ## <ManSection>
 ##   <Oper Name="Portrait" Arg="e,l"/>
 ##   <Oper Name="PortraitPerm" Arg="e,l"/>
+##   <Oper Name="PortraitTransformation" Arg="e,l"/>
 ##   <Oper Name="PortraitInt" Arg="e,l"/>
 ##   <Returns>A nested list describing the action of <A>e</A>.</Returns>
 ##   <Description>
@@ -638,6 +637,7 @@ DeclareOperation("Transitions", [IsFRElement, IsObject]);
 DeclareOperation("Portrait", [IsFRElement, IsInt]);
 DeclareOperation("PortraitInt", [IsFRElement, IsInt]);
 DeclareOperation("PortraitPerm", [IsFRElement, IsInt]);
+DeclareOperation("PortraitTransformation", [IsFRElement, IsInt]);
 DeclareOperation("Activity", [IsFRElement]);
 DeclareOperation("Activity", [IsFRElement, IsInt]);
 DeclareOperation("ActivityInt", [IsFRElement]);

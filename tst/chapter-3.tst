@@ -2,9 +2,7 @@
 ##
 #W  chapter-3.tst                  FR Package               Laurent Bartholdi
 ##
-#H  @(#)$Id$
-##
-#Y  Copyright (C) 2008,  Laurent Bartholdi
+#Y  Copyright (C) 2008-2013,  Laurent Bartholdi and Olivier Siegenthaler
 ##
 #############################################################################
 ##
@@ -483,7 +481,7 @@ gap> Display(m);
 ----+--------+--------+
 gap> m := mm[7][1] + mg[3][3];
 <FR machine with alphabet [ 1 .. 2 ] on Monoid( [ m1, m2, m3, a^-1, a, b1^-1, \
-b1, b2^-1, b2 ], ... )>
+b1, b2^-1, b2 ] )>
 gap> Size(GeneratorsOfMonoid(StateSet(m))) = 9 and IsFreeMonoid(StateSet(m));
 true
 gap> SubFRMachine(m, mm[7][1]) <> fail;
@@ -548,14 +546,14 @@ true
 gap> Size(PermGroup(SCGroup(m), 3)) = Size(PermGroup(SCGroup(mg[3][1]),3));
 true
 gap> m := TensorSum(mm[8][1],mm[8][1]);
-<FR machine with alphabet [ 1 .. 14 ] on Monoid( [ m1, m2 ], ... )>
+<FR machine with alphabet [ 1 .. 14 ] on Monoid( [ m1, m2 ] )>
 gap> Size(AlphabetOfFRObject(m)) = 14;
 true
 gap> IsMonoidFRMachine(m);
 true
-gap> Activity(m[1]) = Trans(Concatenation(List([0,1], i -> ListTrans(Activity(mm[8][1][1])) + 7*i)));
+gap> Activity(m[1]) = Transformation(Concatenation(List([0,1], i -> ListTransformation(Activity(mm[8][1][1])) + 7*i)));
 true
-gap> Size(TransMonoid(SCMonoid(m), 1)) = Size(TransMonoid(SCMonoid(mm[8][1]),1));
+gap> Size(TransformationMonoid(SCMonoid(m), 1)) = Size(TransformationMonoid(SCMonoid(mm[8][1]),1));
 true
 gap> m := TensorSum(ms[9][2],ms[9][2]);
 <FR machine with alphabet [ 1 .. 6 ] on Semigroup( [ s1, s2 ] )>
@@ -563,9 +561,9 @@ gap> Size(AlphabetOfFRObject(m)) = 6;
 true
 gap> IsSemigroupFRMachine(m);
 true
-gap> Activity(m[1]) = Trans(Concatenation(List([0,1], i -> ListTrans(Activity(ms[9][1][1])) + 3*i)));
+gap> Activity(m[1]) = Transformation(Concatenation(List([0,1], i -> ListTransformation(ActivityTransformation(ms[9][1][1])) + 3*i)));
 true
-gap> Size(TransSemigroup(SCSemigroup(m), 4)) = Size(TransSemigroup(SCSemigroup(ms[9][1]),4));
+gap> Size(TransformationSemigroup(SCSemigroup(m), 4)) = Size(TransformationSemigroup(SCSemigroup(ms[9][1]),4));
 true
 gap> 
 gap> Info(InfoFR,1,"3.5.5 TensorProductOp");
@@ -586,14 +584,14 @@ true
 gap> SubFRMachine(TensorProduct(mg[1][1],mg[1][1],mg[1][1]), mg[2][1]) <> fail;
 true
 gap> m := TensorProduct(mm[7][1],mm[7][1]);
-<FR machine with alphabet [ 1 .. 4 ] on Monoid( [ m1, m2, m3 ], ... )>
+<FR machine with alphabet [ 1 .. 4 ] on Monoid( [ m1, m2, m3 ] )>
 gap> Size(AlphabetOfFRObject(m)) = 4;
 true
 gap> IsMonoidFRMachine(m);
 true
-gap> Activity(m[1]) = Trans([1,1,2,2]);
+gap> Activity(m[1]) = Transformation([1,1,2,2]);
 true
-gap> Size(TransMonoid(SCMonoid(m), 1)) = Size(TransMonoid(SCMonoid(mm[7][1]),2));
+gap> Size(TransformationMonoid(SCMonoid(m), 1)) = Size(TransformationMonoid(SCMonoid(mm[7][1]),2));
 true
 gap> m := TensorProduct(ms[9][2],ms[9][2]);
 <FR machine with alphabet [ 1 .. 9 ] on Semigroup( [ s1, s2 ] )>
@@ -603,7 +601,7 @@ gap> IsSemigroupFRMachine(m);
 true
 gap> Activity(m[1]) = Activity(ms[9][2][1], 2);
 true
-gap> Size(TransSemigroup(SCSemigroup(m), 2)) = Size(TransSemigroup(SCSemigroup(ms[9][1]),4));
+gap> Size(TransformationSemigroup(SCSemigroup(m), 2)) = Size(TransformationSemigroup(SCSemigroup(ms[9][1]),4));
 true
 gap> 
 gap> Info(InfoFR,1,"3.5.6 DirectSumOp");
@@ -627,7 +625,7 @@ true
 gap> Size(PermGroup(SCGroup(m),2)) = Size(PermGroup(SCGroup(mg[1][1]),2))*Size(PermGroup(SCGroup(mg[2][1]),2));
 true
 gap> m := DirectSum(mm[4][1],mm[7][3]);
-<FR machine with alphabet [ 1 .. 7 ] on Monoid( [ m1, z, y, x ], ... )>
+<FR machine with alphabet [ 1 .. 7 ] on Monoid( [ m1, z, y, x ] )>
 gap> Size(AlphabetOfFRObject(m)) = 7;
 true
 gap> Size(GeneratorsOfMonoid(StateSet(m))) = 4;
@@ -636,9 +634,9 @@ gap> IsMonoidFRMachine(m);
 true
 gap> Activity(m[1]) = Activity(mm[4][1][1]);
 true
-gap> Activity(m[2]) = TransList(Concatenation([1,2,3,4,5],ListTrans(Activity(mm[7][1][1]))+5));
+gap> Activity(m[2]) = TransformationList(Concatenation([1,2,3,4,5],ListTransformation(Activity(mm[7][1][1]))+5));
 true
-gap> Size(TransMonoid(SCMonoid(m),2)) = Size(TransMonoid(SCMonoid(mm[4][1]),2))*Size(TransMonoid(SCMonoid(mm[7][1]),2));
+gap> Size(TransformationMonoid(SCMonoid(m),2)) = Size(TransformationMonoid(SCMonoid(mm[4][1]),2))*Size(TransformationMonoid(SCMonoid(mm[7][1]),2));
 true
 gap> m := DirectSum(ms[1][1],ms[9][2]);
 <FR machine with alphabet [ 1 .. 5 ] on Semigroup( [ s1.1, s2.1, s3, s4, s5, s\
@@ -651,7 +649,7 @@ gap> IsSemigroupFRMachine(m);
 true
 gap> Activity(m[2]) = Activity(ms[1][1][2]);
 true
-gap> Activity(m[6]) = TransList(Concatenation([1,2],ListTrans(Activity(ms[9][1][1]))+2));
+gap> Activity(m[6]) = TransformationList(Concatenation([1,2],ListTransformation(Activity(ms[9][1][1]))+2));
 true
 gap> 
 gap> Info(InfoFR,1,"3.5.7 DirectProductOp");
@@ -684,7 +682,7 @@ gap> Size(PermGroup(SCGroup(m),2)) = Size(PermGroup(SCGroup(mg[1][1]),2))*Size(P
 true
 gap> m := DirectProduct(mm[7][1],mm[1][1]);
 <FR machine with alphabet [ 1 .. 4 ] on Monoid( [ m1.1, m2.1, m3.1, m1.2, m2.2\
-, m3.2, m4, m5 ], ... )>
+, m3.2, m4, m5 ] )>
 gap> Size(AlphabetOfFRObject(m)) = 4;
 true
 gap> Size(GeneratorsOfMonoid(StateSet(m))) = 8;
@@ -695,7 +693,7 @@ gap> ForAll([1..3], n -> Output(m[n]) = ListX(2*(Output(mm[7][1][n])-1),[1..2],\
 true
 gap> ForAll([1..5], n -> Output(m[3+n]) = ListX(2*[0,1],Output(mm[1][1][n]),\+));
 true
-gap> Size(TransMonoid(SCMonoid(m),2)) = Size(TransMonoid(SCMonoid(mm[7][1]),2))*Size(TransMonoid(SCMonoid(mm[1][1]),2));
+gap> Size(TransformationMonoid(SCMonoid(m),2)) = Size(TransformationMonoid(SCMonoid(mm[7][1]),2))*Size(TransformationMonoid(SCMonoid(mm[1][1]),2));
 true
 gap> m := DirectProduct(ms[9][1],mm[7][1]);
 <FR machine with alphabet [ 1 .. 6 ] on Semigroup( [ s1, s2, <identity ...>, m\
@@ -710,7 +708,7 @@ gap> ForAll([1..2], n -> Output(m[n]) = ListX(2*(Output(ms[9][1][n])-1),[1..2],\
 true
 gap> Set(List([1..4], n -> Output(m[2+n]))) = Set(List([1..4], n -> ListX(2*[0,1,2],Output(AsSemigroupFRMachine(mm[7][1]),n),\+)));
 true
-gap> Size(TransMonoid(SCMonoid(m),2)) = Size(TransMonoid(SCMonoid(mm[7][1]),2))*Size(TransMonoid(SCMonoid(mm[9][1]),2));
+gap> Size(TransformationMonoid(SCMonoid(m),2)) = Size(TransformationMonoid(SCMonoid(mm[7][1]),2))*Size(TransformationMonoid(SCMonoid(mm[9][1]),2));
 true
 gap> 
 gap> Info(InfoFR,1,"3.5.8 TreeWreathProduct");
@@ -1039,6 +1037,6 @@ true
 gap> 
 gap> STOP_TEST( "chapter-3.tst", 3*10^8 );
 fr:chapter 3
-GAP4stones: 150000
+GAP4stones: 700000
 
 #E chapter-3.tst . . . . . . . . . . . . . . . . . . . . . . . . . .ends here

@@ -66,7 +66,7 @@ DeclareAttribute("Basis", IsFRBiset);
 DeclareAttribute("LeftBasis", IsFRBiset);
 DeclareOperation("LeftBasis", [IsFRBiset,IsList]);
 DeclareOperation("LeftBasis", [IsFRBiset,IsPerm,IsList]);
-DeclareOperation("LeftBasis", [IsFRBiset,IsTrans,IsList]);
+DeclareOperation("LeftBasis", [IsFRBiset,IsTransformation,IsList]);
 DeclareOperation("LeftBasis", [IsFRBiset,IsList,IsList]);
 DeclareAttribute("RightBasis", IsFRBiset);
 DeclareAttribute("CanonicalBasis", IsFRBiset);

@@ -2,9 +2,7 @@
 ##
 #W  frmachines.g                  FR Package                Laurent Bartholdi
 ##
-#H  @(#)$Id$
-##
-#Y  Copyright (C) 2006,  Laurent Bartholdi
+#Y  Copyright (C) 2006-2013,  Laurent Bartholdi and Olivier Siegenthaler
 ##
 #############################################################################
 ##
@@ -40,13 +38,13 @@ m := FRMachineNC(FRMFamily([1,2]), f, transitions[1], outputs[1]);
 Add(mg[1], m);
 m := FRMachine([[[1],[1]], [[1],[1]], [[2],[4]], [[2],[5]], [[1],[3]]], [(), (1,2), (), (), ()]);
 Add(mg[1], m);
-m := FRMachine(["e","a","b","c","d"], [[[1],[1]], [[1],[1]], [[2],[4]], [[2],[5]], [[1],[3]]], [[1,2], [2,1], Trans([1,2]), Trans([]), ()]);
+m := FRMachine(["e","a","b","c","d"], [[[1],[1]], [[1],[1]], [[2],[4]], [[2],[5]], [[1],[3]]], [[1,2], [2,1], Transformation([1,2]), IdentityTransformation, ()]);
 Add(mg[1], m);
 m := FRMachine(f, [[f.1, f.1], [f.1, f.1], [f.2, f.4], [f.2, f.5], [f.1, f.3]], [(), (1,2), (), (), ()]);
 Add(mg[1], m);
 
 f := FreeMonoid(5);
-id := Trans([]);
+id := IdentityTransformation;
 m := FRMachineNC(FRMFamily([1,2]), f, [[f.1, f.1], [f.1, f.1], [f.2, f.4], [f.2, f.5], [f.1, f.3]], [[1,2], [2,1], [1,2], [1,2], [1,2]]);
 Add(mm[1], m);
 m := FRMachine(f, [[f.1, f.1], [f.1, f.1], [f.2, f.4], [f.2, f.5], [f.1, f.3]], [[1,2], [2,1], id, id, id]);
@@ -61,13 +59,13 @@ Add(ms[1], m);
 f := FreeMonoid(9);
 m := FRMachineNC(FRMFamily([1,2]), f, [[f.1, f.1], [f.1, f.1], [f.1, f.1], [f.2, f.6], [f.3, f.7], [f.2, f.8], [f.3, f.9], [f.1, f.4], [f.1, f.5]], [[1,2], [2,1], [2,1], [1,2], [1,2], [1,2], [1,2], [1,2], [1,2]]);
 Add(mmi[1], m);
-m := FRMachine(f, [[f.1, f.1], [f.1, f.1], [f.1, f.1], [f.2, f.6], [f.3, f.7], [f.2, f.8], [f.3, f.9], [f.1, f.4], [f.1, f.5]], [id, Trans([2,1]), Trans([2,1]), id, id, id, id, id, id]);
+m := FRMachine(f, [[f.1, f.1], [f.1, f.1], [f.1, f.1], [f.2, f.6], [f.3, f.7], [f.2, f.8], [f.3, f.9], [f.1, f.4], [f.1, f.5]], [id, Transformation([2,1]), Transformation([2,1]), id, id, id, id, id, id]);
 Add(mmi[1], m);
 
 f := FreeSemigroup(9);
 m := FRMachineNC(FRMFamily([1,2]), f, [[f.1, f.1], [f.1, f.1], [f.1, f.1], [f.2, f.6], [f.3, f.7], [f.2, f.8], [f.3, f.9], [f.1, f.4], [f.1, f.5]], [[1,2], [2,1], [2,1], [1,2], [1,2], [1,2], [1,2], [1,2], [1,2]]);
 Add(msiu[1], m);
-m := FRMachine(f, [[f.1, f.1], [f.1, f.1], [f.1, f.1], [f.2, f.6], [f.3, f.7], [f.2, f.8], [f.3, f.9], [f.1, f.4], [f.1, f.5]], [id, Trans([2,1]), Trans([2,1]), id, id, id, id, id, id]);
+m := FRMachine(f, [[f.1, f.1], [f.1, f.1], [f.1, f.1], [f.2, f.6], [f.3, f.7], [f.2, f.8], [f.3, f.9], [f.1, f.4], [f.1, f.5]], [id, Transformation([2,1]), Transformation([2,1]), id, id, id, id, id, id]);
 Add(msiu[1], m);
 
 # m2 : Grigorchuk group (on a 8-ary tree)
@@ -97,14 +95,14 @@ f := FreeMonoid(6);
 e := ListWithIdenticalEntries(8, One(f));
 m := FRMachineNC(FRMFamily([1..8]), f, [e, Concatenation(e{[1..7]}, [f.2]), Concatenation(e{[1..6]}, [f.1,f.3]), e, Concatenation(e{[1..7]}, [f.5]), Concatenation(e{[1..6]}, [f.4,f.6])], [[5,6,7,8,1,2,3,4], [3,4,1,2,6,5,7,8], [3,4,1,2,5,6,7,8], [5,6,7,8,1,2,3,4], [3,4,1,2,6,5,7,8], [3,4,1,2,5,6,7,8]]);
 Add(mmi[2], m);
-m := FRMachine(f, [e, Concatenation(e{[1..7]}, [f.2]), Concatenation(e{[1..6]}, [f.1,f.3]), e, Concatenation(e{[1..7]}, [f.5]), Concatenation(e{[1..6]}, [f.4,f.6])], [Trans([5,6,7,8,1,2,3,4]), Trans([3,4,1,2,6,5,7,8]), Trans([3,4,1,2,5,6,7,8]), Trans([5,6,7,8,1,2,3,4]), Trans([3,4,1,2,6,5,7,8]), Trans([3,4,1,2,5,6,7,8])]);
+m := FRMachine(f, [e, Concatenation(e{[1..7]}, [f.2]), Concatenation(e{[1..6]}, [f.1,f.3]), e, Concatenation(e{[1..7]}, [f.5]), Concatenation(e{[1..6]}, [f.4,f.6])], [Transformation([5,6,7,8,1,2,3,4]), Transformation([3,4,1,2,6,5,7,8]), Transformation([3,4,1,2,5,6,7,8]), Transformation([5,6,7,8,1,2,3,4]), Transformation([3,4,1,2,6,5,7,8]), Transformation([3,4,1,2,5,6,7,8])]);
 Add(mmi[2], m);
 
 f := FreeSemigroup(7);
 e := ListWithIdenticalEntries(8, f.1);
 m := FRMachineNC(FRMFamily([1..8]), f, [e, e, Concatenation(e{[1..7]}, [f.3]), Concatenation(e{[1..6]}, [f.2,f.4]), e, Concatenation(e{[1..7]}, [f.6]), Concatenation(e{[1..6]}, [f.5,f.7])], [[1,2,3,4,5,6,7,8], [5,6,7,8,1,2,3,4], [3,4,1,2,6,5,7,8], [3,4,1,2,5,6,7,8], [5,6,7,8,1,2,3,4], [3,4,1,2,6,5,7,8], [3,4,1,2,5,6,7,8]]);
 Add(msiu[2], m);
-m := FRMachine(f, [e, e, Concatenation(e{[1..7]}, [f.3]), Concatenation(e{[1..6]}, [f.2,f.4]), e, Concatenation(e{[1..7]}, [f.6]), Concatenation(e{[1..6]}, [f.5,f.7])], [Trans([]), Trans([5,6,7,8,1,2,3,4]), Trans([3,4,1,2,6,5,7,8]), Trans([3,4,1,2,5,6,7,8]), Trans([5,6,7,8,1,2,3,4]), Trans([3,4,1,2,6,5,7,8]), Trans([3,4,1,2,5,6,7,8])]);
+m := FRMachine(f, [e, e, Concatenation(e{[1..7]}, [f.3]), Concatenation(e{[1..6]}, [f.2,f.4]), e, Concatenation(e{[1..7]}, [f.6]), Concatenation(e{[1..6]}, [f.5,f.7])], [Transformation([]), Transformation([5,6,7,8,1,2,3,4]), Transformation([3,4,1,2,6,5,7,8]), Transformation([3,4,1,2,5,6,7,8]), Transformation([5,6,7,8,1,2,3,4]), Transformation([3,4,1,2,6,5,7,8]), Transformation([3,4,1,2,5,6,7,8])]);
 Add(msiu[2], m);
 
 # m3 : a spinal group
@@ -265,9 +263,9 @@ Add(transitions, [[f.1, f.3], [f.2, One(f)], [f.2, f.1]]);
 Add(outputs, [[1,1], [2,1], [2,2]]);
 m := FRMachineNC(FRMFamily([1..2]), f, transitions[7], outputs[7]);
 Add(mm[7], m);
-m := FRMachine([[[1], [3]], [[2], []], [[2], [1]]], [Trans([1,1]), (1,2), Trans([2,2])]);
+m := FRMachine([[[1], [3]], [[2], []], [[2], [1]]], [Transformation([1,1]), (1,2), Transformation([2,2])]);
 Add(mm[7], m);
-m := FRMachine(["z","y","x"], [[[1], [3]], [[2], []], [[2], [1]]], [Trans([1,1]), (1,2), Trans([2,2])]);
+m := FRMachine(["z","y","x"], [[[1], [3]], [[2], []], [[2], [1]]], [Transformation([1,1]), (1,2), Transformation([2,2])]);
 Add(mm[7], m);
 m := FRMachine(f, [[f.1, f.3], [f.2, One(f)], [f.2, f.1]], [[1,1], (1,2), [2,2]]);
 Add(mm[7], m);
@@ -275,11 +273,11 @@ Add(mm[7], m);
 f := FreeSemigroup(4);
 m := FRMachineNC(FRMFamily([1..2]), f, [[f.1, f.1], [f.2, f.4], [f.3, f.1], [f.3, f.2]], [[1,2], [1,1], [2,1], [2,2]]);
 Add(msu[7], m);
-m := FRMachine([[[1], [1]], [[2], [4]], [[3], [1]], [[3], [2]]], [(), Trans([1,1]), (1,2), Trans([2,2])]);
+m := FRMachine([[[1], [1]], [[2], [4]], [[3], [1]], [[3], [2]]], [(), Transformation([1,1]), (1,2), Transformation([2,2])]);
 Add(msu[7], m);
-m := FRMachine(["z","y","x","1"], [[[1], [1]], [[2], [4]], [[3], [1]], [[3], [2]]], [(), Trans([1,1]), (1,2), Trans([2,2])]);
+m := FRMachine(["z","y","x","1"], [[[1], [1]], [[2], [4]], [[3], [1]], [[3], [2]]], [(), Transformation([1,1]), (1,2), Transformation([2,2])]);
 Add(msu[7], m);
-m := FRMachine(f, [[f.1, f.1], [f.2, f.4], [f.3, f.1], [f.3, f.2]], [(), Trans([1,1]), (1,2), Trans([2,2])]);
+m := FRMachine(f, [[f.1, f.1], [f.2, f.4], [f.3, f.1], [f.3, f.2]], [(), Transformation([1,1]), (1,2), Transformation([2,2])]);
 Add(msu[7], m);
 
 # m8 : a miscellaneous SemigroupFRMachine on a 7-ary tree
@@ -296,9 +294,9 @@ Add(transitions, [[f.1,f.2,f.1,f.2,f.1,f.2,f.1],[f.2,f.2,f.1,f.2,f.1,f.1,f.2]]);
 Add(outputs, [[2,5,4,7,7,4,3],[3,1,6,7,4,7,1]]);
 m := FRMachineNC(FRMFamily([1..7]), f, transitions[8], outputs[8]);
 Add(mm[8], m);
-m := FRMachine([[[1],[2],[1],[2],[1],[2],[1]],[[2],[2],[1],[2],[1],[1],[2]]], [Trans([2,5,4,7,7,4,3]),Trans([3,1,6,7,4,7,1])]);
+m := FRMachine([[[1],[2],[1],[2],[1],[2],[1]],[[2],[2],[1],[2],[1],[1],[2]]], [Transformation([2,5,4,7,7,4,3]),Transformation([3,1,6,7,4,7,1])]);
 Add(mm[8], m);
-m := FRMachine(["a","b"],[[[1],[2],[1],[2],[1],[2],[1]],[[2],[2],[1],[2],[1],[1],[2]]], [Trans([2,5,4,7,7,4,3]),Trans([3,1,6,7,4,7,1])]);
+m := FRMachine(["a","b"],[[[1],[2],[1],[2],[1],[2],[1]],[[2],[2],[1],[2],[1],[1],[2]]], [Transformation([2,5,4,7,7,4,3]),Transformation([3,1,6,7,4,7,1])]);
 Add(mm[8], m);
 m := FRMachine(f, [[f.1,f.2,f.1,f.2,f.1,f.2,f.1],[f.2,f.2,f.1,f.2,f.1,f.1,f.2]], [[2,5,4,7,7,4,3],[3,1,6,7,4,7,1]]);
 Add(mm[8], m);
@@ -312,7 +310,7 @@ Add(ms[8], m);
 f := FreeSemigroup(3);
 m := FRMachineNC(FRMFamily([1..7]), f, [[f.1,f.2,f.1,f.2,f.1,f.2,f.1],[f.2,f.2,f.1,f.2,f.1,f.1,f.2],ListWithIdenticalEntries(7,f.3)], [[2,5,4,7,7,4,3],[3,1,6,7,4,7,1],[1,2,3,4,5,6,7]]);
 Add(msu[8], m);
-m := FRMachine(f, [[f.1,f.2,f.1,f.2,f.1,f.2,f.1],[f.2,f.2,f.1,f.2,f.1,f.1,f.2],ListWithIdenticalEntries(7,f.3)], [Trans([2,5,4,7,7,4,3]),Trans([3,1,6,7,4,7,1]),()]);
+m := FRMachine(f, [[f.1,f.2,f.1,f.2,f.1,f.2,f.1],[f.2,f.2,f.1,f.2,f.1,f.1,f.2],ListWithIdenticalEntries(7,f.3)], [Transformation([2,5,4,7,7,4,3]),Transformation([3,1,6,7,4,7,1]),()]);
 Add(msu[8], m);
 
 # m9 : a non-Mealy SemigroupFRMachine
@@ -329,7 +327,7 @@ Add(transitions, [[f.1^2,f.2^3*f.1,f.2],[f.1,f.1^7,f.1^2*f.2^2*f.1]]);
 Add(outputs, [[3,2,2],[2,1,3]]);
 m := FRMachineNC(FRMFamily([1..3]), f, transitions[9], outputs[9]);
 Add(mm[9], m);
-m := FRMachine([[[1,1],[2,2,2,1],[2]],[[1],[1,1,1,1,1,1,1],[1,1,2,2,1]]],[Trans([3,2,2]),(1,2)]);
+m := FRMachine([[[1,1],[2,2,2,1],[2]],[[1],[1,1,1,1,1,1,1],[1,1,2,2,1]]],[Transformation([3,2,2]),(1,2)]);
 Add(mm[9], m);
 m := FRMachine(["a1","a2"],[[[1,1],[2,2,2,1],[2]],[[1],[1,1,1,1,1,1,1],[1,1,2,2,1]]],[[3,2,2],(1,2)]);
 Add(mm[9], m);
@@ -339,7 +337,7 @@ Add(mm[9], m);
 f := FreeSemigroup(2);
 m := FRMachineNC(FRMFamily([1..3]), f, [[f.1^2,f.2^3*f.1,f.2],[f.1,f.1^7,f.1^2*f.2^2*f.1]],[[3,2,2],[2,1,3]]);
 Add(ms[9], m);
-m := FRMachine(f, [[f.1^2,f.2^3*f.1,f.2],[f.1,f.1^7,f.1^2*f.2^2*f.1]],[Trans([3,2,2]),(1,2)]);
+m := FRMachine(f, [[f.1^2,f.2^3*f.1,f.2],[f.1,f.1^7,f.1^2*f.2^2*f.1]],[Transformation([3,2,2]),(1,2)]);
 Add(ms[9], m);
 
 f := FreeSemigroup(3);

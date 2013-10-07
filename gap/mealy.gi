@@ -2,9 +2,7 @@
 ##
 #W mealy.gi                                                 Laurent Bartholdi
 ##
-#H   @(#)$Id$
-##
-#Y Copyright (C) 2006, Laurent Bartholdi
+#Y Copyright (C) 2006-2013, Laurent Bartholdi
 ##
 #############################################################################
 ##
@@ -193,7 +191,7 @@ end);
 InstallMethod(Activity, "(FR) for a Mealy element and a level",
         [IsMealyElement, IsInt],
         function(E,l)
-    return Trans(MMACTIVITY@(E,l)[E!.initial]);
+    return PERMORTRANSFORMATION@(Transformation(MMACTIVITY@(E,l)[E!.initial]));
 end);
 
 InstallMethod(ActivityTransformation, "(FR) for a Mealy element and a level",
@@ -453,13 +451,13 @@ BindGlobal("MMMINIMIZE@", function(fam,alphabet,nrstates,transitions,output,init
         for i in states do
             if IsBound(x[trap[i]]) then y[i] := x[trap[i]]; fi;
         od;
-        SetCorrespondence(a,Trans(y));
+        SetCorrespondence(a,Transformation(y));
     else
         y := List(part,i->i[1]);
         a := MealyMachineNC(fam,
                      List(transitions{y},row->List(row,i->trap[i])),
                      output{y});
-        SetCorrespondence(a,Trans(trap));
+        SetCorrespondence(a,Transformation(trap));
     fi;
     return a;
 end);
@@ -498,11 +496,11 @@ InstallMethod(SubFRMachine, "(FR) for two Mealy machines",
     fi;
     s := M+N;
     c := Minimized(s);
-    c := ListTrans(Correspondence(c),s!.nrstates);
-    s := [ListTrans(Correspondence(s)[1],M!.nrstates),
-          ListTrans(Correspondence(s)[2],N!.nrstates)];
+    c := ListTransformation(Correspondence(c),s!.nrstates);
+    s := [ListTransformation(Correspondence(s)[1],M!.nrstates),
+          ListTransformation(Correspondence(s)[2],N!.nrstates)];
     if IsSubset(c{s[1]},c{s[2]}) then
-        return Trans(StateSet(N),i->First(StateSet(M),j->c[s[1][j]]=c[s[2][i]]));
+        return Transformation(StateSet(N),i->First(StateSet(M),j->c[s[1][j]]=c[s[2][i]]));
     else
         return fail;
     fi;
@@ -1131,26 +1129,11 @@ InstallMethod(TopElement, "(FR) for a permutation and a degree",
 end);
 InstallMethod(TopElement, "(FR) for a transformation",
         [IsTransformation],
-        t->TOPELEMENTPERM@(ImageListOfTransformation(t)));
+        t->TOPELEMENTPERM@(ListTransformation(t)));
 InstallMethod(TopElement, "(FR) for a transformation and a degree",
         [IsTransformation,IsInt],
         function(t,n)
-    local l;
-    l := ImageListOfTransformation(t);
-    if Length(l)<n then
-        l := Concatenation(l,[Length(l)+1..n]);
-    elif Length(l)>n then
-        l := l{[1..n]};
-    fi;
-    return TOPELEMENTPERM@(l);
-end);
-InstallMethod(TopElement, "(FR) for a trans",
-        [IsTrans],
-        t->TOPELEMENTPERM@(ListTrans(t)));
-InstallMethod(TopElement, "(FR) for a trans and a degree",
-        [IsTrans,IsInt],
-        function(t,n)
-    return TOPELEMENTPERM@(ListTrans(t,n));
+    return TOPELEMENTPERM@(ListTransformation(t,n));
 end);
 #############################################################################
 
@@ -1458,7 +1441,7 @@ InstallMethod(\+, "(FR) for two Mealy machines", IsIdenticalObj,
     if HasIsInvertible(M) and HasIsInvertible(N) then
         SetIsInvertible(a,IsInvertible(M) and IsInvertible(N));
     fi;
-    SetCorrespondence(a,[(),Trans(M!.nrstates+[1..N!.nrstates])]);
+    SetCorrespondence(a,[IdentityTransformation,TransformationListList([1..N!.nrstates],M!.nrstates+[1..N!.nrstates])]);
     SET_NAME@([M,N],"+",a);
     return a;
 end);
@@ -1896,8 +1879,8 @@ InstallMethod(TreeWreathProduct, "(FR) for two integer Mealy machines",
     Add(out,[1..Length(alphabet)]);
 
     m := Minimized(MealyMachineNC(FRMFamily([1..Length(alphabet)]),trans,out));
-    m!.Correspondence := [Trans([1..g!.nrstates],Correspondence(m)),
-                          Trans([1..h!.nrstates]+g!.nrstates,Correspondence(m))];
+    m!.Correspondence := [TransformationListList([1..g!.nrstates],List([1..g!.nrstates],i->i^Correspondence(m))),
+                          TransformationListList([1..h!.nrstates]+g!.nrstates,List([1..h!.nrstates],i->i^Correspondence(m)))];
     if HasIsInvertible(g) and HasIsInvertible(h) then
         SetIsInvertible(m,IsInvertible(g) and IsInvertible(h));
     fi;
@@ -2403,7 +2386,7 @@ InstallTrueMethod(IsFiniteStateFRMachine, IsPolynomialGrowthFRMachine);
 BindGlobal("SHRINKPERM@", function(perm,d,n)
     local l, m;
 
-    l := ListTrans(perm,d^n);
+    l := ListTransformation(perm,d^n);
     m := List(l{d*[1..d^(n-1)]},x->1+QuoInt(x-1,d));
 
     if ForAny([1..d^n],i->1+QuoInt(l[i]-1,d)<>m[1+QuoInt(i-1,d)]) then
@@ -2412,14 +2395,14 @@ BindGlobal("SHRINKPERM@", function(perm,d,n)
     if IsTransformation(perm) then
         return Transformation(m);
     else
-        return TransList(m);
+        return TransformationList(m);
     fi;
 end);
 
 BindGlobal("DECOMPPERM@", function(perm,d,n)
     local l, m, i, trans, out;
 
-    l := ListTrans(perm,d^n);
+    l := ListTransformation(perm,d^n);
     trans := [];
     out := [];
     for i in [1..d] do
@@ -2430,11 +2413,7 @@ BindGlobal("DECOMPPERM@", function(perm,d,n)
         fi;
         Add(trans,m-d^(n-1)*(out[i]-1));
     od;
-    if IsTransformation(perm) then
-        return [List(trans,Transformation),Transformation(out)];
-    else
-        return [List(trans,Trans),Trans(out)];
-    fi;
+    return [List(trans,Transformation),Transformation(out)];
 end);
 
 InstallOtherMethod(GuessMealyElement, "(FR) for a perm/trans, degree and depth",
@@ -2486,14 +2465,19 @@ end);
 InstallMethod(Signatures, "(FR) for a Mealy element",
         [IsMealyElement and IsMealyMachineIntRep],
         function(E)
-    local mat, dest, a, s, t;
+    local mat, dest, a, s, t, maker;
     mat := 0*IdentityMat(E!.nrstates);
     dest := [];
+    if ForAll(E!.output,ISINVERTIBLE@) then
+        maker := PermList;
+    else
+        maker := TransformationList;
+    fi;
     for s in [1..E!.nrstates] do
         for t in E!.transitions[s] do
             mat[s][t] := mat[s][t]+1;
         od;
-        Add(dest,Trans(E!.output[s]));
+        Add(dest,maker(E!.output[s]));
     od;
     a := [];
     repeat
@@ -2514,7 +2498,7 @@ InstallMethod(VertexTransformationsFRMachine, "(FR) for an FR machine",
     if ForAll(t,ISINVERTIBLE@) then
         return Group(List(t,PermList));
     else
-        return Monoid(List(t,Transformation));
+        return Monoid(List(t,TransformationList));
     fi;
 end);
 
@@ -2589,10 +2573,8 @@ InstallGlobalFunction(AllMealyMachines,
     fi;
     out := [];
     for o in vertex do
-        if IsTrans(o) then
-            Add(out,ListTrans(o,m));
-        elif IsTransformation(o) then
-            Add(out,ImageListOfTransformation(o));
+        if IsTransformation(o) then
+            Add(out,ListTransformation(o,m));
         else
             Add(out,ListPerm(o,m));
         fi;

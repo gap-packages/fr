@@ -30,7 +30,6 @@ SetInfoLevel(InfoFR, 1);
 ##
 ReadPackage("fr", "gap/helpers.gd");
 ReadPackage("fr", "gap/perlist.gd");
-ReadPackage("fr", "gap/trans.gd");
 ReadPackage("fr", "gap/frmachine.gd");
 ReadPackage("fr", "gap/frelement.gd");
 ReadPackage("fr", "gap/mealy.gd");

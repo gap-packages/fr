@@ -2,9 +2,7 @@
 ##
 #W  chapter-4.tst                  FR Package               Laurent Bartholdi
 ##
-#H  @(#)$Id$
-##
-#Y  Copyright (C) 2008,  Laurent Bartholdi
+#Y  Copyright (C) 2008,  Laurent Bartholdi and Olivier Siegenthaler
 ##
 #############################################################################
 ##
@@ -134,35 +132,35 @@ gap> y := frel[7][1][2];
 <2|m2>
 gap> x := frel[7][1][3];
 <2|m3>
-gap> ComposeElement([z, x],Trans([1,1])) = z;
+gap> ComposeElement([z, x],Transformation([1,1])) = z;
 true
-gap> ComposeElement([y, One(x)],Trans([2,1])) = y;
+gap> ComposeElement([y, One(x)],Transformation([2,1])) = y;
 true
 gap> ComposeElement([y, One(x)],(1,2)) = y;
 true
-gap> ComposeElement([y, z],Trans([2,2])) = x;
+gap> ComposeElement([y, z],Transformation([2,2])) = x;
 true
 gap> 
 gap> a := frel[8][1][1];
 <7|m1>
 gap> b := frel[8][1][2];
 <7|m2>
-gap> ComposeElement([a,b,a,b,a,b,a], Trans([2,5,4,7,7,4,3])) = a;
+gap> ComposeElement([a,b,a,b,a,b,a], Transformation([2,5,4,7,7,4,3])) = a;
 true
-gap> ComposeElement([b,b,a,b,a,a,b], Trans([3,1,6,7,4,7,1])) = b;
+gap> ComposeElement([b,b,a,b,a,a,b], Transformation([3,1,6,7,4,7,1])) = b;
 true
-gap> ComposeElement([a*b,b*a,a*b,b^2,a*b,b^2,a^2], Trans([2,5,4,7,7,4,3])*Trans([3,1,6,7,4,7,1])) = a*b;
+gap> ComposeElement([a*b,b*a,a*b,b^2,a*b,b^2,a^2], Transformation([2,5,4,7,7,4,3])*Transformation([3,1,6,7,4,7,1])) = a*b;
 true
 gap> 
 gap> a1 := frel[9][1][1];
 <3|s1>
 gap> a2 := frel[9][1][2];
 <3|s2>
-gap> ComposeElement([a1^2,a2^3*a1,a2],Trans([3,2,2])) = a1;
+gap> ComposeElement([a1^2,a2^3*a1,a2],Transformation([3,2,2])) = a1;
 true
 gap> ComposeElement([a1,a1^7,a1^2*a2^2*a1],(1,2)) = a2;
 true
-gap> ComposeElement([a1,a1^7,a1^2*a2^2*a1],Trans([2,1,3])) = a2;
+gap> ComposeElement([a1,a1^7,a1^2*a2^2*a1],Transformation([2,1,3])) = a2;
 true
 gap> 
 gap> Info(InfoFR,1,"4.1.5 VertexElement");
@@ -404,7 +402,7 @@ gap> Info(InfoFR,1,"4.2.4 Activity");
 #I  4.2.4 Activity
 gap> 
 gap> for i in [1..9] do
->   Print(ForAll(frel[i], el_list -> List(el_list, g -> Activity(g, 1)) = List(outputs[i], x -> Trans(x))), "\n");
+>   Print(ForAll(frel[i], el_list -> List(el_list, g -> ActivityTransformation(g, 1)) = List(outputs[i], x -> Transformation(x))), "\n");
 > od;
 true
 true
@@ -430,9 +428,9 @@ true
 gap> Activity(frel[5][1][2], 2) = (1,23,2,24,3,25,4,26,5,22)(6,27)(7,28)(8,18,11,15,13,20,10,16,12,19,9,17)(14,
 > 21)(29,34,31)(30,33)(36,39)(37,38)(43,44,45,46,47);
 true
-gap> Activity(frel[7][1][3], 2) = Trans([ 4, 3, 3, 3 ]);
+gap> Activity(frel[7][1][3], 2) = Transformation([ 4, 3, 3, 3 ]);
 true
-gap> Activity(frel[9][1][1], 2) = Trans([ 8, 8, 8, 5, 6, 5, 5, 4, 6 ]);
+gap> Activity(frel[9][1][1], 2) = Transformation([ 8, 8, 8, 5, 6, 5, 5, 4, 6 ]);
 true
 gap> 
 gap> Info(InfoFR,1,"4.2.5 Transition");
@@ -455,7 +453,7 @@ gap> Info(InfoFR,1,"4.2.6 Portrait");
 #I  4.2.6 Portrait
 gap> 
 gap> for m in frel do
->   Print(ForAll(m, list -> ForAll(list, g -> Portrait(g,1) = [Trans(Output(g)), List(AlphabetOfFRObject(g), i -> Trans(Output(State(g, i))))])), "\n");
+>   Print(ForAll(m, list -> ForAll(list, g -> PortraitTransformation(g,1) = [Transformation(Output(g)), List(AlphabetOfFRObject(g), i -> Transformation(Output(State(g, i))))])), "\n");
 > od;
 true
 true
@@ -478,7 +476,7 @@ true
 true
 true
 true
-gap> Portrait(frel[9][1][1],1) = [Trans([3,2,2]),[Trans([2,2,2]),Trans([2,3,2]),Trans([2,1,3])]];
+gap> PortraitTransformation(frel[9][1][1],1) = [Transformation([3,2,2]),[Transformation([2,2,2]),Transformation([2,3,2]),Transformation([2,1,3])]];
 true
 gap> 
 gap> Info(InfoFR,1,"4.2.7 DecompositionOfFRElement");
@@ -612,7 +610,7 @@ true
 gap> f := StateSet(frel[9][1][1]);
 <free semigroup on the generators [ s1, s2 ]>
 gap> g := f.2^2*f.1^4*f.2*f.1*f.2;
-s2^2*s1^4*s2*s1*s2
+s2^2*s1^3*(s1*s2)^2
 gap> InitialState(FRElement(UnderlyingFRMachine(frel[9][1][1]), g)) = g;
 true
 gap> 
@@ -629,7 +627,7 @@ gap>
 gap> Info(InfoFR,1,"4.2.15 \\*");
 #I  4.2.15 \*
 gap> 
-gap> Activity(frel[7][1][1]*frel[1][1][3], 2) = Trans([2,2,1,1]);
+gap> Activity(frel[7][1][1]*frel[1][1][3], 2) = Transformation([2,2,1,1]);
 true
 gap> 
 gap> Info(InfoFR,1,"4.2.16 \\[\\]");
@@ -668,6 +666,6 @@ true
 gap> 
 gap> STOP_TEST( "chapter-4.tst", 10^10 );
 fr:chapter 4
-GAP4stones: 210000
+GAP4stones: 600000
 
 #E chapter-4.tst . . . . . . . . . . . . . . . . . . . . . . . . . .ends here

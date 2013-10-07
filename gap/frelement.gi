@@ -2,9 +2,7 @@
 ##
 #W frelement.gi                                             Laurent Bartholdi
 ##
-#H   @(#)$Id$
-##
-#Y Copyright (C) 2006, Laurent Bartholdi
+#Y Copyright (C) 2006-2013, Laurent Bartholdi
 ##
 #############################################################################
 ##
@@ -606,13 +604,21 @@ BindGlobal("MAKEPERMS@", function(M,l)
     return perms;
 end);
 
+BindGlobal("PERMORTRANSFORMATION@", function(t)
+    local p;
+    if Inverse(t)=fail then
+        return t;
+    fi;
+    return AsPermutation(t);
+end);
+
 InstallMethod(Activity, "(FR) for an FR element",
         [IsFRElement],
-        E->Trans(Output(E)));
+        E->PERMORTRANSFORMATION@(TransformationList(Output(E))));
 
 InstallMethod(ActivityTransformation, "(FR) for an FR element",
         [IsFRElement],
-        E->Transformation(Output(E)));
+        E->TransformationList(Output(E)));
 
 InstallMethod(ActivityPerm, "(FR) for an FR element",
         [IsFRElement],
@@ -640,13 +646,13 @@ end);
 InstallMethod(Activity, "(FR) for an FR element and a level",
         [IsFRElement and IsFRElementStdRep, IsInt],
         function(E,l)
-    return MAPPEDWORD@(E![2],List(MAKEPERMS@(E![1],l),Trans),());
+    return PERMORTRANSFORMATION@(ActivityTransformation(E,l));
 end);
 
 InstallMethod(ActivityTransformation, "(FR) for an FR element and a level",
         [IsFRElement and IsFRElementStdRep, IsInt],
         function(E,l)
-    return MAPPEDWORD@(E![2],List(MAKEPERMS@(E![1],l),Transformation),Transformation([1..Length(AlphabetOfFRObject(E))^l]));
+    return MAPPEDWORD@(E![2],List(MAKEPERMS@(E![1],l),Transformation),IdentityTransformation);
 end);
 
 InstallMethod(ActivityPerm, "(FR) for an FR element and a level",
@@ -706,6 +712,12 @@ InstallMethod(PortraitPerm, "(FR) for an FR element an a maximal level",
         [IsFRElement, IsInt],
         function(E,l)
     return List([0..l],i->PORTRAIT@(E,i,ActivityPerm));
+end);
+
+InstallMethod(PortraitTransformation, "(FR) for an FR element an a maximal level",
+        [IsFRElement, IsInt],
+        function(E,l)
+    return List([0..l],i->PORTRAIT@(E,i,ActivityTransformation));
 end);
 
 InstallMethod(PortraitInt, "(FR) for an FR element an a maximal level",
