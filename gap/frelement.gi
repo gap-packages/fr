@@ -605,11 +605,10 @@ BindGlobal("MAKEPERMS@", function(M,l)
 end);
 
 BindGlobal("PERMORTRANSFORMATION@", function(t)
-    local p;
-    if Inverse(t)=fail then
-        return t;
+    if RankOfTransformation(t)=DegreeOfTransformation(t) then
+        return AsPermutation(t);
     fi;
-    return AsPermutation(t);
+    return t;
 end);
 
 InstallMethod(Activity, "(FR) for an FR element",
