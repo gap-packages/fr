@@ -36,9 +36,7 @@ configure: cnf/Makefile.in cnf/configure.ac
 
 doc: doc/chap0.html
 
-doc/chap0.html: doc/fr.xml doc/frbib.xml gap/algebra.gd gap/frelement.gd \
-	gap/group.gd gap/perlist.gd gap/vector.gd gap/examples.gd \
-	gap/frmachine.gd gap/helpers.gd gap/mealy.gd gap/trans.gd
+doc/chap0.html: doc/fr.xml doc/frbib.xml gap/*.gd
 	echo 'LoadPackage("fr"); DOC@FR();' | @GAP_EXEC@ -r -q -T -l ";$(PWDUU)"
 
 checkblocks:

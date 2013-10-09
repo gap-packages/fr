@@ -27,7 +27,6 @@ BindGlobal("DOC@", function() MakeGAPDocDoc(Concatenation(PATH@,"/doc"),"fr",
   ["../gap/frmachine.gd","../gap/frelement.gd","../gap/mealy.gd",
    "../gap/group.gd","../gap/vector.gd","../gap/algebra.gd",
    "../gap/examples.gd","../gap/helpers.gd","../gap/perlist.gd",
-   "../gap/trans.gd",
    "../PackageInfo.g"],"fr");
 end);
 

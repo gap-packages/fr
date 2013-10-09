@@ -357,7 +357,7 @@ DeclareOperation("CoverNucleus", [IsFRMachine]);
 ##
 ## <#GAPDoc Label="Output/machine">
 ## <ManSection>
-##   <Oper Name="Output" Arg="m" Label="FR machine,state"/>
+##   <Oper Name="Output" Arg="m" Label="FR machine"/>
 ##   <Oper Name="Output" Arg="m,s" Label="FR machine,state"/>
 ##   <Oper Name="Output" Arg="m,s,x" Label="FR machine,state,letter"/>
 ##   <Returns>A transformation of <A>m</A>'s alphabet.</Returns>

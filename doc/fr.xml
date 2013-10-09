@@ -489,10 +489,10 @@ level.
 <P/> Because of the way &GAP; handles permutations and
 transformations, a permutation is never equal to a transformation,
 even though both can answer <K>true</K> to <M>IsOne</M>. Therefore,
-<Package>FR</Package> introduces a new type of transformation, which can
-be equal to a permutation, and which is actually represented as a
-permutation is it is invertible. Like permutations, the new transformations
-do not have a fixed degree. They are created by <C>Trans(list)</C>.
+<Package>FR</Package> stores the output as a list, which can be then accessed
+(e.g. in commands such as <C>ActivityPerm</C> and <C>ActivityTransformation</C>
+either as a permutation or as a transformation. The command <C>Activity</C> itself
+will return a permutation if possible, and otherwise a transformation.
 </Section>
 
 <Section Label="frmachine-products"><Heading>Products of machines</Heading>
@@ -1352,10 +1352,6 @@ gap> Inverse(bacher(3));
 
 <Section><Heading>Braid groups</Heading>
 <#Include Label="Braids">
-</Section>
-
-<Section><Heading>Transformations on the integers</Heading>
-<#Include Label="Trans">
 </Section>
 
 <Section><Heading>Dirichlet series</Heading>

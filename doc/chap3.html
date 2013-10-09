@@ -41,7 +41,7 @@
 <div class="ContSSBlock">
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X8000470D7DA7FFBD">3.4-1 StateSet</a></span>
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7F77F5DD789FA2F4">3.4-2 GeneratorsOfFRMachine</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X80B52A8A7F30878E">3.4-3 Output</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7DBC41D4808979BC">3.4-3 Output</a></span>
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7AEE87BC8393FA54">3.4-4 Transition</a></span>
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X82B3A8AB80B5E181">3.4-5 Transitions</a></span>
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7D95D1498586E5D0">3.4-6 WreathRecursion</a></span>
@@ -88,7 +88,7 @@
 
 <p>Machines store their transitions (second coordinate of <span class="SimpleMath">ϕ</span>), and their output, (first coordinate of <span class="SimpleMath">ϕ</span>) in a matrix indexed by state and letter. In particular, <code class="code">PermList(output[state])</code> gives the action on the first level.</p>
 
-<p>Because of the way <strong class="pkg">GAP</strong> handles permutations and transformations, a permutation is never equal to a transformation, even though both can answer <code class="keyw">true</code> to <span class="SimpleMath">IsOne</span>. Therefore, <strong class="pkg">FR</strong> introduces a new type of transformation, which can be equal to a permutation, and which is actually represented as a permutation is it is invertible. Like permutations, the new transformations do not have a fixed degree. They are created by <code class="code">Trans(list)</code>.</p>
+<p>Because of the way <strong class="pkg">GAP</strong> handles permutations and transformations, a permutation is never equal to a transformation, even though both can answer <code class="keyw">true</code> to <span class="SimpleMath">IsOne</span>. Therefore, <strong class="pkg">FR</strong> stores the output as a list, which can be then accessed (e.g. in commands such as <code class="code">ActivityPerm</code> and <code class="code">ActivityTransformation</code> either as a permutation or as a transformation. The command <code class="code">Activity</code> itself will return a permutation if possible, and otherwise a transformation.</p>
 
 <p><a id="X7EB36FBB78F4F26A" name="X7EB36FBB78F4F26A"></a></p>
 
@@ -373,19 +373,22 @@ gap&gt;
 [ tau, mu ]
 </pre></div>
 
-<p><a id="X80B52A8A7F30878E" name="X80B52A8A7F30878E"></a></p>
+<p><a id="X7DBC41D4808979BC" name="X7DBC41D4808979BC"></a></p>
 
 <h5>3.4-3 Output</h5>
 
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Output</code>( <var class="Arg">m</var> )</td><td class="tdright">( operation )</td></tr></table></div>
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Output</code>( <var class="Arg">m</var>, <var class="Arg">s</var> )</td><td class="tdright">( operation )</td></tr></table></div>
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Output</code>( <var class="Arg">m</var>, <var class="Arg">s</var>, <var class="Arg">x</var> )</td><td class="tdright">( operation )</td></tr></table></div>
 <p>Returns: A transformation of <var class="Arg">m</var>'s alphabet.</p>
 
-<p>This function returns the transformation of <var class="Arg">m</var>'s alphabet associated with state <var class="Arg">s</var>. This transformation is returned as a list of images.</p>
+<p>In the first form, this function returns the output of <var class="Arg">m</var>.</p>
+
+<p>In the second form, this function returns the transformation of <var class="Arg">m</var>'s alphabet associated with state <var class="Arg">s</var>. This transformation is returned as a list of images.</p>
 
 <p><var class="Arg">s</var> is also allowed to be a list, in which case it is interpreted as the corresponding product of states.</p>
 
-<p>In the second form, the result is actually the image of <var class="Arg">x</var> under <code class="code">Output(m,s)</code>.</p>
+<p>In the third form, the result is actually the image of <var class="Arg">x</var> under <code class="code">Output(m,s)</code>.</p>
 
 
 <div class="example"><pre>
