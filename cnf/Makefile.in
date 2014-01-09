@@ -37,7 +37,7 @@ configure: cnf/Makefile.in cnf/configure.ac
 doc: doc/chap0.html
 
 doc/chap0.html: doc/fr.xml doc/frbib.xml gap/*.gd
-	echo 'LoadPackage("fr"); DOC@FR();' | @GAP_EXEC@ -r -q -T -l ";$(PWDUU)"
+	echo 'LoadPackage("fr"); DOC@FR();' | @GAP_EXEC@ -q -T
 
 checkblocks:
 	grep '<#GAPDoc' PackageInfo.g gap/*d | awk -F'"' '{print $$2}' | sort > @@-blocks
