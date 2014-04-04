@@ -52,6 +52,7 @@ tarballs: doc
 
 wwwdir: doc
 	git tag -f $(VERSION)
+	git push origin :refs/tags/$(VERSION)
 	git push --tags
 	cp PackageInfo.g doc/
 	cp README doc/README.fr

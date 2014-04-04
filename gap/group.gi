@@ -2768,14 +2768,23 @@ InstallMethod(GermData, "(FR) for a FR group",
     fi;
 
     classes := [];
+    # classes[cnum] will be [ [list of periodic sequences in orbit],
+    #                         [nucleus elements in this orbit],
+    #                         [list of group elements taking first periodic sequence to this one],
+    #                         [for each periodic sequence, a word describing its germ] ]
+
     data := rec(nucleus := [], nucleusmachine := NucleusMachine(G),
                 map := [], machines := []);
     cgens := 0;
+    # these generators record group elements moving one ray to another.
+    # they are not generators of isotropy groups.
+
     for g in NucleusOfFRSemigroup(G) do
         g := ASINTREP@(g);
         Add(data.nucleus,g);
         h := Germs(g);
-        m := [];
+        map := [];
+
         if h<>[] then # not finitary; one germ
             src := h[1][1];
             dst := h[1][1]^g;
@@ -2783,38 +2792,38 @@ InstallMethod(GermData, "(FR) for a FR group",
             cd := PositionProperty(classes,c->dst in c[1]);
             if cs=fail and cd=fail then
                 if src=dst then
-                    Add(classes,[[src],[g],[One(g)],[0]]);
-                    Add(m,[Length(classes),1]);
+                    Add(classes,[[src],[g],[One(g)],[0]]); # g has germ at src
+                    Add(map,[Length(classes),1]);          # value #classes
                 else
                     cgens := cgens+1;
-                    Add(classes,[[src,dst],[],[One(g),g],[0,cgens]]);
-                    Add(m,cgens);
+                    Add(classes,[[src,dst],[],[One(g),g],[0,cgens]]); # g moves c[1][1] to c[1][2]
+                    Add(map,cgens);                                   # value is move
                 fi;
             elif cs=fail then
                 cgens := cgens+1;
-                Add(classes[cd][1],src);
+                Add(classes[cd][1],src); # new ray in class
                 p := Position(classes[cd][1],dst);
                 Add(classes[cd][3],classes[cd][3][p]/g);
                 Add(classes[cd][4],cgens);
                 if p<>1 then
-                    Add(m,classes[cd][4][p]);
+                    Add(map,classes[cd][4][p]);
                 fi;
-                Add(m,-cgens);
+                Add(map,-cgens);
             elif cd=fail then
                 cgens := cgens+1;
                 Add(classes[cs][1],dst);
                 p := Position(classes[cs][1],src);
                 Add(classes[cs][3],classes[cs][3][p]*g);
-                if p<>1 then
-                    Add(m,-classes[cs][4][p]);
-                fi;
                 Add(classes[cs][4],cgens);
-                Add(m,cgens);
+                if p<>1 then
+                    Add(map,classes[cs][4][p]); #!!! was -classes
+                fi;
+                Add(map,cgens);
             elif cs<>cd then # merge classes cs and cd
                 cgens := cgens+1;
-                Append(classes[cs][1],classes[cd][1]); classes[cd][1] := [];
+                Append(classes[cs][1],classes[cd][1]);
                 for p in [1..Length(classes[cd][3])] do
-                    classes[cd][3][p] := g*classes[cd][3][p];
+                    classes[cd][3][p] := classes[cd][3][p]*g;
                 od;
                 classes[cd][4][1] := cgens;
                 Append(classes[cs][3],classes[cd][3]); classes[cd][3] := g^-1;
@@ -2822,31 +2831,33 @@ InstallMethod(GermData, "(FR) for a FR group",
                 for p in [1..Length(classes[cd][2])] do
                     Add(classes[cs][2],classes[cd][2][p]^classes[cd][3]);
                 od;
-                Error("merge ",cs," ",cd);
+                classes[cd][1] := [];
+                Add(map,cgens);
             else
                 p := Position(classes[cs][1],src);
                 if p<>1 then
                     g := classes[cs][3][p]*g;
-                    Add(m,-classes[cs][4][p]);
+                    Add(map,-classes[cs][4][p]);
                 fi;
                 p := Position(classes[cs][1],dst);
                 if p<>1 then
                     g := g/classes[cs][3][p];
-                    Add(m,classes[cs][4][p]);
+                    Add(map,classes[cs][4][p]);
                 fi;
                 if not IsOne(g) then
                     p := Position(classes[cs][2],g);
                     if p=fail then
                         Add(classes[cs][2],g);
-                        Add(m,[cs,Length(classes[cs][2])]);
+                        Add(map,[cs,Length(classes[cs][2])]);
                     else
-                        Add(m,[cs,p]);
+                        Add(map,[cs,p]);
                     fi;
                 fi;
             fi;
         fi;
-        Add(data.map,m);
+        Add(data.map,map);
     od;
+
     src := []; dst := [];
     for cs in [1..Length(classes)] do if classes[cs][1]<>[] then
         p := GroupByGenerators(classes[cs][2],One(G));
@@ -2861,6 +2872,7 @@ InstallMethod(GermData, "(FR) for a FR group",
         Add(dst,Range(classes[cs][5]));
         src[cs] := Length(dst);
     fi; od;
+
     while true do
         cs := PositionProperty(classes,c->not IsBound(c[5]) and IsBound(classes[c[4]][5]));
         if cs=fail then break; fi;
@@ -2873,6 +2885,7 @@ InstallMethod(GermData, "(FR) for a FR group",
             src[cs] := src[classes[cs][4]];
         fi;
     od;
+
     if cgens>0 then
         Add(dst,PcpGroupByCollector(FromTheLeftCollector(cgens)));
     fi;
@@ -2884,9 +2897,11 @@ InstallMethod(GermData, "(FR) for a FR group",
     if cgens>0 then
         e := Embedding(data.group,Length(dst));
     fi;
+
     for p in [1..Length(classes)] do
         classes[p][5] := classes[p][5]*Embedding(data.group,src[p]);
     od;
+
     for p in [1..Length(data.map)] do
         g := One(data.group);
         for m in data.map[p] do
@@ -2898,14 +2913,10 @@ InstallMethod(GermData, "(FR) for a FR group",
         od;
         data.map[p] := g;
     od;
-    src := GeneratorsOfGroup(data.group);
-    dst := [];
-    for g in src do
-        g := data.nucleus[Position(data.map,g)];
-        h := PositionProperty(data.nucleus,x->g in DecompositionOfFRElement(x)[1]);
-        Add(dst,data.map[h]);
-    od;
-    data.endo := GroupHomomorphismByImagesNC(data.group,data.group,src,dst);
+
+    data.endo := GroupHomomorphismByImagesNC(data.group,data.group,
+                         List(data.nucleus,g->Product(data.map{List(DecompositionOfFRElement(g)[1],x->Position(data.nucleus,x))})),
+                         data.map);
     return data;
 end);
 
