@@ -427,7 +427,7 @@ ACTIVITYSPARSE@ := function(l,e,v,n,x,y)
     if n=0 then
         d := v*e!.output;
         if not IsZero(d) then
-            p := PositionFirstComponent(l,[x,y]);
+            p := PositionSorted(l,[[x,y]]);
             if IsBound(l[p]) and l[p][1]=[x,y] then
                 l[p][2] := l[p][2] + d;
             else
