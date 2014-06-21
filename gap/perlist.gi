@@ -548,7 +548,7 @@ InstallMethod(Collected, "for a periodic list",
     local x, i, p;
     x := Collected(l![1]);
     for i in l![2] do
-        p := PositionFirstComponent(x,i);
+        p := PositionSorted(x,[i]);
         if p>Length(x) then
             AddSet(x,[i,infinity]);
         else
