@@ -217,12 +217,15 @@ InstallMethod(WreathRecursion, "(FR) for a biset with basis",
     Error("not yet done");
 end);
 
-InstallMethod(FRMachine, "(FR) for a machine biset",
+InstallMethod(FRMachineOfBiset, "(FR) for a machine biset",
         [IsFRBiset and IsFRBisetByFRMachineRep],
         b->b!.machine);
-InstallMethod(FRMachine, "(FR) for a biset",
+InstallMethod(FRMachineOfBiset, "(FR) for a biset",
         [IsFRBiset],
         b->FRMachine(b,Basis(b)));
+InstallMethod(FRMachine, "(FR) for a biset",
+        [IsFRBiset],
+        FRMachineOfBiset);
 InstallMethod(FRMachine, "(FR) for a biset with basis",
         [IsFRBiset,IsLeftBisetBasis],
         function(biset,basis)

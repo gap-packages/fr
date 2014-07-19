@@ -1045,9 +1045,12 @@ BindGlobal("FRFIXEDSTATES@", function(L)
     return states;
 end);
 
-InstallMethod(FixedStates, "(FR) for an FR element",
+InstallMethod(FixedStatesOfFRElement, "(FR) for an FR element",
         [IsFRElement],
         E->FRFIXEDSTATES@([E]));
+InstallMethod(FixedStates, "(FR) for an FR element",
+        [IsFRElement],
+        FixedStatesOfFRElement);
 
 InstallMethod(FixedStates, "(FR) for a list of FR elements",
         [IsFRElementCollection],
@@ -1073,9 +1076,12 @@ BindGlobal("FRLIMITSTATES@", function(L)
     return ListBlist(s,S);
 end);
 
-InstallMethod(LimitStates, "(FR) for an FR element",
+InstallMethod(LimitStatesOfFRElement, "(FR) for an FR element",
         [IsFRElement],
         E->FRLIMITSTATES@([E]));
+InstallMethod(LimitStates, "(FR) for an FR element",
+        [IsFRElement],
+        LimitStatesOfFRElement);
 
 InstallMethod(LimitStates, "(FR) for a list of FR elements",
         [IsFRElementCollection],

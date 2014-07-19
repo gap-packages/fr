@@ -1204,7 +1204,8 @@ DeclareProperty("IsWeaklyFinitaryFRElement", IsFRElement);
 ## </ManSection>
 ## <#/GAPDoc>
 ##
-DeclareAttribute("LimitStates", IsFRMachine);
+DeclareAttribute("LimitStatesOfFRMachine", IsFRMachine);
+DeclareOperation("LimitStates", [IsFRMachine]);
 DeclareAttribute("NucleusMachine", IsFRMachine);
 #############################################################################
 

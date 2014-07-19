@@ -279,11 +279,14 @@ BindGlobal("MEALYLIMITSTATES@", function(M)
     return ListBlist([1..M!.nrstates],R);
 end);
 
-InstallMethod(LimitStates, "(FR) for a Mealy machine",
+InstallMethod(LimitStatesOfFRMachine, "(FR) for a Mealy machine",
         [IsMealyMachine and IsMealyMachineIntRep],
         M->List(MEALYLIMITSTATES@(M),i->FRElement(M,i)));
+InstallMethod(LimitStates,  "(FR) for a Mealy machine",
+        [IsMealyMachine and IsMealyMachineIntRep],
+        LimitStatesOfFRMachine);
 
-InstallMethod(LimitStates, "(FR) for a Mealy element",
+InstallMethod(LimitStatesOfFRElement, "(FR) for a Mealy element",
         [IsMealyElement and IsMealyMachineIntRep],
         E->List(MEALYLIMITSTATES@(E),i->FRElement(E,i)));
 
@@ -447,7 +450,7 @@ BindGlobal("MMMINIMIZE@", function(fam,alphabet,nrstates,transitions,output,init
         a := MealyElementNC(fam,
                      List(transitions{y},row->List(row,i->x[trap[i]])),
                      output{y},1);
-        y := [];
+        y := ListWithIdenticalEntries(Maximum(states)+1,Maximum(states)+1);
         for i in states do
             if IsBound(x[trap[i]]) then y[i] := x[trap[i]]; fi;
         od;

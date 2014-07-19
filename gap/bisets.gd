@@ -74,7 +74,8 @@ DeclareAttribute("CanonicalBasis", IsFRBiset);
 DeclareAttribute("WreathRecursion", IsFRBiset);
 DeclareOperation("WreathRecursion", [IsFRBiset,IsLeftBisetBasis]);
 
-DeclareAttribute("FRMachine", IsFRBiset);
+DeclareAttribute("FRMachineOfBiset", IsFRBiset);
+DeclareOperation("FRMachine", [IsFRBiset]);
 DeclareOperation("FRMachine", [IsFRBiset,IsLeftBisetBasis]);
 
 #E bisets.gd. . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
