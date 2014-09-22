@@ -39,12 +39,13 @@ ReadPackage("fr", "gap/algebra.gd");
 ReadPackage("fr", "gap/bisets.gd");
 ReadPackage("fr", "gap/examples.gd");
 
-if not IsBound(IsLpGroup) then # shut up warnings in case LpGroups is not present
-    ForAll(["IsLpGroup","IsElementOfLpGroup","LPresentedGroup",
+@.nql := IsBound(IsLpGroup);
+
+if not @.nql then # shut up warnings in case LpGroups is not present
+    Perform(["IsLpGroup","IsElementOfLpGroup","LPresentedGroup",
             "ElementOfLpGroup","SetEmbeddingOfAscendingSubgroup"], function(w)
         BIND_GLOBAL(w, fail);
         Add(POSTHOOK@fr,function() MAKE_READ_WRITE_GLOBAL(w); UNBIND_GLOBAL(w); end);
-        return true;
     end);
 fi;
 

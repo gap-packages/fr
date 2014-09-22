@@ -233,9 +233,23 @@ end;
 #O SCSemigroup( <M> )
 #O SCMonoid( <M> )
 ##
+
+# we'd prefer the method that uses an finitely L-presented group isomorphic to G;
+# but maybe NQL is not loaded. If so, we'll content ourselves with a
+# finitely presented group that maps onto G. In all cases, we expect the
+# PreImageData structure to return such a group with the correct abelianization.
+
+# the next method is also there to cache an attribute giving the data required
+# to express group elements as words.
+if @.nql then
 InstallMethod(FRGroupImageData, "(FR) for a FR group with preimage data",
         [IsFRGroup and HasFRGroupPreImageData],
-        G->FRGroupPreImageData(G)(-1)); # for caching, faster access
+        G->FRGroupPreImageData(G)(-1));
+else
+InstallMethod(FRGroupImageData, "(FR) for a FR group with preimage data",
+        [IsFRGroup and HasFRGroupPreImageData],
+        G->FRGroupPreImageData(G)(0));
+fi;
 
 InstallAccessToGenerators(IsFRGroup,
         "(FR) for a FR group",GeneratorsOfGroup);
@@ -780,6 +794,7 @@ end);
 ##
 #M  IsSubgroup
 #M \in
+#M =
 #M IsSubset
 #M Size
 #M IsFinite
@@ -844,6 +859,15 @@ end);
 InstallMethod(\=, "(FR) for two FR semigroups",
         IsIdenticalObj,
         [IsFRSemigroup, IsFRSemigroup],
+        function (G, H)
+    return IsSubset(G, H) and IsSubset(H, G);
+end);
+
+# we duplicate the method above for groups, otherwise the generic method
+# for groups gets higher priority -- and triggers "IsFinite".
+InstallMethod(\=, "(FR) for two FR semigroups",
+        IsIdenticalObj,
+        [IsFRGroup, IsFRGroup],
         function (G, H)
     return IsSubset(G, H) and IsSubset(H, G);
 end);
@@ -3167,6 +3191,17 @@ end);
 #############################################################################
 ## finite and recursive presentations
 ##
+InstallMethod(EpimorphismFromFreeGroup, "(FR) for FR groups with preimage data",
+        [IsFRGroup and HasFRGroupPreImageData],
+        function(G)
+    local r, F, gens, imgs;
+    r := FRGroupPreImageData(G)(0);
+    F := FreeGroupOfFpGroup(r.F);
+    gens := GeneratorsOfGroup(F);
+    imgs := List(GeneratorsOfGroup(r.F),r.preimage);
+    return GroupHomomorphismByFunction(F,G,w->MappedWord(w,gens,imgs),false,g->UnderlyingElement(r.image(g)));
+end);
+
 InstallMethod(EpimorphismFromFpGroup, "(FR) for FR groups with preimage data",
         [IsFRGroup and HasFRGroupPreImageData,IsInt],
         function(G,n)
@@ -3191,13 +3226,13 @@ InstallMethod(IsomorphismLpGroup, "(FR) for FR groups with preimage data",
         [IsFRGroup and HasFRGroupPreImageData],
         function(G)
     local r;
-    r := FRGroupImageData(G);
+    r := FRGroupPreImageData(G)(-1);
     return GroupHomomorphismByFunction(G,r.F,r.image,r.preimage);
 end);
 
 InstallMethod(AsLpGroup, "(FR) for FR groups with preimage data",
         [IsFRGroup and HasFRGroupPreImageData],
-        G->FRGroupImageData(G).F);
+        G->FRGroupPreImageData(G).F(-1));
 
 InstallMethod(IsomorphismFRGroup, "(FR) for a self-similar group with preimage data",
         [IsFRGroup and HasFRGroupPreImageData],
