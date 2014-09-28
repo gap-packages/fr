@@ -28,6 +28,8 @@ ReadPackage("fr", "gap/linear.gi");
 ReadPackage("fr", "gap/algebra.gi");
 ReadPackage("fr", "gap/bisets.gi");
 ReadPackage("fr", "gap/examples.gi");
+
+
 #############################################################################
 
 #############################################################################
@@ -91,5 +93,8 @@ else
     fi;
     Add(IO_PkgThingsToRead, ["fr","gap/pickle.g"]);
 fi;
-
+ReadPackage("fr","gap/cp.gi");
+ReadPackage("fr","gap/examples.g");
+ReadPackage("fr","gap/cp_grig.g");
+ReadPackage("fr","gap/cp_branch.g");
 #E read.g . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here

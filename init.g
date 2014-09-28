@@ -22,6 +22,8 @@ BindGlobal("@", rec()); # a record to store locals in the package
 ##
 InfoFR := NewInfoClass("InfoFR");
 SetInfoLevel(InfoFR, 1);
+InfoFRCP := NewInfoClass("InfoFRCP");
+SetInfoLevel(InfoFR, 1);
 #############################################################################
 
 #############################################################################
@@ -38,6 +40,9 @@ ReadPackage("fr", "gap/vector.gd");
 ReadPackage("fr", "gap/algebra.gd");
 ReadPackage("fr", "gap/bisets.gd");
 ReadPackage("fr", "gap/examples.gd");
+
+ReadPackage("fr","gap/cp.gd");
+ReadPackage("fr","gap/cp_branch.gd");
 
 @.nql := IsBound(IsLpGroup);
 
