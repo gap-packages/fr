@@ -1,21 +1,25 @@
 MAKE_READ_WRITE_GLOBAL("GRIG_CON@");
 UNBIND_GLOBAL("GRIG_CON@");
-BindGlobal("GRIG_CON@", function(g,h)
-local a, b, c, d, Fam, FR_Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_repr, K_repr_words, D, ConTup_a, Check, alternating_a_form, shorten_word, compute_conjugates, compute_conjugates_of_word, L_Decomp, Compute_K_rep, L_word_to_Grig, Merge_Ls, conjugators_grig_rek, Res, r;
+BindGlobal("GRIG_CON@",function(G,g,h)
+local f,gw,hw,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_repr, K_repr_words, D, ConTup_a, Check, alternating_a_form, shorten_word, compute_conjugates, compute_conjugates_of_word, L_Decomp, Compute_K_rep, L_word_to_Grig, Merge_Ls, conjugators_grig_rek, Res, r;
 ################################       (Local) GLOBALS           ####################################
-	a:= 4;											##	
-	b:= 1;											##
-	c:= 2;											##			This information should be gained from the group!
-	d:= 3;											##      FRElement([[[4],[2]],[[4,3]],[[],[1]],[[],[]]],[(),(),(),(1,2)],[?])
-	Fam := FamilyObj(g![2]);		##
-	FR_Fam:= g![1];							##
+	f := EpimorphismFromFreeGroup(G);
+	gw:=PreImagesRepresentative(f,g);
+	hw:=PreImagesRepresentative(f,h);
+	
+	Gen := GeneratorsOfGroup(G);
+	a:= Position(Gen,FRElement([[[4],[2]],[[4],[3]],[[],[1]],[[],[]]],[(),(),(),(1,2)],[4]));	
+	b:= Position(Gen,FRElement([[[4],[2]],[[4],[3]],[[],[1]],[[],[]]],[(),(),(),(1,2)],[1]));
+	c:= Position(Gen,FRElement([[[4],[2]],[[4],[3]],[[],[1]],[[],[]]],[(),(),(),(1,2)],[2]));
+	d:= Position(Gen,FRElement([[[4],[2]],[[4],[3]],[[],[1]],[[],[]]],[(),(),(),(1,2)],[3]));
+	Fam := FamilyObj(gw);	
 #####################################################################################################
 	aw :=AssocWordByLetterRep(Fam,[a]);  
 	dw :=AssocWordByLetterRep(Fam,[d]);
-	ae := FRElement(FR_Fam,AssocWordByLetterRep(Fam,[a]));
-	be := FRElement(FR_Fam,AssocWordByLetterRep(Fam,[b]));
-	ce := FRElement(FR_Fam,AssocWordByLetterRep(Fam,[c]));
-	de := FRElement(FR_Fam,AssocWordByLetterRep(Fam,[d]));
+	ae := ImageElm(f,AssocWordByLetterRep(Fam,[a]));
+	be := ImageElm(f,AssocWordByLetterRep(Fam,[b]));
+	ce := ImageElm(f,AssocWordByLetterRep(Fam,[c]));
+	de := ImageElm(f,AssocWordByLetterRep(Fam,[d]));
 	Alph:=Alphabet(g);
 	x_1 := Alph[1];
 	x_2 := Alph[2];
@@ -299,7 +303,7 @@ local a, b, c, d, Fam, FR_Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_repr, K
 		Centr_a := List([[],[a],[a,d,a,d],[a,d,a,d,a]],x -> AssocWordByLetterRep(Fam,Concatenation(con_word,x)));
 		Con_tuple:= [];
 		for con in Centr_a do
-			Con_tuple[Position(K_repr,LetterRepAssocWord(Compute_K_rep(con)))] := FRElement(FR_Fam,con);
+			Con_tuple[Position(K_repr,LetterRepAssocWord(Compute_K_rep(con)))] := ImageElm(f,con);
 		od;	
 		Check("ConTup_a",g,ae,Con_tuple);
 		return Con_tuple;
@@ -330,8 +334,8 @@ local a, b, c, d, Fam, FR_Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_repr, K
 							dw_w := One(dw);
 						fi;
 						Info(InfoFRCP,4,"Computing ",g,",",h,"  Conjugator found:",i,",",x,"\n");
-						if L1[i]=FRElement(FR_Fam,K_repr_words[i]) and L2[x]=FRElement(FR_Fam,K_repr_words[x]) then
-							res_Con[Position(K_repr_words,Compute_K_rep(dw_w*D[i]*aw_w))] := FRElement(FR_Fam,dw_w*D[i]*aw_w);
+						if L1[i]=ImageElm(f,K_repr_words[i]) and L2[x]=ImageElm(f,K_repr_words[x]) then
+							res_Con[Position(K_repr_words,Compute_K_rep(dw_w*D[i]*aw_w))] := ImageElm(f,dw_w*D[i]*aw_w);
 						else #Could always compute the words as generators, but seems uneccassary
 							res_Con[Position(K_repr_words,Compute_K_rep(dw_w*D[i]*aw_w))] := FRElement([[[L1[i]],[L2[x]]]],[aw_t],[1]);
 						fi;
@@ -353,7 +357,7 @@ local a, b, c, d, Fam, FR_Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_repr, K
 		#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-   g = identity   -#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 		if IsOne(g) then
 			if IsOne(h) then
-				return List(K_repr,x -> FRElement(FR_Fam,AssocWordByLetterRep(Fam,x)));
+				return List(K_repr,x -> ImageElm(f,AssocWordByLetterRep(Fam,x)));
 			fi;
 				return [];
 		fi;
@@ -361,13 +365,13 @@ local a, b, c, d, Fam, FR_Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_repr, K
 		if g in [be,ce] then
 			if h=g then
 				Centr_bc := [[],,,,,,,[a,d,a,d,a,d,a],[b],,,,,,,[b,a,d,a,d,a,d,a]];
-				return List(Centr_bc,x -> FRElement(FR_Fam,AssocWordByLetterRep(Fam,x)));
+				return List(Centr_bc,x -> ImageElm(f,AssocWordByLetterRep(Fam,x)));
 			fi;
 		fi;
 		if g = de then
 			if h=g then
 				Centr_d := [[],,,[a,d,a],[a,d,a,d],,,[a,d,a,d,a,d,a],[b],,,[b,a,d,a],[b,a,d,a,d],,,[b,a,d,a,d,a,d,a]];
-				return List(Centr_d,x -> FRElement(FR_Fam,AssocWordByLetterRep(Fam,x)));
+				return List(Centr_d,x -> ImageElm(f,AssocWordByLetterRep(Fam,x)));
 			fi;
 		fi;
 		if g=ae then
@@ -425,8 +429,8 @@ local a, b, c, d, Fam, FR_Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_repr, K
 			#Test for Conjugator with trivial Activity
 			g1 :=State(g,x_1)^-1;
 			h1 :=State(h,x_1);
-			g1 := Compute_K_rep(g1![2]);
-			h1 := Compute_K_rep(h1![2]);
+			g1 := Compute_K_rep(gw);
+			h1 := Compute_K_rep(hw);
 			L1 := conjugators_grig_rek(State(g,x_1)*State(g,x_2),State(h,x_1)*State(h,x_2));
 			if Size(L1) > 0 then
 				res_Con := [];
@@ -492,17 +496,18 @@ end);
 InstallMethod(IsConjugate,
 	"For Grig",
 	#The attribute FullSCVertex charakterizes all FullSCGroups
-	[ IsFRGroup,IsFRElement and IsFRElementStdRep,IsFRElement and IsFRElementStdRep], 
+	[ IsFRGroup,IsFRElement,IsFRElement], 
   function(G,a,b)
   	local con;
+  	Print("For Grig\n");
   	if Alphabet(G) <> Alphabet(a) or Alphabet(G) <> Alphabet(b) then
   		return false;
   	fi;
   	if a = b then #Spare Computing Time in trivial case.
   	 return true; 
   	fi;
-  	if HasName(G) and Name(G) = "Grig" then
-  		if GRIG_CON@(a,b) = fail then
+  	if HasName(G) and Name(G) = "GrigorchuckGroup" then
+  		if GRIG_CON@(G,a,b) = fail then
   			return false;
   		else
   			return true;
@@ -514,17 +519,18 @@ InstallMethod(IsConjugate,
 InstallOtherMethod(RepresentativeActionOp,
 	"Computes a conjugator in Grig ",
 	#The attribute FullSCVertex charakterizes all FullSCGroups
-	[ IsFRGroup,IsFRElement and IsFRElementStdRep,IsFRElement and IsFRElementStdRep], 
+	[ IsFRGroup,IsFRElement,IsFRElement], 
   function(G,a,b)
   	local con;
+  	Print("For Grig\n");
   	if Alphabet(G) <> Alphabet(a) or Alphabet(G) <> Alphabet(b) then
   		return fail;
   	fi;
   	if a = b then #Spare Computing Time in trivial case.
   	 return One(a); 
   	fi;
-  	if HasName(G) and Name(G) = "Grig" then
-  		return GRIG_CON@(a,b);
+  	if HasName(G) and Name(G) = "GrigorchuckGroup" then
+  		return GRIG_CON@(G,a,b);
   	else
   		TryNextMethod();
   	fi;
