@@ -1,7 +1,7 @@
 MAKE_READ_WRITE_GLOBAL("GRIG_CON@");
 UNBIND_GLOBAL("GRIG_CON@");
 BindGlobal("GRIG_CON@",function(G,g,h)
-local f,gw,hw,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_repr, K_repr_words, D, ConTup_a, Check, alternating_a_form, shorten_word, compute_conjugates, compute_conjugates_of_word, L_Decomp, Compute_K_rep, L_word_to_Grig, Merge_Ls, conjugators_grig_rek, Res, r;
+local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_repr, K_repr_words, D, ConTup_a, Check, alternating_a_form, shorten_word, compute_conjugates, compute_conjugates_of_word, L_Decomp, Compute_K_rep, L_word_to_Grig, Merge_Ls, conjugators_grig_rek, Res, r;
 ################################       (Local) GLOBALS           ####################################
 	f := EpimorphismFromFreeGroup(G);
 	gw:=PreImagesRepresentative(f,g);
@@ -273,16 +273,15 @@ local f,gw,hw,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_repr, K
 	
 	#Computes the conjugator tuple for the pair (g,a): 
 	ConTup_a := function (g)
-		local g1,g1_modL,l,Allowed_reps,Connected_conjs,con_at_1,con_word,con,Centr_a,Con_tuple;
+		local g1_modL,l,Allowed_reps,Connected_conjs,con_at_1,con_word,con,Centr_a,Con_tuple;
 		if IsOne(Activity(g)) then
 			return [];
 		fi;
 		if not IsOne(State(g,1)*State(g,2)) then
 			return [];
 		fi;
-		g1 := State(g,1);
 		#L_gen := [[b],[a,b,a],[b,a,d,a,b,a,d,a],[a,b,a,d,a,b,a,d]];
-		g1_modL:=L_Decomp(g1![2]); #ARGH... ![2] nich so gut...
+		g1_modL:=L_Decomp(PreImagesRepresentative(f,State(g,1))); 
 		l:=g1_modL[2];
 		g1_modL:=LetterRepAssocWord(g1_modL[1]);
 		#See Lemma lem:conjugators_of_a for Details
@@ -427,10 +426,8 @@ local f,gw,hw,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_repr, K
 		else
 		#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-    |g| > 1, act(g) = (1,2)    -#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 			#Test for Conjugator with trivial Activity
-			g1 :=State(g,x_1)^-1;
-			h1 :=State(h,x_1);
-			g1 := Compute_K_rep(gw);
-			h1 := Compute_K_rep(hw);
+			g1 := Compute_K_rep(PreImagesRepresentative(f,State(g,x_1)^-1));
+			h1 := Compute_K_rep(PreImagesRepresentative(f,State(h,x_1)));
 			L1 := conjugators_grig_rek(State(g,x_1)*State(g,x_2),State(h,x_1)*State(h,x_2));
 			if Size(L1) > 0 then
 				res_Con := [];
@@ -451,6 +448,7 @@ local f,gw,hw,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_repr, K
 				fi;
 			fi;
 			#Test for Conjugator with non-trivial Activity
+			h1 := Compute_K_rep(PreImagesRepresentative(f,State(h,x_2)));
 			L1 := conjugators_grig_rek(State(g,x_1)*State(g,x_2),State(h,x_2)*State(h,x_1));
 			if Size(L1) = 0 then
 				return [];
@@ -461,7 +459,7 @@ local f,gw,hw,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_repr, K
 				L1_temp := [];
 				L1_temp[Position(L1,x)]:=x;
 				L2 := [];
-				L2[Position(K_repr_words,Compute_K_rep(Compute_K_rep(g1)*K_repr_words[Position(L1,x)]*Compute_K_rep(h1)))] := State(g,x_1)^-1*x*State(h,x_1);
+				L2[Position(K_repr_words,Compute_K_rep(Compute_K_rep(g1)*K_repr_words[Position(L1,x)]*Compute_K_rep(h1)))] := State(g,x_1)^-1*x*State(h,x_2);
 				L2 :=Merge_Ls(L1_temp,L2,true);
 				for y in L2 do
 					res_Con[Position(L2,y)] := y;
