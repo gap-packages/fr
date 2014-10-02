@@ -1,6 +1,7 @@
 if not IsList(START_CP_BRANCH@) then
 	InstallValue(START_CP_BRANCH@,[]);
 fi;
+
 InstallMethod(InitConjugateForBranchGroups,"Branch Groups",[IsFRGroup,IsList], function(G,L)
 		if not HasName(G) then 
 			SetName(G,Concatenation("BranchGroup_",String(Size(START_CP_BRANCH@)+1)));
@@ -11,6 +12,15 @@ InstallMethod(InitConjugateForBranchGroups,"Branch Groups",[IsFRGroup,IsList], f
 															Branchstructure:=BranchStructure(G),
 															RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentative(~.Branchstructure.quo,x))));
 	end);
+InstallOtherMethod(InitConjugateForBranchGroups,"Branch Groups",[IsFRGroup], function(G)
+	local N,n,m;
+	N := Nucleus(G);
+	for n in N do
+		for m in N do
+			#TODO 
+		od;
+	od;
+end);
 MAKE_READ_WRITE_GLOBAL("CONJUGATORS_BRANCH@");
 UNBIND_GLOBAL("CONJUGATORS_BRANCH@");
 BindGlobal("CONJUGATORS_BRANCH@",function(G,g,h)
