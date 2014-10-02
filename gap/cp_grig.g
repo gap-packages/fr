@@ -492,12 +492,12 @@ end);
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
 ###################################################################	
 InstallMethod(IsConjugate,
-	"For Grig",
+	"Computes a conjugator in Grig ",
 	#The attribute FullSCVertex charakterizes all FullSCGroups
 	[ IsFRGroup,IsFRElement,IsFRElement], 
   function(G,a,b)
   	local con;
-  	Print("For Grig\n");
+  	Print("For GrigorchukGroup\n");
   	if Alphabet(G) <> Alphabet(a) or Alphabet(G) <> Alphabet(b) then
   		return false;
   	fi;
@@ -511,6 +511,7 @@ InstallMethod(IsConjugate,
   			return true;
   		fi;
   	else
+  	  Print("Try Next...\n");
   		TryNextMethod();
   	fi;
  	end);
@@ -520,7 +521,7 @@ InstallOtherMethod(RepresentativeActionOp,
 	[ IsFRGroup,IsFRElement,IsFRElement], 
   function(G,a,b)
   	local con;
-  	Print("For Grig\n");
+  	Print("For GrigorchukGroup\n");
   	if Alphabet(G) <> Alphabet(a) or Alphabet(G) <> Alphabet(b) then
   		return fail;
   	fi;
@@ -530,6 +531,7 @@ InstallOtherMethod(RepresentativeActionOp,
   	if HasName(G) and Name(G) = "GrigorchuckGroup" then
   		return GRIG_CON@(G,a,b);
   	else
+  	  Print("Try Next...\n");
   		TryNextMethod();
   	fi;
  	end);
