@@ -167,6 +167,32 @@ SEARCH@.IN := function(x,G)
     return fail;
 end;
 
+SEARCH@.CONJUGATE := function(G,x,y)
+    # check if x,y is conjugate in G. can return true, false or fail
+    if not IsConjugate(Range(G!.FRData.pi),x^G!.FRData.pi,y^G!.FRData.pi) then
+        return false;
+    elif ForAny(G!.FRData.sphere,s->ForAny(s,t->x^t=y)) then
+        return true;
+    fi;
+    return fail;
+end;
+SEARCH@.CONJUGATE_WITNESS := function(G,x,y)
+    # check if x,y is conjugate in G. can return a conjugator, false or fail
+    local s,t;
+    if not IsConjugate(Range(G!.FRData.pi),x^G!.FRData.pi,y^G!.FRData.pi) then
+        return false;
+    else
+  	  for s in G!.FRData.sphere do
+  	  	for t in s do
+  	  		if x^t=y then
+  	  			return t;
+  	  		fi;
+  	  	od;
+  	  od;
+    fi;
+    return fail;
+end;
+
 SEARCH@.EXTENDTRANSVERSAL := function(G,H,trans)
     # completes the tranversal trans of H^pi in G^pi, and returns it,
     # or "fail" if the search volume limit of G is too small.
@@ -906,6 +932,36 @@ InstallMethod(\in, "(FR) for an FR element and an FR semigroup",
             SEARCH@.ERROR(G,"\\in");
         od;
         Info(InfoFR, 3, "\\in: searching at level ",G!.FRData.level," and in sphere of radius ",G!.FRData.radius);
+    od;
+end);
+
+InstallMethod(IsConjugate, "(FR) for an FR element and an FR group",
+        [IsFRGroup,IsFRElement, IsFRElement],
+        function ( G, g, h )
+    local b;
+    SEARCH@.INIT(G);
+    while true do
+        b := SEARCH@.CONJUGATE(G,g,h);
+        if b<>fail then return b; fi;
+        while SEARCH@.EXTEND(G)=fail do
+            SEARCH@.ERROR(G,"IsConjugate");
+        od;
+        Info(InfoFR, 3, "IsConjugate: searching at level ",G!.FRData.level," and in sphere of radius ",G!.FRData.radius);
+    od;
+end);
+
+InstallOtherMethod(RepresentativeActionOp, "(FR) for an FR element and an FR group",
+        [IsFRGroup,IsFRElement, IsFRElement],
+        function ( G, g, h )
+    local b;
+    SEARCH@.INIT(G);
+    while true do
+        b := SEARCH@.CONJUGATE_WITNESS(G,g,h);
+        if b<>fail then return b; fi;
+        while SEARCH@.EXTEND(G)=fail do
+            SEARCH@.ERROR(G,"RepresentativeActionOp");
+        od;
+        Info(InfoFR, 3, "RepresentativeActionOp: searching at level ",G!.FRData.level," and in sphere of radius ",G!.FRData.radius);
     od;
 end);
 
