@@ -15,7 +15,7 @@ InstallMethod(IteratedOrbit,
 #---------------------------------------------------------------
 #------              Dep-Cartesian          --------------------
 #--  Calculates a cartesian product of ordered lists with    ---
-#-- respect to dependencies, which entries belong together   ---
+#-- respect to dependencies which entries belong together    ---
 #-- Example: L=[[A,B,X],[C,D],[c,d]], dep=[[1],[2,3]] results --
 #--   in [[A,C,c],[A,D,d],[B,C,c],[B,D,d],[X,C,c],[X,D,d]	   ---
 #--     The Lists, which are joined by the dependencies      ---
@@ -66,14 +66,14 @@ BindGlobal("LEVEL_PERM_CONJ@", function(x,y)
  	fi;
  	return c*List(Centralizer(SymmetricGroup(Alphabet(x)),pi_y));
 end);
-######################################################################
-#````````````````````````````````````````````````````````````````````#
-#`````````````````````    OrbitSignalizer   `````````````````````````#
-#``````````````````                            ``````````````````````#
-#``````````````````    Garantied to stop on    ``````````````````````#
-#`````````````````` BoundedFRElements as input ``````````````````````#
-#````````````````````````````````````````````````````````````````````#
-######################################################################
+##################################################################
+#````````````````````````````````````````````````````````````````#
+#```````````````````    OrbitSignalizer   ```````````````````````#
+#````````````````                            ````````````````````#
+#````````````````    Garantied to stop on    ````````````````````#
+#```````````````` BoundedFRElements as input ````````````````````#
+#````````````````````````````````````````````````````````````````#
+##################################################################
 InstallMethod(OrbitSignalizer,
 	"Returns the finite Orbit Signalizer",
 	[IsFRElement],
@@ -101,14 +101,14 @@ function(a)
 	return OS_list;
 end
 );
-######################################################################
-#````````````````````````````````````````````````````````````````````#
-#```````````````````````                  ```````````````````````````#
-#```````````````````````  ConjugatorGraph ```````````````````````````#
-#```````````````````````     DrawGraph    ```````````````````````````#
-#```````````````````````                  ```````````````````````````#
-#````````````````````````````````````````````````````````````````````#
-######################################################################
+##################################################################
+#````````````````````````````````````````````````````````````````#
+#`````````````````````                  `````````````````````````#
+#`````````````````````  ConjugatorGraph `````````````````````````#
+#`````````````````````     DrawGraph    `````````````````````````#
+#`````````````````````                  `````````````````````````#
+#````````````````````````````````````````````````````````````````#
+##################################################################
 BindGlobal("CONJUGATOR_GRAPH@", function(a,b)
 	local Alph, Vertices, Edges, c, d, p, v_id, e_id, v, orbits, orb_repr, i, new_con_pair, new_v, w, change, found, e, all_found;
 	
@@ -136,11 +136,9 @@ BindGlobal("CONJUGATOR_GRAPH@", function(a,b)
 	#--------------------- Find the Edges  -------------------
 	e_id := 1;
 	for v in Vertices do
-		#Print("Looking at ",v.id,"\n");
 		c := v.conj_pair[1];
 		d := v.conj_pair[2];
 		orbits := Orbits(Group(c),Alph);
-		#Print("orbits: ",orbits,"\n");
 		orb_repr := List(orbits,Minimum);
 		for i in [1..Length(orbits)] do
 			new_con_pair := [State(c^Length(orbits[i]),orb_repr[i]),State(d^Length(orbits[i]),orb_repr[i]^v.action)];
@@ -244,13 +242,13 @@ BindGlobal("DRAW_GRAPH@",function(Vertices,Edges)
 	Print(S);
 	DOT2DISPLAY@(S,"dot");
 end);
-######################################################################
-#````````````````````````````````````````````````````````````````````#
-#```````````````````````                  ```````````````````````````#
-#```````````````````````    F.S. Worker   ```````````````````````````#
-#```````````````````````                  ```````````````````````````#
-#````````````````````````````````````````````````````````````````````#
-######################################################################
+##################################################################
+#````````````````````````````````````````````````````````````````#
+#`````````````````````                  `````````````````````````#
+#`````````````````````    F.S. Worker   `````````````````````````#
+#`````````````````````                  `````````````````````````#
+#````````````````````````````````````````````````````````````````#
+##################################################################
 BindGlobal("CONJUGATORS_FINITE_STATE_WRAPPER@",function(start,CG)
 	local v,AS,to_visit, Alph, new_v, i, found, e, Tran, Act, c,d, orbit;
 			#--------- Choose one subgraph, as automaton  ---------
@@ -299,13 +297,13 @@ BindGlobal("CONJUGATORS_FINITE_STATE_WRAPPER@",function(start,CG)
 			od;
 			return FRElement(Tran,Act,[1]);
 end);
-######################################################################
-#````````````````````````````````````````````````````````````````````#
-#```````````````````````                  ```````````````````````````#
-#```````````````````````  Finitary Worker ```````````````````````````#
-#```````````````````````                  ```````````````````````````#
-#````````````````````````````````````````````````````````````````````#
-######################################################################
+##################################################################
+#````````````````````````````````````````````````````````````````#
+#`````````````````````                  `````````````````````````#
+#`````````````````````  Finitary Worker `````````````````````````#
+#`````````````````````                  `````````````````````````#
+#````````````````````````````````````````````````````````````````#
+##################################################################
 BindGlobal("CONJUGATORS_FINITARY_WRAPPER@",function(v,Graph,Seen,Known_vertex_conjugator)
 	local CONJUGATORS_FINITARY_REK;
 	CONJUGATORS_FINITARY_REK := function(v,Graph,Seen,Known_vertex_conjugator)
@@ -314,7 +312,6 @@ BindGlobal("CONJUGATORS_FINITARY_WRAPPER@",function(v,Graph,Seen,Known_vertex_co
 	
 		#Print("@Vertex ",v,"\n");
 		if IsBound(Known_vertex_conjugator[v]) then #Don't do the same work twice.
-			#Print("Save work\n Go up...\n");
 			return Known_vertex_conjugator[v];
 		fi;
 		Vertices := Graph[1];
@@ -353,9 +350,7 @@ BindGlobal("CONJUGATORS_FINITARY_WRAPPER@",function(v,Graph,Seen,Known_vertex_co
 		for son in sons do
 			NewSeen := ShallowCopy(Seen);
 			Add(NewSeen,v);
-			#Print("Go Down....\n");
 			son_conjs := CONJUGATORS_FINITARY_REK(son[1],Graph,NewSeen,Known_vertex_conjugator);
-			#Print("Back....\n");
 			son_orbit_size := Size(Orbit(Group(a),son[2]));
 			for son_conj in son_conjs do
 				tempo_conj := [];
@@ -381,7 +376,6 @@ BindGlobal("CONJUGATORS_FINITARY_WRAPPER@",function(v,Graph,Seen,Known_vertex_co
 			od;
 		od;
 		#Test if we have enough partial conjugators
-		#Print("conjugators_found: ",conjugators_found,"\n");
 		if IsDenseList(conjugators_found) and Size(conjugators_found) = Size(Alph) then
 			#puzzle them together!	
 			Conjs := DEP_CARTESIAN@(conj_cand,Orbits(Group(a),Alph));
@@ -390,19 +384,17 @@ BindGlobal("CONJUGATORS_FINITARY_WRAPPER@",function(v,Graph,Seen,Known_vertex_co
 			od;
 		fi;
 		Known_vertex_conjugator[v] := real_conjugators;
-		#Print("Known_vertex_conjugator: ",Known_vertex_conjugator,"\n");
-		#Print("Go up...\n");
 		return real_conjugators;
 	end;
 	return CONJUGATORS_FINITARY_REK(v,Graph,Seen,Known_vertex_conjugator);
 end);
-######################################################################
-#````````````````````````````````````````````````````````````````````#
-#```````````````````````                  ```````````````````````````#
-#```````````````````````  BoundedWorker   ```````````````````````````#
-#```````````````````````                  ```````````````````````````#
-#````````````````````````````````````````````````````````````````````#
-######################################################################
+##################################################################
+#````````````````````````````````````````````````````````````````#
+#`````````````````````                  `````````````````````````#
+#`````````````````````  BoundedWorker   `````````````````````````#
+#`````````````````````                  `````````````````````````#
+#````````````````````````````````````````````````````````````````#
+##################################################################
 BindGlobal("CONJUGATORS_BOUNDED_WRAPPER@",function(v,Graph,Seen,readwrite_path,Known_vertex_conjugator)
 	local CONJUGATORS_BOUNDED_REK;
 	CONJUGATORS_BOUNDED_REK := function(v,Graph,Seen,readwrite_path,Known_vertex_conjugator)
@@ -436,7 +428,6 @@ BindGlobal("CONJUGATORS_BOUNDED_WRAPPER@",function(v,Graph,Seen,readwrite_path,K
 			circle_length:=Size(Seen)-Position(Seen,v)+1;
 			check_need := false;
 			for i in [Position(Seen,v)..Size(Seen)] do
-				#Print("Running through Circle. Now at vertex ",Seen[i],".\n");
 				alph := Vertices[Seen[i]].conj_pair[1];
 				beta := Vertices[Seen[i]].conj_pair[2];
 				read:=read_path[i];
@@ -504,8 +495,6 @@ BindGlobal("CONJUGATORS_BOUNDED_WRAPPER@",function(v,Graph,Seen,readwrite_path,K
 					Add(Conjs,conj_cand);
 				fi;
 			od;
-			#Print("Finished this vertex (",v,") with the following Conjugators:\n",Conjs,"\n");
-			#Print("Aktually known are:",Known_vertex_conjugator,"\n");
 			return Conjs;
 
 		fi;
@@ -542,7 +531,6 @@ BindGlobal("CONJUGATORS_BOUNDED_WRAPPER@",function(v,Graph,Seen,readwrite_path,K
 			od;
 		od;
 		#Test if we have enough partial conjugators
-		#Print("conjugators_found: ",conjugators_found,"\n");
 		if IsDenseList(conjugators_found) and Size(conjugators_found) = Size(Alph) then
 			#puzzle them together!	
 			Conjs := DEP_CARTESIAN@(conj_cand,Orbits(Group(a),Alph));
@@ -551,20 +539,16 @@ BindGlobal("CONJUGATORS_BOUNDED_WRAPPER@",function(v,Graph,Seen,readwrite_path,K
 			od;
 		fi;
 		Known_vertex_conjugator[v] := real_conjugators;
-		#Print("Known_vertex_conjugator: ",Known_vertex_conjugator,"\n");
-		#Print("Go up...\n");
-		#Print("Finished this vertex (",v,") with the following Conjugators:\n",real_conjugators,"\n");
 		return real_conjugators;
 	end;
 	return CONJUGATORS_BOUNDED_REK(v,Graph,Seen,readwrite_path,Known_vertex_conjugator);
 end);
-
-###################################################################
-#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
-#%%%%%%%%%%%%%%%%%%%%      IsConjugate        %%%%%%%%%%%%%%%%%%%%#
-#%%%%%%%%%%%%%%%%%%%%	 RepresentativeActionOp %%%%%%%%%%%%%%%%%%%%#
-#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
-###################################################################
+##################################################################
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+#%%%%%%%%%%%%%%%%%%%%      IsConjugate        %%%%%%%%%%%%%%%%%%%#
+#%%%%%%%%%%%%%%%%%%%%	 RepresentativeActionOp %%%%%%%%%%%%%%%%%%%#
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+##################################################################
 InstallMethod(IsConjugate,
 	"For Aut, RAut, FAut, Poly-1, Poly0",
 	#The attribute FullSCVertex charakterizes all FullSCGroups
