@@ -1,5 +1,3 @@
-MAKE_READ_WRITE_GLOBAL("GRIG_CON@");
-UNBIND_GLOBAL("GRIG_CON@");
 BindGlobal("GRIG_CON@",function(G,g,h)
 local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_repr, K_repr_words, D, ConTup_a, Check, alternating_a_form, shorten_word, compute_conjugates, compute_conjugates_of_word, L_Decomp, Compute_K_rep, L_word_to_Grig, Merge_Ls, conjugators_grig_rek, Res, r;
 ################################       (Local) GLOBALS           ####################################

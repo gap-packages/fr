@@ -21,8 +21,6 @@ InstallMethod(IteratedOrbit,
 #--     The Lists, which are joined by the dependencies      ---
 #--            have to be of the same length	               ---	
 #---------------------------------------------------------------
-MAKE_READ_WRITE_GLOBAL("DEP_CARTESIAN@");
-UNBIND_GLOBAL("DEP_CARTESIAN@");
 BindGlobal("DEP_CARTESIAN@", function(L,dep)
 	local res_list, temp_cart, container, al, d, i ,j,a;
 	res_list := [];
@@ -54,8 +52,6 @@ end);
 #------  Takes two FRElements and computes a list of    -------
 #------  conjugators of the action on the first level.  -------
 #--------------------------------------------------------------
-MAKE_READ_WRITE_GLOBAL("LEVEL_PERM_CONJ@");
-UNBIND_GLOBAL("LEVEL_PERM_CONJ@");
 BindGlobal("LEVEL_PERM_CONJ@", function(x,y)
 	local pi_x, pi_y, c;
 	if Alphabet(x) <> Alphabet(y) then
@@ -113,8 +109,6 @@ end
 #```````````````````````                  ```````````````````````````#
 #````````````````````````````````````````````````````````````````````#
 ######################################################################
-MAKE_READ_WRITE_GLOBAL("CONJUGATOR_GRAPH@");
-UNBIND_GLOBAL("CONJUGATOR_GRAPH@");
 BindGlobal("CONJUGATOR_GRAPH@", function(a,b)
 	local Alph, Vertices, Edges, c, d, p, v_id, e_id, v, orbits, orb_repr, i, new_con_pair, new_v, w, change, found, e, all_found;
 	
@@ -212,8 +206,6 @@ BindGlobal("CONJUGATOR_GRAPH@", function(a,b)
 	return [Vertices,Edges];
 end);
 
-MAKE_READ_WRITE_GLOBAL("DRAW_GRAPH@");
-UNBIND_GLOBAL("DRAW_GRAPH@");
 BindGlobal("DRAW_GRAPH@",function(Vertices,Edges)
 	local v,S,e;
 	for v in Vertices do
@@ -259,8 +251,6 @@ end);
 #```````````````````````                  ```````````````````````````#
 #````````````````````````````````````````````````````````````````````#
 ######################################################################
-MAKE_READ_WRITE_GLOBAL("CONJUGATORS_FINITE_STATE_WRAPPER@");
-UNBIND_GLOBAL("CONJUGATORS_FINITE_STATE_WRAPPER@");
 BindGlobal("CONJUGATORS_FINITE_STATE_WRAPPER@",function(start,CG)
 	local v,AS,to_visit, Alph, new_v, i, found, e, Tran, Act, c,d, orbit;
 			#--------- Choose one subgraph, as automaton  ---------
@@ -316,8 +306,6 @@ end);
 #```````````````````````                  ```````````````````````````#
 #````````````````````````````````````````````````````````````````````#
 ######################################################################
-MAKE_READ_WRITE_GLOBAL("CONJUGATORS_FINITARY_WRAPPER@");
-UNBIND_GLOBAL("CONJUGATORS_FINITARY_WRAPPER@");
 BindGlobal("CONJUGATORS_FINITARY_WRAPPER@",function(v,Graph,Seen,Known_vertex_conjugator)
 	local CONJUGATORS_FINITARY_REK;
 	CONJUGATORS_FINITARY_REK := function(v,Graph,Seen,Known_vertex_conjugator)
@@ -415,8 +403,6 @@ end);
 #```````````````````````                  ```````````````````````````#
 #````````````````````````````````````````````````````````````````````#
 ######################################################################
-MAKE_READ_WRITE_GLOBAL("CONJUGATORS_BOUNDED_WRAPPER@");
-UNBIND_GLOBAL("CONJUGATORS_BOUNDED_WRAPPER@");
 BindGlobal("CONJUGATORS_BOUNDED_WRAPPER@",function(v,Graph,Seen,readwrite_path,Known_vertex_conjugator)
 	local CONJUGATORS_BOUNDED_REK;
 	CONJUGATORS_BOUNDED_REK := function(v,Graph,Seen,readwrite_path,Known_vertex_conjugator)

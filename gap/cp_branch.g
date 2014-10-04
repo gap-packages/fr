@@ -21,8 +21,6 @@ InstallOtherMethod(InitConjugateForBranchGroups,"Branch Groups",[IsFRGroup], fun
 		od;
 	od;
 end);
-MAKE_READ_WRITE_GLOBAL("CONJUGATORS_BRANCH@");
-UNBIND_GLOBAL("CONJUGATORS_BRANCH@");
 BindGlobal("CONJUGATORS_BRANCH@",function(G,g,h)
 	local CP_init, Start, Gen, B, BS, Conjugators_branch_rek,l,k,InStart,GetStart,rek_count;
 	InStart := function(name)
