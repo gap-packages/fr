@@ -1,2 +1,3 @@
 DeclareGlobalVariable("START_CP_BRANCH@");
-DeclareOperation("InitConjugateForBranchGroups", [IsFRGroup,IsList]);
+DeclareGlobalFunction("GrigorchukConjugateBranchInit");
+DeclareOperation("InitConjugateForBranchGroups", [IsFRGroup,IsList,IsList]);
