@@ -42,7 +42,6 @@ ReadPackage("fr", "gap/bisets.gd");
 ReadPackage("fr", "gap/examples.gd");
 
 ReadPackage("fr","gap/cp.gd");
-ReadPackage("fr","gap/cp_branch.gd");
 
 @.nql := IsBound(IsLpGroup);
 
