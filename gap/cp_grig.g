@@ -40,8 +40,8 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 		if InfoLevel(InfoFRCP)>2 then
 			for c in C do
 				if g^c <> h then
-					Print("Error at ",s,"\n");
-					Print("Error happened here: g=",g,", and h=",h,", and Conjugator c=",c," number: ",Position(C,c),"in ",C,"\n");
+					Info(InfoFRCP,2,"Error at ",s);
+					Info(InfoFRCP,3,"Error happened here: g=",g,", and h=",h,", and Conjugator c=",c," number: ",Position(C,c),"in ",C);
 					return fail;
 				fi;
 			od;
@@ -192,7 +192,6 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 		for l in Reversed(l_elm) do
 			Append(l_elm_compl,compute_conjugates(1,l));
 		od;
-		#Print("Before forced: ",w,"\n");
 		#Force the form unique beginning with a.
 		if Length(w)>7 then 
 			w:=Subword(w,1,Length(w) mod 8);
@@ -470,14 +469,6 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 	
 	Res:= conjugators_grig_rek(g,h);
 	Info(InfoFRCP,3,"Result of rekursive computation: ",Res,"\n");
-	if InfoLevel(InfoFRCP)>1 then
-		for r in Res do
-			if g^r<>h then
-			 Print("Fatal Error....\n");
-			 Print("Problem at ",Position(Res,r),"\n");
-			fi;		
-		od;
-	fi;
 	if Size(Res) = 0 then
 		return fail;
 	fi;
@@ -495,21 +486,21 @@ InstallMethod(IsConjugate,
 	[ IsFRGroup,IsFRElement,IsFRElement], 
   function(G,a,b)
   	local con;
-  	Print("For GrigorchukGroup\n");
+		Info(InfoFRCP,2,"Try method for Grigorchuk group.");
   	if Alphabet(G) <> Alphabet(a) or Alphabet(G) <> Alphabet(b) then
   		return false;
   	fi;
   	if a = b then #Spare Computing Time in trivial case.
   	 return true; 
   	fi;
-  	if HasName(G) and Name(G) = "GrigorchuckGroup" then
+  	if HasName(G) and Name(G) = "GrigorchukGroup" then
   		if GRIG_CON@(G,a,b) = fail then
   			return false;
   		else
   			return true;
   		fi;
   	else
-  	  Print("Try Next...\n");
+		Info(InfoFRCP,2,"Doesn't work. Try next...");
   		TryNextMethod();
   	fi;
  	end);
@@ -519,7 +510,7 @@ InstallOtherMethod(RepresentativeActionOp,
 	[ IsFRGroup,IsFRElement,IsFRElement], 
   function(G,a,b)
   	local con;
-  	Print("For GrigorchukGroup\n");
+		Info(InfoFRCP,2,"Try method for Grigorchuk group.");
   	if Alphabet(G) <> Alphabet(a) or Alphabet(G) <> Alphabet(b) then
   		return fail;
   	fi;
@@ -529,7 +520,7 @@ InstallOtherMethod(RepresentativeActionOp,
   	if HasName(G) and Name(G) = "GrigorchuckGroup" then
   		return GRIG_CON@(G,a,b);
   	else
-  	  Print("Try Next...\n");
+		Info(InfoFRCP,2,"Doesn't work. Try next...");
   		TryNextMethod();
   	fi;
  	end);
