@@ -94,5 +94,4 @@ else
     Add(IO_PkgThingsToRead, ["fr","gap/pickle.g"]);
 fi;
 ReadPackage("fr","gap/cp.gi");
-ReadPackage("fr","gap/cp_grig.g");
 #E read.g . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
