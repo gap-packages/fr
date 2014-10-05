@@ -958,8 +958,12 @@ InstallOtherMethod(RepresentativeActionOp, "(FR) for an FR element and an FR gro
     while true do
         b := SEARCH@.CONJUGATE_WITNESS(G,g,h);
         if b<>fail then 
-        	if b=false then return fail; 
-        	else return b; fi;
+        	if b=false 
+        		then return fail; 
+        	else 
+        		return b; 
+        	fi;
+        fi;
         while SEARCH@.EXTEND(G)=fail do
             SEARCH@.ERROR(G,"RepresentativeActionOp");
         od;
