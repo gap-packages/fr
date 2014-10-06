@@ -325,8 +325,7 @@ end);
 InstallValue(GrigorchukMachine,
         MealyMachine([[5,5],[1,3],[1,4],[5,2],[5,5]],[[2,1],[1,2],[1,2],[1,2],[1,2]]));
 InstallValue(GrigorchukGroup,SCGroup(GrigorchukMachine));
-GrigorchukGroup!.Name := "GrigorchukGroup";
-SetName(GrigorchukGroup,GrigorchukGroup!.Name);
+SetName(GrigorchukGroup,"GrigorchukGroup");
 SETGENERATORNAMES@(GrigorchukGroup,["a","b","c","d"]);
 CallFuncList(function(a,b,c,d)
     local x;
