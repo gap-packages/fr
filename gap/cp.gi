@@ -731,9 +731,9 @@ BindGlobal("CONJUGATORS_BRANCH@",function(G,g,h)
 	else
 		return fail;
 	fi;
-	#if g = h then
-	#	return [One(g)];
-	#fi;
+	if g = h then
+		return [One(g)];
+	fi;
 
 	rek_count := 1;
 	#First for binary alphabet.
