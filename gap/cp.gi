@@ -967,17 +967,24 @@ end);
 #****************************************************************
 BindGlobal("GRIG_CON@",function(G,g,h)
 local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_repr, K_repr_words, D, ConTup_a, Check, alternating_a_form, shorten_word, compute_conjugates, compute_conjugates_of_word, L_Decomp, Compute_K_rep, L_word_to_Grig, Merge_Ls, conjugators_grig_rek, Res, r;
-		
+
+############   Spare Computing Time in trivial case.     #########
+ 	if AlphabetOfFRSemigroup(G) <> AlphabetOfFRObject(g) or AlphabetOfFRSemigroup(G) <> AlphabetOfFRObject(h) then
+		return fail;
+	fi;
+	if g = h then 
+	 return One(G); 
+	fi;	
 ############       (Local) GLOBALS           #####################
 	f := EpimorphismFromFreeGroup(G);
 	gw:=PreImagesRepresentative(f,g);
 	hw:=PreImagesRepresentative(f,h);
 	
 	Gen := GeneratorsOfGroup(G);
-	a:= Position(Gen,FRElement([[[4],[2]],[[4],[3]],[[],[1]],[[],[]]],[(),(),(),(1,2)],[4]));	
-	b:= Position(Gen,FRElement([[[4],[2]],[[4],[3]],[[],[1]],[[],[]]],[(),(),(),(1,2)],[1]));
-	c:= Position(Gen,FRElement([[[4],[2]],[[4],[3]],[[],[1]],[[],[]]],[(),(),(),(1,2)],[2]));
-	d:= Position(Gen,FRElement([[[4],[2]],[[4],[3]],[[],[1]],[[],[]]],[(),(),(),(1,2)],[3]));
+	a:= Position(Gen,MealyElement([[4,2],[4,3],[5,1],[5,5],[5,5]],[(),(),(),(1,2),()],4));	
+	b:= Position(Gen,MealyElement([[4,2],[4,3],[5,1],[5,5],[5,5]],[(),(),(),(1,2),()],1));	
+	c:= Position(Gen,MealyElement([[4,2],[4,3],[5,1],[5,5],[5,5]],[(),(),(),(1,2),()],2));	
+	d:= Position(Gen,MealyElement([[4,2],[4,3],[5,1],[5,5],[5,5]],[(),(),(),(1,2),()],3));	
 	Fam := FamilyObj(gw);		
 ##################################################################
 	aw :=AssocWordByLetterRep(Fam,[a]);  
@@ -1442,6 +1449,7 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 	fi;
 	return Representative(Res);
 end);
+SetFRConjugacyAlgorithm(GrigorchukGroup,GRIG_CON@);
 #################################################################
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
 #%%%%%%%%%%%%%%%%%%%%      IsConjugate        %%%%%%%%%%%%%%%%%%#
@@ -1449,48 +1457,16 @@ end);
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
 #################################################################	
 InstallMethod(IsConjugate,
-	"Computes a conjugator in Grig ",
-	#The attribute FullSCVertex charakterizes all FullSCGroups
-	[ IsFRGroup,IsFRElement,IsFRElement], 
+	" For FR groups with optimized conjugacy algorithm ",
+	[ IsFRGroup and HasFRConjugacyAlgorithm,IsFRElement,IsFRElement], 
   function(G,a,b)
-  	local con;
-		Info(InfoFRCP,2,"Try method for Grigorchuk group.");
-  	if AlphabetOfFRSemigroup(G) <> AlphabetOfFRObject(a) or AlphabetOfFRSemigroup(G) <> AlphabetOfFRObject(b) then
-  		return false;
-  	fi;
-  	if a = b then #Spare Computing Time in trivial case.
-  	 return true; 
-  	fi;
-  	if HasName(G) and Name(G) = "GrigorchukGroup" then
-  		if GRIG_CON@(G,a,b) = fail then
-  			return false;
-  		else
-  			return true;
-  		fi;
-  	else
-		Info(InfoFRCP,2,"Doesn't work. Try next...");
-  		TryNextMethod();
-  	fi;
+  	return FRConjugacyAlgorithm(G)(G,a,b) <> fail;
  	end);
 InstallOtherMethod(RepresentativeActionOp,
-	"Computes a conjugator in Grig ",
-	#The attribute FullSCVertex charakterizes all FullSCGroups
-	[ IsFRGroup,IsFRElement,IsFRElement], 
+ " For FR groups with optimized conjugacy algorithm ",
+	[ IsFRGroup and HasFRConjugacyAlgorithm,IsFRElement,IsFRElement], 
   function(G,a,b)
-  	local con;
-		Info(InfoFRCP,2,"Try method for Grigorchuk group.");
-  	if AlphabetOfFRSemigroup(G) <> AlphabetOfFRObject(a) or AlphabetOfFRSemigroup(G) <> AlphabetOfFRObject(b) then
-  		return fail;
-  	fi;
-  	if a = b then #Spare Computing Time in trivial case.
-  	 return One(a); 
-  	fi;
-  	if HasName(G) and Name(G) = "GrigorchuckGroup" then
-  		return GRIG_CON@(G,a,b);
-  	else
-		Info(InfoFRCP,2,"Doesn't work. Try next...");
-  		TryNextMethod();
-  	fi;
+  	return FRConjugacyAlgorithm(G)(G,a,b);
  	end);
  	
   
