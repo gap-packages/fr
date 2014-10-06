@@ -37,4 +37,4 @@ true
 gap> SetInfoLevel(InfoFR,n);
 gap> STOP_TEST( "cp.tst", 12*10^8 );
 frcp
-GAP4stones: 81000
+GAP4stones: 93000
