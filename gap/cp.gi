@@ -54,17 +54,17 @@ end);
 #--------------------------------------------------------------
 BindGlobal("LEVEL_PERM_CONJ@", function(x,y)
 	local pi_x, pi_y, c;
-	if Alphabet(x) <> Alphabet(y) then
+	if AlphabetOfFRObject(x) <> AlphabetOfFRObject(y) then
 		Error("Not a valid argument, they must be defined on the same alphabet.");
 		return [];
 	fi;
 	pi_x := PermList(DecompositionOfFRElement(x)[2]);
  	pi_y := PermList(DecompositionOfFRElement(y)[2]);
- 	c := RepresentativeAction(SymmetricGroup(Alphabet(x)),pi_x,pi_y);
+ 	c := RepresentativeAction(SymmetricGroup(AlphabetOfFRObject(x)),pi_x,pi_y);
  	if c= fail then
  		return [];
  	fi;
- 	return c*List(Centralizer(SymmetricGroup(Alphabet(x)),pi_y));
+ 	return c*List(Centralizer(SymmetricGroup(AlphabetOfFRObject(x)),pi_y));
 end);
 ##################################################################
 #````````````````````````````````````````````````````````````````#
@@ -87,7 +87,7 @@ function(a)
 	while Length(OS_unvisited) > 0 do
 		OS_new := [];
 		for elm in OS_unvisited do
-			for x in Alphabet(a) do
+			for x in AlphabetOfFRObject(a) do
 				new := suc(elm,x);
 				if (not new in OS_list) and (not new in OS_unvisited) and (not new in OS_new) then
 					Add(OS_new,new);
@@ -112,7 +112,7 @@ end
 BindGlobal("CONJUGATOR_GRAPH@", function(a,b)
 	local Alph, Vertices, Edges, c, d, p, v_id, e_id, v, orbits, orb_repr, i, new_con_pair, new_v, w, change, found, e, all_found;
 	
-	Alph := Alphabet(a);
+	Alph := AlphabetOfFRObject(a);
 	Vertices := [];
 	Edges := [];
 	#--------------------- Save some work, in easy cases--------
@@ -254,7 +254,7 @@ BindGlobal("CONJUGATORS_FINITE_STATE_WRAPPER@",function(start,CG)
 			#--------- Choose one subgraph, as automaton  ---------
 			AS := [start.id]; #Contains IDs of vertices, which build the subgraph
 			to_visit := [start.id]; 
-			Alph := Alphabet(start.conj_pair[1]);
+			Alph := AlphabetOfFRObject(start.conj_pair[1]);
 			while Length(to_visit) > 0 do 
 				new_v := [];
 				for i in to_visit do
@@ -318,7 +318,7 @@ BindGlobal("CONJUGATORS_FINITARY_WRAPPER@",function(v,Graph,Seen,Known_vertex_co
 		Edges := Graph[2];
 		a := Vertices[v].conj_pair[1];
 		b := Vertices[v].conj_pair[2];
-		Alph := Alphabet(a);
+		Alph := AlphabetOfFRObject(a);
 		action := Vertices[v].action;
 	
 		if v in Seen then
@@ -414,7 +414,7 @@ BindGlobal("CONJUGATORS_BOUNDED_WRAPPER@",function(v,Graph,Seen,readwrite_path,K
 		Edges := Graph[2];
 		a := Vertices[v].conj_pair[1];
 		b := Vertices[v].conj_pair[2];
-		Alph := Alphabet(a);
+		Alph := AlphabetOfFRObject(a);
 		Alph_num := [1..Size(Alph)];
 		action := Vertices[v].action;
 		read_path := readwrite_path[1];
@@ -555,7 +555,7 @@ InstallMethod(IsConjugate,
 	[ IsFRGroup and HasFullSCVertex,IsFRElement,IsFRElement], 
   function(G,a,b)
   	local v, Graph, sons, starts;
-  	if Alphabet(G) <> Alphabet(a) or Alphabet(G) <> Alphabet(b) then
+  	if AlphabetOfFRSemigroup(G) <> AlphabetOfFRObject(a) or AlphabetOfFRSemigroup(G) <> AlphabetOfFRObject(b) then
   		return false;
   	fi;
   	if a = b then #Spare Computing Time in trivial case.
@@ -613,7 +613,7 @@ InstallOtherMethod(RepresentativeActionOp,
 	[ IsFRGroup and HasFullSCVertex,IsFRElement,IsFRElement], 
 	function(G,a,b)
   	local CG, v, start, Conjugators;
-  	if Alphabet(G) <> Alphabet(a) or Alphabet(G) <> Alphabet(b) then
+  	if AlphabetOfFRSemigroup(G) <> AlphabetOfFRObject(a) or AlphabetOfFRSemigroup(G) <> AlphabetOfFRObject(b) then
   		return fail;
   	fi;
   	if a=b then
@@ -724,7 +724,7 @@ BindGlobal("CONJUGATORS_BRANCH@",function(G,g,h)
 		od;
 		return fail;
 	end;
-	if Alphabet(G) = [1,2] and HasName(G) and InStart(Name(G)) then
+	if AlphabetOfFRSemigroup(G) = [1,2] and HasName(G) and InStart(Name(G)) then
 		CP_init := GetStart(Name(G));
 		BS := CP_init.Branchstructure;
 		B := List(BS.group);
@@ -969,7 +969,7 @@ BindGlobal("GRIG_CON@",function(G,g,h)
 local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_repr, K_repr_words, D, ConTup_a, Check, alternating_a_form, shorten_word, compute_conjugates, compute_conjugates_of_word, L_Decomp, Compute_K_rep, L_word_to_Grig, Merge_Ls, conjugators_grig_rek, Res, r;
 
 ############   Spare Computing Time in trivial case.     #########
- 	if Alphabet(G) <> Alphabet(g) or Alphabet(G) <> Alphabet(h) then
+ 	if AlphabetOfFRSemigroup(G) <> AlphabetOfFRObject(g) or AlphabetOfFRSemigroup(G) <> AlphabetOfFRObject(h) then
 		return fail;
 	fi;
 	if g = h then 
@@ -993,7 +993,7 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 	be := ImageElm(f,AssocWordByLetterRep(Fam,[b]));
 	ce := ImageElm(f,AssocWordByLetterRep(Fam,[c]));
 	de := ImageElm(f,AssocWordByLetterRep(Fam,[d]));
-	Alph:=Alphabet(g);
+	Alph:=AlphabetOfFRObject(g);
 	x_1 := Alph[1];
 	x_2 := Alph[2];
 
