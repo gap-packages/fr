@@ -974,10 +974,10 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 	hw:=PreImagesRepresentative(f,h);
 	
 	Gen := GeneratorsOfGroup(G);
-	a:= Position(Gen,FRElement([[[4],[2]],[[4],[3]],[[],[1]],[[],[]]],[(),(),(),(1,2)],[4]));	
-	b:= Position(Gen,FRElement([[[4],[2]],[[4],[3]],[[],[1]],[[],[]]],[(),(),(),(1,2)],[1]));
-	c:= Position(Gen,FRElement([[[4],[2]],[[4],[3]],[[],[1]],[[],[]]],[(),(),(),(1,2)],[2]));
-	d:= Position(Gen,FRElement([[[4],[2]],[[4],[3]],[[],[1]],[[],[]]],[(),(),(),(1,2)],[3]));
+	a:= Position(Gen,MealyElement([[4,2],[4,3],[5,1],[5,5],[5,5]],[(),(),(),(1,2),()],4));	
+	b:= Position(Gen,MealyElement([[4,2],[4,3],[5,1],[5,5],[5,5]],[(),(),(),(1,2),()],1));	
+	c:= Position(Gen,MealyElement([[4,2],[4,3],[5,1],[5,5],[5,5]],[(),(),(),(1,2),()],2));	
+	d:= Position(Gen,MealyElement([[4,2],[4,3],[5,1],[5,5],[5,5]],[(),(),(),(1,2),()],3));	
 	Fam := FamilyObj(gw);		
 ##################################################################
 	aw :=AssocWordByLetterRep(Fam,[a]);  
