@@ -42,7 +42,7 @@ ReadPackage("fr", "gap/vector.gd");
 ReadPackage("fr", "gap/algebra.gd");
 ReadPackage("fr", "gap/bisets.gd");
 ReadPackage("fr", "gap/examples.gd");
-ReadPackage("fr","gap/cp.gd");
+ReadPackage("fr", "gap/cp.gd");
 
 @.nql := IsBound(IsLpGroup);
 
