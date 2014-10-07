@@ -21,7 +21,7 @@ InstallMethod(IteratedOrbit,
 #--     The Lists, which are joined by the dependencies      ---
 #--            have to be of the same length	               ---	
 #---------------------------------------------------------------
-BindGlobal("DEP_CARTESIAN@", function(L,dep)
+DEP_CARTESIAN := function(L,dep)
 	local res_list, temp_cart, container, al, d, i ,j,a;
 	res_list := [];
 	temp_cart := [];
@@ -30,9 +30,11 @@ BindGlobal("DEP_CARTESIAN@", function(L,dep)
 		for j in [1..Size(L[d[1]])] do
 			al := [];
 			for i in [1..Size(d)] do
-				Add(al,L[d[i]][j]);
+				if IsBound(L[d[i]][j]) then
+					al[i]:=L[d[i]][j];
+				fi;
 			od;
-			Add(container,al);
+			if al <> [] then container[j]:=al; fi;
 		od; 
 		Add(temp_cart,container);
 	od; 
@@ -45,7 +47,7 @@ BindGlobal("DEP_CARTESIAN@", function(L,dep)
 		Add(res_list,container);
 	od;
 	return res_list;
-end);
+end;
 
 #--------------------------------------------------------------
 #------             LEVEL_PERM_CONJ                     -------
