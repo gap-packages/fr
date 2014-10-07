@@ -122,11 +122,11 @@ CONJUGATORS_BRANCH := function(G,g,h)
 					c:= (c*p^Embedding(BS.wreath,Size(Alph)+1))^BS.epi;;	
 			
 					if c <> fail then #Con is a valid element with representative c;
-						CT[Position(B,c)] := FRElement([Con[i]],[()],[1]);
+						CT[Position(B,c)] := FRElement([Con[i]],[p],[1]);
 					fi;
 				od;	
 				if Size(CT)>0 then
-					Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Conjugator tuple found. Return it",p);
+					Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Conjugator tuple found. Return it");
 					return CT; #Is one Conjugator tuple enough, or should one compute all of them???TODO
 				fi;
 			fi;
@@ -134,9 +134,49 @@ CONJUGATORS_BRANCH := function(G,g,h)
 		Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     No conjugator tuple found. Return []");
 		return CT;				
 	end;
-	return Conjugators_branch_rek(g,h);
+	B := Conjugators_branch_rek(g,h);
+	Print("Finished Calculation now varify...\n");
+	for quo in B do
+		if g^quo<>h then
+			Print("EROOOR\n");
+		fi;
+	od;
+	return B;
 end;
-
+#############################Example##############################
+GuptaSidkiConjugateBranchInit := function()
+	local G,a,t,x,S,SL,y,C,B,BS;
+	G:= GuptaSidkiGroup;
+	a:= G.1; t:=G.2;
+	BS := BranchStructure(G);
+	B := List(BS.group);
+	S := [];
+	for x in [a,a^2,t,t^2] do
+		SL := [];
+		for y in [a,a^2,t,t^2] do
+			if x = y then
+				if x in [a,a^2] then
+					C:= [];
+					C[Position(B,One(BS.group))] := One(a);
+					C[Position(B,a^BS.quo)] := a;
+					C[Position(B,(a^2)^BS.quo)] := a^2;
+					Add(SL,C);
+				fi;
+				if x in [t,t^2] then
+					C:= [];
+					C[Position(B,One(BS.group))] := One(a);
+					C[Position(B,t^BS.quo)] := t;
+					C[Position(B,(t^2)^BS.quo)] := t^2;
+					Add(SL,C);
+				fi;
+			else
+				Add(SL,[]);
+			fi;
+		od;
+		Add(S,SL);
+	od;
+	return S;
+end;
 	
 	
 	
