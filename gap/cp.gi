@@ -21,7 +21,7 @@ InstallMethod(IteratedOrbit,
 #--     The Lists, which are joined by the dependencies      ---
 #--            have to be of the same length	               ---	
 #---------------------------------------------------------------
-DEP_CARTESIAN := function(L,dep)
+BindGlobal("DEP_CARTESIAN@", function(L,dep)
 	local res_list, temp_cart, container, al, d, i ,j,a;
 	res_list := [];
 	temp_cart := [];
