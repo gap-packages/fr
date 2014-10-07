@@ -47,7 +47,7 @@ BindGlobal("DEP_CARTESIAN@", function(L,dep)
 		Add(res_list,container);
 	od;
 	return res_list;
-end;
+end);
 
 #--------------------------------------------------------------
 #------             LEVEL_PERM_CONJ                     -------
