@@ -41,9 +41,9 @@ CONJUGATORS_BRANCH := function(G,g,h)
 	else
 		return fail;
 	fi;
-	#if g = h then
-	#	return [One(g)];
-	#fi;
+	if g = h then
+		return [One(g)];
+	fi;
 	Alph := AlphabetOfFRSemigroup(G);
 	rek_count := 1;
 	Conjugators_branch_rek := function(g,h)
@@ -69,7 +69,6 @@ CONJUGATORS_BRANCH := function(G,g,h)
 			Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     g,h are inital. So return Start[g][h]");
 			return Start[Position(CP_init.inital_set,g)][Position(CP_init.inital_set,h)];
 		fi;
-		
 		orbits := List(Orbits(Group(g),Alph),SortedList);
 		orb_repr := List(orbits,Minimum);
 		CT := []; # Resulting Conjugator Tuple
@@ -78,7 +77,7 @@ CONJUGATORS_BRANCH := function(G,g,h)
 			Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Try a conjugator with activity ",p);
 			L := [];
 			L_Pos := []; #Stores the position at which the conjugator tuples are defined.
-			dep := [];
+			dep := []; #Stores the dependencies
 			for i in [1..Length(orb_repr)] do
 				C := Conjugators_branch_rek(State(g^Length(orbits[i]),orb_repr[i]),State(h^Length(orbits[i]),orb_repr[i]^p));
 				if Length(C)=0 then #not a valid conjugator
@@ -106,26 +105,15 @@ CONJUGATORS_BRANCH := function(G,g,h)
 					c:= Product([1..Size(Pos_Con[i])],x->(quo(Con[i][x][1])*B[Pos_Con[i][x]]*quo(Con[i][x][3]))^Embedding(BS.wreath,x));
 					c:= (c*p^Embedding(BS.wreath,Size(Alph)+1))^BS.epi;;	
 					if c <> fail then #Con is a valid element with representative c;
-						CT[Position(B,c)] := FRElement([Con[i]],[p],[1]);
+						Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Conjugator found. Add to conjugator tuple ");
+						CT[Position(B,c)] := FRElement([Con[i]],[p],[1]); #Will just be multiplied so no reason for mealy.
 					fi;
 				od;	
-				if Size(CT)>0 then
-					Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Conjugator tuple found. Return it");
-					return CT; #Is one Conjugator tuple enough, or should one compute all of them???TODO
-				fi;
 			fi;
 		od;
-		Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     No conjugator tuple found. Return []");
 		return CT;				
 	end;
-	B := Conjugators_branch_rek(g,h);
-	Print("Finished Calculation now varify...\n");
-	for quo in B do
-		if g^quo<>h then
-			Print("Error\n");
-		fi;
-	od;
-	return B;
+	return Conjugators_branch_rek(g,h);
 end;
 #############################Example##############################
 GuptaSidkiConjugateBranchInit := function()
