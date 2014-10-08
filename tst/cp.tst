@@ -34,7 +34,14 @@ gap> N:= GeneratorsOfGroup(GrigorchukGroup);
 gap> InitConjugateForBranchGroups(GrigorchukGroup,N,L);
 gap> IsConjugate(GrigorchukGroup,pairs[1][1][1],pairs[1][1][2]);
 true
+gap> L := GuptaSidkiConjugateBranchInit();;
+gap> a:= GuptaSidkiGroup.1;;
+gap> t:= GuptaSidkiGroup.2;;
+gap> S := [a,a^2,t,t^2];;
+gap> InitConjugateForBranchGroups(GuptaSidkiGroup,S,L);
+gap> IsConjugate(GuptaSidkiGroup,a^t,a);
+true
 gap> SetInfoLevel(InfoFR,n);
-gap> STOP_TEST( "cp.tst", 12*10^8 );
+gap> STOP_TEST( "cp.tst", 15*10^8 );
 frcp
 GAP4stones: 93000
