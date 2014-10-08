@@ -54,19 +54,23 @@ end);
 #------  Takes two FRElements and computes a list of    -------
 #------  conjugators of the action on the first level.  -------
 #--------------------------------------------------------------
-BindGlobal("LEVEL_PERM_CONJ@", function(x,y)
-	local pi_x, pi_y, c;
-	if AlphabetOfFRObject(x) <> AlphabetOfFRObject(y) then
-		Error("Not a valid argument, they must be defined on the same alphabet.");
-		return [];
+BindGlobal("LEVEL_PERM_CONJ@", function(arg)
+	local G, pi_x, pi_y, c;
+	if Length(arg) < 3 then
+		G:=SymmetricGroup(AlphabetOfFRObject(arg[1]));
+	else 
+		if not IsFRObject(arg[1]) or not IsFRObject(arg[2]) or not IsPermGroup(arg[3]) then
+			Error("Usage: FRelm, FRelm, [PermGroup]");
+		fi;
+		G:=arg[3];
 	fi;
-	pi_x := PermList(DecompositionOfFRElement(x)[2]);
- 	pi_y := PermList(DecompositionOfFRElement(y)[2]);
- 	c := RepresentativeAction(SymmetricGroup(AlphabetOfFRObject(x)),pi_x,pi_y);
+	pi_x := PermList(DecompositionOfFRElement(arg[1])[2]);
+ 	pi_y := PermList(DecompositionOfFRElement(arg[2])[2]);
+ 	c := RepresentativeAction(G,pi_x,pi_y);
  	if c= fail then
  		return [];
  	fi;
- 	return c*List(Centralizer(SymmetricGroup(AlphabetOfFRObject(x)),pi_y));
+ 	return c*List(Centralizer(G,pi_y));
 end);
 ##################################################################
 #````````````````````````````````````````````````````````````````#
