@@ -47,7 +47,7 @@ CONJUGATORS_BRANCH := function(G,g,h)
 	Alph := AlphabetOfFRSemigroup(G);
 	rek_count := 1;
 	Conjugators_branch_rek := function(g,h)
-		local L,LC,orbits,orb_repr,p,L_Pos,dep,L_PosC,Pos_Con,c,CT,Con,i,j;
+		local L,LC,C,orbits,orb_repr,p,L_Pos,dep,L_PosC,Pos_Con,c,CT,Con,i,j;
 		if not HasName(g) then
 			SetName(g,Concatenation("g_",String(rek_count)));
 		fi;
@@ -73,54 +73,38 @@ CONJUGATORS_BRANCH := function(G,g,h)
 		orbits := List(Orbits(Group(g),Alph),SortedList);
 		orb_repr := List(orbits,Minimum);
 		CT := []; # Resulting Conjugator Tuple
-		Print("LEVEL_PERM_CONJ@(g,h)=",LEVEL_PERM_CONJ@(g,h),"\n");
-		for p in LEVEL_PERM_CONJ@(g,h) do
-			Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Try with a conjugator with activity ",p);
+		Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Orbit: ",orbits);
+		for p in LEVEL_PERM_CONJ@(g,h,BS.top) do
+			Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Try a conjugator with activity ",p);
 			L := [];
 			L_Pos := []; #Stores the position at which the conjugator tuples are defined.
 			dep := [];
 			for i in [1..Length(orb_repr)] do
-				if i>1 and Size(L[i-1-j]) = 0 then 
-					L := [];
-					L_Pos := [];
+				C := Conjugators_branch_rek(State(g^Length(orbits[i]),orb_repr[i]),State(h^Length(orbits[i]),orb_repr[i]^p));
+				if Length(C)=0 then #not a valid conjugator
+					L:=[];
 					break;
 				fi;
-				Add(L,List(Conjugators_branch_rek(State(g^Length(orbits[i]),orb_repr[i]),State(h^Length(orbits[i]),orb_repr[i]^p)),x->[x]));
-				L_PosC := []; #First type
-				for j in [1..Length(L[i])] do
-					if IsBound(L[i][j]) then
-						L_PosC[j] := j;
-					fi;
-				od;
-				Add(L_Pos,L_PosC);
-				j := 0;
-				for j in [1..Length(orbits[i])-1] do
+				for j in [0..Length(orbits[i])-1] do
 					LC := [];
 					L_PosC := [];
-					for k in [1..Length(L[i])] do
-						if IsBound(L[i][k]) then
-							LC[k] := [State(g^j,orb_repr[i])^-1,L[i][k][1],State(h^j,orb_repr[i]^p)];
+					for k in [1..Length(C)] do
+						if IsBound(C[k]) then
+							LC[k] := [State(g^j,orb_repr[i])^-1,C[k],State(h^j,orb_repr[i]^p)];
 							L_PosC[k] := k;
 						fi;
 					od;
-					Add(L,LC); # Second type
-					Add(L_Pos,L_PosC);	
+					L[orb_repr[i]^(g^j)]:=LC ; 
+					L_Pos[orb_repr[i]^(g^j)]:=L_PosC;	
 				od;
-				Add(dep,[i..i+j]);
+				Add(dep,orbits[i]);
 			od; 
 			if Size(L)>0 then
-				Print("dep:",dep,"\n");
 				Con := DEP_CARTESIAN@(L,dep);
 				Pos_Con := DEP_CARTESIAN@(L_Pos,dep);
 				for i in [1..Size(Con)] do #Now possable Conjugators.
-					c:= Product([1..Size(Pos_Con[i])],function(x) 
-																							if Size(Con[i][x])>1 then #So its ofs secod type
-																								return (quo(Con[i][x][1])*B[Pos_Con[i][x]]*quo(Con[i][x][3]))^Embedding(BS.wreath,x);
-																							else 
-																								return B[Pos_Con[i][x]]^Embedding(BS.wreath,x);
-																							fi; end);
+					c:= Product([1..Size(Pos_Con[i])],x->(quo(Con[i][x][1])*B[Pos_Con[i][x]]*quo(Con[i][x][3]))^Embedding(BS.wreath,x));
 					c:= (c*p^Embedding(BS.wreath,Size(Alph)+1))^BS.epi;;	
-			
 					if c <> fail then #Con is a valid element with representative c;
 						CT[Position(B,c)] := FRElement([Con[i]],[p],[1]);
 					fi;
@@ -138,7 +122,7 @@ CONJUGATORS_BRANCH := function(G,g,h)
 	Print("Finished Calculation now varify...\n");
 	for quo in B do
 		if g^quo<>h then
-			Print("EROOOR\n");
+			Print("Error\n");
 		fi;
 	od;
 	return B;
