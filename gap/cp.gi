@@ -30,9 +30,11 @@ BindGlobal("DEP_CARTESIAN@", function(L,dep)
 		for j in [1..Size(L[d[1]])] do
 			al := [];
 			for i in [1..Size(d)] do
-				Add(al,L[d[i]][j]);
+				if IsBound(L[d[i]][j]) then
+					al[i]:=L[d[i]][j];
+				fi;
 			od;
-			Add(container,al);
+			if al <> [] then container[j]:=al; fi;
 		od; 
 		Add(temp_cart,container);
 	od; 
@@ -52,19 +54,23 @@ end);
 #------  Takes two FRElements and computes a list of    -------
 #------  conjugators of the action on the first level.  -------
 #--------------------------------------------------------------
-BindGlobal("LEVEL_PERM_CONJ@", function(x,y)
-	local pi_x, pi_y, c;
-	if AlphabetOfFRObject(x) <> AlphabetOfFRObject(y) then
-		Error("Not a valid argument, they must be defined on the same alphabet.");
-		return [];
+BindGlobal("LEVEL_PERM_CONJ@", function(arg)
+	local G, pi_x, pi_y, c;
+	if Length(arg) < 3 then
+		G:=SymmetricGroup(AlphabetOfFRObject(arg[1]));
+	else 
+		if not IsFRObject(arg[1]) or not IsFRObject(arg[2]) or not IsPermGroup(arg[3]) then
+			Error("Usage: FRelm, FRelm, [PermGroup]");
+		fi;
+		G:=arg[3];
 	fi;
-	pi_x := PermList(DecompositionOfFRElement(x)[2]);
- 	pi_y := PermList(DecompositionOfFRElement(y)[2]);
- 	c := RepresentativeAction(SymmetricGroup(AlphabetOfFRObject(x)),pi_x,pi_y);
+	pi_x := PermList(DecompositionOfFRElement(arg[1])[2]);
+ 	pi_y := PermList(DecompositionOfFRElement(arg[2])[2]);
+ 	c := RepresentativeAction(G,pi_x,pi_y);
  	if c= fail then
  		return [];
  	fi;
- 	return c*List(Centralizer(SymmetricGroup(AlphabetOfFRObject(x)),pi_y));
+ 	return c*List(Centralizer(G,pi_y));
 end);
 ##################################################################
 #````````````````````````````````````````````````````````````````#
@@ -705,7 +711,7 @@ InstallMethod(InitConjugateForBranchGroups,"Branch Groups",[IsFRGroup,IsList,IsL
 #````````````````````````````````````````````````````````````````#
 ##################################################################	
 BindGlobal("CONJUGATORS_BRANCH@",function(G,g,h)
-	local CP_init, B, BS, Conjugators_branch_rek,l,k,InStart,GetStart,rek_count;
+	local CP_init, Start, B, BS, saved_quo, quo, Alph, Conjugators_branch_rek,l,k,InStart,GetStart,rek_count;
 	InStart := function(name)
 		local H;
 		for H in START_CP_BRANCH@ do
@@ -719,26 +725,41 @@ BindGlobal("CONJUGATORS_BRANCH@",function(G,g,h)
 		local H;
 		for H in START_CP_BRANCH@ do
 			if H.name = name then
-			fi;
 				return H;
+			fi;
 		od;
 		return fail;
 	end;
-	if AlphabetOfFRSemigroup(G) = [1,2] and HasName(G) and InStart(Name(G)) then
+	if HasName(G) and InStart(Name(G)) then
 		CP_init := GetStart(Name(G));
 		BS := CP_init.Branchstructure;
 		B := List(BS.group);
+		Start := CP_init.inital_con;
+		saved_quo := [];
+		quo := function(elm) #Calculate only if asked for.
+			local s,q;
+			for s in saved_quo do
+				if s.selm = elm then
+					Info(InfoFRCP,4,"Saved work.");
+					return s.squo;
+				fi;
+			od;
+			Info(InfoFRCP,4,"Computing elm^BS.quo. May take some time...");
+			q := elm^BS.quo;
+			Info(InfoFRCP,4,"Finished");
+			Add(saved_quo,rec(selm := elm, squo:=q));
+			return q;
+		end;
 	else
 		return fail;
 	fi;
 	if g = h then
 		return [One(g)];
 	fi;
-
+	Alph := AlphabetOfFRSemigroup(G);
 	rek_count := 1;
-	#First for binary alphabet.
 	Conjugators_branch_rek := function(g,h)
-		local L1,L2,c,CT,i,g1K,h1K;
+		local L,LC,C,orbits,orb_repr,p,L_Pos,dep,L_PosC,Pos_Con,c,CT,Con,i,j;
 		if not HasName(g) then
 			SetName(g,Concatenation("g_",String(rek_count)));
 		fi;
@@ -756,115 +777,53 @@ BindGlobal("CONJUGATORS_BRANCH@",function(G,g,h)
 				return [];
 			fi;
 		fi;
-		if Activity(g) <> Activity(h) then
-			Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Act(g)<>Act(h). So return []");
-			return [];
-		fi;
 		if g in CP_init.inital_set and h in CP_init.inital_set then
 			Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     g,h are inital. So return Start[g][h]");
-			return CP_init.inital_con[Position(CP_init.inital_set,g)][Position(CP_init.inital_set,h)];
+			return Start[Position(CP_init.inital_set,g)][Position(CP_init.inital_set,h)];
 		fi;
-
-		
-		if IsOne(Activity(g)) then
-	
-#--------------Conjugator with trivial activity-------------------
-			Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Conjugator for elm with trivial activity...");
-			Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Try a Conjugator with trivial activity...");
-			L1 := Conjugators_branch_rek(State(g,1),State(h,1));
-			CT := [];
-			Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     L1 calculated...");
-			if Size(L1) > 0 then
-				L2 := Conjugators_branch_rek(State(g,2),State(h,2));
-				Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     L2 calculated...");
-				for l in [1..Size(B)] do
-					for k in [1..Size(B)] do
-						if IsBound(L1[l]) and IsBound(L2[k]) then
-							c := (B[l]^Embedding(BS.wreath,1) * B[k]^Embedding(BS.wreath,2))^BS.epi;
-							if c <> fail then
-								CT[Position(B,c)] := FRElement([[[L1[l]],[L2[k]]]],[()],[1]);
-							fi;
+		orbits := List(Orbits(Group(g),Alph),SortedList);
+		orb_repr := List(orbits,Minimum);
+		CT := []; # Resulting Conjugator Tuple
+		Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Orbit: ",orbits);
+		for p in LEVEL_PERM_CONJ@(g,h,BS.top) do
+			Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Try a conjugator with activity ",p);
+			L := [];
+			L_Pos := []; #Stores the position at which the conjugator tuples are defined.
+			dep := []; #Stores the dependencies
+			for i in [1..Length(orb_repr)] do
+				C := Conjugators_branch_rek(State(g^Length(orbits[i]),orb_repr[i]),State(h^Length(orbits[i]),orb_repr[i]^p));
+				if Length(C)=0 then #not a valid conjugator
+					L:=[];
+					break;
+				fi;
+				for j in [0..Length(orbits[i])-1] do
+					LC := [];
+					L_PosC := [];
+					for k in [1..Length(C)] do
+						if IsBound(C[k]) then
+							LC[k] := [State(g^j,orb_repr[i])^-1,C[k],State(h^j,orb_repr[i]^p)];
+							L_PosC[k] := k;
 						fi;
 					od;
+					L[orb_repr[i]^(g^j)]:=LC ; 
+					L_Pos[orb_repr[i]^(g^j)]:=L_PosC;	
 				od;
-				if Size(CT)>0 then
-					Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Conjugator with trivial activity found. Return it");
-					return CT;
-				fi;
-			fi;			
-#------------Conjugator with nontrivial activity------------------
-			Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Try a Conjugator with non-trivial activity...");
-			L1 := Conjugators_branch_rek(State(g,1),State(h,2));
-			Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     L1 calculated...");
-				L2 := Conjugators_branch_rek(State(g,2),State(h,1));
-			if Size(L1) > 0 then
-				Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     L2 calculated...");
-				Info(InfoFRCP,4,"Computing g,h=",Name(g),",",Name(h),"     L1=",L1,"\n");
-				Info(InfoFRCP,4,"Computing g,h=",Name(g),",",Name(h),"     L2=",L2,"\n");
-				for l in [1..Size(B)] do
-					for k in [1..Size(B)] do
-						if IsBound(L1[l]) and IsBound(L2[k]) then
-							c := (B[l]^Embedding(BS.wreath,1) * B[k]^Embedding(BS.wreath,2)*(1,2)^Embedding(BS.wreath,3))^BS.epi;
-							Info(InfoFRCP,4,"Computing g,h=",Name(g),",",Name(h),"     c_",l,",",k,"=",c,"\n");
-							if c <> fail then
-								CT[Position(B,c)] := FRElement([[[L1[l]],[L2[k]]]],[(1,2)],[1]);
-							fi;
-						fi;
-					od;
-				od;
-			fi;
-			if Size(CT) > 0 then
-				Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Conjugator with non-trivial activity found. Return it");
-			else
-				Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     No Conjugator found. Return []");
-			fi;
-			return CT;	
-		else
-
-#-------------Conjugator with trivial activity--------------------
-			Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Conjugator for elm with non-trivial activity...");
-			Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Try a Conjugator with trivial activity...");
-			L1 := Conjugators_branch_rek(State(g,1)*State(g,2),State(h,1)*State(h,2));
-			Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     L calculated...");		
-			CT := [];
-			Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Computing g_1K and h_1K");
-			g1K := (State(g,1)^-1)^BS.quo;
-			h1K := (State(h,1))^BS.quo;
-			for l in [1..Size(B)] do
-				if IsBound(L1[l]) then
-					c := (B[l]^Embedding(BS.wreath,1) * (g1K * B[l] * h1K)^Embedding(BS.wreath,2)*(1,2)^Embedding(BS.wreath,3))^BS.epi;
-					if c <> fail then
-						CT[Position(B,c)] := FRElement([[[L1[l]],[State(g,1)^-1*L1[l]*State(h,1)]]],[()],[1]);
+				Add(dep,orbits[i]);
+			od; 
+			if Size(L)>0 then
+				Con := DEP_CARTESIAN@(L,dep);
+				Pos_Con := DEP_CARTESIAN@(L_Pos,dep);
+				for i in [1..Size(Con)] do #Now possable Conjugators.
+					c:= Product([1..Size(Pos_Con[i])],x->(quo(Con[i][x][1])*B[Pos_Con[i][x]]*quo(Con[i][x][3]))^Embedding(BS.wreath,x));
+					c:= (c*p^Embedding(BS.wreath,Size(Alph)+1))^BS.epi;;	
+					if c <> fail then #Con is a valid element with representative c;
+						Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Conjugator found. Add to conjugator tuple ");
+						CT[Position(B,c)] := FRElement([Con[i]],[p],[1]); #Will just be multiplied so no reason for mealy.
 					fi;
-				fi;
-			od;
-			if Size(CT)>0 then
-				Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Conjugator with trivial activity found. Return it");
-				return CT;
-			fi;		
-		
-#----------Conjugator with nontrivial activity--------------------
-			Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Try a Conjugator with non-trivial activity...");
-			L1 := Conjugators_branch_rek(State(g,1)*State(g,2),State(h,2)*State(h,1));
-			Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     L calculated...");
-			CT := [];
-			Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Computing h_2K");
-			h1K := (State(h,2))^BS.quo; #Change to h2
-			for l in [1..Size(B)] do
-				if IsBound(L1[l]) then
-					c := (B[l]^Embedding(BS.wreath,1) * (g1K * B[l] * h1K)^Embedding(BS.wreath,2))^BS.epi;
-					if c <> fail then
-						CT[Position(B,c)] := FRElement([[[L1[l]],[State(g,1)^-1*L1[l]*State(h,2)]]],[(1,2)],[1]);
-					fi;
-				fi;
-			od;
-			if Size(CT) > 0 then
-				Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Conjugator with non-trivial activity found. Return it");
-			else
-				Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     No Conjugator found. Return []");
+				od;	
 			fi;
-			return CT;	
-		fi;
+		od;
+		return CT;				
 	end;
 	return Conjugators_branch_rek(g,h);
 end);
@@ -955,6 +914,40 @@ InstallGlobalFunction(GrigorchukConjugateBranchInit, function()
 	od;
 	return S;
 end);
+InstallGlobalFunction(GuptaSidkiConjugateBranchInit, function()
+	local G,a,t,x,S,SL,y,C,B,BS;
+	G:= GuptaSidkiGroup;
+	a:= G.1; t:=G.2;
+	BS := BranchStructure(G);
+	B := List(BS.group);
+	S := [];
+	for x in [a,a^2,t,t^2] do
+		SL := [];
+		for y in [a,a^2,t,t^2] do
+			if x = y then
+				if x in [a,a^2] then
+					C:= [];
+					C[Position(B,One(BS.group))] := One(a);
+					C[Position(B,a^BS.quo)] := a;
+					C[Position(B,(a^2)^BS.quo)] := a^2;
+					Add(SL,C);
+				fi;
+				if x in [t,t^2] then
+					C:= [];
+					C[Position(B,One(BS.group))] := One(a);
+					C[Position(B,t^BS.quo)] := t;
+					C[Position(B,(t^2)^BS.quo)] := t^2;
+					Add(SL,C);
+				fi;
+			else
+				Add(SL,[]);
+			fi;
+		od;
+		Add(S,SL);
+	od;
+	return S;
+end);
+
 
 #****************************************************************
 ################################################################*
