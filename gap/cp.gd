@@ -5,5 +5,6 @@ DeclareAttribute("FRConjugacyAlgorithm", IsFRGroup);
 ################### Branch Groups #############################
 DeclareGlobalVariable("START_CP_BRANCH@");
 DeclareGlobalFunction("GrigorchukConjugateBranchInit");
+DeclareGlobalFunction("GuptaSidkiConjugateBranchInit");
 DeclareOperation("InitConjugateForBranchGroups", [IsFRGroup,IsList,IsList]);
 
