@@ -951,9 +951,10 @@ InstallMethod(IsConjugate, "(FR) for an FR element and an FR group",
 end);
 
 InstallOtherMethod(RepresentativeActionOp, "(FR) for an FR element and an FR group",
-        [IsFRGroup,IsFRElement, IsFRElement],
-        function ( G, g, h )
+        [IsFRGroup,IsFRElement, IsFRElement, IsFunction],
+        function ( G, g, h, f )
     local b;
+    if f <> OnPoints then TryNextMethod(); fi;
     SEARCH@.INIT(G);
     while true do
         b := SEARCH@.CONJUGATE_WITNESS(G,g,h);

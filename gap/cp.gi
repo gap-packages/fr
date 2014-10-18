@@ -836,9 +836,10 @@ end);
 ##################################################################
 InstallOtherMethod(RepresentativeActionOp,
 	"Computes a conjugator in the given Branch group ",
-	[ IsFRGroup,IsFRElement,IsFRElement], 
-	function(G,g,h)
+	[ IsFRGroup,IsFRElement,IsFRElement,IsFunction], 
+	function(G,g,h,f)
 		local con;
+		if f <> OnPoints then TryNextMethod(); fi;
 		Info(InfoFRCP,2,"Try method for branch groups.");
 		con := CONJUGATORS_BRANCH@(G,g,h);
 		if con <> fail then
@@ -1457,8 +1458,9 @@ InstallMethod(IsConjugate,
  	end);
 InstallOtherMethod(RepresentativeActionOp,
  " For FR groups with optimized conjugacy algorithm ",
-	[ IsFRGroup and HasFRConjugacyAlgorithm,IsFRElement,IsFRElement], 
-  function(G,a,b)
+	[ IsFRGroup and HasFRConjugacyAlgorithm,IsFRElement,IsFRElement,IsFunction], 
+  function(G,a,b,f)
+  	if f <> OnPoints then TryNextMethod(); fi;
   	return FRConjugacyAlgorithm(G)(G,a,b);
  	end);
  	
