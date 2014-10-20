@@ -599,6 +599,43 @@ end);
 #############################################################################
 
 #############################################################################
+## forward orbits
+InstallMethod(ForwardOrbit, "(FR) forward orbit under a group element",
+	[IsMultiplicativeElementWithInverse,IsObject],
+        function(g,x)
+    local l, y;
+    if Inverse(g)=fail then TryNextMethod(); fi;
+    l := [];
+    y := x;
+    repeat
+        Add(l,y);
+        y := y^g;
+    until y=x;
+    return l;
+end);
+
+InstallMethod(ForwardOrbit, "(FR) forward orbit under a semigroup element",
+	[IsMultiplicativeElement,IsObject],
+        function(g,x)
+    local l, n;
+    l := [];
+    n := 0;
+    repeat
+        Add(l,x);
+        x := x^g;
+        Add(l,x);
+        x := x^g;
+        n := n+1;
+    until x=l[n];
+    # now we have l of length 2n; and l[2n+1]=l[n]. make it minimal.
+    l := PeriodicList(l{[1..n-1]},l{[n..2*n]});
+    CompressPeriodicList(l);
+    return Concatenation(PrePeriod(l),Period(l));
+  end
+);
+#############################################################################
+
+#############################################################################
 ##
 #H StringByInt
 #H Rename subobjects if they have "=" (but not IsIdentical) named objects

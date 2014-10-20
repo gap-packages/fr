@@ -1363,6 +1363,7 @@ gap> Inverse(bacher(3));
 </Section>
 
 <Section><Heading>Miscellanea</Heading>
+<#Include Label="ForwardOrbit">
 <#Include Label="Helpers">
 <#Include Label="Posets">
 <#Include Label="FIFOs">

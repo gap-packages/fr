@@ -292,6 +292,30 @@ DeclareOperation("Sphere",[IsObject,IsInt]);
 
 #############################################################################
 ##
+#H ForwardOrbit
+##
+## <#GAPDoc Label="ForwardOrbit">
+## <ManSection>
+##   <Oper Name="ForwardOrbit" Arg="g,x"/>
+##   <Returns>The forward orbit of <A>x</A> under <A>g</A>.</Returns>
+##   <Description>
+##     This operation computes the smallest list containing <A>x</A> and closed under application
+##     of <A>g</A>.
+## <Example><![CDATA[
+## gap> ForwardOrbit((1,2,4,3),2);
+## [ 2, 4, 3, 1 ]
+## gap> ForwardOrbit(Transformation([4,4,5,2,1]),1);
+## [ 1, 4, 2 ]
+## ]]></Example>
+##   </Description>
+## </ManSection>
+## <#/GAPDoc>
+##
+DeclareOperation("ForwardOrbit", [IsMultiplicativeElement,IsObject]);
+#############################################################################
+
+#############################################################################
+##
 #H StringByInt
 ##
 ## <#GAPDoc Label="Helpers">
