@@ -1,4 +1,3 @@
-DeclareOperation("IteratedOrbit", [ IsFRElement, IsObject]);
 DeclareAttribute("OrbitSignalizer", IsFRElement);
 ################### Groups with special algorithm   ###########
 DeclareAttribute("FRConjugacyAlgorithm", IsFRGroup);

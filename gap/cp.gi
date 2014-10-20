@@ -1,17 +1,3 @@
-InstallMethod(IteratedOrbit,
-	"Computes the Orbit of a word under <first>",
-	[ IsFRElement, IsList],
-  function(a, L )
-		return Orbit(Group(a),L);
-  end
-);
-InstallMethod(IteratedOrbit,
-	"Computes the Orbit of the second argument under <first>",
-	[ IsFRElement, IsInt],
-  function(a, x )
-		return Orbit(Group(a),x);
-  end
-);
 #---------------------------------------------------------------
 #------              Dep-Cartesian          --------------------
 #--  Calculates a cartesian product of ordered lists with    ---
@@ -86,7 +72,7 @@ InstallMethod(OrbitSignalizer,
 function(a)
 	local OS_list,i,OS_unvisited,OS_new,elm,x,new,suc;
 	suc := function(state,x)
-		return  State(state^Size(IteratedOrbit(state,[x])),[x]);
+		return  State(state^Size(ForwardOrbit(state,[x])),[x]);
 	end;
 	OS_list := [];
 	OS_unvisited := [a];
@@ -294,7 +280,7 @@ BindGlobal("CONJUGATORS_FINITE_STATE_WRAPPER@",function(start,CG)
 					Tran[Position(AS,e.from)][Position(Alph,e.read)] := [Position(AS,e.to)];
 					c := CG[1][e.from].conj_pair[1];
 					d := CG[1][e.from].conj_pair[2];
-					orbit := IteratedOrbit(c,e.read);
+					orbit := ForwardOrbit(c,e.read);
 					for i in [2..Length(orbit)] do
 					#The missing edges...
 						Tran[Position(AS,e.from)][Position(Alph,orbit[i])] := [State(c^(i-1),e.read)^(-1),Position(AS,e.to),State(d^(i-1),e.read^(CG[1][e.from].action))];
