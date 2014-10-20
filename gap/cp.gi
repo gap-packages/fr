@@ -62,8 +62,9 @@ end);
 #````````````````````````````````````````````````````````````````#
 #```````````````````    OrbitSignalizer   ```````````````````````#
 #````````````````                            ````````````````````#
-#````````````````    Garantied to stop on    ````````````````````#
+#````````````````    Guaranteed to stop on    ```````````````````#
 #```````````````` BoundedFRElements as input ````````````````````#
+#``````  Computes {a^m@v|v∊X*} with m = |Orb_a(v)|   ````````````#
 #````````````````````````````````````````````````````````````````#
 ##################################################################
 InstallMethod(OrbitSignalizer,
@@ -666,29 +667,27 @@ InstallOtherMethod(RepresentativeActionOp,
 ################################################################*
 ###############                               ##################*
 ###############  Algorithm for branch groups  ##################*
-###############     (binary case)             ##################*
+###############                               ##################*
 ################################################################*
 ################################################################* 
 #****************************************************************
-if not IsList(START_CP_BRANCH@) then
-	InstallValue(START_CP_BRANCH@,[]);
-fi;
+
+
 #---------------------------------------------------------------
 #------      InitConjugateForBranchGroups      -----------------
 #--   Sets the Precomputed initial data for the branch			 ---
 #--  Algorithm. Stores this data for later computations.     ---  	
 #---------------------------------------------------------------
-InstallMethod(InitConjugateForBranchGroups,"Branch Groups",[IsFRGroup,IsList,IsList], function(G,N,L)
-		if not HasName(G) then 
-			SetName(G,Concatenation("BranchGroup_",String(Size(START_CP_BRANCH@)+1)));
-		fi;
-				
-		Add(START_CP_BRANCH@,rec(	name:=Name(G),
-															inital_set:=N,
-															inital_con:=L,
-															Branchstructure:=BranchStructure(G),
-															RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentative(~.Branchstructure.quo,x))));
-	end);
+
+InstallMethod(FRConjugacyDataBranchGroup,
+	[ IsFRGroup ],	
+	 function(G)
+	 	local init;
+		init := rec(inital_conj_dic:=NewDictionary([One(G),One(G)],true),
+								Branchstructure:=BranchStructure(G),
+								RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentative(~.Branchstructure.quo,x)));
+		return init;
+	 end);
 ##################################################################
 #````````````````````````````````````````````````````````````````#
 #`````````````````````                  `````````````````````````#
@@ -697,48 +696,27 @@ InstallMethod(InitConjugateForBranchGroups,"Branch Groups",[IsFRGroup,IsList,IsL
 #````````````````````````````````````````````````````````````````#
 ##################################################################	
 BindGlobal("CONJUGATORS_BRANCH@",function(G,g,h)
-	local CP_init, Start, B, BS, saved_quo, quo, Alph, Conjugators_branch_rek,l,k,InStart,GetStart,rek_count;
-	InStart := function(name)
-		local H;
-		for H in START_CP_BRANCH@ do
-			if H.name = name then
-				return true;
-			fi;
-		od;
-		return false;
-	end;
-	GetStart := function(name)
-		local H;
-		for H in START_CP_BRANCH@ do
-			if H.name = name then
-				return H;
-			fi;
-		od;
+	local CP_init, Start, B, BS, Con_dic, saved_quo, quo, Alph, Conjugators_branch_rek,l,k,rek_count;
+	CP_init := FRConjugacyDataBranchGroup(G);
+	if CP_init = fail then
 		return fail;
-	end;
-	if HasName(G) and InStart(Name(G)) then
-		CP_init := GetStart(Name(G));
-		BS := CP_init.Branchstructure;
-		B := List(BS.group);
-		Start := CP_init.inital_con;
-		saved_quo := [];
-		quo := function(elm) #Calculate only if asked for.
-			local s,q;
-			for s in saved_quo do
-				if s.selm = elm then
-					Info(InfoFRCP,4,"Saved work.");
-					return s.squo;
-				fi;
-			od;
+	fi;
+	BS := CP_init.Branchstructure;
+	B := List(BS.group);
+	Con_dic := CP_init.inital_conj_dic;
+	saved_quo := NewDictionary(One(G),true);
+	#TODO ask Laurent if there is a better solution, as FRElements do not support storing of attributes.
+	quo := function(elm) #Calculate only if asked for.
+		local q;
+		if not KnowsDictionary(saved_quo,elm) then
 			Info(InfoFRCP,4,"Computing elm^BS.quo. May take some time...");
 			q := elm^BS.quo;
 			Info(InfoFRCP,4,"Finished");
-			Add(saved_quo,rec(selm := elm, squo:=q));
+			AddDictionary(saved_quo,elm,q);
 			return q;
-		end;
-	else
-		return fail;
-	fi;
+		fi;
+		return LookupDictionary(saved_quo,elm);
+	end;
 	if g = h then
 		return [One(g)];
 	fi;
@@ -763,9 +741,9 @@ BindGlobal("CONJUGATORS_BRANCH@",function(G,g,h)
 				return [];
 			fi;
 		fi;
-		if g in CP_init.inital_set and h in CP_init.inital_set then
-			Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     g,h are inital. So return Start[g][h]");
-			return Start[Position(CP_init.inital_set,g)][Position(CP_init.inital_set,h)];
+		if KnowsDictionary(Con_dic,[g,h]) then
+			Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     g,h are already known. So return them]");
+			return LookupDictionary(Con_dic,[g,h]);
 		fi;
 		orbits := List(Orbits(Group(g),Alph),SortedList);
 		orb_repr := List(orbits,Minimum);
@@ -809,6 +787,7 @@ BindGlobal("CONJUGATORS_BRANCH@",function(G,g,h)
 				od;	
 			fi;
 		od;
+		AddDictionary(Con_dic,[g,h],CT); #Save work in case there is again asked for a CT for (g,h).
 		return CT;				
 	end;
 	return Conjugators_branch_rek(g,h);
@@ -822,7 +801,7 @@ end);
 ##################################################################
 InstallOtherMethod(RepresentativeActionOp,
 	"Computes a conjugator in the given Branch group ",
-	[ IsFRGroup,IsFRElement,IsFRElement,IsFunction], 
+	[ IsBranched,IsFRElement,IsFRElement,IsFunction], 
 	function(G,g,h,f)
 		local con;
 		if f <> OnPoints then TryNextMethod(); fi;
@@ -839,7 +818,7 @@ InstallOtherMethod(RepresentativeActionOp,
 		end);
 InstallMethod(IsConjugate,
 	"For Branch Groups",
-	[ IsFRGroup,IsFRElement,IsFRElement], 
+	[ IsBranched,IsFRElement,IsFRElement], 
   function(G,g,h)
   	local con;
 		Info(InfoFRCP,2,"Try method for branch groups.");
@@ -853,89 +832,60 @@ InstallMethod(IsConjugate,
 		Info(InfoFRCP,2,"Doesn't work. Try next...");
 		TryNextMethod();
 		end);	
+
+
 #############################Example##############################
-InstallGlobalFunction(GrigorchukConjugateBranchInit, function()
-	local G,a,b,c,d,x,S,SL,y,C,B,BS;
-	G:= GrigorchukGroup;
-	a:= G.1; b:=G.2; c:=G.3; d:=G.4;
-	BS := BranchStructure(GrigorchukGroup);
-	B := List(BS.group);
-	S := [];
-	for x in GeneratorsOfGroup(G) do
-		SL := [];
-		for y in GeneratorsOfGroup(G) do
-			if x = y then
-				if x=a then
-					C:= [];
-					C[Position(B,One(BS.group))] := One(a);
-					C[Position(B,a^BS.quo)] := a;
-					C[Position(B,(a*d*a*d)^BS.quo)] := a*d*a*d;
-					C[Position(B,(d*a*d)^BS.quo)] := d*a*d;
-					Add(SL,C);
-				fi;
-				if x = d then
-					C:= [];
-					C[Position(B,One(BS.group))] := One(a);
-					C[Position(B,(a*d*a)^BS.quo)] := a*d*a;
-					C[Position(B,(a*d*a*d)^BS.quo)] := a*d*a*d;
-					C[Position(B,d^BS.quo)] := d;
-					C[Position(B,b^BS.quo)] := b;
-					C[Position(B,(b*a*d*a)^BS.quo)] := b*a*d*a;
-					C[Position(B,(b*a*d*a*d)^BS.quo)] := b*a*d*a*d;
-					C[Position(B,c^BS.quo)] := c;
-					Add(SL,C);
-				fi;
-				if x in [b,c] then
-					C:=[];
-					C[Position(B,One(BS.group))] := One(a);
-					C[Position(B,d^BS.quo)] := d;
-					C[Position(B,b^BS.quo)] := b;
-					C[Position(B,c^BS.quo)] := c;					
-				Add(SL,C);
-				fi;
-			else
-				Add(SL,[]);
-			fi;
-		od;
-		Add(S,SL);
-	od;
-	return S;
-end);
-InstallGlobalFunction(GuptaSidkiConjugateBranchInit, function()
-	local G,a,t,x,S,SL,y,C,B,BS;
-	G:= GuptaSidkiGroup;
-	a:= G.1; t:=G.2;
-	BS := BranchStructure(G);
-	B := List(BS.group);
-	S := [];
-	for x in [a,a^2,t,t^2] do
-		SL := [];
-		for y in [a,a^2,t,t^2] do
-			if x = y then
-				if x in [a,a^2] then
-					C:= [];
-					C[Position(B,One(BS.group))] := One(a);
-					C[Position(B,a^BS.quo)] := a;
-					C[Position(B,(a^2)^BS.quo)] := a^2;
-					Add(SL,C);
-				fi;
-				if x in [t,t^2] then
-					C:= [];
-					C[Position(B,One(BS.group))] := One(a);
-					C[Position(B,t^BS.quo)] := t;
-					C[Position(B,(t^2)^BS.quo)] := t^2;
-					Add(SL,C);
-				fi;
-			else
-				Add(SL,[]);
-			fi;
-		od;
-		Add(S,SL);
-	od;
-	return S;
-end);
+####								Setting the Branch Data										 ###
+####			for GrigorchukGroup and GuptaSidkiGroup							 ###
+SetFRConjugacyDataBranchGroup(GrigorchukGroup,
+	 rec(	inital_conj_dic:=NewDictionary([One(GrigorchukGroup),One(GrigorchukGroup)],true),
+				Branchstructure:=BranchStructure(GrigorchukGroup),
+				RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentative(~.Branchstructure.quo,x)))
+	 );
+CallFuncList(function(a,b,c,d) 
+							local G,D,g,h;
+							G:= GrigorchukGroup;
+							D:= FRConjugacyDataBranchGroup(G).inital_conj_dic;
+							for g in [a,b,c,d] do
+								for h in [a,b,c,d] do
+									if g<>h then
+										AddDictionary(D,[g,h],[]);
+									fi;
+								od;
+							od;
+							AddDictionary(D,[a,a],[One(G),a,d*a*d,a*d*a*d]);
+							AddDictionary(D,[b,b],[One(G),,,, b,,,,c,,,,d]);
+							AddDictionary(D,[c,c],[One(G),,,, b,,,,c,,,,d]);
+							AddDictionary(D,[d,d],[One(G),,,a*d*a*d,b,,,b*a*d*a*d,c,,,b*a*d*a,d,,,a*d*a]);
+						end,GeneratorsOfGroup(GrigorchukGroup)
+		);
+AddDictionary(D,[a,a],[One(G),a,a^2]);
+AddDictionary(D,[a^2,a^2],[One(G),a,a^2]);
+AddDictionary(D,[t,t],[One(G),,,t,,,t^2]);
+AddDictionary(D,[t^2,t^2],[One(G),,,t,,,t^2]);
 
-
+SetFRConjugacyDataBranchGroup(GuptaSidkiGroup,
+	 rec(	inital_conj_dic:=NewDictionary([One(GuptaSidkiGroup),One(GuptaSidkiGroup)],true),
+				Branchstructure:=BranchStructure(GuptaSidkiGroup),
+				RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentative(~.Branchstructure.quo,x)))
+	 );
+CallFuncList(function(a,t) 
+							local G,D,g,h;
+							G:= GuptaSidkiGroup;
+							D:= FRConjugacyDataBranchGroup(G).inital_conj_dic;
+							for g in [a,a^2,t,t^2] do
+								for h in [a,a^2,t,t^2] do
+									if g<>h then
+										AddDictionary(D,[g,h],[]);
+									fi;
+								od;
+							od;
+							AddDictionary(D,[a,a],[One(G),a,a^2]);
+							AddDictionary(D,[a^2,a^2],[One(G),a,a^2]);
+							AddDictionary(D,[t,t],[One(G),,,t,,,t^2]);
+							AddDictionary(D,[t^2,t^2],[One(G),,,t,,,t^2]);
+						end,GeneratorsOfGroup(GuptaSidkiGroup)
+		);
 #****************************************************************
 ################################################################*
 ################################################################*

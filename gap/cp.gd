@@ -1,9 +1,7 @@
 DeclareAttribute("OrbitSignalizer", IsFRElement);
 ################### Groups with special algorithm   ###########
-DeclareAttribute("FRConjugacyAlgorithm", IsFRGroup);
+DeclareAttribute("FRConjugacyAlgorithm", IsFRGroup,2);
 ################### Branch Groups #############################
-DeclareGlobalVariable("START_CP_BRANCH@");
-DeclareGlobalFunction("GrigorchukConjugateBranchInit");
-DeclareGlobalFunction("GuptaSidkiConjugateBranchInit");
-DeclareOperation("InitConjugateForBranchGroups", [IsFRGroup,IsList,IsList]);
+DeclareAttribute("FRConjugacyDataBranchGroup", IsFRGroup,"mutable");
+
 
