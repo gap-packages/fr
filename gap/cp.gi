@@ -682,10 +682,42 @@ InstallOtherMethod(RepresentativeActionOp,
 InstallMethod(FRConjugacyDataBranchGroup,
 	[ IsFRGroup ],	
 	 function(G)
-	 	local init;
-		init := rec(inital_conj_dic:=NewDictionary([One(G),One(G)],true),
+	 	local init, N, g, h, b, CT, c, i;
+		init := rec(initial_conj_dic:=NewDictionary([One(G),One(G)],true),
 								Branchstructure:=BranchStructure(G),
 								RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentative(~.Branchstructure.quo,x)));
+		N := TORSIONNUCLEUS@(G);
+		if N = fail then return fail;fi;
+		SEARCH@.INIT(G);
+		for g in N do
+			for h in N do
+				#Find one conjugator b
+				repeat 
+				 	b := SEARCH@.CONJUGATE(G,g,h);
+				 	while b=fail and SEARCH@.EXTEND(G)=fail do
+            SEARCH@.ERROR(G,"RepresentativeAction");
+        	od;
+        	Info(InfoFRCP, 3, "RepresentativeAction: searching at level ",G!.FRData.level," and in sphere of radius ",G!.FRData.radius);
+        until b<>fail;
+		    CT := [];
+		    if b <> false then
+		    	i := 1;
+		    	for c in init.Branchstructure.group do
+		    		repeat
+        			b := SEARCH@.CONJUGATE_COSET(G,c,g,h);
+				    	while b=fail and SEARCH@.EXTEND(G)=fail do
+				        SEARCH@.ERROR(G,"RepresentativeAction");
+				    	od;
+				    until b<>fail;
+				    if b <> false then
+							CT[i] := b;
+						fi;
+						i := i+1;
+					od;
+		    fi;
+				AddDictionary(init.initial_conj_dic,[g,h],CT);
+			od;
+		od;
 		return init;
 	 end);
 ##################################################################
@@ -703,7 +735,7 @@ BindGlobal("CONJUGATORS_BRANCH@",function(G,g,h)
 	fi;
 	BS := CP_init.Branchstructure;
 	B := List(BS.group);
-	Con_dic := CP_init.inital_conj_dic;
+	Con_dic := CP_init.initial_conj_dic;
 	saved_quo := NewDictionary(One(G),true);
 	#TODO ask Laurent if there is a better solution, as FRElements do not support storing of attributes.
 	quo := function(elm) #Calculate only if asked for.
@@ -837,55 +869,51 @@ InstallMethod(IsConjugate,
 #############################Example##############################
 ####								Setting the Branch Data										 ###
 ####			for GrigorchukGroup and GuptaSidkiGroup							 ###
-SetFRConjugacyDataBranchGroup(GrigorchukGroup,
-	 rec(	inital_conj_dic:=NewDictionary([One(GrigorchukGroup),One(GrigorchukGroup)],true),
-				Branchstructure:=BranchStructure(GrigorchukGroup),
-				RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentative(~.Branchstructure.quo,x)))
-	 );
-CallFuncList(function(a,b,c,d) 
-							local G,D,g,h;
-							G:= GrigorchukGroup;
-							D:= FRConjugacyDataBranchGroup(G).inital_conj_dic;
-							for g in [a,b,c,d] do
-								for h in [a,b,c,d] do
-									if g<>h then
-										AddDictionary(D,[g,h],[]);
-									fi;
-								od;
-							od;
-							AddDictionary(D,[a,a],[One(G),a,d*a*d,a*d*a*d]);
-							AddDictionary(D,[b,b],[One(G),,,, b,,,,c,,,,d]);
-							AddDictionary(D,[c,c],[One(G),,,, b,,,,c,,,,d]);
-							AddDictionary(D,[d,d],[One(G),,,a*d*a*d,b,,,b*a*d*a*d,c,,,b*a*d*a,d,,,a*d*a]);
-						end,GeneratorsOfGroup(GrigorchukGroup)
-		);
-AddDictionary(D,[a,a],[One(G),a,a^2]);
-AddDictionary(D,[a^2,a^2],[One(G),a,a^2]);
-AddDictionary(D,[t,t],[One(G),,,t,,,t^2]);
-AddDictionary(D,[t^2,t^2],[One(G),,,t,,,t^2]);
-
-SetFRConjugacyDataBranchGroup(GuptaSidkiGroup,
-	 rec(	inital_conj_dic:=NewDictionary([One(GuptaSidkiGroup),One(GuptaSidkiGroup)],true),
-				Branchstructure:=BranchStructure(GuptaSidkiGroup),
-				RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentative(~.Branchstructure.quo,x)))
-	 );
-CallFuncList(function(a,t) 
-							local G,D,g,h;
-							G:= GuptaSidkiGroup;
-							D:= FRConjugacyDataBranchGroup(G).inital_conj_dic;
-							for g in [a,a^2,t,t^2] do
-								for h in [a,a^2,t,t^2] do
-									if g<>h then
-										AddDictionary(D,[g,h],[]);
-									fi;
-								od;
-							od;
-							AddDictionary(D,[a,a],[One(G),a,a^2]);
-							AddDictionary(D,[a^2,a^2],[One(G),a,a^2]);
-							AddDictionary(D,[t,t],[One(G),,,t,,,t^2]);
-							AddDictionary(D,[t^2,t^2],[One(G),,,t,,,t^2]);
-						end,GeneratorsOfGroup(GuptaSidkiGroup)
-		);
+#SetFRConjugacyDataBranchGroup(GrigorchukGroup,
+#	 rec(	initial_conj_dic:=NewDictionary([One(GrigorchukGroup),One(GrigorchukGroup)],true),
+#				Branchstructure:=BranchStructure(GrigorchukGroup),
+#				RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentative(~.Branchstructure.quo,x)))
+#	 );
+#CallFuncList(function(a,b,c,d) 
+#							local G,D,g,h;
+#							G:= GrigorchukGroup;
+#							D:= FRConjugacyDataBranchGroup(G).initial_conj_dic;
+#							for g in [a,b,c,d] do
+#								for h in [a,b,c,d] do
+#									if g<>h then
+#										AddDictionary(D,[g,h],[]);
+#									fi;
+#								od;
+#							od;
+#							AddDictionary(D,[a,a],[One(G),a,d*a*d,a*d*a*d]);
+#							AddDictionary(D,[b,b],[One(G),,,, b,,,,c,,,,d]);
+#							AddDictionary(D,[c,c],[One(G),,,, b,,,,c,,,,d]);
+#							AddDictionary(D,[d,d],[One(G),,,a*d*a*d,b,,,b*a*d*a*d,c,,,b*a*d*a,d,,,a*d*a]);
+#						end,GeneratorsOfGroup(GrigorchukGroup)
+#		);
+		
+#SetFRConjugacyDataBranchGroup(GuptaSidkiGroup,
+#	 rec(	initial_conj_dic:=NewDictionary([One(GuptaSidkiGroup),One(GuptaSidkiGroup)],true),
+#				Branchstructure:=BranchStructure(GuptaSidkiGroup),
+#				RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentative(~.Branchstructure.quo,x)))
+#	 );
+#CallFuncList(function(a,t) 
+#							local G,D,g,h;
+#							G:= GuptaSidkiGroup;
+#							D:= FRConjugacyDataBranchGroup(G).initial_conj_dic;
+#							for g in [a,a^2,t,t^2] do
+#								for h in [a,a^2,t,t^2] do
+#									if g<>h then
+#										AddDictionary(D,[g,h],[]);
+#									fi;
+#								od;
+#							od;
+#							AddDictionary(D,[a,a],[One(G),a,a^2]);
+#							AddDictionary(D,[a^2,a^2],[One(G),a,a^2]);
+#							AddDictionary(D,[t,t],[One(G),,,t,,,t^2]);
+#							AddDictionary(D,[t^2,t^2],[One(G),,,t,,,t^2]);
+#						end,GeneratorsOfGroup(GuptaSidkiGroup)
+# 	);
 #****************************************************************
 ################################################################*
 ################################################################*
