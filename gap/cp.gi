@@ -679,10 +679,11 @@ InstallOtherMethod(RepresentativeActionOp,
 #--  Algorithm. Stores this data for later computations.     ---  	
 #---------------------------------------------------------------
 
-InstallMethod(FRConjugacyDataBranchGroup,
+InstallMethod(FRBranchGroupConjugacyData,
 	[ IsFRGroup ],	
 	 function(G)
 	 	local init, N, g, h, b, CT, c, i;
+	 	Info(InfoFRCP, 1, "Init FRBranchGroupConjugacyData");
 		init := rec(initial_conj_dic:=NewDictionary([One(G),One(G)],true),
 								Branchstructure:=BranchStructure(G),
 								RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentative(~.Branchstructure.quo,x)));
@@ -699,7 +700,7 @@ InstallMethod(FRConjugacyDataBranchGroup,
         	od;
         	Info(InfoFRCP, 3, "RepresentativeAction: searching at level ",G!.FRData.level," and in sphere of radius ",G!.FRData.radius);
         until b<>fail;
-		    CT := [];
+		    CT := []; #The Conjugator tuple
 		    if b <> false then
 		    	i := 1;
 		    	for c in init.Branchstructure.group do
@@ -718,6 +719,7 @@ InstallMethod(FRConjugacyDataBranchGroup,
 				AddDictionary(init.initial_conj_dic,[g,h],CT);
 			od;
 		od;
+		Info(InfoFRCP, 1, "Finished Init FRBranchGroupConjugacyData");
 		return init;
 	 end);
 ##################################################################
@@ -729,7 +731,7 @@ InstallMethod(FRConjugacyDataBranchGroup,
 ##################################################################	
 BindGlobal("CONJUGATORS_BRANCH@",function(G,g,h)
 	local CP_init, Start, B, BS, Con_dic, saved_quo, quo, Alph, Conjugators_branch_rek,l,k,rek_count;
-	CP_init := FRConjugacyDataBranchGroup(G);
+	CP_init := FRBranchGroupConjugacyData(G);
 	if CP_init = fail then
 		return fail;
 	fi;
@@ -737,7 +739,6 @@ BindGlobal("CONJUGATORS_BRANCH@",function(G,g,h)
 	B := List(BS.group);
 	Con_dic := CP_init.initial_conj_dic;
 	saved_quo := NewDictionary(One(G),true);
-	#TODO ask Laurent if there is a better solution, as FRElements do not support storing of attributes.
 	quo := function(elm) #Calculate only if asked for.
 		local q;
 		if not KnowsDictionary(saved_quo,elm) then
@@ -833,7 +834,7 @@ end);
 ##################################################################
 InstallOtherMethod(RepresentativeActionOp,
 	"Computes a conjugator in the given Branch group ",
-	[ IsBranched,IsFRElement,IsFRElement,IsFunction], 
+	[ IsBranched and IsFinitelyGeneratedGroup,IsFRElement,IsFRElement,IsFunction], 
 	function(G,g,h,f)
 		local con;
 		if f <> OnPoints then TryNextMethod(); fi;
@@ -850,7 +851,7 @@ InstallOtherMethod(RepresentativeActionOp,
 		end);
 InstallMethod(IsConjugate,
 	"For Branch Groups",
-	[ IsBranched,IsFRElement,IsFRElement], 
+	[ IsBranched and IsFinitelyGeneratedGroup,IsFRElement,IsFRElement], 
   function(G,g,h)
   	local con;
 		Info(InfoFRCP,2,"Try method for branch groups.");
@@ -869,7 +870,7 @@ InstallMethod(IsConjugate,
 #############################Example##############################
 ####								Setting the Branch Data										 ###
 ####			for GrigorchukGroup and GuptaSidkiGroup							 ###
-#SetFRConjugacyDataBranchGroup(GrigorchukGroup,
+#SetFRBranchGroupConjugacyData(GrigorchukGroup,
 #	 rec(	initial_conj_dic:=NewDictionary([One(GrigorchukGroup),One(GrigorchukGroup)],true),
 #				Branchstructure:=BranchStructure(GrigorchukGroup),
 #				RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentative(~.Branchstructure.quo,x)))
@@ -877,7 +878,7 @@ InstallMethod(IsConjugate,
 #CallFuncList(function(a,b,c,d) 
 #							local G,D,g,h;
 #							G:= GrigorchukGroup;
-#							D:= FRConjugacyDataBranchGroup(G).initial_conj_dic;
+#							D:= FRBranchGroupConjugacyData(G).initial_conj_dic;
 #							for g in [a,b,c,d] do
 #								for h in [a,b,c,d] do
 #									if g<>h then
@@ -892,7 +893,7 @@ InstallMethod(IsConjugate,
 #						end,GeneratorsOfGroup(GrigorchukGroup)
 #		);
 		
-#SetFRConjugacyDataBranchGroup(GuptaSidkiGroup,
+#SetFRBranchGroupConjugacyData(GuptaSidkiGroup,
 #	 rec(	initial_conj_dic:=NewDictionary([One(GuptaSidkiGroup),One(GuptaSidkiGroup)],true),
 #				Branchstructure:=BranchStructure(GuptaSidkiGroup),
 #				RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentative(~.Branchstructure.quo,x)))
@@ -900,7 +901,7 @@ InstallMethod(IsConjugate,
 #CallFuncList(function(a,t) 
 #							local G,D,g,h;
 #							G:= GuptaSidkiGroup;
-#							D:= FRConjugacyDataBranchGroup(G).initial_conj_dic;
+#							D:= FRBranchGroupConjugacyData(G).initial_conj_dic;
 #							for g in [a,a^2,t,t^2] do
 #								for h in [a,a^2,t,t^2] do
 #									if g<>h then
