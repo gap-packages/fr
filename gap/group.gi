@@ -192,7 +192,32 @@ SEARCH@.CONJUGATE_WITNESS := function(G,x,y)
     fi;
     return fail;
 end;
-
+SEARCH@.CONJUGATE_COSET := function(G,c,x,y)
+    # check if x,y is conjugate in c can return a conjugator, false or fail
+    local s,t,r,B,K,K_pi;
+    B := BranchStructure(G);
+    K := BranchingSubgroup(G);
+    K_pi := Image(G!.FRData.pi,K);
+    if IsOne(x) and IsOne(y) then
+    	return PreImagesRepresentative(B.quo,c);
+    fi;
+    r := RepresentativeAction(Range(G!.FRData.pi),x^G!.FRData.pi,y^G!.FRData.pi);
+    if r = fail then
+    	return false;
+    fi;
+    if not PreImagesRepresentative(B.quo,c)^G!.FRData.pi in Union(List(K_pi,z->RightCoset(Centralizer(Range(G!.FRData.pi),x^G!.FRData.pi),r*z))) then
+        return false;
+    else
+  	  for s in G!.FRData.sphere do
+  	  	for t in s do
+  	  		if x^t=y and t^B.quo = c then
+  	  			return t;
+  	  		fi;
+  	  	od;
+  	  od;
+    fi;
+    return fail;
+end;
 SEARCH@.EXTENDTRANSVERSAL := function(G,H,trans)
     # completes the tranversal trans of H^pi in G^pi, and returns it,
     # or "fail" if the search volume limit of G is too small.
@@ -951,9 +976,10 @@ InstallMethod(IsConjugate, "(FR) for an FR element and an FR group",
 end);
 
 InstallOtherMethod(RepresentativeActionOp, "(FR) for an FR element and an FR group",
-        [IsFRGroup,IsFRElement, IsFRElement],
-        function ( G, g, h )
+        [IsFRGroup,IsFRElement, IsFRElement, IsFunction],
+        function ( G, g, h, f )
     local b;
+    if f <> OnPoints then TryNextMethod(); fi;
     SEARCH@.INIT(G);
     while true do
         b := SEARCH@.CONJUGATE_WITNESS(G,g,h);
