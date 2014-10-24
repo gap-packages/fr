@@ -249,6 +249,42 @@ BindGlobal("DRAW_GRAPH@",function(Vertices,Edges)
 end);
 ##################################################################
 #````````````````````````````````````````````````````````````````#
+#```````````````````  MEALY_FROM_STATES@  ```````````````````````#
+#````````````````                            ````````````````````#
+#`````````````````  Computes a mealy machine ````````````````````#
+#````````````````     with Statesset L and   ````````````````````#
+#````````````````        activity act        ````````````````````#
+#````````````````````````````````````````````````````````````````#
+##################################################################
+#Computes a mealy machine with stateset L and given activity act.
+BindGlobal("MEALY_FROM_STATES@", function(L,act)
+		local m,tran,out,i,j;
+		#Force L to contain elements and not lists of elements.
+		for i in [1..Size(L)] do
+			if IsList(L[i]) then
+				L[i] := Product(L[i]);
+			fi;
+		od;
+		#Force act to be a list of output symbols.
+		if IsPerm(act) then
+			act := List(AlphabetOfFRObject(L[1]),x->x^act);
+		fi;
+		
+		tran := [[]];
+		out := [act];
+		i := 1;
+		j := 2;
+		for m in L do
+		  Add(tran[1],i+1);
+		  Append(tran,List(m!.transitions,x->List(x,y->y+i)));
+		  Append(out,m!.output);
+		  i := i + Length(m!.transitions);
+		  j := j+1;
+		od;
+		return MealyElement(tran,out,1);
+	end);
+##################################################################
+#````````````````````````````````````````````````````````````````#
 #`````````````````````                  `````````````````````````#
 #`````````````````````    F.S. Worker   `````````````````````````#
 #`````````````````````                  `````````````````````````#
@@ -827,12 +863,13 @@ BindGlobal("CONJUGATORS_BRANCH@",function(G,g,h)
 					c:= (c*p^Embedding(BS.wreath,Size(Alph)+1))^BS.epi;;	
 					if c <> fail then #Con is a valid element with representative c;
 						Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Conjugator found. Add to conjugator tuple ");
-						CT[Position(B,c)] := FRElement([Con[i]],[p],[1]); #Will just be multiplied so no reason for mealy.
+						CT[Position(B,c)] := MEALY_FROM_STATES@(Con[i],p);
+						#CT[Position(B,c)] := FRElement([Con[i]],[p],[1]);
 					fi;
 				od;	
 			fi;
 		od;
-		AddDictionary(Con_dic,[g,h],CT); #Save work in case there is again asked for a CT for (g,h).
+		AddDictionary(Con_dic,[g,h],CT); #Save work in case is it again asked for a CT for (g,h).
 		return CT;				
 	end;
 	return Conjugators_branch_rek(g,h);
@@ -937,7 +974,7 @@ InstallMethod(IsConjugate,
 ################################################################* 
 #****************************************************************
 BindGlobal("GRIG_CON@",function(G,g,h)
-local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_repr, K_repr_words, D, ConTup_a, Check, alternating_a_form, shorten_word, compute_conjugates, compute_conjugates_of_word, L_Decomp, Compute_K_rep, L_word_to_Grig, Merge_Ls, conjugators_grig_rek, Res, r;
+local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_repr, K_repr_words, D, ConTup_a, Check, alternating_a_form, shorten_word, compute_conjugates, compute_conjugates_of_word, L_Decomp, Compute_K_rep, L_word_to_Grig, Merge_Ls, conjugators_grig_rek, Res, r, Join_to_first;
 
 ############   Spare Computing Time in trivial case.     #########
  	if AlphabetOfFRSemigroup(G) <> AlphabetOfFRObject(g) or AlphabetOfFRSemigroup(G) <> AlphabetOfFRObject(h) then
@@ -979,7 +1016,7 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 #%%%%%%%%%%%%%%%%%%        Functions       %%%%%%%%%%%%%%%%%%%%%%%
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
 	
-	#TeporaryCheck function to locate possable errors.
+	#TeporaryDebug function to locate possable errors.
 	Check := function(s,g,h,C)
 		local c;
 		if InfoLevel(InfoFRCP)>2 then
@@ -1076,10 +1113,35 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 		#Precomputed list gen_conjugates[x][y] is x^y as word in L_gen
 		#where L_gen = [[b],[a,b,a],[b,a,d,a,b,a,d,a],[a,b,a,d,a,b,a,d]];
 		#and y in [b,c,d,a]
-		gen_conjugates := [[[1],[1],[1],[2]],
-												[[1,2,1],[1,-4,2,1],[-4,2],[1]],
-												[[1,3,1],[-3],[1,-3,1],[4]],
-												[[1,4,1],[1,-4,1],[-4],[3]]];
+		gen_conjugates := [];
+		gen_conjugates[1]  := [];
+		gen_conjugates[1][a] := [2];
+		gen_conjugates[1][b] := [1];
+		gen_conjugates[1][c] := [1];
+		gen_conjugates[1][d] := [1];
+		
+		gen_conjugates[2]  := [];
+		gen_conjugates[2][a] := [1];
+		gen_conjugates[2][b] := [1,2,1];
+		gen_conjugates[2][c] := [1,-4,2,1];
+		gen_conjugates[2][d] := [-4,2];
+		
+		gen_conjugates[3]  := [];
+		gen_conjugates[3][a] := [4];
+		gen_conjugates[3][b] := [1,3,1];
+		gen_conjugates[3][c] := [-3];
+		gen_conjugates[3][d] := [1,-3,1];
+		
+		gen_conjugates[4]  := [];
+		gen_conjugates[4][a] := [3];
+		gen_conjugates[4][b] := [1,4,1];
+		gen_conjugates[4][c] := [1,-4,1];
+		gen_conjugates[4][d] := [-4];
+		
+		#gen_conjugates := [[[1],[1],[1],[2]],
+		#										[[1,2,1],[1,-4,2,1],[-4,2],[1]],
+		#										[[1,3,1],[-3],[1,-3,1],[4]],
+		#										[[1,4,1],[1,-4,1],[-4],[3]]];
 		Gen := [gen];
 		for x in w do
 			L:= [];
@@ -1212,7 +1274,6 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #%%%%%%%%%%%%%%%%%   Helping Functions    %%%%%%%%%%%%%%%%%%%%%%%%
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
-	
 	#Computes the conjugator tuple for the pair (g,a): 
 	ConTup_a := function (g)
 		local g1_modL,l,Allowed_reps,Connected_conjs,con_at_1,con_word,con,Centr_a,Con_tuple;
@@ -1278,13 +1339,22 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 						if L1[i]=ImageElm(f,K_repr_words[i]) and L2[x]=ImageElm(f,K_repr_words[x]) then
 							res_Con[Position(K_repr_words,Compute_K_rep(dw_w*D[i]*aw_w))] := ImageElm(f,dw_w*D[i]*aw_w);
 						else #Could always compute the words as generators, but seems uneccassary
-							res_Con[Position(K_repr_words,Compute_K_rep(dw_w*D[i]*aw_w))] := FRElement([[[L1[i]],[L2[x]]]],[aw_t],[1]);
+							res_Con[Position(K_repr_words,Compute_K_rep(dw_w*D[i]*aw_w))] := MEALY_FROM_STATES@([L1[i],L2[x]],aw_t);
 						fi;
 					fi;
 				od;
 			fi;
 		od;
 		return res_Con;
+	end;
+	#Joins two Lists in the first with overwriting eventually existing values.
+	Join_to_first := function(L,K)
+		local i;
+		for i in [1..Length(K)] do
+			if IsBound(K[i]) then
+				L[i] := K[i];
+			fi;
+		od;
 	end;		
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #%%%%%%%%%%%%%%%%%%     Main Computor      %%%%%%%%%%%%%%%%%%%%%%%
@@ -1324,46 +1394,37 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 			fi;
 			#---------------------    |h|>1     -----------------------
 			#Test for Conjugator with trivial Activity
+			res_Con := [];
 			L1 := conjugators_grig_rek(State(g,x_1),State(h,x_1));
 			if Size(L1) > 0 then
 				L2 := conjugators_grig_rek(State(g,x_2),State(h,x_2));
 				res_Con := Merge_Ls(L1,L2,false);
-				if Size(res_Con) >0 then
-					Check("h>1 trivial",g,h,res_Con);
-					return res_Con;
-				fi;
 			fi;		
 
 			#Test for Conjugator with non-trivial Activity
 			L1 := conjugators_grig_rek(State(g,x_1),State(h,x_2));
 			if Size(L1) = 0 then
-				return [];
+				return res_Con;
 			fi;
 			L2 := conjugators_grig_rek(State(g,x_2),State(h,x_1));
-			res_Con := Merge_Ls(L1,L2,true);
+			Join_to_first(res_Con,Merge_Ls(L1,L2,true));
 			Check("h>1 nontrivial",g,h,res_Con);
 			return res_Con;
 		fi;
 
 		#-#-#-#-#-#-#-#-#-   |g| > 1, act(g) = 1    -#-#-#-#-#-#-#
+		res_Con := [];
 		if IsOne(Activity(g)) then
 		#Test for Conjugator with trivial Activity
 			L1 := conjugators_grig_rek(State(g,x_1),State(h,x_1));
 			if Size(L1) > 0 then
 				L2 := conjugators_grig_rek(State(g,x_2),State(h,x_2));
 				res_Con := Merge_Ls(L1,L2,false);
-				if Size(res_Con) >0 then
-					Check("g>1, act = 1, trivial",g,h,res_Con);
-					return res_Con;
-				fi;
 			fi;	
 			#Test for Conjugator with non-trivial Activity
 			L1 := conjugators_grig_rek(State(g,x_1),State(h,x_2));
-			if Size(L1) = 0 then
-				return [];
-			fi;
 			L2 := conjugators_grig_rek(State(g,x_2),State(h,x_1));
-			res_Con := Merge_Ls(L1,L2,true);
+			Join_to_first(res_Con,Merge_Ls(L1,L2,true));
 			Check("g>1, act = 1, non-trivial",g,h,res_Con);
 			return res_Con;
 		else
@@ -1372,8 +1433,8 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 			g1 := Compute_K_rep(PreImagesRepresentative(f,State(g,x_1)^-1));
 			h1 := Compute_K_rep(PreImagesRepresentative(f,State(h,x_1)));
 			L1 := conjugators_grig_rek(State(g,x_1)*State(g,x_2),State(h,x_1)*State(h,x_2));
+			res_Con := [];
 			if Size(L1) > 0 then
-				res_Con := [];
 				for x in L1 do
 					#Force that only <x,g1xh1> is checked. #Seems to be a bit too complicated, may be simplified.
 					L1_temp := [];
@@ -1385,18 +1446,13 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 						res_Con[Position(L2,y)] := y;
 					od;
 				od;
-				if Size(res_Con) >0 then
-				  Check("g>1, act = (1,2), trivial",g,h,res_Con);
-					return res_Con;
-				fi;
 			fi;
 			#Test for Conjugator with non-trivial Activity
 			h1 := Compute_K_rep(PreImagesRepresentative(f,State(h,x_2)));
 			L1 := conjugators_grig_rek(State(g,x_1)*State(g,x_2),State(h,x_2)*State(h,x_1));
 			if Size(L1) = 0 then
-				return [];
+				return res_Con;
 			fi;
-			res_Con := [];
 			for x in L1 do
 				#Force that only <x,g1xh1> is checked.
 				L1_temp := [];

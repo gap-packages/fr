@@ -18,8 +18,9 @@ gap> IsConjugate(GrigorchukGroup,pairs[1][1][1],pairs[1][1][2]);
 #I  Init FRBranchGroupConjugacyData
 #I  Finished Init FRBranchGroupConjugacyData
 true 
+##Setting the recursion end manuelly. 
 gap> SetFRBranchGroupConjugacyData(GuptaSidkiGroup,
->  rec(	initial_conj_dic:=NewDictionary([One(GuptaSidkiGroup),One(GuptaSidkiGroup)],true),
+>  rec(initial_conj_dic:=NewDictionary([One(GuptaSidkiGroup),One(GuptaSidkiGroup)],true),
 >     Branchstructure:=BranchStructure(GuptaSidkiGroup),
 >     RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentative(~.Branchstructure.quo,x)))
 >  );
