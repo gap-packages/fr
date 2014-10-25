@@ -1613,7 +1613,7 @@ BindGlobal("LIEEXTENDLCS@", function(A,d)
 
     if d<=A!.degree then return; fi;
 
-    if IsLpGroup(A!.group) or (IsFpGroup(A!.group) and Characteristic(A!.ring)=0) then
+    if (IsBound(IsLpGroup) and IsLpGroup(A!.group)) or (IsFpGroup(A!.group) and Characteristic(A!.ring)=0) then
         A!.quo := NqEpimorphismNilpotentQuotient(A!.group,d);
         A!.pcp := Pcp;
         A!.exp := ExponentsByPcp;
