@@ -1180,6 +1180,20 @@ Section <Ref Label="preimages"/>), very fast methods are implemented
 to recognize and express an FR element as a product of generators.
 </Subsection>
 
+<Subsection><Heading>The conjugacy problem</Heading>
+<P/> The conjugacy problem for self-similar branch groups has been
+implemented by Thorsten Groth, as part of his Diploma Thesis. His code
+is integrated in <Package>FR</Package>.
+
+<P/> Specialized algorithms are implemented for the Grigorchuk and
+Gupta-Sidki groups, and a generic algorithm is implemented, which is
+however not guaranteed to succeed. The implementation follows <Cite
+Key="MR3054572"/>.
+
+<P/> The following extra attibutes are part of his implementation:
+</Subsection>
+<#Include Label="CP">
+
 <Subsection><Heading>Order of groups</Heading>
 <P/> The order of an FR group is computed as follows: if all
 generators are finitary, then enumeration will succeed in computing
