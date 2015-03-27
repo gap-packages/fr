@@ -1687,44 +1687,40 @@ InstallMethod(ChangeFRMachineBasis, "(FR) for a group FR machine, a list and a p
 InstallMethod(ChangeFRMachineBasis, "(FR) for an FR machine",
         [IsGroupFRMachine],
         function(M)
-    local S, l, s, t, u, v;
-
-    S := [];
+    local cycles, basis, s, t, u, v;
+    
+    # gather all permutation cycles
+    cycles := [];
     for s in GeneratorsOfFRMachine(M) do
         for t in Cycles(PermList(Output(M,s)),AlphabetOfFRObject(M)) do
             if Length(t)>1 then
-                Add(S,[s,t]);
+                Add(cycles,[s,t]);
             fi;
         od;
     od;
-    l := [];
-    l[1] := One(StateSet(M));
-#    l[Random([1..Length(AlphabetOfFRObject(M))])] := One(StateSet(M));
-    while S<>[] do
-        t := First([1..Length(S)],i->Number(S[i][2],i->IsBound(l[i]))>0);
+    
+    basis := [];
+    while cycles<>[] do
+        # first cycle connected to the partial basis
+        t := First([1..Length(cycles)],i->Number(cycles[i][2],i->IsBound(basis[i]))>0);
         if t=fail then
-            Error("Action is not transitive");
-            return fail;
+            # set up an anchor on the cycle
+            basis[First(AlphabetOfFRObject(M),i->not IsBound(basis[i]))] := One(StateSet(M));
+            continue;
         fi;
-        t := Remove(S,t);
-        s := Filtered(t[2],i->IsBound(l[i]));
-        if Length(s)>1 then
-            Error("Action is not contractible (tree-like)");
-            return fail;
-        fi;
-        s := s[1];
+        t := Remove(cycles,t);
+        # anchor on the cycle
+        s := First(t[2],i->IsBound(basis[i]));
         u := s;
-        while true do
+        repeat
             v := Output(M,t[1],u);
-            if v=s then
-                break;
-            else
-                l[v] := LeftQuotient(Transition(M,t[1],u),l[u]);
-                u := v;
+            if not IsBound(basis[v]) then
+                basis[v] := LeftQuotient(Transition(M,t[1],u),basis[u]);
             fi;
-        od;
+            u := v;
+        until u=s;
     od;
-    return ChangeFRMachineBasis(M,l,());
+    return ChangeFRMachineBasis(M,basis,());
 end);
 ################################################################
 
