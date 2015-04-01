@@ -1866,7 +1866,7 @@ end);
 BindGlobal("RANDOMNAME@", function()
     return List([1..10],i->Random("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
 end);
-BindGlobal("STRING_GROUP@", function(freecreator, s_generator, creator, arg)
+BindGlobal("STRING_GROUP@", function(freecreator, s_generator, creator, args)
     local temp, i, gens, states, action, mgens, data, Error, category, machine, group;
     
     Error := function(arg)
@@ -1876,18 +1876,18 @@ BindGlobal("STRING_GROUP@", function(freecreator, s_generator, creator, arg)
         CallFuncList(VALUE_GLOBAL("Error"),arg);
     end;
     
-    if not IsString(arg[Length(arg)]) then
-        category := Remove(arg);
+    if not IsString(args[Length(args)]) then
+        category := Remove(args);
     else
         category := IsFRObject;
     fi;
     
-    if arg=[] or not ForAll(arg,IsString) then
+    if args=[] or not ForAll(args,IsString) then
         Error("<arg> should be a non-empty sequence of strings\n");
     fi;
-    temp := List(arg, x->SplitString(x,"="));
+    temp := List(args, x->SplitString(x,"="));
     if ForAny(temp,x->Size(x)<>2) then
-        Error("<arg> should have the form g=...\n");
+        Error("<args> should have the form g=...\n");
     fi;
     gens := List(temp, x->x[1]);
     if Size(Set(gens)) <> Size(gens) then
@@ -1926,7 +1926,7 @@ BindGlobal("STRING_GROUP@", function(freecreator, s_generator, creator, arg)
             Add(states,temp);
             data.degree := Maximum(data.degree,Size(temp));
         else
-            Error("<arg> should have the form g=<...\n");
+            Error("<args> should have the form g=<...\n");
         fi;
     od;
     
