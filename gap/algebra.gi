@@ -147,7 +147,7 @@ BindGlobal("TOTALDEGREE@", function(x)
     return d;
 end);
 
-BindGlobal("STRINGSTOLMACHINE@", function(r,arg,creator)
+BindGlobal("STRINGSTOLMACHINE@", function(r,args,creator)
     local temp, i, j, gens, transitions, output, data, Error;
 
     Error := function(arg)
@@ -157,10 +157,10 @@ BindGlobal("STRINGSTOLMACHINE@", function(r,arg,creator)
         CallFuncList(VALUE_GLOBAL("Error"),arg);
     end;
     
-    if not IsRing(r) or not ForAll(arg,IsString) then
+    if not IsRing(r) or not ForAll(args,IsString) then
         Error("<arg> should contain a ring and strings\n");
     fi;
-    temp := List(arg, x->SplitString(x,"="));
+    temp := List(args, x->SplitString(x,"="));
     if ForAny(temp,x->Size(x)<>2) then
         Error("<arg> should have the form a=[[...]...]\n");
     fi;

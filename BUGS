@@ -7,3 +7,10 @@ Iterator	not coded for FullSCxxx(IsBounded,IsFiniteState,...)
 PeriodicList	no method for Concatenation and Apply
 
 IsTorsion	is not proven to give the right answer
+
+\in		for groups without the congruence property, it's hard to find good quotients. E.g.,
+	gap> AssignGeneratorVariables(GrigorchukTwistedTwin);
+	gap> epi := EpimorphismGermGroup(GrigorchukTwistedTwin,4);;
+	gap> s := Group(Comm(a,x),Comm(a,y),Comm(x,z),Comm(y,z));;
+	gap> Image(epi,Comm(a,x)^z) in Image(epi,s);
+	true

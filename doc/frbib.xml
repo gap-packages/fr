@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE file SYSTEM "bibxmlext.dtd">
 <file>
-<entry id="IDENT-TAG"><misc>
-  <other type="name">$Id$</other>
-</misc></entry>
 
 <entry id="MR713968"><article>
   <author>
@@ -1128,4 +1125,29 @@
   <other type="doi">10.1007/s00209-004-0713-5</other>
   <other type="fjournal">Mathematische Zeitschrift</other>
 </article></entry>
+
+<entry id="MR3054572"><article>
+  <author>
+    <name><first>Ievgen V.</first><last>Bondarenko</last></name>
+    <name><first>Natalia V.</first><last>Bondarenko</last></name>
+    <name><first>Said N.</first><last>Sidki</last></name>
+    <name><first>Flavia R.</first><last>Zapata</last></name>
+  </author>  
+  <title>On the conjugacy problem for finite-state automorphisms of
+              regular rooted trees</title>
+  <journal>Groups Geom. Dyn.</journal>
+  <year>2013</year>
+  <volume>7</volume>
+  <number>2</number>
+  <pages>323--355</pages>
+  <note>With an appendix by Rapha{\"e}l M. Jungers</note>
+  <issn>1661-7207</issn>
+  <mrnumber>3054572</mrnumber>
+  <mrclass>20E08 (20F10)</mrclass>
+  <mrreviewer>Fran{\c{c}}ois Dahmani</mrreviewer>
+  <url>http://dx.doi.org/10.4171/GGD/184</url>
+  <other type="doi">10.4171/GGD/184</other>
+  <other type="fjournal">Groups, Geometry, and Dynamics</other>
+</article></entry>
+
 </file>

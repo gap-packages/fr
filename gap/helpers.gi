@@ -26,7 +26,7 @@ MakeReadOnlyGlobal("VERSION@");
 BindGlobal("DOC@", function() MakeGAPDocDoc(Concatenation(PATH@,"/doc"),"fr",
   ["../gap/frmachine.gd","../gap/frelement.gd","../gap/mealy.gd",
    "../gap/group.gd","../gap/vector.gd","../gap/algebra.gd",
-   "../gap/examples.gd","../gap/helpers.gd","../gap/perlist.gd",
+   "../gap/examples.gd","../gap/helpers.gd","../gap/perlist.gd","../gap/cp.gd",
    "../PackageInfo.g"],"fr","../../.."); # "http://www.gap-system.org/Manuals");
 end);
 
@@ -596,6 +596,43 @@ InstallMethod(HeightOfPoset, "(FR) for a binary relation",
   until s=[];
   return n;
 end);
+#############################################################################
+
+#############################################################################
+## forward orbits
+InstallMethod(ForwardOrbit, "(FR) forward orbit under a group element",
+	[IsMultiplicativeElementWithInverse,IsObject],
+        function(g,x)
+    local l, y;
+    if Inverse(g)=fail then TryNextMethod(); fi;
+    l := [];
+    y := x;
+    repeat
+        Add(l,y);
+        y := y^g;
+    until y=x;
+    return l;
+end);
+
+InstallMethod(ForwardOrbit, "(FR) forward orbit under a semigroup element",
+	[IsMultiplicativeElement,IsObject],
+        function(g,x)
+    local l, n;
+    l := [];
+    n := 0;
+    repeat
+        Add(l,x);
+        x := x^g;
+        Add(l,x);
+        x := x^g;
+        n := n+1;
+    until x=l[n];
+    # now we have l of length 2n; and l[2n+1]=l[n]. make it minimal.
+    l := PeriodicList(l{[1..n-1]},l{[n..2*n]});
+    CompressPeriodicList(l);
+    return Concatenation(PrePeriod(l),Period(l));
+  end
+);
 #############################################################################
 
 #############################################################################
@@ -1576,7 +1613,7 @@ BindGlobal("LIEEXTENDLCS@", function(A,d)
 
     if d<=A!.degree then return; fi;
 
-    if IsLpGroup(A!.group) or (IsFpGroup(A!.group) and Characteristic(A!.ring)=0) then
+    if (IsBound(IsLpGroup) and IsLpGroup(A!.group)) or (IsFpGroup(A!.group) and Characteristic(A!.ring)=0) then
         A!.quo := NqEpimorphismNilpotentQuotient(A!.group,d);
         A!.pcp := Pcp;
         A!.exp := ExponentsByPcp;

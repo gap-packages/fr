@@ -28,6 +28,7 @@ ReadPackage("fr", "gap/linear.gi");
 ReadPackage("fr", "gap/algebra.gi");
 ReadPackage("fr", "gap/bisets.gi");
 ReadPackage("fr", "gap/examples.gi");
+ReadPackage("fr", "gap/cp.gi");
 #############################################################################
 
 #############################################################################

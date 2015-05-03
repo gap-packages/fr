@@ -38,10 +38,10 @@ SEARCH@.INIT := function(G)
     if IsBound(G!.FRData) then return; fi;
     if IsFRGroup(G) then
         G!.FRData := rec(pifunc := EpimorphismPermGroup,
-    sphere := [[One(G)],Difference(Set(Union(GeneratorsOfGroup(G),List(GeneratorsOfGroup(G),Inverse))),[One(G)])]);
+                         sphere := [[One(G)],Difference(Set(Union(GeneratorsOfGroup(G),List(GeneratorsOfGroup(G),Inverse))),[One(G)])]);
     elif IsFRMonoid(G) then
         G!.FRData := rec(pifunc := EpimorphismTransformationMonoid,
-    sphere := [[One(G)],Difference(Set(GeneratorsOfSemigroup(G)),[One(G)])]);
+                         sphere := [[One(G)],Difference(Set(GeneratorsOfSemigroup(G)),[One(G)])]);
     elif IsFRSemigroup(G) then
         G!.FRData := rec(pifunc := EpimorphismTransformationSemigroup,
                          sphere := [[],Set(GeneratorsOfSemigroup(G))]);
@@ -167,6 +167,60 @@ SEARCH@.IN := function(x,G)
     return fail;
 end;
 
+SEARCH@.CONJUGATE := function(G,x,y)
+    # check if x,y is conjugate in G. can return true, false or fail
+    if not IsConjugate(Range(G!.FRData.pi),x^G!.FRData.pi,y^G!.FRData.pi) then
+        return false;
+    elif ForAny(G!.FRData.sphere,s->ForAny(s,t->x^t=y)) then
+        return true;
+    fi;
+    return fail;
+end;
+
+SEARCH@.CONJUGATE_WITNESS := function(G,x,y)
+    # check if x,y is conjugate in G. can return a conjugator, false or fail
+    local s,t;
+    if not IsConjugate(Range(G!.FRData.pi),x^G!.FRData.pi,y^G!.FRData.pi) then
+        return false;
+    else
+        for s in G!.FRData.sphere do
+            for t in s do
+                if x^t=y then
+                    return t;
+                fi;
+            od;
+        od;
+    fi;
+    return fail;
+end;
+
+SEARCH@.CONJUGATE_COSET := function(G,c,x,y)
+    # check if x,y is conjugate in c can return a conjugator, false or fail
+    local s,t,r,B,K,K_pi;
+    B := BranchStructure(G);
+    K := BranchingSubgroup(G);
+    K_pi := Image(G!.FRData.pi,K);
+    if IsOne(x) and IsOne(y) then
+    	return PreImagesRepresentative(B.quo,c);
+    fi;
+    r := RepresentativeAction(Range(G!.FRData.pi),x^G!.FRData.pi,y^G!.FRData.pi);
+    if r = fail then
+    	return false;
+    fi;
+    if not PreImagesRepresentative(B.quo,c)^G!.FRData.pi in Union(List(K_pi,z->RightCoset(Centralizer(Range(G!.FRData.pi),x^G!.FRData.pi),r*z))) then
+        return false;
+    else
+        for s in G!.FRData.sphere do
+            for t in s do
+                if x^t=y and t^B.quo = c then
+                    return t;
+                fi;
+            od;
+        od;
+    fi;
+    return fail;
+end;
+
 SEARCH@.EXTENDTRANSVERSAL := function(G,H,trans)
     # completes the tranversal trans of H^pi in G^pi, and returns it,
     # or "fail" if the search volume limit of G is too small.
@@ -242,13 +296,13 @@ end;
 # the next method is also there to cache an attribute giving the data required
 # to express group elements as words.
 if @.nql then
-InstallMethod(FRGroupImageData, "(FR) for a FR group with preimage data",
-        [IsFRGroup and HasFRGroupPreImageData],
-        G->FRGroupPreImageData(G)(-1));
+    InstallMethod(FRGroupImageData, "(FR) for a FR group with preimage data",
+            [IsFRGroup and HasFRGroupPreImageData],
+            G->FRGroupPreImageData(G)(-1));
 else
-InstallMethod(FRGroupImageData, "(FR) for a FR group with preimage data",
-        [IsFRGroup and HasFRGroupPreImageData],
-        G->FRGroupPreImageData(G)(0));
+    InstallMethod(FRGroupImageData, "(FR) for a FR group with preimage data",
+            [IsFRGroup and HasFRGroupPreImageData],
+            G->FRGroupPreImageData(G)(0));
 fi;
 
 InstallAccessToGenerators(IsFRGroup,
@@ -436,8 +490,8 @@ FILTERORDER@ := [IsFRObject, IsFinitaryFRElement, IsBoundedFRElement, IsPolynomi
 # not known; it really stand for "unspecified subgroup of FullSCGroup"
 
 BindGlobal("FULLGETDATA@", function(arglist,
-                                cat, Iscat, IsFRcat, GeneratorsOfcat, AscatFRElement,
-                                makevertex, stype)
+        cat, Iscat, IsFRcat, GeneratorsOfcat, AscatFRElement,
+        makevertex, stype)
     local a, G, rep, alphabet, i, x, name, filter, depth, vertex, o, onerep;
     filter := IsFRElement;
     depth := infinity;
@@ -894,9 +948,11 @@ InstallMethod(\in, "(FR) for an FR element and an FR semigroup",
         [IsFRElement, IsFRSemigroup],
         function ( g, G )
     local b;
-    if HasNucleusOfFRSemigroup(G) and
-       not IsSubset(NucleusOfFRSemigroup(G),LimitStates(g)) then
-        return false;
+    if HasNucleusOfFRSemigroup(G) then
+        if not IsFiniteStateFRElement(G) or not
+           IsSubset(NucleusOfFRSemigroup(G),LimitStates(g)) then
+            return false;
+        fi;
     fi;
     SEARCH@.INIT(G);
     while true do
@@ -906,6 +962,43 @@ InstallMethod(\in, "(FR) for an FR element and an FR semigroup",
             SEARCH@.ERROR(G,"\\in");
         od;
         Info(InfoFR, 3, "\\in: searching at level ",G!.FRData.level," and in sphere of radius ",G!.FRData.radius);
+    od;
+end);
+
+InstallMethod(IsConjugate, "(FR) for an FR element and an FR group",
+        [IsFRGroup,IsFRElement, IsFRElement],
+        function ( G, g, h )
+    local b;
+    SEARCH@.INIT(G);
+    while true do
+        b := SEARCH@.CONJUGATE(G,g,h);
+        if b<>fail then return b; fi;
+        while SEARCH@.EXTEND(G)=fail do
+            SEARCH@.ERROR(G,"IsConjugate");
+        od;
+        Info(InfoFR, 3, "IsConjugate: searching at level ",G!.FRData.level," and in sphere of radius ",G!.FRData.radius);
+    od;
+end);
+
+InstallOtherMethod(RepresentativeActionOp, "(FR) for an FR element and an FR group",
+        [IsFRGroup,IsFRElement, IsFRElement, IsFunction],
+        function ( G, g, h, f )
+    local b;
+    if f <> OnPoints then TryNextMethod(); fi;
+    SEARCH@.INIT(G);
+    while true do
+        b := SEARCH@.CONJUGATE_WITNESS(G,g,h);
+        if b<>fail then 
+        	if b=false 
+        		then return fail; 
+        	else 
+        		return b; 
+        	fi;
+        fi;
+        while SEARCH@.EXTEND(G)=fail do
+            SEARCH@.ERROR(G,"RepresentativeActionOp");
+        od;
+        Info(InfoFR, 3, "RepresentativeActionOp: searching at level ",G!.FRData.level," and in sphere of radius ",G!.FRData.radius);
     od;
 end);
 
@@ -1866,7 +1959,7 @@ end);
 BindGlobal("RANDOMNAME@", function()
     return List([1..10],i->Random("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
 end);
-BindGlobal("STRING_GROUP@", function(freecreator, s_generator, creator, arg)
+BindGlobal("STRING_GROUP@", function(freecreator, s_generator, creator, args)
     local temp, i, gens, states, action, mgens, data, Error, category, machine, group;
     
     Error := function(arg)
@@ -1876,16 +1969,16 @@ BindGlobal("STRING_GROUP@", function(freecreator, s_generator, creator, arg)
         CallFuncList(VALUE_GLOBAL("Error"),arg);
     end;
     
-    if not IsString(arg[Length(arg)]) then
-        category := Remove(arg);
+    if not IsString(args[Length(args)]) then
+        category := Remove(args);
     else
         category := IsFRObject;
     fi;
     
-    if arg=[] or not ForAll(arg,IsString) then
+    if args=[] or not ForAll(args,IsString) then
         Error("<arg> should be a non-empty sequence of strings\n");
     fi;
-    temp := List(arg, x->SplitString(x,"="));
+    temp := List(args, x->SplitString(x,"="));
     if ForAny(temp,x->Size(x)<>2) then
         Error("<arg> should have the form g=...\n");
     fi;
@@ -2426,7 +2519,7 @@ end);
 InstallMethod(DerivedSubgroup, "(FR) for an FR group -- add more generators",
         [IsFRGroup],
         function (G)
-    local  D, gens, i, j, g;
+    local  D, gens, i, j, g, h;
     D := TrivialSubgroup( G );
     gens := GeneratorsOfGroup( G );
     for i  in [ 2 .. Length( gens ) ]  do
@@ -2434,10 +2527,12 @@ InstallMethod(DerivedSubgroup, "(FR) for an FR group -- add more generators",
         for j  in [ 1 .. i - 1 ]  do
             D := ClosureSubgroupNC( D, Comm( g, gens[j] ) );
         od;
-        g := g^-1;
-        for j  in [ 1 .. i - 1 ]  do
-            D := ClosureSubgroupNC( D, Comm( g, gens[j] ) );
-        od;
+        h := g^-1;
+        if h<>g then
+            for j  in [ 1 .. i - 1 ]  do
+                D := ClosureSubgroupNC( D, Comm( g, gens[j] ) );
+            od;
+        fi;
     od;
     D := NormalClosure( G, D );
     if D = G  then return G; else return D; fi;

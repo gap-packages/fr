@@ -5,11 +5,11 @@
 SetPackageInfo( rec(
 PackageName := "FR",
 Subtitle := "Computations with functionally recursive groups",
-Version := "2.1.1",
-Date := "09/01/2014",
+Version := "2.3.0",
+Date := "03/05/2015",
 ## <#GAPDoc Label="Version">
-## <!ENTITY Version "2.1.1">
-## <!ENTITY Date "09/01/2014">
+## <!ENTITY Version "2.3.0">
+## <!ENTITY Date "03/05/2015">
 ## <#/GAPDoc>
 ArchiveURL := Concatenation("https://github.com/laurentbartholdi/fr/archive/",~.Version),
 ArchiveFormats := ".tar.gz",

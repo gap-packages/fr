@@ -59,15 +59,20 @@
 </span>
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X847B4AFF809D2A56">10.3-3 <span class="Heading">Membership in semigroups</span></a>
 </span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X7A0AC96784ACE0BE">10.3-4 <span class="Heading">Order of groups</span></a>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X7F24533B7F846FC4">10.3-4 <span class="Heading">The conjugacy problem</span></a>
 </span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X8329884F790E1542">10.3-5 <span class="Heading">Images and preimages of some groups in
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X8735D8087DADCCC9">10.3-5 OrbitSignalizer</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X817F734280E22447">10.3-6 FRConjugacyAlgorithm</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X82A289077D4DAA03">10.3-7 FRBranchGroupConjugacyData</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X7A0AC96784ACE0BE">10.3-8 <span class="Heading">Order of groups</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X8329884F790E1542">10.3-9 <span class="Heading">Images and preimages of some groups in
   f.p. and l.p. groups</span></a>
 </span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X7F4247367D1EBEB9">10.3-6 <span class="Heading">Comparison of FR, Mealy, vector,
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X7F4247367D1EBEB9">10.3-10 <span class="Heading">Comparison of FR, Mealy, vector,
   and algebra elements</span></a>
 </span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X81F95FEB7C72ABFF">10.3-7 <span class="Heading">Inverses of linear elements</span></a>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X81F95FEB7C72ABFF">10.3-11 <span class="Heading">Inverses of linear elements</span></a>
 </span>
 </div></div>
 </div>
@@ -388,11 +393,89 @@ rec( rws := Knuth Bendix Rewriting System for Monoid( [ a^-1, a, b^-1, b
 
 <p>An additional refinement is implemented for bounded groups (see <code class="func">IsBoundedFRSemigroup</code> (<a href="chap7.html#X7A6CB30181662C77"><span class="RefLink">7.2-14</span></a>)). The <code class="func">Germs</code> (<a href="chap5.html#X81592E3D79745A40"><span class="RefLink">5.2-24</span></a>) of an element are computed, and compared to the germs of elements in the group.</p>
 
-<p>Finally, for a group that possesses self-similar data (see Section <a href="chap10.html#X8329884F790E1542"><span class="RefLink">10.3-5</span></a>), very fast methods are implemented to recognize and express an FR element as a product of generators.</p>
+<p>Finally, for a group that possesses self-similar data (see Section <a href="chap10.html#X8329884F790E1542"><span class="RefLink">10.3-9</span></a>), very fast methods are implemented to recognize and express an FR element as a product of generators.</p>
+
+<p><a id="X7F24533B7F846FC4" name="X7F24533B7F846FC4"></a></p>
+
+<h5>10.3-4 <span class="Heading">The conjugacy problem</span></h5>
+
+<p>The conjugacy problem for self-similar branch groups has been implemented by Thorsten Groth, as part of his Diploma Thesis. His code is integrated in <strong class="pkg">FR</strong>.</p>
+
+<p>Specialized algorithms are implemented for the Grigorchuk and Gupta-Sidki groups, and a generic algorithm is implemented, which is however not guaranteed to succeed. The implementation follows <a href="chapBib.html#biBMR3054572">[BBSZ13]</a>.</p>
+
+<p>The following extra attibutes are part of his implementation:</p>
+
+<p><a id="X8735D8087DADCCC9" name="X8735D8087DADCCC9"></a></p>
+
+<h5>10.3-5 OrbitSignalizer</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OrbitSignalizer</code>( <var class="Arg">g</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
+<p>Returns: The Orbit Signalizer of the group element <var class="Arg">g</var></p>
+
+<p>This attribute computes the orbit signalizer of an element. This is the set <span class="SimpleMath">OS(g) := {g^|Orb_g(v)|@v ∣ v ∈ X^*}</span> where <span class="SimpleMath">X</span> is the alphabet of the element <var class="Arg">g</var> and <span class="SimpleMath">Orb_g(v)</span> is the orbit of <span class="SimpleMath">v</span> under <span class="SimpleMath">⟨ g ⟩</span>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">a := MealyElement([[2,2],[2,2]],[(1,2),()],1);</span>
+&lt;Mealy element on alphabet [ 1 .. 2 ] with 2 states&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OrbitSignalizer(a);</span>
+[ &lt;Mealy element on alphabet [ 1 .. 2 ] with 2 states&gt;, &lt;Trivial Mealy element on alphabet [ 1 .. 2 ]&gt; ]
+</pre></div>
+
+<p>DeclareAttribute("OrbitSignalizer", IsFRElement);</p>
+
+<p><a id="X817F734280E22447" name="X817F734280E22447"></a></p>
+
+<h5>10.3-6 FRConjugacyAlgorithm</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FRConjugacyAlgorithm</code>( <var class="Arg">G</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
+<p>Returns: A function which solves the conjugacy problem for <var class="Arg">G</var></p>
+
+<p>This attribute stores a function in three arguments which computes a representative conjugator if exists or fail otherwise.</p>
+
+<p>This attribute is not meant to have a standard setter but to be set if a specialized conjugacy algorithm for a certain group is discovered.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">f := FRConjugacyAlgorithm(GrigorchukGroup);</span>
+function( G, g, h ) ... end
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AssignGeneratorVariables(GrigorchukGroup);</span>
+#I  Assigned the global variables [ "a", "b", "c", "d" ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">f(GrigorchukGroup,a,a^b);</span>
+&lt;Mealy element on alphabet [ 1 .. 2 ] with 5 states&gt;
+</pre></div>
+
+<p>DeclareAttribute("FRConjugacyAlgorithm", IsFRGroup,2);</p>
+
+<p><a id="X82A289077D4DAA03" name="X82A289077D4DAA03"></a></p>
+
+<h5>10.3-7 FRBranchGroupConjugacyData</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FRBranchGroupConjugacyData</code>( <var class="Arg">G</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
+<p>Returns: The initial data for the branch algorithm for <var class="Arg">G</var></p>
+
+<p>This attribute records the data for the branch algorithm. The record has the following components:</p>
+
+
+<dl>
+<dt><strong class="Mark">initial_conj_dic:</strong></dt>
+<dd><p>Dictionary of already known conjugacy pairs with corresponding conjugator tuples. This has to cover at least the TorsionNucleus of <var class="Arg">G</var></p>
+
+</dd>
+<dt><strong class="Mark">Branchstructure</strong></dt>
+<dd><p>Usally calculated by the function BranchStructure</p>
+
+</dd>
+<dt><strong class="Mark">RepSystem</strong></dt>
+<dd><p>List of representatives of <span class="SimpleMath">G/K</span> where <span class="SimpleMath">K</span> is the branching subgroup of <var class="Arg">G</var></p>
+
+</dd>
+</dl>
+<p>DeclareAttribute("FRBranchGroupConjugacyData", IsFRGroup,"mutable");</p>
 
 <p><a id="X7A0AC96784ACE0BE" name="X7A0AC96784ACE0BE"></a></p>
 
-<h5>10.3-4 <span class="Heading">Order of groups</span></h5>
+<h5>10.3-8 <span class="Heading">Order of groups</span></h5>
 
 <p>The order of an FR group is computed as follows: if all generators are finitary, then enumeration will succeed in computing the order. If the action of the group is primitive, and it comes from a bireversible automaton, then the Thompson-Wielandt theorem is tested against. This theorem states that, in our context (a group acting on a rooted tree, coming from a larger group acting transitively), if the group is finite then the stabilizer of a sphere of radius 2 is a <span class="SimpleMath">p</span>-group; see <a href="chapBib.html#biBMR1839488">[BM00a, Proposition 2.1.1]</a>. Then, <strong class="pkg">FR</strong> attempts to find whether the group is level-transitive (in which case it would be infinite). Finally, it attempts to enumerate the group's elements, testing at the same time whether these elements have infinite order.</p>
 
@@ -400,7 +483,7 @@ rec( rws := Knuth Bendix Rewriting System for Monoid( [ a^-1, a, b^-1, b
 
 <p><a id="X8329884F790E1542" name="X8329884F790E1542"></a></p>
 
-<h5>10.3-5 <span class="Heading">Images and preimages of some groups in
+<h5>10.3-9 <span class="Heading">Images and preimages of some groups in
   f.p. and l.p. groups</span></h5>
 
 <p>Contracting, branched groups admit finite L-presentations (see <a href="chapBib.html#biBMR2009317">[Bar03b]</a>), that is, presentations by finitely many generators, relators and endomorphisms; the (usual) relators are the images of the given relators under iteration by all endomorphisms.</p>
@@ -415,7 +498,7 @@ rec( rws := Knuth Bendix Rewriting System for Monoid( [ a^-1, a, b^-1, b
 
 <p><a id="X7F4247367D1EBEB9" name="X7F4247367D1EBEB9"></a></p>
 
-<h5>10.3-6 <span class="Heading">Comparison of FR, Mealy, vector,
+<h5>10.3-10 <span class="Heading">Comparison of FR, Mealy, vector,
   and algebra elements</span></h5>
 
 <p>FR and Mealy elements can be compared quite efficiently, as long as they are distinct. The algorithm runs as follows: let the two elements be <span class="SimpleMath">x</span> and <span class="SimpleMath">y</span>. Considering both in turn, <strong class="pkg">FR</strong> constructs the first entries of minimal Mealy elements expressing <span class="SimpleMath">x</span> and <span class="SimpleMath">y</span>; as soon as an output entry is distinct for <span class="SimpleMath">x</span> and for <span class="SimpleMath">y</span>, the status of <span class="SimpleMath">x&lt;y</span> is determined; and similarly for transition entries. Finally, if either of <span class="SimpleMath">x</span> or <span class="SimpleMath">y</span> is finite-state and the entries were identical up to that step, then the element with smallest stateset is considered smaller.</p>
@@ -428,7 +511,7 @@ rec( rws := Knuth Bendix Rewriting System for Monoid( [ a^-1, a, b^-1, b
 
 <p><a id="X81F95FEB7C72ABFF" name="X81F95FEB7C72ABFF"></a></p>
 
-<h5>10.3-7 <span class="Heading">Inverses of linear elements</span></h5>
+<h5>10.3-11 <span class="Heading">Inverses of linear elements</span></h5>
 
 <p>It is probably difficult to compute the inverse of a vector element. The following approach is used: to compute the inverse of <span class="SimpleMath">x</span>, large (scalar) matrix approximations of <span class="SimpleMath">x</span> are computed; they are inverted using linear algebra; a vector element representing this inverse is guessed; and the guess is checked. As long as that check fails, larger approximations are computed.</p>
 

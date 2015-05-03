@@ -325,7 +325,8 @@ end);
 InstallValue(GrigorchukMachine,
         MealyMachine([[5,5],[1,3],[1,4],[5,2],[5,5]],[[2,1],[1,2],[1,2],[1,2],[1,2]]));
 InstallValue(GrigorchukGroup,SCGroup(GrigorchukMachine));
-GrigorchukGroup!.Name := "GrigorchukGroup";
+SetName(GrigorchukGroup,"GrigorchukGroup");
+
 SETGENERATORNAMES@(GrigorchukGroup,["a","b","c","d"]);
 CallFuncList(function(a,b,c,d)
     local x;
@@ -574,7 +575,7 @@ SetFRGroupPreImageData(GrigorchukTwistedTwin, function(depth)
         F := F / Concatenation(List(rels,x->ITERATEMAP@(s,depth,x)));
     fi;
     Fgens := GeneratorsOfGroup(F){[1..4]};
-    if IsLpGroup(F) then
+    if depth=-1 then
         Sgens := List(Sgens,x->ElementOfLpGroup(FamilyObj(F.1),x));
     else
         Sgens := List(Sgens,x->ElementOfFpGroup(FamilyObj(F.1),x));
@@ -762,7 +763,7 @@ SetFRGroupPreImageData(BrunnerSidkiVieiraGroup, function(depth)
         Fgens := GeneratorsOfGroup(F);
     fi;
     Ggens := GeneratorsOfGroup(BrunnerSidkiVieiraGroup);
-    if IsLpGroup(F) then
+    if depth=-1 then
         Sgens := List(Sgens,x->ElementOfLpGroup(FamilyObj(Representative(F)),x));
     else
         Sgens := List(Sgens,x->ElementOfFpGroup(FamilyObj(Representative(F)),x));
@@ -1122,7 +1123,7 @@ InstallGlobalFunction(FabrykowskiGuptaGroups, function(p)
             Fgens := GeneratorsOfGroup(F);
         fi;
         Ggens := GeneratorsOfGroup(G);
-        if IsLpGroup(F) then
+        if depth=-1 then
             Sgens := List(Sgens,x->ElementOfLpGroup(FamilyObj(Representative(F)),x));
         else
             Sgens := List(Sgens,x->ElementOfFpGroup(FamilyObj(Representative(F)),x));
@@ -1194,7 +1195,7 @@ InstallGlobalFunction(HanoiGroup, function(k)
                 Fgens := GeneratorsOfGroup(F);
             fi;
             Ggens := GeneratorsOfGroup(G);
-            if IsLpGroup(F) then
+            if depth=-1 then
                 Sgens := List(Sgens,x->ElementOfLpGroup(FamilyObj(Representative(F)),x));
             else
                 Sgens := List(Sgens,x->ElementOfFpGroup(FamilyObj(Representative(F)),x));
