@@ -52,8 +52,9 @@
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X7C7A0EEF7EFF8B99">9.1-26 DahmaniGroup</a></span>
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X7C958AB78484E256">9.1-27 MamaghaniGroup</a></span>
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X86D952E8784E4D97">9.1-28 WeierstrassGroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X86B124758135DFBD">9.1-29 FRAffineGroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X7CFBE31A78F2681B">9.1-30 CayleyGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X80D59AFF7E7D3B8B">9.1-29 StrichartzGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X86B124758135DFBD">9.1-30 FRAffineGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X7CFBE31A78F2681B">9.1-31 CayleyGroup</a></span>
 </div></div>
 <div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap9.html#X81B82FA1811AAF8D">9.2 <span class="Heading">Examples of semigroups</span></a>
 </span>
@@ -823,9 +824,22 @@ true
 
 <p><span class="SimpleMath">[c,t,b][b,t,c][a,t,c][c,t,a]</span> has order 2, and belongs to <span class="SimpleMath">G''</span>; so there exist elements of arbitrary large finite order in the group.</p>
 
+<p><a id="X80D59AFF7E7D3B8B" name="X80D59AFF7E7D3B8B"></a></p>
+
+<h5>9.1-29 StrichartzGroup</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; StrichartzGroup</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<p>This group generates the graph of the Strichartz hexacarpet.</p>
+
+<p>The Strichartz hexacarpet is the dual graph to the infinitely iterated barycentric subdivision of the triangle. The Strichartz group acts on <span class="SimpleMath">{1,dots,6}^n</span> for all <span class="SimpleMath">n</span>, and the Schreier graph with <span class="SimpleMath">6^n</span> vertices is the <span class="SimpleMath">n</span>th Strichartz graph.</p>
+
+<p>Conjecturally, that graph's radius is <span class="SimpleMath">1/18(2^(n+1)(13+3n)+(-1)^n-9)</span> and its diameter is <span class="SimpleMath">1/9(2^(n-1)(31+12n)+2(-1)^(n-1)-18)</span>.</p>
+
+<p>See <a href="chapBib.html#biBMR3004256">[BKNPPT12]</a> for details.</p>
+
 <p><a id="X86B124758135DFBD" name="X86B124758135DFBD"></a></p>
 
-<h5>9.1-29 FRAffineGroup</h5>
+<h5>9.1-30 FRAffineGroup</h5>
 
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FRAffineGroup</code>( <var class="Arg">d</var>, <var class="Arg">R</var>, <var class="Arg">u</var>[, <var class="Arg">transversal</var>] )</td><td class="tdright">( operation )</td></tr></table></div>
 <p>Returns: The <var class="Arg">d</var>-dimensional affine group over <var class="Arg">R</var>.</p>
@@ -836,7 +850,7 @@ true
 
 <p>The only valid arguments are <code class="code">R=Integers</code> and <code class="code">R=PolynomialRing(S)</code> for a finite ring <code class="code">S</code>. The alphabet of the affine group is <span class="SimpleMath">R/RuR</span>; an explicit transversal of <span class="SimpleMath">RuR</span> be specified as last argument.</p>
 
-<p>The following examples construct the "Baumslag-Solitar group" <span class="SimpleMath">Z[frac12]⋊_2 Z</span> first introduced in <a href="chapBib.html#biBMR0142635">[BS62]</a>, the "lamplighter group" <span class="SimpleMath">( Z/2)≀ Z</span>, and a 2-dimensional affine group. Note that the lamplighter group may also be defined via <code class="func">CayleyGroup</code> (<a href="chap9.html#X7CFBE31A78F2681B"><span class="RefLink">9.1-30</span></a>).</p>
+<p>The following examples construct the "Baumslag-Solitar group" <span class="SimpleMath">Z[frac12]⋊_2 Z</span> first introduced in <a href="chapBib.html#biBMR0142635">[BS62]</a>, the "lamplighter group" <span class="SimpleMath">( Z/2)≀ Z</span>, and a 2-dimensional affine group. Note that the lamplighter group may also be defined via <code class="func">CayleyGroup</code> (<a href="chap9.html#X7CFBE31A78F2681B"><span class="RefLink">9.1-31</span></a>).</p>
 
 
 <div class="example"><pre>
@@ -884,7 +898,7 @@ true
 
 <p><a id="X7CFBE31A78F2681B" name="X7CFBE31A78F2681B"></a></p>
 
-<h5>9.1-30 CayleyGroup</h5>
+<h5>9.1-31 CayleyGroup</h5>
 
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CayleyGroup</code>( <var class="Arg">G</var> )</td><td class="tdright">( function )</td></tr></table></div>
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CayleyMachine</code>( <var class="Arg">G</var> )</td><td class="tdright">( function )</td></tr></table></div>
@@ -899,7 +913,7 @@ true
 
 <p>The attribute <code class="code">Correspondence(CG)</code> is a list. Its first entry is a homomorphism from <var class="Arg">G</var> into <code class="code">CG</code>. Its second entry is the generator of <code class="code">CG</code> that has trivial output. <code class="code">CG</code> is generated <code class="code">Correspondence(CG)[2]</code> and the image of <code class="code">Correspondence(CG)[1]</code>.</p>
 
-<p>In the example below, recall the definition of <code class="code">Lamplighter</code> in the example of <code class="func">FRAffineGroup</code> (<a href="chap9.html#X86B124758135DFBD"><span class="RefLink">9.1-29</span></a>).</p>
+<p>In the example below, recall the definition of <code class="code">Lamplighter</code> in the example of <code class="func">FRAffineGroup</code> (<a href="chap9.html#X86B124758135DFBD"><span class="RefLink">9.1-30</span></a>).</p>
 
 
 <div class="example"><pre>

@@ -1219,6 +1219,10 @@ SetName(MamaghaniGroup,"MamaghaniGroup");
 InstallValue(WeierstrassGroup,
         SCGroup(MealyMachine([[1,1,1,1],[1,1,1,1],[1,1,1,1],[1,1,1,1],[5,2,3,4]],[(),(1,2)(3,4),(1,3)(2,4),(1,4)(2,3),()])));
 SetName(WeierstrassGroup,"WeierstrassGroup");
+
+InstallValue(StrichartzGroup,
+        FRGroup("a=<b,b,c,c,a,a>","b=(1,2)(3,4)(5,6)","c=(1,6)(2,3)(4,5)"));
+SetName(StrichartzGroup,"StrichartzGroup");
 #############################################################################
 
 #############################################################################

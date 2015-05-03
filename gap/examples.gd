@@ -652,12 +652,31 @@ DeclareGlobalVariable("ZugadiSpinalGroup");
 ##     <!--<P/> Its Lie algebra has polynomial growth.-->
 ##   </Description>
 ## </ManSection>
+##
+## <ManSection>
+##   <Var Name="StrichartzGroup"/>
+##   <Description>
+##     This group generates the graph of the Strichartz hexacarpet.
+##
+##     <P/> The Strichartz hexacarpet is the dual graph to the infinitely
+##     iterated barycentric subdivision of the triangle. The Strichartz group
+##     acts on <M>\{1,\dots,6\}^n</M> for all <M>n</M>, and the Schreier
+##     graph with <M>6^n</M> vertices is the <M>n</M>th Strichartz graph.
+##
+##     <P/> Conjecturally, that graph's radius is
+##     <M>1/18(2^(n+1)(13+3n)+(-1)^n-9)</M> and its diameter is
+##     <M>1/9(2^(n-1)(31+12n)+2(-1)^(n-1)-18)</M>.
+##
+##     <P/> See <Cite Key="MR3004256"/> for details.
+##   </Description>
+## </ManSection>
 ## <#/GAPDoc>
 ##
 DeclareGlobalFunction("HanoiGroup");
 DeclareGlobalVariable("DahmaniGroup");
 DeclareGlobalVariable("MamaghaniGroup");
 DeclareGlobalVariable("WeierstrassGroup");
+DeclareGlobalVariable("StrichartzGroup");
 #############################################################################
 
 #############################################################################
