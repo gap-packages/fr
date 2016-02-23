@@ -56,7 +56,7 @@ wwwdir: doc
 	git push --tags
 	cp PackageInfo.g doc/
 	cp README doc/README.fr
-	(cd doc; git add *.html manual.pdf manual.css PackageInfo.g README.fr; git commit -m 'New html files'; git push github master:gh-pages --force)
+	(cd doc; git add *.html manual.pdf manual.css PackageInfo.g README.fr; git commit -m 'New html files'; git push gh-pages master:gh-pages --force)
 	github-release release --user gap-packages --repo fr --tag v$(VERSION)
 	github-release upload --user gap-packages --repo fr --tag v$(VERSION) --name fr-$(VERSION).tar.gz --file zips/fr-$(VERSION).tar.gz
 	rm doc/PackageInfo.g doc/README.fr
