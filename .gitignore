@@ -21,4 +21,5 @@ doc/*.ilg
 doc/*.ind
 doc/*.out
 doc/*.toc
+doc/manual.pdf
 zips
