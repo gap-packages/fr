@@ -23,4 +23,5 @@ doc/*.out
 doc/*.toc
 doc/manual.pdf
 doc/manual.lab
+gh-pages
 zips
