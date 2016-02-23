@@ -3,7 +3,7 @@
 ##  PackageInfo.g for the package `FR'                    Laurent Bartholdi
 ##
 SetPackageInfo( rec(
-PackageName := "FR",
+PackageName := "fr",
 Subtitle := "Computations with functionally recursive groups",
 Version := "2.3.2",
 Date := "23/02/2016",

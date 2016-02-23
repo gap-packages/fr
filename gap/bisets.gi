@@ -153,12 +153,12 @@ end);
 InstallMethod(ViewString, "(FR) for a biset element by pair",
         [IsBisetElement and IsBisetElementByPair],
         function(e)
-    return CONCAT@FR("(",e!.element,"*",e!.letter,")");
+    return CONCAT@("(",e!.element,"*",e!.letter,")");
 end);
 InstallMethod(PrintString, "(FR) for a biset element by pair",
         [IsBisetElement and IsBisetElementByPair],
         function(e)
-    return CONCAT@FR("BisetElement(",e!.biset,",",e!.element,",",e!.letter,")");
+    return CONCAT@("BisetElement(",e!.biset,",",e!.element,",",e!.letter,")");
 end);
 INSTALLPRINTERS@(IsBisetElement);
 
