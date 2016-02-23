@@ -578,15 +578,6 @@ DeclareAttribute("HeightOfPoset", IsBinaryRelation);
 ##
 #H Find incompressible elements
 ##
-## <#GAPDoc Label="">
-## <ManSection>
-##   <Func Name="" Arg=""/>
-##   <Returns>.</Returns>
-##   <Description>
-##   </Description>
-## </ManSection>
-## <#/GAPDoc>
-##
 if false then
 G := BinaryKneadingGroup(1/6);
 S := [G.1,G.2,G.3];

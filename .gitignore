@@ -22,4 +22,5 @@ doc/*.ind
 doc/*.out
 doc/*.toc
 doc/manual.pdf
+doc/manual.lab
 zips

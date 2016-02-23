@@ -1189,15 +1189,6 @@ InstallMethod(DimensionSeries, "for an algebra with one and a limit",
 ##
 #H Find incompressible elements
 ##
-## <#GAPDoc Label="">
-## <ManSection>
-##   <Func Name="" Arg=""/>
-##   <Returns>.</Returns>
-##   <Description>
-##   </Description>
-## </ManSection>
-## <#/GAPDoc>
-##
 if false then
 ##!! this has nothing to do here
 G := BinaryKneadingGroup(1/6);
