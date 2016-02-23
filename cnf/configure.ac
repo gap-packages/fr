@@ -2,24 +2,17 @@
 ##
 #W  configure.ac                                            Laurent Bartholdi
 ##
-#H   @(#)$Id$
-##
-#Y Copyright (C) 2009, Laurent Bartholdi
+#Y Copyright (C) 2016, Laurent Bartholdi
 ##
 #############################################################################
 
 AC_PREREQ(2.68)
 AC_INIT(fr,,laurent.bartholdi@gmail.com)
 AC_CONFIG_AUX_DIR([cnf])
-AC_CONFIG_MACRO_DIR([cnf/m4])
 AC_PREFIX_DEFAULT([${PWD}])
 
 # Locates GAP
-AC_PROG_CC
 AC_FIND_GAP
-
-AC_SYS_IS_CYGWIN
-AC_SYS_IS_DARWIN
 
 ################################################################
 # external programs configuration

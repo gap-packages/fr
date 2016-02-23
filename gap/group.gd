@@ -1316,9 +1316,7 @@ DeclareProperty("HasCongruenceProperty", IsFRGroup);
 ## <#/GAPDoc>
 ##
 DeclareProperty("IsTorsionGroup", IsGroup);
-if not IsBound(IsTorsionFreeGroup) then
-    DeclareProperty("IsTorsionFreeGroup", IsGroup);
-fi;
+DeclareSynonym("IsTorsionFreeGroup", IsTorsionFree);
 DeclareProperty("IsAmenableGroup", IsGroup);
 DeclareProperty("IsVirtuallySimpleGroup",IsGroup);
 DeclareProperty("IsSQUniversal",IsObject);

@@ -1873,6 +1873,8 @@ BindGlobal("TORSIONNUCLEUS@", function(G)
     return s;
 end);
 
+InstallImmedateMethod(IsTorsionGroup, IsFiniteGroup, 0 ReturnTrue);
+
 InstallMethod(IsTorsionGroup, "(FR) for a self-similar group",
         [IsFRGroup],
         function(G)
@@ -1906,7 +1908,7 @@ end);
 
 InstallTrueMethod(IsTorsionFreeGroup, IsFreeGroup);
 
-InstallMethod(IsSolvableGroup, [IsFreeGroup],
+InstallMethod(IsSolvableGroup, [IsFreeGroup and IsFinitelyGeneratedGroup],
         function(G)
     return RankOfFreeGroup(G)<=1;
 end);

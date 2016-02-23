@@ -1,7 +1,6 @@
 Makefile
 Makefile-*
 config.log
-www
 bin/*
 *~
 sandbox
@@ -9,6 +8,7 @@ frbib.xml.bib
 autom4te.cache
 .DS_Store
 doc/chap*txt
+doc/chap*html
 doc/*.aux
 doc/*.pnr
 doc/*.tex
@@ -21,5 +21,4 @@ doc/*.ilg
 doc/*.ind
 doc/*.out
 doc/*.toc
-myconfigure
 zips
