@@ -5,10 +5,10 @@
 SetPackageInfo( rec(
 PackageName := "FR",
 Subtitle := "Computations with functionally recursive groups",
-Version := "2.3.1",
+Version := "2.3.2",
 Date := "23/02/2016",
 ## <#GAPDoc Label="Version">
-## <!ENTITY Version "2.3.1">
+## <!ENTITY Version "2.3.2">
 ## <!ENTITY Date "23/02/2016">
 ## <#/GAPDoc>
 ArchiveURL := Concatenation("https://github.com/gap-packages/fr/releases/download/v",~.Version,"/fr-",~.Version),
