@@ -11,7 +11,7 @@ Date := "23/02/2016",
 ## <!ENTITY Version "2.3.1">
 ## <!ENTITY Date "23/02/2016">
 ## <#/GAPDoc>
-ArchiveURL := Concatenation("https://github.com/gap-packages/fr/archive/",~.Version),
+ArchiveURL := Concatenation("https://github.com/gap-packages/fr/releases/download/v",~.Version,"/fr-",~.Version),
 ArchiveFormats := ".tar.gz",
 Persons := [
   rec(
