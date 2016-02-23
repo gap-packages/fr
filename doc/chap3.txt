@@ -1,0 +1,791 @@
+  
+  [1X3 [33X[0;0YFunctionally recursive machines[133X[101X
+  
+  [33X[0;0YAt  the  core  of  this  package  are  [13Xfunctionally  recursive machines[113X. The
+  internals  of  specific machines will be described later, but each machine [22XM[122X
+  has  an  associated [13Xalphabet[113X [22XX[122X, a [13Xset of states[113X [22XQ[122X, and a [13Xtransition function[113X
+  [22Xϕ:Q  ×  X  ->  X × Q[122X. An [13Xelement[113X, as we will see in Section [14X4[114X, is given by a
+  machine and an initial state [22Xq∈ Q[122X.[133X
+  
+  [33X[0;0YThe element [22X(M,q)[122X defines a transformation on the set [22XX^*[122X of strings (finite
+  or  infinite)  over  the  alphabet [22XX[122X, as follows: the empty string is always
+  fixed.  Given  a  string  [22Xx_1x_2... x_n[122X with [22Xnge0[122X, compute [22Xϕ(q,x_1)=(y_1,r)[122X;
+  then  compute  the  action  of  [22X(M,r)[122X on the string [22Xx_2... x_n[122X, and call the
+  result  [22Xy_2...  y_n[122X.  Then  the  action  of  [22X(M,q)[122X  on  [22Xx_1x_2... x_n[122X yields
+  [22Xy_1y_2... y_n[122X.[133X
+  
+  [33X[0;0YThis  can  be understood more formally as follows. The transition function [22Xϕ[122X
+  induces  a  map [22Xϕ^n:Q× X^n -> X^n × Q[122X, defined by successively applying [22Xϕ[122X to
+  move the [22XQ[122X from the left to the right. Similarly, [22Xϕ[122X can be extended to a map
+  [22XQ^m× X^n -> X^n × Q^m[122X.[133X
+  
+  [33X[0;0YWe  see  that  the action on finite strings preserves their length, and also
+  preserves prefixes: if [22X(M,q)[122X maps [22Xx_1... x_n[122X to [22Xy_1... y_m[122X, then necessarily
+  [22Xm=n[122X; and if [22Xk<n[122X then [22XT[122X maps [22Xx_1... x_k[122X to [22Xy_1... y_k[122X.[133X
+  
+  [33X[0;0YThe  strings  over  the  alphabet [22XX[122X can be naturally organised into a rooted
+  tree.  The  root represents the empty string, and the strings [22Xx_1... x_n[122X and
+  [22Xx_1... x_n+1[122X are connected by an edge, for all [22Xx_i∈ X[122X.[133X
+  
+  
+  [1X3.1 [33X[0;0YTypes of machines[133X[101X
+  
+  [33X[0;0YMachines  must  be  accessible to computation; therefore it is reasonable to
+  assume that their alphabet [22XX[122X is finite.[133X
+  
+  [33X[0;0YIf the stateset [22XQ[122X is also finite, the machine is called a [13XMealy machine[113X, and
+  its transition function [22Xϕ[122X can be stored as a table.[133X
+  
+  [33X[0;0YMore general machines are obtained if one allows the stateset [22XQ[122X to be a free
+  group/semigroup/monoid  generated  by  a  finite  set  [22XS[122X, and the transition
+  function  [22Xϕ[122X  to be specified on [22XS× X[122X. Its values are then extended naturally
+  by composition.[133X
+  
+  [33X[0;0YMachines store their transitions (second coordinate of [22Xϕ[122X), and their output,
+  (first  coordinate  of  [22Xϕ[122X)  in  a  matrix  indexed  by  state and letter. In
+  particular, [10XPermList(output[state])[110X gives the action on the first level.[133X
+  
+  [33X[0;0YBecause   of  the  way  [5XGAP[105X  handles  permutations  and  transformations,  a
+  permutation  is never equal to a transformation, even though both can answer
+  [9Xtrue[109X  to [22XIsOne[122X. Therefore, [5XFR[105X stores the output as a list, which can be then
+  accessed  (e.g.  in commands such as [10XActivityPerm[110X and [10XActivityTransformation[110X
+  either  as a permutation or as a transformation. The command [10XActivity[110X itself
+  will return a permutation if possible, and otherwise a transformation.[133X
+  
+  
+  [1X3.2 [33X[0;0YProducts of machines[133X[101X
+  
+  [33X[0;0YMachines  can  be  combined in different manners. If two machines act on the
+  same  alphabet,  then  their  [13Xsum[113X and [13Xproduct[113X are defined as machines acting
+  again  on  the  same alphabet; the statesets are the free products (which is
+  also  their sum, in the category of semigroups) of the respective statesets.
+  The  sum or product of machines has a stateset of highest possible category,
+  i.e.  is  a group unless some argument is a monoid, and a monoid unless some
+  argument  is  a semigroup. The transition and output functions are the union
+  of the respective functions of their arguments.[133X
+  
+  [33X[0;0YIf  a non-empty collection of machines have same stateset, then their [13Xtensor
+  sum[113X  and [13Xtensor product[113X are machines again with same stateset; the alphabets
+  on  which  the  machines  act are the disjoint union, respectively cartesian
+  product,  of  the  arguments' alphabets. The transition and output functions
+  are  again  the  union  or  composition of the respective functions of their
+  arguments.[133X
+  
+  [33X[0;0YThe  [13Xdirect  sum[113X  and  [13Xdirect product[113X of a collection of machines are always
+  defined. Its stateset is generated by the union of the arguments' statesets,
+  as  for a sum or a product; its alphabet is the disjoint union, respectively
+  cartesian  product  of  its  arguments'  alphabets,  as  for a tensor sum or
+  product.  The  transition  and  output  functions are again the union of the
+  respective functions of their arguments.[133X
+  
+  
+  [1X3.3 [33X[0;0YCreators for [10XFRMachine[110X[101X[1Xs[133X[101X
+  
+  [1X3.3-1 FRMachineNC[101X
+  
+  [29X[2XFRMachineNC[102X( [3Xfam[103X, [3Xfree[103X, [3Xtransitions[103X, [3Xoutputs[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA new FR machine.[133X
+  
+  [33X[0;0YThis  function  constructs a new FR machine, belonging to family [3Xfam[103X. It has
+  stateset  the free group/semigroup/monoid [3Xfree[103X, and transitions described by
+  [3Xstates[103X and [3Xoutputs[103X.[133X
+  
+  [33X[0;0Y[3Xtransitions[103X  is  a list of lists; [3Xtransitions[103X[[3Xs[103X][[3Xx[103X] is a word in [3Xfree[103X, which
+  is the state reached by the machine when started in state [3Xs[103X and fed input [3Xx[103X.[133X
+  
+  [33X[0;0Y[3Xoutputs[103X is also a list of lists; [3Xoutputs[103X[[3Xs[103X][[3Xx[103X] is the output produced by the
+  machine is in state [3Xs[103X and inputs [3Xx[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xf := FreeGroup(2);[127X[104X
+    [4X[28X<free group on the generators [ f1, f2 ]>[128X[104X
+    [4X[25Xgap>[125X [27Xm := FRMachineNC(FRMFamily([1,2]),f,[[One(f),f.1],[One(f),f.2^-1]],[127X[104X
+    [4X[28X                      [[2,1],[1,2]]);[128X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ f1, f2 ] )>[128X[104X
+  [4X[32X[104X
+  
+  [1X3.3-2 FRMachine[101X
+  
+  [29X[2XFRMachine[102X( [[3Xnames[103X, ][3Xtransitions[103X, [3Xoutputs[103X ) [32X operation
+  [29X[2XFRMachine[102X( [3Xfree[103X, [3Xtransitions[103X, [3Xoutputs[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA new FR machine.[133X
+  
+  [33X[0;0YThis  function  constructs  a  new  FR  machine.  It  has  stateset  a  free
+  group/semigroup/monoid, and structure described by [3Xtransitions[103X and [3Xoutputs[103X.[133X
+  
+  [33X[0;0YIf  there  is  an argument [3Xfree[103X, it is the free group/monoid/semigroup to be
+  used  as  stateset.  Otherwise,  the  stateset  will  be  guessed  from  the
+  [3Xtransitions[103X  and  [3Xoutputs[103X;  it  will  be  a  free  group  if  all states are
+  invertible,  and a monoid otherwise. [3Xnames[103X is then an optional list, with at
+  position  [3Xs[103X  a  string naming generator [3Xs[103X of the stateset. If [3Xnames[103X contains
+  too few entries, they are completed by the names [3X__1,__2,...[103X.[133X
+  
+  [33X[0;0Y[3Xtransitions[103X  is  a list of lists; [10Xtransitions[s][x][110X is either an associative
+  word, or a list of integers describing the state reached by the machine when
+  started  in  state [3Xs[103X and fed input [3Xx[103X. Positive integers indicate a generator
+  index,  negative integers its inverse, the empty list in the identity state,
+  and  lists  of  length  greater than one indicate a product of states. If an
+  entry  is  an  FR  element,  then its machine is incorporated into the newly
+  constructed one.[133X
+  
+  [33X[0;0Y[3Xoutputs[103X   is   a   list;   at  position  [3Xs[103X  it  contains  a  permutation,  a
+  transformation,  or  a  list  of  integers (the images of a transformation),
+  describing  the  activity  of  state  [3Xs[103X.  If  all states are invertible, the
+  outputs   are   all   converted   to  permutations,  while  if  there  is  a
+  non-invertible state then the outputs are all converted to transformations.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xn := FRMachine(["tau","mu"],[[[],[1]],[[],[-2]]],[(1,2),(1,2)]);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ tau, mu ] )>[128X[104X
+    [4X[25Xgap>[125X [27Xm=n;[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(n);[127X[104X
+    [4X[28X     |     1         2[128X[104X
+    [4X[28X-----+--------+---------+[128X[104X
+    [4X[28X tau | <id>,2     tau,1[128X[104X
+    [4X[28X  mu | <id>,2   mu^-1,1[128X[104X
+    [4X[28X-----+--------+---------+[128X[104X
+    [4X[25Xgap>[125X [27Xm := FRMachine([[[],[FRElement(n,1)]]],[()]);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ f1, f2, f3 ] )>[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(m);[127X[104X
+    [4X[28X    |     1         2[128X[104X
+    [4X[28X----+--------+---------+[128X[104X
+    [4X[28X f1 | <id>,1      f2,2[128X[104X
+    [4X[28X f2 | <id>,2      f2,1[128X[104X
+    [4X[28X f3 | <id>,2   f1^-1,1[128X[104X
+    [4X[28X----+--------+---------+[128X[104X
+    [4X[25Xgap>[125X [27Xf := FreeGroup(2);[127X[104X
+    [4X[28X<free group on the generators [ f1, f2 ]>[128X[104X
+    [4X[25Xgap>[125X [27Xp := FRMachine(f,[[One(f),f.1],[One(f),f.2^-1],[(1,2),(1,2)]);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ f1, f2 ] )>[128X[104X
+    [4X[25Xgap>[125X [27Xn=p;[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X3.3-3 UnderlyingFRMachine[101X
+  
+  [29X[2XUnderlyingFRMachine[102X( [3Xobj[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YAn FR machine underlying [3Xobj[103X.[133X
+  
+  [33X[0;0YFR  elements,  FR  groups etc. often have an underlying FR machine, which is
+  returned by this command.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := FRMachine(["a","b"],[[[],[2]],[[],[1]]],[(1,2),()]);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ a, b ] )>[128X[104X
+    [4X[25Xgap>[125X [27Xa := FRElement(m,1); b := FRElement(m,2);[127X[104X
+    [4X[28X<2|a>[128X[104X
+    [4X[28X<2|b>[128X[104X
+    [4X[25Xgap>[125X [27XUnderlyingFRMachine(a)=m;[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X3.3-4 AsGroupFRMachine[101X
+  
+  [29X[2XAsGroupFRMachine[102X( [3Xm[103X ) [32X attribute
+  [29X[2XAsMonoidFRMachine[102X( [3Xm[103X ) [32X attribute
+  [29X[2XAsSemigroupFRMachine[102X( [3Xm[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YAn FR machine isomorphic to [3Xm[103X, on a free group/monoid/semigroup.[133X
+  
+  [33X[0;0YThis  function constructs, from the FR machine [3Xm[103X, an isomorphic FR machine [10Xn[110X
+  with    a   free   group/monoid/semigroup   as   stateset.   The   attribute
+  [10XCorrespondence(n)[110X is a mapping (homomorphism or list) from the stateset of [3Xm[103X
+  to the stateset of [10Xn[110X.[133X
+  
+  [33X[0;0Y[3Xm[103X  can  be an arbitrary FR machine, or can be an free group/monoid/semigroup
+  endomorphism. It is then converted to an FR machine on a 1-letter alphabet.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xs := FreeSemigroup(1);;[127X[104X
+    [4X[25Xgap>[125X [27Xsm := FRMachine(s,[[GeneratorsOfSemigroup(s)[1],[127X[104X
+    [4X[28X                         GeneratorsOfSemigroup(s)[1]^2]],[(1,2)]);[128X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Semigroup( [ s1 ] )>[128X[104X
+    [4X[25Xgap>[125X [27Xm := FreeMonoid(1);;[127X[104X
+    [4X[25Xgap>[125X [27Xmm := FRMachine(m,[[One(m),GeneratorsOfMonoid(m)[1]^2]],[(1,2)]);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Monoid( [ m1 ], ... )>[128X[104X
+    [4X[25Xgap>[125X [27Xg := FreeGroup(1);;[127X[104X
+    [4X[25Xgap>[125X [27Xgm := FRMachine(g,[[One(g),GeneratorsOfGroup(g)[1]^-2]],[(1,2)]);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ f1 ] )>[128X[104X
+    [4X[25Xgap>[125X [27XAsGroupFRMachine(sm); Display(last);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ f1 ] )>[128X[104X
+    [4X[28X    |   1        2[128X[104X
+    [4X[28X----+------+--------+[128X[104X
+    [4X[28X f1 | f1,2   f1^2,1[128X[104X
+    [4X[28X----+------+--------+[128X[104X
+    [4X[25Xgap>[125X [27XCorrespondence(last);[127X[104X
+    [4X[28XMappingByFunction( <free semigroup on the generators[128X[104X
+    [4X[28X[ s1 ]>, <free group on the generators [ f1 ]>, function( w ) ... end )[128X[104X
+    [4X[25Xgap>[125X [27XAsGroupFRMachine(mm); Display(last);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ f1 ] )>[128X[104X
+    [4X[28X    |     1        2[128X[104X
+    [4X[28X----+--------+--------+[128X[104X
+    [4X[28X f1 | <id>,2   f1^2,1[128X[104X
+    [4X[28X----+--------+--------+[128X[104X
+    [4X[25Xgap>[125X [27XAsGroupFRMachine(gm); Display(last);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ f1 ] )>[128X[104X
+    [4X[28X    |     1         2[128X[104X
+    [4X[28X----+--------+---------+[128X[104X
+    [4X[28X f1 | <id>,2   f1^-2,1[128X[104X
+    [4X[28X----+--------+---------+[128X[104X
+    [4X[25Xgap>[125X [27XAsMonoidFRMachine(sm); Display(last);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Monoid( [ m1 ], ... )>[128X[104X
+    [4X[28X    |   1        2[128X[104X
+    [4X[28X----+------+--------+[128X[104X
+    [4X[28X m1 | m1,2   m1^2,1[128X[104X
+    [4X[28X  ----+------+--------+[128X[104X
+    [4X[25Xgap>[125X [27XAsMonoidFRMachine(mm); Display(last);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Monoid( [ m1 ], ... )>[128X[104X
+    [4X[28X    |     1        2[128X[104X
+    [4X[28X----+--------+--------+[128X[104X
+    [4X[28X m1 | <id>,2   m1^2,1[128X[104X
+    [4X[28X----+--------+--------+[128X[104X
+    [4X[25Xgap>[125X [27XAsMonoidFRMachine(gm); Display(last);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Monoid( [ m1, m2 ], ... )>[128X[104X
+    [4X[28X    |     1        2[128X[104X
+    [4X[28X----+--------+--------+[128X[104X
+    [4X[28X m1 | <id>,2   m2^2,1[128X[104X
+    [4X[28X m2 | m1^2,2   <id>,1[128X[104X
+    [4X[28X----+--------+--------+[128X[104X
+    [4X[25Xgap>[125X [27XAsSemigroupFRMachine(sm); Display(last);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Semigroup( [ s1 ] )>[128X[104X
+    [4X[28X    |   1        2[128X[104X
+    [4X[28X----+------+--------+[128X[104X
+    [4X[28X s1 | s1,2   s1^2,1[128X[104X
+    [4X[28X----+------+--------+[128X[104X
+    [4X[25Xgap>[125X [27XAsSemigroupFRMachine(mm); Display(last);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Semigroup( [ s1, s2 ] )>[128X[104X
+    [4X[28X    |   1        2[128X[104X
+    [4X[28X----+------+--------+[128X[104X
+    [4X[28X s1 | s2,2   s1^2,1[128X[104X
+    [4X[28X s2 | s2,1     s2,2[128X[104X
+    [4X[28X----+------+--------+[128X[104X
+    [4X[25Xgap>[125X [27XAsSemigroupFRMachine(gm); Display(last);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Semigroup( [ s1, s2, s3 ] )>[128X[104X
+    [4X[28X    |     1        2[128X[104X
+    [4X[28X----+--------+--------+[128X[104X
+    [4X[28X s1 |   s3,2   s2^2,1[128X[104X
+    [4X[28X s2 | s1^2,2     s3,1[128X[104X
+    [4X[28X s3 |   s3,1     s3,2[128X[104X
+    [4X[28X----+--------+--------+[128X[104X
+    [4X[28Xgap>[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(GuptaSidkiMachines(3));[127X[104X
+    [4X[28X   |  1     2     3[128X[104X
+    [4X[28X---+-----+-----+-----+[128X[104X
+    [4X[28X a | a,1   a,2   a,3[128X[104X
+    [4X[28X b | a,2   a,3   a,1[128X[104X
+    [4X[28X c | a,3   a,1   a,2[128X[104X
+    [4X[28X d | b,1   c,2   d,3[128X[104X
+    [4X[28X---+-----+-----+-----+[128X[104X
+    [4X[25Xgap>[125X [27XAsGroupFRMachine(GuptaSidkiMachines(3));[127X[104X
+    [4X[28X<FR machine with alphabet [ 1 .. 3 ] on Group( [ f1, f2 ] )>[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(last);[127X[104X
+    [4X[28X    |     1         2        3[128X[104X
+    [4X[28X----+--------+---------+--------+[128X[104X
+    [4X[28X f1 | <id>,2    <id>,3   <id>,1[128X[104X
+    [4X[28X f2 |   f1,1   f1^-1,2     f2,3[128X[104X
+    [4X[28X----+--------+---------+--------+[128X[104X
+    [4X[25Xgap>[125X [27XCorrespondence(last);[127X[104X
+    [4X[28X[ <identity ...>, f1, f1^-1, f2 ][128X[104X
+    [4X[25Xgap>[125X [27XAsGroupFRMachine(GroupHomomorphism(g,g,[g.1],[g.1^3]));[127X[104X
+    [4X[28X<FR machine with alphabet [ 1 ] on Group( [ f1 ] )>[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(last);[127X[104X
+    [4X[28X G  |     1[128X[104X
+    [4X[28X----+--------+[128X[104X
+    [4X[28X f1 | f1^3,1[128X[104X
+    [4X[28X----+--------+[128X[104X
+  [4X[32X[104X
+  
+  [1X3.3-5 AsGroupFRMachine[101X
+  
+  [29X[2XAsGroupFRMachine[102X( [3Xf[103X ) [32X attribute
+  [29X[2XAsMonoidFRMachine[102X( [3Xf[103X ) [32X attribute
+  [29X[2XAsSemigroupFRMachine[102X( [3Xf[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YAn FR machine.[133X
+  
+  [33X[0;0YThis  function creates an FR machine on a 1-letter alphabet, that represents
+  the  endomorphism  [3Xf[103X.  It is specially useful when combined with products of
+  machines; indeed the usual product of machines corresponds to composition of
+  endomorphisms.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xf := FreeGroup(2);;[127X[104X
+    [4X[25Xgap>[125X [27Xh := GroupHomomorphismByImages(f,f,[f.1,f.2],[f.2,f.1*f.2]);[127X[104X
+    [4X[28X[ f1, f2 ] -> [ f2, f1*f2 ][128X[104X
+    [4X[25Xgap>[125X [27Xm := AsGroupFRMachine(h);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1 ] on Group( [ f1, f2 ] )>[128X[104X
+    [4X[25Xgap>[125X [27Xmm := TensorProduct(m,m);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1 ] on Group( [ f1, f2 ] )>[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(mm);[127X[104X
+    [4X[28X G  |         1[128X[104X
+    [4X[28X----+------------+[128X[104X
+    [4X[28X f1 |    f1*f2,1[128X[104X
+    [4X[28X f2 | f2*f1*f2,1[128X[104X
+    [4X[28X----+------------+[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X3.4 [33X[0;0YAttributes for [10XFRMachine[110X[101X[1Xs[133X[101X
+  
+  [1X3.4-1 StateSet[101X
+  
+  [29X[2XStateSet[102X( [3Xm[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YThe set of states associated with [3Xm[103X.[133X
+  
+  [33X[0;0YThis  function  returns  the  stateset of [3Xm[103X. It can be either a list (if the
+  machine  is  of  Mealy type), or a free group/semigroup/monoid (in all other
+  cases).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xn := FRMachine(["tau","mu"],[[[],[1]],[[],[-2]]],[(1,2),(1,2)]);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ tau, mu ] )>[128X[104X
+    [4X[25Xgap>[125X [27XStateSet(n);[127X[104X
+    [4X[28X<free group on the generators [ tau, mu ]>[128X[104X
+    [4X[25Xgap>[125X [27XStateSet(AsMealyMachine(n));[127X[104X
+    [4X[28X[ 1 .. 4 ][128X[104X
+  [4X[32X[104X
+  
+  [1X3.4-2 GeneratorsOfFRMachine[101X
+  
+  [29X[2XGeneratorsOfFRMachine[102X( [3Xm[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YThe generating set of the stateset of [3Xm[103X.[133X
+  
+  [33X[0;0YThis  function  returns  the  generating set of the stateset of [3Xm[103X. If [3Xm[103X is a
+  Mealy machine, it returs the stateset.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xn := FRMachine(["tau","mu"],[[[],[1]],[[],[-2]]],[(1,2),(1,2)]);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ tau, mu ] )>[128X[104X
+    [4X[25Xgap>[125X [27XGeneratorsOfFRMachine(n);[127X[104X
+    [4X[28X[ tau, mu ][128X[104X
+  [4X[32X[104X
+  
+  [1X3.4-3 Output[101X
+  
+  [29X[2XOutput[102X( [3Xm[103X ) [32X operation
+  [29X[2XOutput[102X( [3Xm[103X, [3Xs[103X ) [32X operation
+  [29X[2XOutput[102X( [3Xm[103X, [3Xs[103X, [3Xx[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA transformation of [3Xm[103X's alphabet.[133X
+  
+  [33X[0;0YIn the first form, this function returns the output of [3Xm[103X.[133X
+  
+  [33X[0;0YIn the second form, this function returns the transformation of [3Xm[103X's alphabet
+  associated  with  state  [3Xs[103X.  This  transformation  is  returned as a list of
+  images.[133X
+  
+  [33X[0;0Y[3Xs[103X  is  also  allowed  to  be  a list, in which case it is interpreted as the
+  corresponding product of states.[133X
+  
+  [33X[0;0YIn the third form, the result is actually the image of [3Xx[103X under [10XOutput(m,s)[110X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xn := FRMachine(["a","b"],[[[],[2]],[[],[1]]],[(1,2),()]);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ a, b ] )>[128X[104X
+    [4X[25Xgap>[125X [27XOutput(n,[1,2]);[127X[104X
+    [4X[28X[2,1][128X[104X
+    [4X[25Xgap>[125X [27XOutput(n,Product(GeneratorsOfFRMachine(n)));[127X[104X
+    [4X[28X[2,1][128X[104X
+  [4X[32X[104X
+  
+  [1X3.4-4 Transition[101X
+  
+  [29X[2XTransition[102X( [3Xm[103X, [3Xs[103X, [3Xi[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YAn element of [3Xm[103X's stateset.[133X
+  
+  [33X[0;0YThis function returns the state reached by [3Xm[103X when started in state [3Xs[103X and fed
+  input  [3Xi[103X.  This  input  may  be an alphabet letter or a sequence of alphabet
+  letters.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xn := FRMachine(["a","b"],[[[],[2]],[[],[1]]],[(1,2),()]);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ a, b ] )>[128X[104X
+    [4X[25Xgap>[125X [27XTransition(n,[2,1],2);[127X[104X
+    [4X[28Xa*b[128X[104X
+    [4X[25Xgap>[125X [27XTransition(n,Product(GeneratorsOfFRMachine(n))^2,1);[127X[104X
+    [4X[28Xa*b[128X[104X
+  [4X[32X[104X
+  
+  [1X3.4-5 Transitions[101X
+  
+  [29X[2XTransitions[102X( [3Xm[103X, [3Xs[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA list of elements of [3Xm[103X's stateset.[133X
+  
+  [33X[0;0YThis  function  returns  the states reached by [3Xm[103X when started in state [3Xs[103X and
+  fed  inputs  from the alphabet. The state may be expressed as a word or as a
+  list of states.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xn := FRMachine(["a","b"],[[[],[2]],[[],[1]]],[(1,2),()]);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ a, b ] )>[128X[104X
+    [4X[25Xgap>[125X [27XTransitions(n,[2,1]);[127X[104X
+    [4X[28X[ <identity ...>, a*b ][128X[104X
+    [4X[25Xgap>[125X [27XTransitions(n,Product(GeneratorsOfFRMachine(n))^2);[127X[104X
+    [4X[28X[ a*b, b*a ][128X[104X
+  [4X[32X[104X
+  
+  [1X3.4-6 WreathRecursion[101X
+  
+  [29X[2XWreathRecursion[102X( [3Xm[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YA function on the stateset of [3Xm[103X.[133X
+  
+  [33X[0;0YThis  function  returns  a  function  on  [3Xm[103X's  stateset.  This  function, on
+  receiving  state  [3Xq[103X  as  input,  returns  a  list. Its first entry is a list
+  indexed  by  [3Xm[103X's  alphabet, with in position [3Xx[103X the state [3Xm[103X would be in if it
+  received  input  [3Xx[103X  when  in  state  [3Xq[103X.  The second entry is the list of the
+  permutation of [3Xm[103X's alphabet induced by [3Xq[103X.[133X
+  
+  [33X[0;0Y[3XWreathRecursion(machine)(q)[1][a][103X  is  equal  to [3XTransition(machine,q,a)[103X and
+  [3XWreathRecursion(machine)(q)[2][103X is equal to [3XOutput(machine,q)[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xn := FRMachine(["a","b"],[[[],[2]],[[],[1]]],[(1,2),()]);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ a, b ] )>[128X[104X
+    [4X[25Xgap>[125X [27XWreathRecursion(n)(GeneratorsOfFRMachine(n)[1]);[127X[104X
+    [4X[28X[ [ <identity ...>, b ], [2,1] ][128X[104X
+    [4X[25Xgap>[125X [27XWreathRecursion(n)(GeneratorsOfFRMachine(n)[2]);[127X[104X
+    [4X[28X[ [ <identity ...>, a ], [1,2] ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X3.5 [33X[0;0YOperations for [10XFRMachine[110X[101X[1Xs[133X[101X
+  
+  [1X3.5-1 StructuralGroup[101X
+  
+  [29X[2XStructuralGroup[102X( [3Xm[103X ) [32X operation
+  [29X[2XStructuralMonoid[102X( [3Xm[103X ) [32X operation
+  [29X[2XStructuralSemigroup[102X( [3Xm[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA   finitely   presented   group/monoid/semigroup   capturing  the
+            structure of [3Xm[103X.[133X
+  
+  [33X[0;0YThis  function  returns  a  finitely  presented group/monoid/semigroup, with
+  generators    the    union    of   the   [2XAlphabetOfFRObject[102X   ([14X10.1-3[114X)   and
+  [2XGeneratorsOfFRMachine[102X  ([14X3.4-2[114X)  of  [3Xm[103X,  and  relations  all [22Xqa'=aq'[122X whenever
+  [22Xϕ(q,a)=(a',q')[122X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xn := FRMachine(["a","b","c"],[[[2],[3]],[[3],[2]],[[1],[1]]],[(1,2),(1,2),()]);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ a, b, c ] )>[128X[104X
+    [4X[25Xgap>[125X [27XStructuralGroup(n);[127X[104X
+    [4X[28X<fp group on the generators [ a, b, c, 1, 2 ]>[128X[104X
+    [4X[25Xgap>[125X [27XRelatorsOfFpGroup(last);[127X[104X
+    [4X[28X[ a*2*b^-1*1^-1, a*1*c^-1*2^-1, b*2*c^-1*1^-1,[128X[104X
+    [4X[28X  b*1*b^-1*2^-1, c*1*a^-1*1^-1, c*2*a^-1*2^-1 ][128X[104X
+    [4X[25Xgap>[125X [27XSimplifiedFpGroup(last2);[127X[104X
+    [4X[28X<fp group on the generators [ a, 1 ]>[128X[104X
+    [4X[25Xgap>[125X [27XRelatorsOfFpGroup(last);[127X[104X
+    [4X[28X[ 1^-1*a^2*1^4*a^-2*1^-1*a*1^-2*a^-1, 1*a*1^-1*a*1^2*a^-1*1*a^-2*1^-3*a,[128X[104X
+    [4X[28X  1^-1*a^2*1^2*a^-1*1^-1*a*1^2*a^-2*1^-2 ][128X[104X
+  [4X[32X[104X
+  
+  [1X3.5-2 \+[101X
+  
+  [29X[2X\+[102X( [3Xm1[103X, [3Xm2[103X ) [32X method
+  [6XReturns:[106X  [33X[0;10YA new FR machine, in the same family as its arguments.[133X
+  
+  [33X[0;0YThis  function  returns  a  new FR machine [10Xr[110X, with stateset generated by the
+  union  of  the  statesets  of  its  arguments.  The arguments [3Xm1[103X and [3Xm2[103X must
+  operate  on  the same alphabet. If the stateset of [3Xm1[103X is free on [22Xn_1[122X letters
+  and  the  stateset  of [3Xm2[103X is free on [22Xn_2[122X letters, then the stateset of their
+  sum  is  free  on  [22Xn_1+n_2[122X  letters, with the first [22Xn_1[122X identified with [3Xm1[103X's
+  states and the next [22Xn_2[122X with [3Xm2[103X's.[133X
+  
+  [33X[0;0YThe transition and output functions are naturally extended to the sum.[133X
+  
+  [33X[0;0YThe arguments may be free group, semigroup or monoid machines. The sum is in
+  the weakest containing category: it is a group machine if both arguments are
+  group  machines; a monoid if both are either group of monoid machines; and a
+  semigroup machine otherwise.[133X
+  
+  [33X[0;0YThe  maps  from  the  stateset  of  [3Xm1[103X  and  [3Xm2[103X  to the stateset of [10Xr[110X can be
+  recovered    as    [10XCorrespondence(r)[1][110X    and   [10XCorrespondence(r)[2][110X;   see
+  [2XCorrespondence[102X ([14X3.5-12[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtau := FRMachine([[[],[1]]],[(1,2)]);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ f1 ] )>[128X[104X
+    [4X[25Xgap>[125X [27Xmu := FRMachine([[[],[-1]]],[(1,2)]);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ f1 ] )>[128X[104X
+    [4X[25Xgap>[125X [27Xsum := tau+mu;; Display(sum);[127X[104X
+    [4X[28X     |     1          2[128X[104X
+    [4X[28X-----+--------+----------+[128X[104X
+    [4X[28X f11 | <id>,2      f11,1[128X[104X
+    [4X[28X f12 | <id>,2   f12^-1,1[128X[104X
+    [4X[28X-----+--------+----------+[128X[104X
+    [4X[25Xgap>[125X [27XCorrespondence(sum)[1];[127X[104X
+    [4X[28X[ f1 ] -> [ f11 ][128X[104X
+    [4X[25Xgap>[125X [27XGeneratorsOfFRMachine(tau)[1]^last;[127X[104X
+    [4X[28Xf11[128X[104X
+  [4X[32X[104X
+  
+  [1X3.5-3 \*[101X
+  
+  [29X[2X\*[102X( [3Xmachine1[103X, [3Xmachine2[103X ) [32X method
+  [6XReturns:[106X  [33X[0;10YA new FR machine, in the same family as its arguments.[133X
+  
+  [33X[0;0YThe  product  of two FR machines coincides with their sum, since the natural
+  free  object  mapping  to  the  product of the statesets is generated by the
+  union of the statesets. See therefore [2X\+[102X ([14X3.5-2[114X).[133X
+  
+  [1X3.5-4 TensorSumOp[101X
+  
+  [29X[2XTensorSumOp[102X( [3XFR_machines[103X, [3Xmachine[103X ) [32X method
+  [6XReturns:[106X  [33X[0;10YA  new  FR  machine  on  the  disjoint  union  of  the  arguments'
+            alphabets.[133X
+  
+  [33X[0;0YThe  tensor  sum  of  FR  machines  with  same stateset is defined as the FR
+  machine  acting  on  the disjoint union of the alphabets; if these alphabets
+  are  [10X[1..n1][110X up to [10X[1..nk][110X, then the alphabet of their sum is [10X[1..n1+...+nk][110X
+  and the transition functions are similarly concatenated.[133X
+  
+  [33X[0;0YThe  first  argument  is  a list; the second argument is any element of that
+  list, and is used only to improve the method selection algorithm.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := TensorSum(AddingMachine(2),AddingMachine(3),AddingMachine(4));[127X[104X
+    [4X[28XAddingMachine(2)(+)AddingMachine(3)(+)AddingMachine(4)[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(m);[127X[104X
+    [4X[28X   |  1     2     3     4     5     6     7     8     9[128X[104X
+    [4X[28X---+-----+-----+-----+-----+-----+-----+-----+-----+-----+[128X[104X
+    [4X[28X a | a,1   a,2   a,3   a,4   a,5   a,6   a,7   a,8   a,9[128X[104X
+    [4X[28X b | a,2   b,1   a,4   a,5   b,3   a,7   a,8   a,9   b,6[128X[104X
+    [4X[28X---+-----+-----+-----+-----+-----+-----+-----+-----+-----+[128X[104X
+  [4X[32X[104X
+  
+  [1X3.5-5 TensorProductOp[101X
+  
+  [29X[2XTensorProductOp[102X( [3XFR[103X, [3Xmachines[103X, [3Xmachine[103X ) [32X method
+  [6XReturns:[106X  [33X[0;10YA  new  FR  machine  on  the  cartesian  product of the arguments'
+            alphabets.[133X
+  
+  [33X[0;0YThe  tensor  product  of FR machines with same stateset is defined as the FR
+  machine  acting  on  the  cartesian product of the alphabets. The transition
+  function  and  output  function  behave as if a single letter, in the tensor
+  product's  alphabet,  were a word (read from left to right) in the machines'
+  alphabets.[133X
+  
+  [33X[0;0YThe  first  argument  is  a list; the second argument is any element of that
+  list, and is used only to improve the method selection algorithm.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := TensorProduct(AddingMachine(2),AddingMachine(3));[127X[104X
+    [4X[28XAddingMachine(2)(*)AddingMachine(3)[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(last);[127X[104X
+    [4X[28X   |  1     2     3     4     5     6[128X[104X
+    [4X[28X---+-----+-----+-----+-----+-----+-----+[128X[104X
+    [4X[28X a | a,1   a,2   a,3   a,4   a,5   a,6[128X[104X
+    [4X[28X b | a,4   a,5   a,6   a,2   a,3   b,1[128X[104X
+    [4X[28X---+-----+-----+-----+-----+-----+-----+[128X[104X
+  [4X[32X[104X
+  
+  [1X3.5-6 DirectSumOp[101X
+  
+  [29X[2XDirectSumOp[102X( [3XFR[103X, [3Xmachines[103X, [3Xmachine[103X ) [32X method
+  [6XReturns:[106X  [33X[0;10YA  new  FR  machine  on  the  disjoint  union  of  the  arguments'
+            alphabets.[133X
+  
+  [33X[0;0YThe  direct  sum  of  FR machines is defined as the FR machine with stateset
+  generated  by  the  disjoint  union of the statesets, acting on the disjoint
+  union  of  the alphabets; if these alphabets are [10X[1..n1][110X up to [10X[1..nk][110X, then
+  the  alphabet  of  their sum is [10X[1..n1+...+nk][110X and the output and transition
+  functions are similarly concatenated.[133X
+  
+  [33X[0;0YThe  first  argument  is  a list; the second argument is any element of that
+  list, and is used only to improve the method selection algorithm.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := DirectSum(AddingMachine(2),AddingMachine(3),AddingMachine(4));[127X[104X
+    [4X[28XAddingMachine(2)#AddingMachine(3)#AddingMachine(4)[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(m);[127X[104X
+    [4X[28X   |  1     2     3     4     5     6     7     8     9[128X[104X
+    [4X[28X---+-----+-----+-----+-----+-----+-----+-----+-----+-----+[128X[104X
+    [4X[28X a | a,1   a,2   a,3   a,4   a,5   a,6   a,7   a,8   a,9[128X[104X
+    [4X[28X b | a,2   b,1   b,3   b,4   b,5   b,6   b,7   b,8   b,9[128X[104X
+    [4X[28X c | c,1   c,2   a,3   a,4   a,5   c,6   c,7   c,8   c,9[128X[104X
+    [4X[28X d | d,1   d,2   a,4   a,5   b,3   d,6   d,7   d,8   d,9[128X[104X
+    [4X[28X e | e,1   e,2   e,3   e,4   e,5   a,6   a,7   a,8   a,9[128X[104X
+    [4X[28X f | f,1   f,2   f,3   f,4   f,5   a,7   a,8   a,9   b,6[128X[104X
+    [4X[28X---+-----+-----+-----+-----+-----+-----+-----+-----+-----+[128X[104X
+  [4X[32X[104X
+  
+  [1X3.5-7 DirectProductOp[101X
+  
+  [29X[2XDirectProductOp[102X( [3XFR[103X, [3Xmachines[103X, [3Xmachine[103X ) [32X method
+  [6XReturns:[106X  [33X[0;10YA  new  FR  machine  on  the  cartesian  product of the arguments'
+            alphabets.[133X
+  
+  [33X[0;0YThe direct product of FR machines is defined as the FR machine with stateset
+  generated  by  the  product  of  the statesets, acting on the product of the
+  alphabets;  if  these alphabets are [10X[1..n1][110X up to [10X[1..nk][110X, then the alphabet
+  of  their  product is [10X[1..n1*...*nk][110X and the output and transition functions
+  act component-wise.[133X
+  
+  [33X[0;0YThe  first  argument  is  a list; the second argument is any element of that
+  list, and is used only to improve the method selection algorithm.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := DirectProduct(AddingMachine(2),AddingMachine(3));[127X[104X
+    [4X[28XAddingMachine(2)xAddingMachine(3)[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(last);[127X[104X
+    [4X[28X   |  1     2     3     4     5     6[128X[104X
+    [4X[28X---+-----+-----+-----+-----+-----+-----+[128X[104X
+    [4X[28X a | a,1   a,2   a,3   a,4   a,5   a,6[128X[104X
+    [4X[28X b | a,2   a,3   b,1   a,5   a,6   b,4[128X[104X
+    [4X[28X c | a,4   a,5   a,6   c,1   c,2   c,3[128X[104X
+    [4X[28X d | a,5   a,6   b,4   c,2   c,3   d,1[128X[104X
+    [4X[28X---+-----+-----+-----+-----+-----+-----+[128X[104X
+  [4X[32X[104X
+  
+  [1X3.5-8 TreeWreathProduct[101X
+  
+  [29X[2XTreeWreathProduct[102X( [3Xm[103X, [3Xn[103X, [3Xx0[103X, [3Xy0[103X ) [32X method
+  [6XReturns:[106X  [33X[0;10YA  new  FR  machine  on  the  cartesian  product of the arguments'
+            alphabets.[133X
+  
+  [33X[0;0YThe  [13Xtree-wreath  product[113X  of  two  FR  machines  is a machine acting on the
+  product  of  its arguments' alphabets [22XX,Y[122X, in such a way that many images of
+  the first machine's states under conjugation by the second commute.[133X
+  
+  [33X[0;0YIt  is  introduced  (in  lesser  generality,  and  with small variations) in
+  [Sid05],  and  may  be  described  as  follows:  one takes two copies of the
+  stateset  of  [3Xm[103X,  one copy of the stateset of [3Xn[103X, and, if necessary, an extra
+  identity state.[133X
+  
+  [33X[0;0YThe  first  copy  of  [3Xm[103X  fixes  the  alphabet  [22XX×  Y[122X;  its state [22Xtilde s[122X has
+  transitions  to  the  identity except [22Xtilde s[122X at [22X(x0,y0)[122X and [22Xs[122X at [22X(*,y0)[122X for
+  any  other  [22X*[122X.  The  second  copy of [3Xm[103X is also trivial except that, on input
+  [22X(x,y0)[122X,  its  state  [22Xs[122X  goes  to  state  [22Xs'[122X  with  output [22X(x',y0)[122X whenever [22Xs[122X
+  originally  went,  on  input  [22Xx[122X,  to state [22Xs'[122X with output [22Xx'[122X. This copy of [3Xm[103X
+  therefore  acts  only  in  the  [22XX[122X  direction,  on the subtree [22X(X×{y0})^∞[122X, on
+  subtrees below vertices of the form [22X(x0,y0)^t(x,y0)[122X.[133X
+  
+  [33X[0;0YA  state  [22Xt[122X  in the copy of [3Xn[103X maps the input [22X(x,y)[122X to [22X(x,y')[122X and proceeds to
+  state  [22Xt'[122X  if [22Xy=y0[122X, and to the identity state otherwise, when on input [22Xy[122X the
+  original machine mapped state [22Xt[122X to output [22Xt'[122X and output [22Xy'[122X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := TreeWreathProduct(AddingMachine(2),AddingMachine(3),1,1);[127X[104X
+    [4X[28XAddingMachine(2)~AddingMachine(3)[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(last);[127X[104X
+    [4X[28X   |  1     2     3     4     5     6[128X[104X
+    [4X[28X---+-----+-----+-----+-----+-----+-----+[128X[104X
+    [4X[28X a | c,2   c,3   a,1   c,5   c,6   c,4[128X[104X
+    [4X[28X b | c,4   c,2   c,3   b,1   c,5   c,6[128X[104X
+    [4X[28X c | c,1   c,2   c,3   c,4   c,5   c,6[128X[104X
+    [4X[28X d | d,1   c,2   c,3   b,4   c,5   c,6[128X[104X
+    [4X[28X---+-----+-----+-----+-----+-----+-----+[128X[104X
+  [4X[32X[104X
+  
+  [1X3.5-9 SubFRMachine[101X
+  
+  [29X[2XSubFRMachine[102X( [3Xmachine1[103X, [3Xmachine2[103X ) [32X operation
+  [29X[2XSubFRMachine[102X( [3Xmachine1[103X, [3Xf[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YEither  [9Xfail[109X  or  an  embedding  of  the states of [3Xmachine2[103X in the
+            states of [3Xmachine1[103X.[133X
+  
+  [33X[0;0YIn  its  first  form, this function attempts to locate a copy of [3Xmachine2[103X in
+  [3Xmachine1[103X.  If  is  succeeds,  it returns a homomorphism from the stateset of
+  [3Xmachine2[103X into the stateset of [3Xmachine1[103X; otherwise it returns [9Xfail[109X.[133X
+  
+  [33X[0;0YIn  its  second  form,  this  function  attempts to construct a machine with
+  stateset  the  source  of  [3Xf[103X,  that  could  be identified as a submachine of
+  [3Xmachine1[103X via [3Xf[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xn := FRMachine(["tau","mu"],[[[],[1]],[[],[-2]]],[(1,2),(1,2)]);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ tau, mu ] )>[128X[104X
+    [4X[25Xgap>[125X [27Xtauinv := FRMachine([[[1],[]]],[(1,2)]);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ f1 ] )>[128X[104X
+    [4X[25Xgap>[125X [27XSubFRMachine(n,tauinv);[127X[104X
+    [4X[28X[ f1 ] -> [ tau^-1 ][128X[104X
+    [4X[25Xgap>[125X [27XSubFRMachine(n,last);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ f1 ] )>[128X[104X
+  [4X[32X[104X
+  
+  [1X3.5-10 ChangeFRMachineBasis[101X
+  
+  [29X[2XChangeFRMachineBasis[102X( [3Xm[103X[, [3Xl[103X][, [3Xp[103X] ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YAn equivalent FR machine, in a new basis.[133X
+  
+  [33X[0;0YThis  function constructs a new group FR machine, given a group FR machine [3Xm[103X
+  and,  optionally,  a  list  of  states  [3Xl[103X  (as  elements  of the free object
+  [10XStateSet(m)[110X)   and   a   permutation  [3Xp[103X,  which  defaults  to  the  identity
+  permutation.[133X
+  
+  [33X[0;0YThe  new  machine  has  the  following  transitions: if alphabet letter [10Xa[110X is
+  mapped  to  [10Xb[110X by state [10Xs[110X in [3Xm[103X, leading to state [10Xt[110X, then, in the new machine,
+  the  input  letter  [10Xa^p[110X  is  mapped  to  [10Xb^p[110X  by  state  [10Xs[110X, leading to state
+  [10Xl[a]^-1*t*l[b][110X.[133X
+  
+  [33X[0;0YThe  group generated by the new machine is isomorphic to the group generated
+  by  [3Xm[103X.  This command amounts to a change of basis of the associated bimodule
+  (see  [Nek05,  Section  2.2]). It amounts to conjugation by the automorphism
+  [10Xc=FRElement("c",[l[1]*c,...,l[n]*c],[()],1)[110X.[133X
+  
+  [33X[0;0YIf  the  second  argument  is absent, this command attempts to choose a list
+  that makes many entries of the recursion trivial.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xn := FRMachine(["tau","mu"],[[[],[1]],[[],[-2]]],[(1,2),(1,2)]);;[127X[104X
+    [4X[25Xgap>[125X [27XDisplay(n);[127X[104X
+    [4X[28X G   |     1         2[128X[104X
+    [4X[28X-----+--------+---------+[128X[104X
+    [4X[28X tau | <id>,2     tau,1[128X[104X
+    [4X[28X  mu | <id>,2   mu^-1,1[128X[104X
+    [4X[28X-----+--------+---------+[128X[104X
+    [4X[25Xgap>[125X [27Xnt := ChangeFRMachineBasis(n,GeneratorsOfFRMachine(n){[1,1]});;[127X[104X
+    [4X[25Xgap>[125X [27XDisplay(nt);[127X[104X
+    [4X[28X G   |     1                    2[128X[104X
+    [4X[28X-----+--------+--------------------+[128X[104X
+    [4X[28X tau | <id>,2                tau,1[128X[104X
+    [4X[28X  mu | <id>,2   tau^-1*mu^-1*tau,1[128X[104X
+    [4X[28X-----+--------+--------------------+[128X[104X
+  [4X[32X[104X
+  
+  [1X3.5-11 Minimized[101X
+  
+  [29X[2XMinimized[102X( [3Xm[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA minimized machine equivalent to [3Xm[103X.[133X
+  
+  [33X[0;0YThis  function  attempts  to construct a machine equivalent to [3Xm[103X, but with a
+  stateset  of  smaller  rank.  Identical generators are collapsed to a single
+  generator  of  the  stateset; if [3Xm[103X is a group or monoid machine then trivial
+  generators  are  removed;  if  [3Xm[103X  is  a  group machine then mutually inverse
+  generators  are  grouped.  This  function  sets  as [10XCorrespondence(result)[110X a
+  mapping  between  the  stateset  of  [3Xm[103X  and  the stateset of the result; see
+  [2XCorrespondence[102X ([14X3.5-12[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xn := FRMachine(["tau","mu"],[[[],[1]],[[],[-2]]],[(1,2),(1,2)]);;[127X[104X
+    [4X[25Xgap>[125X [27Xm := FRMachine(["tauinv"],[[[1],[]]],[(1,2)]);;[127X[104X
+    [4X[25Xgap>[125X [27Xsum := n+m+n;[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ tau1, mu1, tauinv1, tau2, mu2 ] )>[128X[104X
+    [4X[25Xgap>[125X [27Xmin := Minimized(sum);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ tau1, mu1 ] )>[128X[104X
+    [4X[25Xgap>[125X [27XCorrespondence(min);[127X[104X
+    [4X[28X[ tau1, mu1, tauinv1, tau2, mu2 ] -> [ tau1, mu1, tau1^-1, tau1, mu1 ][128X[104X
+  [4X[32X[104X
+  
+  [1X3.5-12 Correspondence[101X
+  
+  [29X[2XCorrespondence[102X( [3Xm[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YA mapping between statesets of FR machines.[133X
+  
+  [33X[0;0YIf  a  machine  [3Xm[103X was created as a minimized group/monoid/semigroup machine,
+  then  [10XCorrespondence(m)[110X  is  a  mapping between the stateset of the original
+  machine and the stateset of [3Xm[103X. See [2XMinimized[102X ([14X3.5-11[114X) for an example.[133X
+  
+  [33X[0;0YIf  [3Xm[103X  was created as a minimized Mealy machine, then [10XCorrespondence(m)[110X is a
+  list identifying, for each state of the original machine, a state of the new
+  machine. If the original state is inaccessible, the corresponding list entry
+  is unbound. See [2XMinimized[102X ([14X5.2-2[114X) for an example.[133X
+  
+  [33X[0;0YIf  [3Xm[103X was created using [2XAsGroupFRMachine[102X ([14X3.3-4[114X), [2XAsMonoidFRMachine[102X ([14X3.3-4[114X),
+  [2XAsSemigroupFRMachine[102X    ([14X3.3-4[114X),    or    [2XAsMealyMachine[102X    ([14X5.2-18[114X),   then
+  [10XCorrespondence(m)[110X is a list or a homomorphism identifying for each generator
+  of  the  original machine a generator, or word in the generators, of the new
+  machine. It is a list if either the original or the final machine is a Mealy
+  machine, and a homomorphism in other cases.[133X
+  
+  [33X[0;0YIf  [3Xm[103X  was  created  as  a  sum  of  two  machines,  then  [3Xm[103X  has  a mapping
+  [10XCorrespondence(m)[i][110X  between  the  stateset  of  machine  [10Xi=1,2[110X and its own
+  stateset. See [2X\+[102X ([14X3.5-2[114X) for an example.[133X
+  

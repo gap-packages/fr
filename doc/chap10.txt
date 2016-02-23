@@ -1,0 +1,542 @@
+  
+  [1X10 [33X[0;0YFR implementation details[133X[101X
+  
+  [33X[0;0Y[5XFR[105X creates new categories for the various objects considered in the package.
+  The  first  category is [10XFRObject[110X; all objects are in this category, and have
+  an [10XAlphabet[110X method.[133X
+  
+  [33X[0;0YThere  are  two categories below: [10XFRMachine[110X and [10XFRElement[110X. An [10XFRMachine[110X must
+  have  a [10XStateSet[110X, and methods for [10XOutput[110X and a [10XTransition[110X. An [10XFRElement[110X must
+  have  an  underlying [10XFRMachine[110X and [10XInitialState[110X, and [10XOutput[110X and a [10XTransition[110X
+  that use the initial state.[133X
+  
+  [33X[0;0YA  self-similar  group is simply a collections category of FR elements which
+  is also a group.[133X
+  
+  
+  [1X10.1 [33X[0;0YThe family of FR objects[133X[101X
+  
+  [33X[0;0YAll FR objects have an associated [2XAlphabetOfFRObject[102X ([14X10.1-3[114X).[133X
+  
+  [1X10.1-1 FRMFamily[101X
+  
+  [29X[2XFRMFamily[102X( [3Xobj[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10Ythe family of FR machines on alphabet [3Xobj[103X.[133X
+  
+  [33X[0;0YThe  family  of  an FR object is the arity of the tree on which elements cat
+  act; in other words, there is one family for each alphabet.[133X
+  
+  [1X10.1-2 FREFamily[101X
+  
+  [29X[2XFREFamily[102X( [3Xobj[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10Ythe family of FR elements on alphabet [3Xobj[103X.[133X
+  
+  [33X[0;0YThe  family  of  an FR object is the arity of the tree on which elements cat
+  act; in other words, there is one family for each alphabet.[133X
+  
+  [33X[0;0YThe argument may be an FR machine, an alphabet, or a family of FR machines.[133X
+  
+  [1X10.1-3 AlphabetOfFRObject[101X
+  
+  [29X[2XAlphabetOfFRObject[102X( [3Xobj[103X ) [32X operation
+  [29X[2XAlphabetOfFRAlgebra[102X( [3Xobj[103X ) [32X operation
+  [29X[2XAlphabetOfFRSemigroup[102X( [3Xobj[103X ) [32X operation
+  [29X[2XAlphabet[102X( [3Xobj[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10Ythe alphabet associated with [3Xobj[103X.[133X
+  
+  [33X[0;0YThis  command  applies  to  the  family  of  any FR object, or to the object
+  themselves. Alphabets are returned as lists, and in pratice are generally of
+  the form [10X[1..n][110X.[133X
+  
+  [1X10.1-4 AsPermutation[101X
+  
+  [29X[2XAsPermutation[102X( [3Xo[103X ) [32X method
+  
+  [33X[0;0YThis  method  takes  as argument an FR object [3Xo[103X: machine, element, or group,
+  and  produces  an  equivalent  object  whose  outputs  are  permutations. In
+  particular,  it  converts  Mealy  machines from domain representation to int
+  representation.[133X
+  
+  [33X[0;0YIf this is not possible, the method returns [9Xfail[109X.[133X
+  
+  [1X10.1-5 AsTransformation[101X
+  
+  [29X[2XAsTransformation[102X( [3Xo[103X ) [32X method
+  
+  [33X[0;0YThis  method  takes  as argument an FR object [3Xo[103X: machine, element, or group,
+  and  produces  an  equivalent  object  whose outputs are transformations. In
+  particular,  it  converts  Mealy  machines from domain representation to int
+  representation.[133X
+  
+  [33X[0;0YSince  transformations  can  never  be  inverted  by [5XGAP[105X, even when they are
+  invertible, this function returns a monoid when applied to a full SC group.[133X
+  
+  
+  [1X10.2 [33X[0;0YFilters for [10XFRObject[110X[101X[1Xs[133X[101X
+  
+  [1X10.2-1 IsGroupFRMachine[101X
+  
+  [29X[2XIsGroupFRMachine[102X( [3Xobj[103X ) [32X property
+  [29X[2XIsMonoidFRMachine[102X( [3Xobj[103X ) [32X property
+  [29X[2XIsSemigroupFRMachine[102X( [3Xobj[103X ) [32X property
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X   if   [3Xobj[103X  is  an  FR  machine  whose  stateset  is  a  free
+            group/monoid/semigroup.[133X
+  
+  [33X[0;0YThis  function  is  the  acceptor  for those functionally recursive machines
+  whose  stateset (accessible via [2XStateSet[102X ([14X3.4-1[114X)) is a free group, monoid or
+  semigroup.   The   generating   set   of  its  stateset  is  accessible  via
+  [2XGeneratorsOfFRMachine[102X ([14X3.4-2[114X).[133X
+  
+  [1X10.2-2 IsFRMachineStrRep[101X
+  
+  [29X[2XIsFRMachineStrRep[102X( [3Xobj[103X ) [32X filter
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is a standard (group,monoid,semigroup) FR machine.[133X
+  
+  [33X[0;0YThere is a free object [10Xfree[110X, of rank [22XN[122X, a list [10Xtransitions[110X of length [22XN[122X, each
+  entry  a  list,  indexed  by  the  alphabet, of elements of [10Xfree[110X, and a list
+  [10Xoutput[110X of length [10XN[110X of transformations or permutations of the alphabet.[133X
+  
+  [1X10.2-3 IsMealyMachine[101X
+  
+  [29X[2XIsMealyMachine[102X( [3Xobj[103X ) [32X filter
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is a Mealy machine.[133X
+  
+  [33X[0;0YThis  function  is  the  acceptor  for  the  [13XMealy machine[113X subcategory of [13XFR
+  machine[113Xs.[133X
+  
+  [1X10.2-4 IsMealyElement[101X
+  
+  [29X[2XIsMealyElement[102X( [3Xobj[103X ) [32X filter
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is a Mealy element.[133X
+  
+  [33X[0;0YThis  function  is  the  acceptor  for  the  [13XMealy element[113X subcategory of [13XFR
+  element[113Xs.[133X
+  
+  [1X10.2-5 IsMealyMachineIntRep[101X
+  
+  [29X[2XIsMealyMachineIntRep[102X( [3Xobj[103X ) [32X filter
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is a Mealy machine in integer representation.[133X
+  
+  [33X[0;0YA   Mealy   machine  in  [13Xinteger[113X  representation  has  components  [10Xnrstates[110X,
+  [10Xtransitions[110X, [10Xoutput[110X and optionally [10Xinitial[110X.[133X
+  
+  [33X[0;0YIts   stateset   is   [10X[1..nrstates][110X,   its  transitions  is  a  matrix  with
+  [10Xtransitions[s][x][110X  the transition from state [10Xs[110X with input [10Xx[110X, its output is a
+  list  of  transformations  or  permutations,  and  its  initial  state is an
+  integer.[133X
+  
+  [1X10.2-6 IsMealyMachineDomainRep[101X
+  
+  [29X[2XIsMealyMachineDomainRep[102X( [3Xobj[103X ) [32X filter
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is a Mealy machine in domain representation.[133X
+  
+  [33X[0;0YA Mealy machine in [13Xdomain[113X representation has components [10Xstates[110X, [10Xtransitions[110X,
+  [10Xoutput[110X and optionally [10Xinitial[110X.[133X
+  
+  [33X[0;0YIts  states is a domain, its transitions is a function with [10Xtransitions(s,x)[110X
+  the  transition  from  state  [10Xs[110X  with input [10Xx[110X, its output is a function with
+  [10Xoutput(s,x)[110X  the output from input [10Xx[110X in state [10Xs[110X, and its initial state is an
+  elemnent of [10Xstates[110X.[133X
+  
+  [1X10.2-7 IsVectorFRMachineRep[101X
+  
+  [29X[2XIsVectorFRMachineRep[102X( [3Xobj[103X ) [32X filter
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is a vector machine[133X
+  
+  [33X[0;0YA   [13Xvector   machine[113X   is   a  representation  of  a  linear  machine  by  a
+  finite-dimensional  vector  space  (implicit in the structure), a transition
+  tensor  (represented  as  a  matrix  of  matrices),  and  an  output  vector
+  (represented as a list).[133X
+  
+  [1X10.2-8 IsAlgebraFRMachineRep[101X
+  
+  [29X[2XIsAlgebraFRMachineRep[102X( [3Xobj[103X ) [32X filter
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is an algebra machine[133X
+  
+  [33X[0;0YAn  [13Xalgebra  machine[113X  is  a representation of a linear machine by a finitely
+  generated  free algebra, a tensor of transitions, indexed by generator index
+  and  two  alphabet  indices,  and  an  output vector, indexed by a generator
+  index.[133X
+  
+  [33X[0;0YThe  transition  tensor's  last  two entries are the 0 and 1 matrix over the
+  free  algebra,  and  the  output  tensor's  last two entries are the 0 and 1
+  elements of the left acting domain.[133X
+  
+  [1X10.2-9 IsLinearFRMachine[101X
+  
+  [29X[2XIsLinearFRMachine[102X( [3Xobj[103X ) [32X filter
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is a linear machine.[133X
+  
+  [33X[0;0YThis  function  is  the  acceptor  for  the [13Xlinear machine[113X subcategory of [13XFR
+  machine[113Xs.[133X
+  
+  [1X10.2-10 IsLinearFRElement[101X
+  
+  [29X[2XIsLinearFRElement[102X( [3Xobj[103X ) [32X filter
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is a linear element.[133X
+  
+  [33X[0;0YThis  function  is  the  acceptor  for  the [13Xlinear element[113X subcategory of [13XFR
+  element[113Xs.[133X
+  
+  [1X10.2-11 IsFRElement[101X
+  
+  [29X[2XIsFRElement[102X( [3Xobj[103X ) [32X filter
+  [29X[2XIsSemigroupFRElement[102X( [3Xobj[103X ) [32X filter
+  [29X[2XIsMonoidFRElement[102X( [3Xobj[103X ) [32X filter
+  [29X[2XIsGroupFRElement[102X( [3Xobj[103X ) [32X filter
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is an FR element.[133X
+  
+  [33X[0;0YThis filter is the acceptor for the [13Xfunctionally recursive element[113X category.[133X
+  
+  [33X[0;0YIt  implies that [3Xobj[103X has an underlying FR machine, may act on sequences, and
+  has a recursive [2XDecompositionOfFRElement[102X ([14X4.2-6[114X).[133X
+  
+  [33X[0;0YThe  next  filters  specify  the  type of free object the stateset of [3Xobj[103X is
+  modelled on.[133X
+  
+  [1X10.2-12 IsFRMealyElement[101X
+  
+  [29X[2XIsFRMealyElement[102X( [3Xobj[103X ) [32X filter
+  [29X[2XIsSemigroupFRMealyElement[102X( [3Xobj[103X ) [32X filter
+  [29X[2XIsMonoidFRMealyElement[102X( [3Xobj[103X ) [32X filter
+  [29X[2XIsGroupFRMealyElement[102X( [3Xobj[103X ) [32X filter
+  [29X[2XUnderlyingMealyElement[102X( [3Xobj[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is an FR element.[133X
+  
+  [33X[0;0YThis filter is the acceptor for the [13Xfunctionally recursive element[113X category,
+  with   an   additional   Mealy   element  stored  as  attribute  for  faster
+  calculations.  It  defines  a  subcategory  of  [2XIsFRElement[102X  ([14X10.2-11[114X). This
+  additional Mealy element may be obtained as [10XUnderlyingMealyElement(obj)[110X.[133X
+  
+  [33X[0;0YThe  next  filters  specify  the  type of free object the stateset of [3Xobj[103X is
+  modelled on.[133X
+  
+  [1X10.2-13 IsFRObject[101X
+  
+  [29X[2XIsFRObject[102X( [3Xobj[103X ) [32X filter
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is an FR machine or element.[133X
+  
+  [33X[0;0YThis function is the acceptor for the most general FR category (which splits
+  up as [2XIsFRMachine[102X ([14X10.2-14[114X) and [2XIsFRElement[102X ([14X10.2-11[114X)).[133X
+  
+  [33X[0;0YIt implies that [3Xobj[103X has an attribute [2XAlphabetOfFRObject[102X ([14X10.1-3[114X).[133X
+  
+  [1X10.2-14 IsFRMachine[101X
+  
+  [29X[2XIsFRMachine[102X( [3Xobj[103X ) [32X filter
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is an FR machine.[133X
+  
+  [33X[0;0YThis  function  is  the  acceptor  for  the  [13Xfunctionally  recursive machine[113X
+  category.  It  splits  up as [2XIsGroupFRMachine[102X ([14X10.2-1[114X), [2XIsSemigroupFRMachine[102X
+  ([14X10.2-1[114X), [2XIsMonoidFRMachine[102X ([14X10.2-1[114X) and [2XIsMealyMachine[102X ([14X10.2-3[114X)).[133X
+  
+  [33X[0;0YIt  implies  that [3Xobj[103X has attributes [2XStateSet[102X ([14X3.4-1[114X), [2XGeneratorsOfFRMachine[102X
+  ([14X3.4-2[114X),  and [2XWreathRecursion[102X ([14X3.4-6[114X); the last two are usually not used for
+  Mealy machines.[133X
+  
+  [1X10.2-15 IsInvertible[101X
+  
+  [29X[2XIsInvertible[102X( [3Xm[103X ) [32X property
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xm[103X is an invertible FR machine.[133X
+  
+  [33X[0;0YThis  function  accepts  invertible  FR  machines, i.e. machines [3Xm[103X such that
+  [22X(m,q)[122X  is  an  invertible  transformation  of  the alphabet for all [22Xq[122X in the
+  stateset of [3Xm[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := FRMachine([[[],[]]],[(1,2)]);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ f1 ] )>[128X[104X
+    [4X[25Xgap>[125X [27XIsInvertible(m);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27Xm := FRMachine([[[],[]]],[[1,1]]);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Monoid( [ m1 ], ... )>[128X[104X
+    [4X[25Xgap>[125X [27XIsInvertible(m);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X10.2-16 IsFRGroup[101X
+  
+  [29X[2XIsFRGroup[102X( [3Xobj[103X ) [32X filter
+  [29X[2XIsFRMonoid[102X( [3Xobj[103X ) [32X filter
+  [29X[2XIsFRSemigroup[102X( [3Xobj[103X ) [32X filter
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is a FR group/monoid/semigroup.[133X
+  
+  [33X[0;0YThese   functions   accept   [13Xself-similar   groups/monoids/semigroups[113X,  i.e.
+  groups/monoids/semigroups whose elements are FR elements.[133X
+  
+  [1X10.2-17 IsFRAlgebra[101X
+  
+  [29X[2XIsFRAlgebra[102X( [3Xobj[103X ) [32X filter
+  [29X[2XIsFRAlgebraWithOne[102X( [3Xobj[103X ) [32X filter
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is a FR algebra [with one].[133X
+  
+  [33X[0;0YThese functions accept [13Xself-similar algebras [with one][113X, i.e. algebras whose
+  elements are linear FR elements.[133X
+  
+  
+  [1X10.3 [33X[0;0YSome of the algorithms implemented[133X[101X
+  
+  [33X[0;0YFew calculations with infinite groups can be guaranteed to terminate --- and
+  especially  to terminate within reasonable time. This section describes some
+  of the algorithms implemented in [5XFR[105X.[133X
+  
+  [1X10.3-1 FRMachineRWS[101X
+  
+  [29X[2XFRMachineRWS[102X( [3Xm[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YA record containing a rewriting system for [3Xm[103X.[133X
+  
+  [33X[0;0YElements  of  an  FR  machine  are  compared using a rewriting system, which
+  records all known relations among states of the machine.[133X
+  
+  [33X[0;0YOne  may  specify via an optional argument [10X:fr_maxlen:=n[110X, the maximal length
+  of rules to be added. By default, this maximum length is 5.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xn := FRMachine(["a","b"],[[[],[2]],[[],[1]]],[(1,2),()]);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1, 2 ] on Group( [ a, b ] )>[128X[104X
+    [4X[25Xgap>[125X [27XFRMachineRWS(n);[127X[104X
+    [4X[28Xrec( rws := Knuth Bendix Rewriting System for Monoid( [ a^-1, a, b^-1, b[128X[104X
+    [4X[28X     ], ... ) with rules[128X[104X
+    [4X[28X    [ [ a^-1*a, <identity ...> ], [ a*a^-1, <identity ...> ],[128X[104X
+    [4X[28X      [ b^-1*b, <identity ...> ], [ b*b^-1, <identity ...> ] ],[128X[104X
+    [4X[28X  tzrules := [ [ [ 1, 2 ], [  ] ], [ [ 2, 1 ], [  ] ], [ [ 3, 4 ], [  ] ],[128X[104X
+    [4X[28X      [ [ 4, 3 ], [  ] ] ], letterrep := function( w ) ... end,[128X[104X
+    [4X[28X  pi := function( w ) ... end, reduce := function( w ) ... end,[128X[104X
+    [4X[28X  addgprule := function( w ) ... end, commit := function(  ) ... end,[128X[104X
+    [4X[28X  restart := function(  ) ... end )[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X10.3-2 [33X[0;0YOrder of FR elements[133X[101X
+  
+  [33X[0;0YThe  order  of an FR element [10Xe[110X is computed as follows: the tree is traversed
+  recursively,  filling it as follows. For each cycle of [10Xe[110X on the first level,
+  the  product  of the states on that cycle are computed. The method continues
+  recursively  with  that  product, remembering the order of the cycle. Once a
+  state reappears in the traversal, [5XFR[105X determines if one instance of the state
+  is  in the subtree of the other, and if so whether the top one was raised to
+  a  non-trivial  power  to  yield the second one as a state. If this happens,
+  then  [10Xe[110X  has  infinite  order.  Otherwise,  the least common multiple of the
+  powers that appeared in the traversal is returned.[133X
+  
+  [33X[0;0YThis  method  is guaranteed to succeed if [10Xe[110X is a bounded element. To improve
+  chances   of   success,   [5XFR[105X   first  computes  whether  [10Xe[110X  acts  by  vertex
+  transformations  belonging to an abelian group; and if so, if [10Xe[110X is conjugate
+  to an adding machine. In that case too, [10Xe[110X has infinite order.[133X
+  
+  
+  [1X10.3-3 [33X[0;0YMembership in semigroups[133X[101X
+  
+  [33X[0;0YThe following algorithm is used to determine whether a Mealy element belongs
+  to  a  self-similar  group. The corresponding problem of membership of an FR
+  element in a state-closed self-similar group can be much simpler, because an
+  FR  element  has an associated FR machine, all of whose states belong to the
+  group.[133X
+  
+  [33X[0;0YAssume  the  group  is given by generators. [5XFR[105X attempts to express the given
+  Mealy  element  as  a product of generators. At the same time, it constructs
+  epimorphisms  to  finite groups. It is hoped that one of these two processes
+  will stop.[133X
+  
+  [33X[0;0YThis  amounts,  in  fact,  to  the following. Consider a group [22XG[122X acting on a
+  tree.  It  has  a  natural, profinite closure [22Xoverline G[122X. The algorithm then
+  attempts either to write an element [22Xx[122X as a product of generators of [3XG[103X, or to
+  show that [22Xx[122X does not belong to [22Xoverline G[122X.[133X
+  
+  [33X[0;0YThere  are  groups  [22XG[122X  such  that [22Xoverline G∖ G[122X contains Mealy machines. For
+  these, the above algorithm will not terminate.[133X
+  
+  [33X[0;0YAn   additional   refinement   is   implemented   for  bounded  groups  (see
+  [2XIsBoundedFRSemigroup[102X  ([14X7.2-14[114X)).  The  [2XGerms[102X  ([14X5.2-24[114X)  of  an  element  are
+  computed, and compared to the germs of elements in the group.[133X
+  
+  [33X[0;0YFinally,  for a group that possesses self-similar data (see Section [14X10.3-9[114X),
+  very  fast methods are implemented to recognize and express an FR element as
+  a product of generators.[133X
+  
+  
+  [1X10.3-4 [33X[0;0YThe conjugacy problem[133X[101X
+  
+  [33X[0;0YThe conjugacy problem for self-similar branch groups has been implemented by
+  Thorsten Groth, as part of his Diploma Thesis. His code is integrated in [5XFR[105X.[133X
+  
+  [33X[0;0YSpecialized  algorithms  are  implemented for the Grigorchuk and Gupta-Sidki
+  groups,  and  a  generic  algorithm  is  implemented,  which  is however not
+  guaranteed to succeed. The implementation follows [BBSZ13].[133X
+  
+  [33X[0;0YThe following extra attibutes are part of his implementation:[133X
+  
+  [1X10.3-5 OrbitSignalizer[101X
+  
+  [29X[2XOrbitSignalizer[102X( [3Xg[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YThe Orbit Signalizer of the group element [3Xg[103X[133X
+  
+  [33X[0;0YThis  attribute computes the orbit signalizer of an element. This is the set
+  [22XOS(g) := {g^|Orb_g(v)|@v ∣ v ∈ X^*}[122X where [22XX[122X is the alphabet of the element [3Xg[103X
+  and [22XOrb_g(v)[122X is the orbit of [22Xv[122X under [22X⟨ g ⟩[122X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xa := MealyElement([[2,2],[2,2]],[(1,2),()],1);[127X[104X
+    [4X[28X<Mealy element on alphabet [ 1 .. 2 ] with 2 states>[128X[104X
+    [4X[25Xgap>[125X [27XOrbitSignalizer(a);[127X[104X
+    [4X[28X[ <Mealy element on alphabet [ 1 .. 2 ] with 2 states>, <Trivial Mealy element on alphabet [ 1 .. 2 ]> ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YDeclareAttribute("OrbitSignalizer", IsFRElement);[133X
+  
+  [1X10.3-6 FRConjugacyAlgorithm[101X
+  
+  [29X[2XFRConjugacyAlgorithm[102X( [3XG[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YA function which solves the conjugacy problem for [3XG[103X[133X
+  
+  [33X[0;0YThis  attribute  stores  a  function  in  three  arguments  which computes a
+  representative conjugator if exists or fail otherwise.[133X
+  
+  [33X[0;0YThis  attribute  is  not  meant to have a standard setter but to be set if a
+  specialized conjugacy algorithm for a certain group is discovered.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xf := FRConjugacyAlgorithm(GrigorchukGroup);[127X[104X
+    [4X[28Xfunction( G, g, h ) ... end[128X[104X
+    [4X[25Xgap>[125X [27XAssignGeneratorVariables(GrigorchukGroup);[127X[104X
+    [4X[28X#I  Assigned the global variables [ "a", "b", "c", "d" ][128X[104X
+    [4X[25Xgap>[125X [27Xf(GrigorchukGroup,a,a^b);[127X[104X
+    [4X[28X<Mealy element on alphabet [ 1 .. 2 ] with 5 states>[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YDeclareAttribute("FRConjugacyAlgorithm", IsFRGroup,2);[133X
+  
+  [1X10.3-7 FRBranchGroupConjugacyData[101X
+  
+  [29X[2XFRBranchGroupConjugacyData[102X( [3XG[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YThe initial data for the branch algorithm for [3XG[103X[133X
+  
+  [33X[0;0YThis attribute records the data for the branch algorithm. The record has the
+  following components:[133X
+  
+  [8Xinitial_conj_dic:[108X
+        [33X[0;6YDictionary   of  already  known  conjugacy  pairs  with  corresponding
+        conjugator tuples. This has to cover at least the TorsionNucleus of [3XG[103X[133X
+  
+  [8XBranchstructure[108X
+        [33X[0;6YUsally calculated by the function BranchStructure[133X
+  
+  [8XRepSystem[108X
+        [33X[0;6YList of representatives of [22XG/K[122X where [22XK[122X is the branching subgroup of [3XG[103X[133X
+  
+  [33X[0;0YDeclareAttribute("FRBranchGroupConjugacyData", IsFRGroup,"mutable");[133X
+  
+  
+  [1X10.3-8 [33X[0;0YOrder of groups[133X[101X
+  
+  [33X[0;0YThe  order  of  an  FR  group  is computed as follows: if all generators are
+  finitary,  then  enumeration  will  succeed  in  computing the order. If the
+  action  of  the  group  is  primitive,  and  it  comes  from  a bireversible
+  automaton,  then  the  Thompson-Wielandt  theorem  is  tested  against. This
+  theorem states that, in our context (a group acting on a rooted tree, coming
+  from  a  larger  group acting transitively), if the group is finite then the
+  stabilizer  of  a  sphere  of radius 2 is a [22Xp[122X-group; see [BM00a, Proposition
+  2.1.1].  Then, [5XFR[105X attempts to find whether the group is level-transitive (in
+  which  case  it  would  be  infinite). Finally, it attempts to enumerate the
+  group's  elements,  testing  at  the  same  time whether these elements have
+  infinite order.[133X
+  
+  [33X[0;0YNeedless to say, none except the first few steps are guaranteed to succeed.[133X
+  
+  
+  [1X10.3-9 [33X[0;0YImages and preimages of some groups in f.p. and l.p. groups[133X[101X
+  
+  [33X[0;0YContracting,  branched  groups  admit finite L-presentations (see [Bar03b]),
+  that   is,   presentations   by   finitely  many  generators,  relators  and
+  endomorphisms;  the  (usual)  relators  are the images of the given relators
+  under iteration by all endomorphisms.[133X
+  
+  [33X[0;0YUsing  the  package  [5XNQL[105X,  it  is  possible  to construct infinite nilpotent
+  quotients of self-similar groups, and perform fast computations in them.[133X
+  
+  [33X[0;0YIt  is possible to construct, algorithmically, such an L-presentation from a
+  self-similar  groups;  however, this algorithm has not been implemented yet,
+  mainly  because  efficiency  issues  would  make  it usable only in very few
+  cases.[133X
+  
+  [33X[0;0YFor  groups  with  an  isomorphism  to  an L-presented group (constructed by
+  [2XIsomorphismLpGroup[102X  ([14X7.2-31[114X)),  a  fast  method  expresses group elements as
+  words  in the L-presented group's generators. It proceeds recursively on the
+  decomposition of the element, mapping elements that are expressible by short
+  words  over  the  nucleus  (usually  length  1;  length  3 is needed for the
+  [2XBrunnerSidkiVieiraGroup[102X  ([14X9.1-13[114X))  to their value in the L-presented group,
+  and   using   the   presentation's  endomorphism  to  construct  words  with
+  appropriate decompositions.[133X
+  
+  [33X[0;0YIn  particular,  the  algorithm  will  stop,  returning  [9Xfail[109X, if during the
+  recursion it reaches an element [22Xx[122X such that [22Xx[122X is a state of [22Xx[122X but [22Xx[122X does not
+  belong to the nucleus.[133X
+  
+  
+  [1X10.3-10 [33X[0;0YComparison of FR, Mealy, vector, and algebra elements[133X[101X
+  
+  [33X[0;0YFR and Mealy elements can be compared quite efficiently, as long as they are
+  distinct.  The  algorithm  runs as follows: let the two elements be [22Xx[122X and [22Xy[122X.
+  Considering  both  in turn, [5XFR[105X constructs the first entries of minimal Mealy
+  elements  expressing  [22Xx[122X  and [22Xy[122X; as soon as an output entry is distinct for [22Xx[122X
+  and  for  [22Xy[122X,  the  status of [22Xx<y[122X is determined; and similarly for transition
+  entries.  Finally,  if either of [22Xx[122X or [22Xy[122X is finite-state and the entries were
+  identical  up  to  that  step,  then  the  element with smallest stateset is
+  considered smaller.[133X
+  
+  [33X[0;0YIn  this  way,  FR and Mealy elements can efficiently be compared. For Mealy
+  elements,  it suffices to follow their internal data; while for FR elements,
+  this  amounts  to  constructing  Mealy  elements  approximating  them  to  a
+  sufficient precision so that they can be compared as such.[133X
+  
+  [33X[0;0YThe  algorithm  first tries to test its arguments for equality; this test is
+  not guaranteed to succeed.[133X
+  
+  [33X[0;0YA similar algorithm applies for linear elements. Here, one constructs vector
+  element approximations; and compares, for ever-increasing values of [22Xi[122X, first
+  the  output  vectors  of basis state [22Xi[122X; then the transitions from state [22Xi[122X to
+  state  [22Xj[122X,  for all [22Xj∈{1,...,i}[122X; then the transitions from state [22Xj[122X to state [22Xi[122X
+  for all [22Xj∈{1,...,i-1}[122X.[133X
+  
+  
+  [1X10.3-11 [33X[0;0YInverses of linear elements[133X[101X
+  
+  [33X[0;0YIt  is  probably  difficult  to compute the inverse of a vector element. The
+  following  approach  is  used:  to  compute the inverse of [22Xx[122X, large (scalar)
+  matrix  approximations  of  [22Xx[122X  are  computed; they are inverted using linear
+  algebra;  a  vector  element  representing  this inverse is guessed; and the
+  guess  is  checked.  As  long as that check fails, larger approximations are
+  computed.[133X
+  
+  [33X[0;0YNeedless to say, this method need not succeed; for there are vector elements
+  that  are invertible, but whose inverse is not a vector element. A good test
+  example  appears  in  [Bac08]:  consider the infinite matrix with 1's on the
+  diagonal,  and  [22Xω[122X  below the diagonal. This element admits an inverse if and
+  only  if  [22Xω[122X  is  a root of unity. The complexity of the inverse grows as the
+  degree of [22Xω[122X grows. Here is an illustation:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xbacher := function(n)[127X[104X
+    [4X[28X  local f;[128X[104X
+    [4X[28X  f := CyclotomicField(n);[128X[104X
+    [4X[28X  return VectorElement(f,One(f)*[[[[1,0],[0,0]],[128X[104X
+    [4X[28X	[[0,0],[0,1]]],[[[0,1],[0,0]],[[1,0],[0,0]]]],[One(f),E(n)],[One(f),Zero(f)]);[128X[104X
+    [4X[28Xend;;[128X[104X
+    [4X[25Xgap>[125X [27XInverse(bacher(3));[127X[104X
+    [4X[28X<Linear element on alphabet CF(3)^2 with 4-dimensional stateset>[128X[104X
+    [4X[28X6 gap> Inverse(bacher(5));[128X[104X
+    [4X[28X<Linear element on alphabet CF(5)^2 with 6-dimensional stateset>[128X[104X
+  [4X[32X[104X
+  
+                [22Xn[122X │ 1    2    3    4    5    6    7    8    9    10
+        dimension │      2    4    4    6    3    5    5    8    5 
+        ──────────┼───   ──   ──   ──   ──   ──   ──   ──   ──     
+                [22Xn[122X │ 11   12   13   14   15   16   17   18   19   20
+        dimension │ ?    5    ?    4    6    6    ?    7    ?    7 
+        ──────────┼───   ──   ──   ──   ──   ──   ──   ──   ──     
+                [22Xn[122X │ 22   24   26   28   30   32   34   36   38   40
+        dimension │ ?    6    ?    6    ?    7    ?    ?    ?    ? 
+  
+       [1XTable:[101X Dimension of states of inverse
+  
+  

@@ -1,0 +1,744 @@
+  
+  [1X4 [33X[0;0YFunctionally recursive elements[133X[101X
+  
+  [33X[0;0YA  [13Xfunctionally  recursive  element[113X  is  given  by  a functionally recursive
+  machine and an initial state [22Xq[122X. Many functions for FR machines, which accept
+  a  state  as  an  argument,  apply to FR elements. In that case, no state is
+  passed to the function.[133X
+  
+  [33X[0;0YThe  main  function  of  FR  elements  is to serve as group/monoid/semigroup
+  elements:  they  can  be  multiplied  and divided, and they act naturally on
+  sequences. They can also be tested for equality, and can be sorted.[133X
+  
+  [33X[0;0YFR  elements  are  stored  as  free  group/monoid/semigroup  words. They are
+  printed as [10X<n|w>[110X, where [10Xn[110X is the degree of their alphabet.[133X
+  
+  [33X[0;0YEquality  of  FR  elements is tested as follows. Given FR elements [22X(m,q)[122X and
+  [22X(m,r)[122X,  we  set up a "rewriting system" for [22Xm[122X, which records a purported set
+  of  relations  among states of [22Xm[122X. We start by an empty rewriting system, and
+  we always ensure that the rewriting system is reduced and shortlex-reducing.
+  Then, to compare [22Xq[122X and [22Xr[122X, we first compare their activities. If they differ,
+  the  elements are distinct. Otherwise, we reduce [22Xq[122X and [22Xr[122X using the rewriting
+  system.  If  the resulting words are graphically equal, then they are equal.
+  Otherwise,  we  add  the  rule  [22Xq->  r[122X or [22Xr-> q[122X to the rewriting system, and
+  proceed  recursively  to  compare coordinatewise the states of these reduced
+  words.  As  a  bonus,  we  keep  the  rewriting  system  to  speed up future
+  comparisons.[133X
+  
+  [33X[0;0YEfficient  comparison requires lookup in sorted lists, aka "Sets". Given two
+  FR elements [22Xx[122X and [22Xy[122X, we declare that [22Xx<y[122X if, for the shortlex-first sequence
+  [22Xl[122X  such that [10XOutput(Transition(x,l))[110X and [10XOutput(Transition(y,l))[110X differ, the
+  former  is  less  than  the  latter  (compared  as lists). In fact, a single
+  internal  function  compares [22Xx[122X and [22Xy[122X and returns [22X-1,0,1[122X depending on whether
+  [22Xx<y[122X  or  [22Xx=y[122X  or  [22Xx>y[122X.  It traverses, in breadth first fashion, the alphabet
+  sequences,  and  stops  either  when  provably  [22Xx=y[122X  or if different outputs
+  appear.[133X
+  
+  
+  [1X4.1 [33X[0;0YCreators for [10XFRElement[110X[101X[1Xs[133X[101X
+  
+  [1X4.1-1 FRElementNC[101X
+  
+  [29X[2XFRElementNC[102X( [3Xfam[103X, [3Xfree[103X, [3Xtransitions[103X, [3Xoutputs[103X, [3Xinit[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA new FR element.[133X
+  
+  [33X[0;0YThis  function  constructs a new FR element, belonging to family [3Xfam[103X. It has
+  stateset  the free group/semigroup/monoid [3Xfree[103X, and transitions described by
+  [3Xstates[103X and [3Xoutputs[103X, and initial states [3Xinit[103X.[133X
+  
+  [33X[0;0Y[3Xtransitions[103X  is  a list of lists; [3Xtransitions[103X[[3Xs[103X][[3Xx[103X] is a word in [3Xfree[103X, which
+  is the state reached by the machine when started in state [3Xs[103X and fed input [3Xx[103X.[133X
+  
+  [33X[0;0Y[3Xoutputs[103X  is a list of lists; [3Xoutputs[103X[[3Xs[103X][[3Xx[103X] is a output letter of the machine
+  when it receives input [3Xx[103X in state [3Xs[103X.[133X
+  
+  [33X[0;0Y[3Xinit[103X is a word in [3Xfree[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xf := FreeGroup(2);[127X[104X
+    [4X[28X<free group on the generators [ f1, f2 ]>[128X[104X
+    [4X[25Xgap>[125X [27Xe := FRElementNC(FREFamily([1,2]),f,[[One(f),f.1],[One(f),f.2^-1]],[127X[104X
+    [4X[28X                      [[2,1],[2,1]],f.1);[128X[104X
+    [4X[28X<2|f1>[128X[104X
+  [4X[32X[104X
+  
+  [1X4.1-2 FRElement[101X
+  
+  [29X[2XFRElement[102X( [[3Xnames[103X, ][3Xtransitions[103X, [3Xoutputs[103X, [3Xinit[103X ) [32X operation
+  [29X[2XFRElement[102X( [3Xfree[103X, [3Xtransitions[103X, [3Xoutputs[103X, [3Xinit[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA new FR element.[133X
+  
+  [33X[0;0YThis  function  constructs  a  new  FR  element.  It  has  stateset  a  free
+  group/semigroup/monoid,  structure described by [3Xtransitions[103X and [3Xoutputs[103X, and
+  initial  state [3Xinit[103X. If the stateset is not passed as argument [3Xfree[103X, then it
+  is  determined  by [3Xtransitions[103X and [3Xoutputs[103X; it is a free group if all states
+  are  invertible,  and  a  free  monoid  otherwise. In that case, [3Xnames[103X is an
+  optional list; at position [3Xs[103X it contains a string describing generator [3Xs[103X.[133X
+  
+  [33X[0;0Y[3Xtransitions[103X  is  a list of lists; [10Xtransitions[s][x][110X is either an associative
+  word,  or  a list of integers or FR elements describing the state reached by
+  the  machine  when  started  in  state  [3Xs[103X and fed input [3Xx[103X. Positive integers
+  indicate  a  generator, negative integers its inverse, the empty list in the
+  identity  state,  and lists of length greater than one indicate a product of
+  states.  If an entry is an FR element, then its machine is incorporated into
+  the newly constructed element.[133X
+  
+  [33X[0;0Y[3Xoutputs[103X   is   a   list;   at  position  [3Xs[103X  it  contains  a  permutation,  a
+  transformation, or a list of images, describing the activity of state [3Xs[103X.[133X
+  
+  [33X[0;0Y[3Xinit[103X  is  either  an  associative  word,  an  integer, or a list of integers
+  describing the inital state of the machine.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtau := FRElement(["tau"],[[[],[1]]],[(1,2)],[1]);[127X[104X
+    [4X[28X<2|tau>[128X[104X
+    [4X[25Xgap>[125X [27Xtau1 := FRElement(["tau1","tau"],[[[],[2]],[[],[2]]],[(),(1,2)],1);[127X[104X
+    [4X[28X<2|tau1>[128X[104X
+    [4X[25Xgap>[125X [27X(tau/tau1)^2;[127X[104X
+    [4X[28X<2|tau1*tau2^-1*tau1*tau2^-1>[128X[104X
+    [4X[25Xgap>[125X [27XIsOne(last);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xf := FreeGroup("tau","tau1");[127X[104X
+    [4X[28X<free group on the generators [ tau, tau1 ]>[128X[104X
+    [4X[25Xgap>[125X [27Xtau := FRElement(f,[[One(f),f.1],[One(f),f.1]],[(1,2),()],f.1);[127X[104X
+    [4X[28X<2|tau>[128X[104X
+    [4X[25Xgap>[125X [27Xtau1 := FRElement(f,[[One(f),f.1],[One(f),f.1]],[(1,2),()],f.2);[127X[104X
+    [4X[28X<2|tau1>[128X[104X
+    [4X[25Xgap>[125X [27X(tau/tau1)^2;[127X[104X
+    [4X[28X<2|tau1*tau2^-1*tau1*tau2^-1>[128X[104X
+    [4X[25Xgap>[125X [27XIsOne(last);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XtauX := FRElement(f,[[One(f),f.1],[One(f),f.1]],[(1,2),()],1);;[127X[104X
+    [4X[25Xgap>[125X [27XtauY := FRElement(f,[[One(f),f.1],[One(f),f.1]],[(1,2),()],f.1);;[127X[104X
+    [4X[25Xgap>[125X [27XSize(Set([tau,tauX,tauY]));[127X[104X
+    [4X[28X1[128X[104X
+  [4X[32X[104X
+  
+  [1X4.1-3 FRElement[101X
+  
+  [29X[2XFRElement[102X( [3Xm[103X, [3Xq[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA new FR element.[133X
+  
+  [33X[0;0YThis function constructs a new FR element. If [3Xm[103X is an FR machine, it creates
+  the element [22X(m,q)[122X whose [10XFRMachine[110X is [3Xm[103X and whose initial state is [3Xq[103X.[133X
+  
+  [33X[0;0YIf  [3Xm[103X  is an FR element, this command creates an FR element with the same FR
+  machine as [3Xm[103X, and with initial state [3Xq[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := FRMachine(["a","b"],[[[],[2]],[[],[1]]],[(1,2),()]);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1 .. 2 ] on Group( [ a, b ] )>[128X[104X
+    [4X[25Xgap>[125X [27Xa := FRElement(m,1); b := FRElement(m,2);[127X[104X
+    [4X[28X<2|a>[128X[104X
+    [4X[28X<2|b>[128X[104X
+    [4X[25Xgap>[125X [27XComm(b,b^a);[127X[104X
+    [4X[28X<2|b^-1*a^-1*b^-1*a*b*a^-1*b*a>[128X[104X
+    [4X[25Xgap>[125X [27XIsOne(last);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27Xlast2=FRElement(m,[-2,-1,-2,1,2,-1,2,1]);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X4.1-4 ComposeElement[101X
+  
+  [29X[2XComposeElement[102X( [3Xl[103X, [3Xp[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA new FR element.[133X
+  
+  [33X[0;0YThis function constructs a new FR element. [3Xl[103X is a list of FR elements, and [3Xp[103X
+  is  a  permutation, transformation or list. In that last case, the resulting
+  element [10Xg[110X satisfies [10XDecompositionOfFRElement(g)=[l,p][110X.[133X
+  
+  [33X[0;0YIf  all  arguments  are  Mealy  elements,  the  result  is  a Mealy element.
+  Otherwise, it is a MonoidFRElement.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := FRMachine(["a","b"],[[[],[2]],[[],[1]]],[(1,2),()]);;[127X[104X
+    [4X[25Xgap>[125X [27Xa := FRElement(m,1); b := FRElement(m,2);[127X[104X
+    [4X[28X<2|a>[128X[104X
+    [4X[28X<2|b>[128X[104X
+    [4X[25Xgap>[125X [27XComposeElement([b^0,b],(1,2));[127X[104X
+    [4X[28X<2|f1>[128X[104X
+    [4X[25Xgap>[125X [27Xlast=a;[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XDecompositionOfFRElement(last2);[127X[104X
+    [4X[28X[ [ <2|identity ...>, <2|f5> ], [ 2, 1 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X4.1-5 VertexElement[101X
+  
+  [29X[2XVertexElement[102X( [3Xv[103X, [3Xe[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA new FR element.[133X
+  
+  [33X[0;0YThis  function constructs a new FR element. [3Xv[103X is either an integer or a list
+  of  integers,  and  represents  a  vertex. [3Xe[103X is an FR element. The resulting
+  element  acts on the subtree below vertex [3Xv[103X as [3Xe[103X acts on the whole tree, and
+  fixes all other subtrees.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xe := FRElement([[[],[]]],[(1,2)],[1]);[127X[104X
+    [4X[28X<2|f1>[128X[104X
+    [4X[25Xgap>[125X [27Xf := VertexElement(1,e);;[127X[104X
+    [4X[25Xgap>[125X [27Xg := VertexElement(2,f);;[127X[104X
+    [4X[25Xgap>[125X [27Xg = VertexElement([2,1],e);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27X1^e;[127X[104X
+    [4X[28X2[128X[104X
+    [4X[25Xgap>[125X [27X[1,1]^f;[127X[104X
+    [4X[28X[ 1, 2 ][128X[104X
+    [4X[25Xgap>[125X [27X[2,1,1]^g;[127X[104X
+    [4X[28X[ 2, 1, 2 ][128X[104X
+  [4X[32X[104X
+  
+  [1X4.1-6 DiagonalElement[101X
+  
+  [29X[2XDiagonalElement[102X( [3Xn[103X, [3Xe[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA new FR element.[133X
+  
+  [33X[0;0YThis  function constructs a new FR element. [3Xn[103X is either an integer or a list
+  of  integers,  representing  a  sequence  of operations to be performed on [3Xe[103X
+  starting from the last.[133X
+  
+  [33X[0;0Y[10XDiagonalElement(n,e)[110X  is  an  element with trivial output, and with [22Xe^(-1)^i
+  binomial(n,i)[122X  in  coordinate [22Xi+1[122X of the alphabet, assumed to be of the form
+  [10X[1..d][110X.[133X
+  
+  [33X[0;0YIn  particular,  [10XDiagonalElement(0,e)[110X  is  the  same  as [10XVertexElement(1,e)[110X;
+  [10XDiagonalElement(1,e)[110X  is the commutator of [10XVertexElement(1,e)[110X with any cycle
+  mapping  1  to  2;  and  [10XDiagonalElement(-1,e)[110X  has a transition to [3Xe[103X at all
+  inputs.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xe := FRElement([[[],[],[1]]],[(1,2,3)],[1]);[127X[104X
+    [4X[28X<3|f1>[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(e);[127X[104X
+    [4X[28X    |     1        2      3[128X[104X
+    [4X[28X----+--------+--------+------+[128X[104X
+    [4X[28X f1 | <id>,2   <id>,3   f1,1[128X[104X
+    [4X[28X----+--------+--------+------+[128X[104X
+    [4X[28XInitial state: f1[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(DiagonalElement(0,e));[127X[104X
+    [4X[28X    |     1        2        3[128X[104X
+    [4X[28X----+--------+--------+--------+[128X[104X
+    [4X[28X f1 |   f2,1   <id>,2   <id>,3[128X[104X
+    [4X[28X f2 | <id>,2   <id>,3     f2,1[128X[104X
+    [4X[28X----+--------+--------+--------+[128X[104X
+    [4X[28XInitial state: f1[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(DiagonalElement(1,e));[127X[104X
+    [4X[28X    |     1         2        3[128X[104X
+    [4X[28X----+--------+---------+--------+[128X[104X
+    [4X[28X f1 |   f2,1   f2^-1,2   <id>,3[128X[104X
+    [4X[28X f2 | <id>,2    <id>,3     f2,1[128X[104X
+    [4X[28X----+--------+---------+--------+[128X[104X
+    [4X[28XInitial state: f1[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(DiagonalElement(2,e));[127X[104X
+    [4X[28X    |     1         2      3[128X[104X
+    [4X[28X----+--------+---------+------+[128X[104X
+    [4X[28X f1 |   f2,1   f2^-2,2   f2,3[128X[104X
+    [4X[28X f2 | <id>,2    <id>,3   f2,1[128X[104X
+    [4X[28X----+--------+---------+------+[128X[104X
+    [4X[28XInitial state: f1[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(DiagonalElement(-1,e));[127X[104X
+    [4X[28X    |     1        2      3[128X[104X
+    [4X[28X----+--------+--------+------+[128X[104X
+    [4X[28X f1 |   f2,1     f2,2   f2,3[128X[104X
+    [4X[28X f2 | <id>,2   <id>,3   f2,1[128X[104X
+    [4X[28X----+--------+--------+------+[128X[104X
+    [4X[28XInitial state: f1[128X[104X
+    [4X[25Xgap>[125X [27XDiagonalElement(-1,e)=DiagonalElement(2,e);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(DiagonalElement([0,-1],e));[127X[104X
+    [4X[28X G  |     1        2        3[128X[104X
+    [4X[28X----+--------+--------+--------+[128X[104X
+    [4X[28X f1 |   f2,1   <id>,2   <id>,3[128X[104X
+    [4X[28X f2 |   f3,1     f3,2     f3,3[128X[104X
+    [4X[28X f3 | <id>,2   <id>,3     f3,1[128X[104X
+    [4X[28X----+--------+--------+--------+[128X[104X
+    [4X[28XInitial state: f1[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(DiagonalElement([-1,0],e));[127X[104X
+    [4X[28X G  |     1        2        3[128X[104X
+    [4X[28X----+--------+--------+--------+[128X[104X
+    [4X[28X f1 |   f2,1     f2,2     f2,3[128X[104X
+    [4X[28X f2 |   f3,1   <id>,2   <id>,3[128X[104X
+    [4X[28X f3 | <id>,2   <id>,3     f3,1[128X[104X
+    [4X[28X----+--------+--------+--------+[128X[104X
+    [4X[28XInitial state: f1[128X[104X
+  [4X[32X[104X
+  
+  [1X4.1-7 AsGroupFRElement[101X
+  
+  [29X[2XAsGroupFRElement[102X( [3Xe[103X ) [32X operation
+  [29X[2XAsMonoidFRElement[102X( [3Xe[103X ) [32X operation
+  [29X[2XAsSemigroupFRElement[102X( [3Xe[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YAn  FR element isomorphic to [3Xm[103X, with a free group/monoid/semigroup
+            as stateset.[133X
+  
+  [33X[0;0YThis  function constructs, from the FR element [3Xe[103X, an isomorphic FR element [10Xf[110X
+  with  a  free  group/monoid/semigroup  as stateset. [3Xe[103X may be a Mealy, group,
+  monoid or semigroup FR element.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xe := AsGroupFRElement(FRElement(GuptaSidkiMachines(3),4));[127X[104X
+    [4X[28X<3|f1>[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(e);[127X[104X
+    [4X[28X G  |     1         2        3[128X[104X
+    [4X[28X----+--------+---------+--------+[128X[104X
+    [4X[28X f1 |   f2,1   f2^-1,2     f1,3[128X[104X
+    [4X[28X f2 | <id>,2    <id>,3   <id>,1[128X[104X
+    [4X[28X----+--------+---------+--------+[128X[104X
+    [4X[28XInitial state: f1[128X[104X
+    [4X[25Xgap>[125X [27Xe=FRElement(GuptaSidkiMachines(3),4);[127X[104X
+    [4X[28X#I  \=: converting second argument to FR element[128X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xe := AsMonoidFRElement(FRElement(GuptaSidkiMachines(3),4));[127X[104X
+    [4X[28X<3|m1>[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(e);[127X[104X
+    [4X[28X M  |     1        2        3[128X[104X
+    [4X[28X----+--------+--------+--------+[128X[104X
+    [4X[28X m1 |   m2,1     m3,2     m1,3[128X[104X
+    [4X[28X m2 | <id>,2   <id>,3   <id>,1[128X[104X
+    [4X[28X m3 | <id>,3   <id>,1   <id>,2[128X[104X
+    [4X[28X----+--------+--------+--------+[128X[104X
+    [4X[28XInitial state: m1[128X[104X
+    [4X[25Xgap>[125X [27Xe=FRElement(GuptaSidkiMachines(3),4);[127X[104X
+    [4X[28X#I  \=: converting second argument to FR element[128X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xe := AsSemigroupFRElement(FRElement(GuptaSidkiMachines(3),4));[127X[104X
+    [4X[28X<3|s1>[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(e);[127X[104X
+    [4X[28X S  |   1      2      3[128X[104X
+    [4X[28X----+------+------+------+[128X[104X
+    [4X[28X s1 | s2,1   s3,2   s1,3[128X[104X
+    [4X[28X s2 | s4,2   s4,3   s4,1[128X[104X
+    [4X[28X s3 | s4,3   s4,1   s4,2[128X[104X
+    [4X[28X s4 | s4,1   s4,2   s4,3[128X[104X
+    [4X[28X----+------+------+------+[128X[104X
+    [4X[28XInitial state: s1[128X[104X
+    [4X[25Xgap>[125X [27Xe=FRElement(GuptaSidkiMachines(3),4);[127X[104X
+    [4X[28X#I  \=: converting second argument to FR element[128X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X4.2 [33X[0;0YOperations and Attributes for [10XFRElement[110X[101X[1Xs[133X[101X
+  
+  [1X4.2-1 Output[101X
+  
+  [29X[2XOutput[102X( [3Xe[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA transformation of [3Xe[103X's alphabet.[133X
+  
+  [33X[0;0YThis function returns the transformation of [3Xe[103X's alphabet, i.e. the action on
+  strings  of length 1 over the alphabet. This transformation is a permutation
+  if [3Xmachine[103X is a group machine, and a transformation otherwise.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtau := FRElement(["tau"],[[[],[1]]],[(1,2)],[1]);;[127X[104X
+    [4X[25Xgap>[125X [27XOutput(tau);[127X[104X
+    [4X[28X(1,2)[128X[104X
+    [4X[28Xzap := FRElement(["zap"],[[[],[1]]],[[1,1]],[1]);;[128X[104X
+    [4X[25Xgap>[125X [27XOutput(zap);[127X[104X
+    [4X[28X<1,1>[128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-2 Activity[101X
+  
+  [29X[2XActivity[102X( [3Xe[103X[, [3Xl[103X] ) [32X operation
+  [29X[2XActivityInt[102X( [3Xe[103X[, [3Xl[103X] ) [32X operation
+  [29X[2XActivityTransformation[102X( [3Xe[103X[, [3Xl[103X] ) [32X operation
+  [29X[2XActivityPerm[102X( [3Xe[103X[, [3Xl[103X] ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe transformation induced by [3Xe[103X on the [3Xl[103Xth level of the tree.[133X
+  
+  [33X[0;0YThis  function  returns  the transformation induced by [3Xe[103X on the [3Xl[103Xth level of
+  the tree, i.e. on the strings of length [3Xl[103X over [3Xe[103X's alphabet.[133X
+  
+  [33X[0;0YThis  set  of  strings is identified with the set [22XL={1,...,d^l}[122X of integers,
+  where  the  alphabet  of  [3Xe[103X  has [22Xd[122X letters. Changes of the first letter of a
+  string  induce  changes  of  a multiple of [22Xd^l-1[122X on the position in [22XL[122X, while
+  changes  of  the last letter of a string induce changes of [22X1[122X on the position
+  in [22XL[122X.[133X
+  
+  [33X[0;0YIn  its  first form, this command returns a permutation (for group elements)
+  or  a  [2XTransformation[102X  ([14XReference: Transformations[114X) (for other elements). In
+  the   second   form,   it  returns  the  unique  integer  [10Xi[110X  such  that  the
+  transformation [3Xe[103X acts on [10X[1..Length(AlphabetOfFRObject(e))^n][110X as adding [10Xi[110X in
+  base [10XLength(alphabet(e))[110X, or [9Xfail[109X if no such [10Xi[110X exists. In the third form, it
+  returns  a [5XGAP[105X transformation. In the fourth form, it returns a permutation,
+  or [9Xfail[109X if [3Xe[103X is not invertible.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtau := FRElement(["tau"],[[[],[1]]],[(1,2)],[1]);;[127X[104X
+    [4X[25Xgap>[125X [27XOutput(tau); PermList(last)=Activity(tau);[127X[104X
+    [4X[28X[ 2, 1 ][128X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XActivity(tau,2); ActivityInt(tau,2);[127X[104X
+    [4X[28X(1,3,2,4)[128X[104X
+    [4X[28X1[128X[104X
+    [4X[25Xgap>[125X [27XActivity(tau,3); ActivityInt(tau,3);[127X[104X
+    [4X[28X(1,5,3,7,2,6,4,8)[128X[104X
+    [4X[28X1[128X[104X
+    [4X[25Xgap>[125X [27Xzap := FRElement(["zap"],[[[1],[]]],[[1,1]],[1]);[127X[104X
+    [4X[28X<2|zap>[128X[104X
+    [4X[25Xgap>[125X [27XOutput(zap);[127X[104X
+    [4X[28X[ 1, 1 ][128X[104X
+    [4X[25Xgap>[125X [27XActivity(zap,3);[127X[104X
+    [4X[28X<1,1,1,2,1,2,3,4>[128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-3 Transition[101X
+  
+  [29X[2XTransition[102X( [3Xe[103X, [3Xi[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YAn element of [3Xmachine[103X's stateset.[133X
+  
+  [33X[0;0YThis  function  returns  the state reached by [3Xe[103X when fed input [3Xi[103X. This input
+  may be an alphabet letter or a sequence of alphabet letters.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtau := FRElement(["tau"],[[[],[1]]],[(1,2)],[1]);;[127X[104X
+    [4X[25Xgap>[125X [27XTransition(tau,2);[127X[104X
+    [4X[28Xtau[128X[104X
+    [4X[25Xgap>[125X [27XTransition(tau,[2,2]);[127X[104X
+    [4X[28Xtau[128X[104X
+    [4X[25Xgap>[125X [27XTransition(tau^2,[2,2]);[127X[104X
+    [4X[28Xtau[128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-4 Transitions[101X
+  
+  [29X[2XTransitions[102X( [3Xe[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA list of elements of [3Xmachine[103X's stateset.[133X
+  
+  [33X[0;0YThis  function  returns  the  states  reached  by [3Xe[103X when fed the alphabet as
+  input.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtau := FRElement(["tau"],[[[],[1]]],[(1,2)],[1]);;[127X[104X
+    [4X[25Xgap>[125X [27XTransitions(tau);[127X[104X
+    [4X[28X[ <identity ...>, tau ][128X[104X
+    [4X[25Xgap>[125X [27XTransition(tau^2);[127X[104X
+    [4X[28X[ tau, tau ][128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-5 Portrait[101X
+  
+  [29X[2XPortrait[102X( [3Xe[103X, [3Xl[103X ) [32X operation
+  [29X[2XPortraitPerm[102X( [3Xe[103X, [3Xl[103X ) [32X operation
+  [29X[2XPortraitTransformation[102X( [3Xe[103X, [3Xl[103X ) [32X operation
+  [29X[2XPortraitInt[102X( [3Xe[103X, [3Xl[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA nested list describing the action of [3Xe[103X.[133X
+  
+  [33X[0;0YThis  function returns a sequence of [22Xl+1[122X lists; the [22Xi[122Xth list in the sequence
+  is  an  [3Xi-1[103X-fold  nested  list.  The  entry at position [22X(x_1,...,x_i)[122X is the
+  transformation of the alphabet induced by [3Xe[103X under vertex [22Xx_1... x_i[122X.[133X
+  
+  [33X[0;0YThe  difference  between  the  commands  is  the following: [10XPortrait[110X returns
+  transformations,  [10XPortraitPerm[110X  returns  permutations,  and  and [10XPortraitInt[110X
+  returns  integers,  the  power  of  the  cycle  [22Xx↦  x+1[122X  that represents the
+  transformation, as for the function [2XActivityInt[102X ([14X4.2-2[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtau := FRElement(["tau"],[[[],[1]]],[(1,2)],[1]);;[127X[104X
+    [4X[25Xgap>[125X [27XPortrait(tau,0);[127X[104X
+    [4X[28X[ <2,1> ][128X[104X
+    [4X[25Xgap>[125X [27XPortrait(tau,3);[127X[104X
+    [4X[28X[ <2,1>, [ <>, <2,1> ], [ [ <>, <> ], [ <>, <2,1> ] ],[128X[104X
+    [4X[28X  [ [ [ <>, <> ], [ <>, <> ] ], [ [ <>, <> ], [ <>, <2,1> ] ] ] ][128X[104X
+    [4X[25Xgap>[125X [27XPortraitPerm(tau,0);[127X[104X
+    [4X[28X[ (1,2) ][128X[104X
+    [4X[25Xgap>[125X [27XPortraitInt(tau,0);[127X[104X
+    [4X[28X[ 1 ][128X[104X
+    [4X[25Xgap>[125X [27XPortraitInt(tau,3);[127X[104X
+    [4X[28X[ 1 , [ 0 , 1 ],[128X[104X
+    [4X[28X  [ [ 0 , 0 ], [ 0 , 1 ] ],[128X[104X
+    [4X[28X  [ [ [ 0 , 0 ], [ 0 , 0 ] ], [ [ 0 , 0 ], [ 0 , 1 ] ] ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-6 DecompositionOfFRElement[101X
+  
+  [29X[2XDecompositionOfFRElement[102X( [3Xe[103X[, [3Xn[103X] ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA list describing the action and transitions of [3Xe[103X.[133X
+  
+  [33X[0;0YThis  function  returns  a list. The second coordinate is the action of [3Xe[103X on
+  its alphabet, see [2XOutput[102X ([14X4.2-1[114X). The first coordinate is a list, containing
+  in  position  [22Xi[122X  the FR element inducing the action of [3Xe[103X on strings starting
+  with [22Xi[122X.[133X
+  
+  [33X[0;0YIf a second argument [3Xn[103X is supplied, the decomposition is iterated [3Xn[103X times.[133X
+  
+  [33X[0;0YThis FR element has same underlying machine as [3Xe[103X, and initial state given by
+  [2XTransition[102X ([14X4.2-3[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtau := FRElement(["tau"],[[[],[1]]],[(1,2)],[1]);;[127X[104X
+    [4X[25Xgap>[125X [27XDecompositionOfFRElement(tau);[127X[104X
+    [4X[28X[ [ <2|identity ...>, <2|tau> ], [ 2, 1 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-7 StateSet[101X
+  
+  [29X[2XStateSet[102X( [3Xe[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe set of states associated with [3Xe[103X.[133X
+  
+  [33X[0;0YThis  function returns the stateset of [3Xe[103X. If [3Xe[103X is of Mealy type, this is the
+  list of all states reached by [3Xe[103X.[133X
+  
+  [33X[0;0YIf  [3Xe[103X  is  of  group/semigroup/monoid type, then this is the stateset of the
+  underlying  FR  machine,  and  not  the minimal set of states of [3Xe[103X, which is
+  computed with [2XStates[102X ([14X4.2-9[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtau := FRElement(["tau"],[[[],[1]]],[(1,2)],[1]);;[127X[104X
+    [4X[25Xgap>[125X [27XStateSet(tau);[127X[104X
+    [4X[28X<free group on the generators [ tau ]>[128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-8 State[101X
+  
+  [29X[2XState[102X( [3Xe[103X, [3Xv[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YAn FR element describing the action of [3Xe[103X at vertex [3Xv[103X.[133X
+  
+  [33X[0;0YThis  function  returns  the  FR  element with same underlying machine as [3Xe[103X,
+  acting on the binary tree as [3Xe[103X acts on the subtree below [3Xv[103X.[133X
+  
+  [33X[0;0Y[3Xv[103X  is  either an integer or a list. This function returns an FR element, but
+  otherwise is essentially a call to [2XTransition[102X ([14X4.2-3[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtau := FRElement(["tau"],[[[],[1]]],[(1,2)],[1]);;[127X[104X
+    [4X[25Xgap>[125X [27XState(tau,2);[127X[104X
+    [4X[28X<2|tau>[128X[104X
+    [4X[25Xgap>[125X [27XState(tau,[2,2]);[127X[104X
+    [4X[28X<2|tau>[128X[104X
+    [4X[25Xgap>[125X [27XState(tau^2,[2,2]);[127X[104X
+    [4X[28X<2|tau>[128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-9 States[101X
+  
+  [29X[2XStates[102X( [3Xe[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA list of FR elements describing the action of [3Xe[103X on all subtrees.[133X
+  
+  [33X[0;0YThis function calls repeatedly [2XState[102X ([14X4.2-8[114X) to compute all the states of [3Xe[103X;
+  it returns the smallest list of [10XFRElement[110Xs that is closed under the function
+  [2XState[102X ([14X4.2-8[114X).[133X
+  
+  [33X[0;0Y[3Xe[103X may be either an FR element, or a list of FR elements. In the latter case,
+  it  amounts  to computing the list of all states of all elements of the list
+  [3Xe[103X.[133X
+  
+  [33X[0;0YThe  ordering of the list is as follows. First come [3Xe[103X, or all elements of [3Xe[103X.
+  Then come the states reached by [3Xe[103X in one transition, ordered by the alphabet
+  letter  leading to them; then come those reached in two transitions, ordered
+  lexicographically by the transition; etc.[133X
+  
+  [33X[0;0YNote  that  this function is not guaranteed to terminate. There is currently
+  no  mechanism that detects whether an FR element is finite state, so in fact
+  this function terminates if and only if [3Xe[103X is finite-state.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := FRMachine(["a","b"],[[[],[2]],[[],[1]]],[(1,2),()]);;[127X[104X
+    [4X[25Xgap>[125X [27Xa := FRElement(m,1);; b := FRElement(m,2);;[127X[104X
+    [4X[25Xgap>[125X [27XStates(a);[127X[104X
+    [4X[28X[ <2|a>, <2|identity ...>, <2|b> ][128X[104X
+    [4X[25Xgap>[125X [27XStates(b);[127X[104X
+    [4X[28X[ <2|b>, <2|identity ...>, <2|a> ][128X[104X
+    [4X[25Xgap>[125X [27XStates(a^2);[127X[104X
+    [4X[28X[ <2|a^2>, <2|b>, <2|identity ...>, <2|a> ][128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-10 FixedStates[101X
+  
+  [29X[2XFixedStates[102X( [3Xe[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA  list  of  FR  elements  describing  the  action  of  [3Xe[103X at fixed
+            vertices.[133X
+  
+  [33X[0;0YThis  function calls repeatedly [2XState[102X ([14X4.2-8[114X) to compute all the states of [3Xe[103X
+  at non-trivial fixed vertices.[133X
+  
+  [33X[0;0Y[3Xe[103X may be either an FR element, or a list of FR elements. In the latter case,
+  it  amounts  to computing the list of all states of all elements of the list
+  [3Xe[103X.[133X
+  
+  [33X[0;0YThe  ordering of the list is as follows. First come [3Xe[103X, or all elements of [3Xe[103X.
+  Then come the states reached by [3Xe[103X in one transition, ordered by the alphabet
+  letter  leading to them; then come those reached in two transitions, ordered
+  lexicographically by the transition; etc.[133X
+  
+  [33X[0;0YNote  that  this  function  is  not  guaranteed  to  terminate,  if [3Xe[103X is not
+  finite-state.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := FRMachine(["a","b"],[[[],[2]],[[],[1]]],[(1,2),()]);;[127X[104X
+    [4X[25Xgap>[125X [27Xa := FRElement(m,1);; b := FRElement(m,2);;[127X[104X
+    [4X[25Xgap>[125X [27XFixedStates(a);[127X[104X
+    [4X[28X[ ][128X[104X
+    [4X[25Xgap>[125X [27XFixedStates(b);[127X[104X
+    [4X[28X[ <2|identity ...>, <2|a> ][128X[104X
+    [4X[25Xgap>[125X [27XFixedStates(a^2);[127X[104X
+    [4X[28X[ <2|b>, <2|identity ...>, <2|a> ][128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-11 LimitStates[101X
+  
+  [29X[2XLimitStates[102X( [3Xe[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA  set  of FR element describing the recurring actions of [3Xe[103X on all
+            subtrees.[133X
+  
+  [33X[0;0YThis  function  computes  the  [2XStates[102X  ([14X4.2-9[114X)  [22XS[122X  of [3Xe[103X, and then repeatedly
+  removes  elements  that are not [13Xrecurrent[113X, i.e. that do not appear as states
+  of  elements  of  [22XS[122X  on  subtrees  distinct  from  the entire tree; and then
+  converts the result to a set.[133X
+  
+  [33X[0;0YAs  for  [2XStates[102X  ([14X4.2-9[114X),  [3Xe[103X  may  be  either an FR element, or a list of FR
+  elements.[133X
+  
+  [33X[0;0YNote  that  this  function  is  not  guaranteed  to  terminate. It currently
+  terminates if and only if [2XStates[102X ([14X4.2-9[114X) terminates.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := FRMachine(["a","b"],[[[],[2]],[[],[1]]],[(1,2),()]);;[127X[104X
+    [4X[25Xgap>[125X [27Xa := FRElement(m,1);; b := FRElement(m,2);;[127X[104X
+    [4X[25Xgap>[125X [27XLimitStates(a);[127X[104X
+    [4X[28X[ <2|identity ...>, <2|b>, <2|a> ][128X[104X
+    [4X[25Xgap>[125X [27XLimitStates(a^2);[127X[104X
+    [4X[28X[ <2|identity ...>, <2|b>, <2|a> ][128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-12 IsFiniteStateFRElement[101X
+  
+  [29X[2XIsFiniteStateFRElement[102X( [3Xe[103X ) [32X property
+  [29X[2XIsFiniteStateFRMachine[102X( [3Xe[103X ) [32X property
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xe[103X is a finite-state element.[133X
+  
+  [33X[0;0YThis function tests whether [3Xe[103X is a finite-state element.[133X
+  
+  [33X[0;0YWhen applied to a Mealy element, it returns [9Xtrue[109X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := GuptaSidkiMachines(3);; Display(m);[127X[104X
+    [4X[28X   |  1     2     3[128X[104X
+    [4X[28X---+-----+-----+-----+[128X[104X
+    [4X[28X a | a,1   a,2   a,3[128X[104X
+    [4X[28X b | a,2   a,3   a,1[128X[104X
+    [4X[28X c | a,3   a,1   a,2[128X[104X
+    [4X[28X d | b,1   c,2   d,3[128X[104X
+    [4X[28X---+-----+-----+-----+[128X[104X
+    [4X[25Xgap>[125X [27XFiltered(StateSet(m),i->IsFiniteStateFRElement(FRElement(m,i)));[127X[104X
+    [4X[28X[ 1, 2, 3, 4 ][128X[104X
+    [4X[25Xgap>[125X [27XIsFiniteStateFRMachine(m);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-13 NucleusOfFRMachine[101X
+  
+  [29X[2XNucleusOfFRMachine[102X( [3Xm[103X ) [32X operation
+  [29X[2XNucleus[102X( [3Xm[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe nucleus of the machine [3Xm[103X.[133X
+  
+  [33X[0;0YThis function computes the [13Xnucleus[113X of the machine [3Xm[103X. It is the minimal set [10XN[110X
+  of states such that, for every word [3Xs[103X in the states of [3Xm[103X, all states of [3Xs[103X of
+  at large enough depth belong to [10X[110X.[133X
+  
+  [33X[0;0YIt  may  also  be characterized as the minimal set [10XN[110X of states that contains
+  the limit states of [3Xm[103X and is such that the limit states of [10XN*m[110X belong to [10XN[110X.[133X
+  
+  [33X[0;0YThe  elements  of  the  nucleus  form  the stateset of a Mealy machine; this
+  machine is created by [2XNucleusMachine[102X ([14X5.2-27[114X).[133X
+  
+  [33X[0;0YThis  command  is  not  guaranteed  to  terminate;  though  it  will, if the
+  semigroup  generated by [3Xm[103X is contracting. If the minimal such [10XN[110X is infinite,
+  this command either returns [3XK[103X or runs forever.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := FRMachine(["a","b"],[[[],[2]],[[],[1]]],[(1,2),()]);;[127X[104X
+    [4X[25Xgap>[125X [27XNucleusOfFRMachine(m);[127X[104X
+    [4X[28X[ <2|identity ...>, <2|b>, <2|a> ][128X[104X
+    [4X[25Xgap>[125X [27Xm := FRMachine(["a","b"],[[[],[1]],[[1],[2]]],[(1,2),()]);;[127X[104X
+    [4X[25Xgap>[125X [27XNucleusOfFRMachine(m);[127X[104X
+    [4X[28Xfail[128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-14 InitialState[101X
+  
+  [29X[2XInitialState[102X( [3Xe[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe initial state of an FR element.[133X
+  
+  [33X[0;0YThis  function  returns the initial state of an FR element. It is an element
+  of the stateset of the underlying FR machine of [3Xe[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xn := FRElement(["tau","mu"],[[[],[1]],[[],[-2]]],[(1,2),(1,2)],[1,2]);[127X[104X
+    [4X[28X<2|tau*mu>[128X[104X
+    [4X[25Xgap>[125X [27XInitialState(n);[127X[104X
+    [4X[28Xtau*mu[128X[104X
+    [4X[25Xgap>[125X [27Xlast in StateSet(n);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-15 \^[101X
+  
+  [29X[2X\^[102X( [3Xe[103X, [3Xv[103X ) [32X method
+  [6XReturns:[106X  [33X[0;10YThe image of a vertex [3Xv[103X under [3Xe[103X.[133X
+  
+  [33X[0;0YThis  function  accepts  an  FR  element  and a vertex [3Xv[103X, which is either an
+  integer  or a list. It returns the image of [3Xv[103X under the transformation [3Xe[103X, in
+  the same format (integer/list) as [3Xv[103X.[133X
+  
+  [33X[0;0YThe list [3Xv[103X can be a periodic list (see [2XPeriodicList[102X ([14X11.2-2[114X)). In that case,
+  the  result  is  again a periodic list. The computation will succeed only if
+  the states along the period are again periodic.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtau := FRElement(["tau"],[[[],[1]]],[(1,2)],[1]);;[127X[104X
+    [4X[25Xgap>[125X [27X1^tau;[127X[104X
+    [4X[28X2[128X[104X
+    [4X[25Xgap>[125X [27X[1,1]^tau;[127X[104X
+    [4X[28X[ 2, 1 ][128X[104X
+    [4X[25Xgap>[125X [27X[2,2,2]^tau;[127X[104X
+    [4X[28X[ 1, 1, 1 ][128X[104X
+    [4X[28Xgap List([0..5],i->PeriodicList([],[2])^(tau^i));[128X[104X
+    [4X[28X[ [/ 2 ], [/ 1 ], [ 2, / 1 ], [ 1, 2, / 1 ], [ 2, 2, / 1 ],[128X[104X
+    [4X[28X  [ 1, 1, 2, / 1 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-16 \*[101X
+  
+  [29X[2X\*[102X( [3Xm[103X, [3Xn[103X ) [32X method
+  [6XReturns:[106X  [33X[0;10YThe product of the two FR elements [3Xm[103X and [3Xn[103X.[133X
+  
+  [33X[0;0YThis  function  returns  a  new  FR  element, which is the product of the FR
+  elements [3Xm[103X and [3Xn[103X.[133X
+  
+  [33X[0;0YIn case [3Xm[103X and [3Xn[103X have the same underlying machine, this is the machine of the
+  result.  In  case  the  machine  of  [3Xn[103X  embeds  in  the  machine  of  [3Xm[103X (see
+  [2XSubFRMachine[102X  ([14X3.5-9[114X)),  the  machine of the product is the machine of [3Xm[103X. In
+  case the machine of [3Xm[103X embeds in the machine of [3Xn[103X, the machine of the product
+  is  the machine of [3Xn[103X. Otherwise the machine of the product is the product of
+  the machines of [3Xm[103X and [3Xn[103X (See [2X\*[102X ([14X3.5-3[114X)).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtau := FRElement(["tau"],[[[],[1]]],[(1,2)],[1]);;[127X[104X
+    [4X[25Xgap>[125X [27Xtau*tau; tau^2;[127X[104X
+    [4X[28X<2|tau^2>[128X[104X
+    [4X[28X<2|tau^2>[128X[104X
+    [4X[25Xgap>[125X [27X[2,2,2]^(tau^2);[127X[104X
+    [4X[28X[ 2, 1, 1 ][128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-17 \[\][101X
+  
+  [29X[2X\[\][102X( [3Xm[103X, [3Xi[103X ) [32X method
+  [29X[2X\{\}[102X( [3Xm[103X, [3Xl[103X ) [32X method
+  [6XReturns:[106X  [33X[0;10YA [list of] FR element[s] with initial state [3Xi[103X.[133X
+  
+  [33X[0;0YThese     are     respectively     synonyms     for    [10XFRElement(m,i)[110X    and
+  [10XList(l,s->FRElement(m,s))[110X. The argument [3Xm[103X must be an FR machine, [3Xi[103X must be a
+  positive integer, and [3Xl[103X must be a list.[133X
+  

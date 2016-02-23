@@ -1,1 +1,415 @@
-Placeholder
+  
+  
+                         [1XFunctionally recursive groups[101X
+  
+  
+                              [1XSelf-similar groups[101X
+  
+  
+                                 Version 2.3.1
+  
+  
+                                   23/02/2016
+  
+  
+                               Laurent Bartholdi
+  
+  
+  
+            [33X[0;10YGroups  generated  by  automata or satisfying functional
+            recursions[133X
+  
+  
+  
+  Laurent Bartholdi
+      Email:    [7Xmailto:laurent.bartholdi@gmail.com[107X
+      Homepage: [7Xhttp://www.uni-math.gwdg.de/laurent/[107X
+  
+  
+  Address: [33X[0;9YMathematisches Institut[133X
+           [33X[0;9YBunsenstraße 3-5[133X
+           [33X[0;9YD-37073 Göttingen[133X
+           [33X[0;9YGermany[133X
+  
+  
+  -------------------------------------------------------
+  [1XAbstract[101X
+  [33X[0;0YThis  document  describes  the package [5XFR[105X, which implements in [5XGAP[105X the basic
+  objects of Mealy machines and functional recursions; and handles groups that
+  they generate.[133X
+  
+  [33X[0;0YGroups  defined by a recursive action on a rooted tree can be defined in [5XGAP[105X
+  via  their recursion. Various algorithms are implemented to manipulate these
+  groups and their elements.[133X
+  
+  [33X[0;0YFor  comments  or questions on [5XFR[105X please contact the author; this package is
+  still under development.[133X
+  
+  
+  -------------------------------------------------------
+  [1XCopyright[101X
+  [33X[0;0Y© 2006-2012 by Laurent Bartholdi[133X
+  
+  
+  -------------------------------------------------------
+  [1XAcknowledgements[101X
+  [33X[0;0YPart  of  this  work  is/was  supported  by  the  "Swiss  National  Fund for
+  Scientific Research" and the "German Science Foundation".[133X
+  
+  
+  -------------------------------------------------------
+  [1XColophon[101X
+  [33X[0;0YThis  project  started  in  the mid-1990s, when, as a PhD student I did many
+  calculations   with   groups   generated   by  automata,  and  realized  the
+  similarities  between  all  calculations; it quickly became clear that these
+  calculations could be done much better by a computer than by a human.[133X
+  
+  [33X[0;0YThe  first routines I wrote constructed finite representations of the groups
+  considered,  so  as  to  get  insight from fast calculations within [5XGAP[105X. The
+  results  then  had  to  be  proved  correct  within the infinite group under
+  consideration,  and  this  often  involved guessing appropriate words in the
+  infinite group with a given image in the finite quotient.[133X
+  
+  [33X[0;0YAround  2000,  I  had developed quite a few routines, which I assembled in a
+  [5XGAP[105X  package,  that  dealt  directly  with infinite groups. This package was
+  primitive at its core, but was extended with various routines as they became
+  useful.[133X
+  
+  [33X[0;0YI  decided  in  late  2005  to  start a new package from scratch, that would
+  encorporate  as  much  functionality  as  possible in a uniform manner; that
+  would  handle  semigroups  as well as groups; that could be easily extended;
+  and  with  a complete, understandable documentation. I hope I am not too far
+  from these objectives.[133X
+  
+  
+  -------------------------------------------------------
+  
+  
+  [1XContents (FR)[101X
+  
+  1 [33X[0;0YLicensing[133X
+  2 [33X[0;0YFR package[133X
+    2.1 [33X[0;0YA brief mathematical introduction[133X
+    2.2 [33X[0;0YAn example session[133X
+  3 [33X[0;0YFunctionally recursive machines[133X
+    3.1 [33X[0;0YTypes of machines[133X
+    3.2 [33X[0;0YProducts of machines[133X
+    3.3 [33X[0;0YCreators for [10XFRMachine[110Xs[133X
+      3.3-1 FRMachineNC
+      3.3-2 FRMachine
+      3.3-3 UnderlyingFRMachine
+      3.3-4 AsGroupFRMachine
+      3.3-5 AsGroupFRMachine
+    3.4 [33X[0;0YAttributes for [10XFRMachine[110Xs[133X
+      3.4-1 StateSet
+      3.4-2 GeneratorsOfFRMachine
+      3.4-3 Output
+      3.4-4 Transition
+      3.4-5 Transitions
+      3.4-6 WreathRecursion
+    3.5 [33X[0;0YOperations for [10XFRMachine[110Xs[133X
+      3.5-1 StructuralGroup
+      3.5-2 \+
+      3.5-3 \*
+      3.5-4 TensorSumOp
+      3.5-5 TensorProductOp
+      3.5-6 DirectSumOp
+      3.5-7 DirectProductOp
+      3.5-8 TreeWreathProduct
+      3.5-9 SubFRMachine
+      3.5-10 ChangeFRMachineBasis
+      3.5-11 Minimized
+      3.5-12 Correspondence
+  4 [33X[0;0YFunctionally recursive elements[133X
+    4.1 [33X[0;0YCreators for [10XFRElement[110Xs[133X
+      4.1-1 FRElementNC
+      4.1-2 FRElement
+      4.1-3 FRElement
+      4.1-4 ComposeElement
+      4.1-5 VertexElement
+      4.1-6 DiagonalElement
+      4.1-7 AsGroupFRElement
+    4.2 [33X[0;0YOperations and Attributes for [10XFRElement[110Xs[133X
+      4.2-1 Output
+      4.2-2 Activity
+      4.2-3 Transition
+      4.2-4 Transitions
+      4.2-5 Portrait
+      4.2-6 DecompositionOfFRElement
+      4.2-7 StateSet
+      4.2-8 State
+      4.2-9 States
+      4.2-10 FixedStates
+      4.2-11 LimitStates
+      4.2-12 IsFiniteStateFRElement
+      4.2-13 NucleusOfFRMachine
+      4.2-14 InitialState
+      4.2-15 \^
+      4.2-16 \*
+      4.2-17 \[\]
+  5 [33X[0;0YMealy machines and elements[133X
+    5.1 [33X[0;0YCreators for [10XMealyMachine[110Xs and [10XMealyElement[110Xs[133X
+      5.1-1 MealyMachine
+      5.1-2 MealyMachine
+      5.1-3 MealyMachineNC
+      5.1-4 AllMealyMachines
+    5.2 [33X[0;0YOperations and Attributes for [10XMealyMachine[110Xs and [10XMealyElement[110Xs[133X
+      5.2-1 Draw
+      5.2-2 Minimized
+      5.2-3 DualMachine
+      5.2-4 IsReversible
+      5.2-5 IsMinimized
+      5.2-6 AlphabetInvolution
+      5.2-7 IsBireversible
+      5.2-8 StateGrowth
+      5.2-9 Degree
+      5.2-10 IsFinitaryFRElement
+      5.2-11 Depth
+      5.2-12 IsBoundedFRElement
+      5.2-13 IsPolynomialGrowthFRElement
+      5.2-14 Signatures
+      5.2-15 VertexTransformationsFRMachine
+      5.2-16 FixedRay
+      5.2-17 IsLevelTransitive
+      5.2-18 AsMealyMachine
+      5.2-19 AsMealyMachine
+      5.2-20 AsMealyElement
+      5.2-21 AsIntMealyMachine
+      5.2-22 TopElement
+      5.2-23 ConfinalityClasses
+      5.2-24 Germs
+      5.2-25 HasOpenSetConditionFRElement
+      5.2-26 LimitFRMachine
+      5.2-27 NucleusMachine
+      5.2-28 GuessMealyElement
+  6 [33X[0;0YLinear machines and elements[133X
+    6.1 [33X[0;0YMethods and operations for [10XLinearFRMachine[110Xs and [10XLinearFRElement[110Xs[133X
+      6.1-1 VectorMachine
+      6.1-2 AssociativeObject
+      6.1-3 AlgebraMachine
+      6.1-4 Transition
+      6.1-5 Transitions
+      6.1-6 NestedMatrixState
+      6.1-7 ActivitySparse
+      6.1-8 Activities
+      6.1-9 IsConvergent
+      6.1-10 TransposedFRElement
+      6.1-11 LDUDecompositionFRElement
+      6.1-12 GuessVectorElement
+      6.1-13 AsLinearMachine
+      6.1-14 AsVectorMachine
+      6.1-15 AsAlgebraMachine
+      6.1-16 AsVectorMachine
+      6.1-17 AsAlgebraMachine
+  7 [33X[0;0YSelf-similar groups, monoids and semigroups[133X
+    7.1 [33X[0;0YCreators for FR semigroups[133X
+      7.1-1 FRGroup
+      7.1-2 NewSemigroupFRMachine
+      7.1-3 SCGroup
+      7.1-4 Correspondence
+      7.1-5 FullSCGroup
+      7.1-6 FRMachineFRGroup
+      7.1-7 IsomorphismFRGroup
+      7.1-8 IsomorphismMealyGroup
+      7.1-9 FRGroupByVirtualEndomorphism
+      7.1-10 TreeWreathProduct
+      7.1-11 WeaklyBranchedEmbedding
+    7.2 [33X[0;0YOperations for FR semigroups[133X
+      7.2-1 PermGroup
+      7.2-2 PcGroup
+      7.2-3 TransformationMonoid
+      7.2-4 TransformationSemigroup
+      7.2-5 EpimorphismGermGroup
+      7.2-6 GermData
+      7.2-7 StabilizerImage
+      7.2-8 LevelStabilizer
+      7.2-9 IsStateClosed
+      7.2-10 StateClosure
+      7.2-11 IsRecurrentFRSemigroup
+      7.2-12 IsLevelTransitive
+      7.2-13 IsInfinitelyTransitive
+      7.2-14 IsFinitaryFRSemigroup
+      7.2-15 Degree
+      7.2-16 HasOpenSetConditionFRSemigroup
+      7.2-17 HasCongruenceProperty
+      7.2-18 IsContracting
+      7.2-19 NucleusOfFRSemigroup
+      7.2-20 NucleusMachine
+      7.2-21 AdjacencyBasesWithOne
+      7.2-22 BranchingSubgroup
+      7.2-23 FindBranchingSubgroup
+      7.2-24 IsBranched
+      7.2-25 IsBranchingSubgroup
+      7.2-26 BranchStructure
+      7.2-27 TopVertexTransformations
+      7.2-28 VertexTransformations
+      7.2-29 VirtualEndomorphism
+      7.2-30 EpimorphismFromFpGroup
+      7.2-31 IsomorphismSubgroupFpGroup
+    7.3 [33X[0;0YProperties for infinite groups[133X
+      7.3-1 IsTorsionGroup
+      7.3-2 IsTorsionFreeGroup
+      7.3-3 IsAmenableGroup
+      7.3-4 IsVirtuallySimpleGroup
+      7.3-5 IsResiduallyFinite
+      7.3-6 IsSQUniversal
+      7.3-7 IsJustInfinite
+  8 [33X[0;0YAlgebras[133X
+    8.1 [33X[0;0YCreators for FR algebras[133X
+      8.1-1 FRAlgebra
+      8.1-2 SCAlgebra
+      8.1-3 NucleusOfFRAlgebra
+      8.1-4 BranchingIdeal
+    8.2 [33X[0;0YOperations for FR algebras[133X
+      8.2-1 MatrixQuotient
+      8.2-2 ThinnedAlgebra
+      8.2-3 Nillity
+      8.2-4 DegreeOfHomogeneousElement
+  9 [33X[0;0YExamples[133X
+    9.1 [33X[0;0YExamples of groups[133X
+      9.1-1 FullBinaryGroup
+      9.1-2 BinaryKneadingGroup
+      9.1-3 BasilicaGroup
+      9.1-4 FornaessSibonyGroup
+      9.1-5 AddingGroup
+      9.1-6 BinaryAddingGroup
+      9.1-7 MixerGroup
+      9.1-8 SunicGroup
+      9.1-9 GrigorchukMachines
+      9.1-10 GrigorchukMachine
+      9.1-11 GrigorchukOverGroup
+      9.1-12 GrigorchukTwistedTwin
+      9.1-13 BrunnerSidkiVieiraGroup
+      9.1-14 AleshinGroups
+      9.1-15 AleshinGroup
+      9.1-16 BabyAleshinGroup
+      9.1-17 SidkiFreeGroup
+      9.1-18 GuptaSidkiGroups
+      9.1-19 GuptaSidkiGroup
+      9.1-20 NeumannGroup
+      9.1-21 FabrykowskiGuptaGroup
+      9.1-22 ZugadiSpinalGroup
+      9.1-23 GammaPQMachine
+      9.1-24 RattaggiGroup
+      9.1-25 HanoiGroup
+      9.1-26 DahmaniGroup
+      9.1-27 MamaghaniGroup
+      9.1-28 WeierstrassGroup
+      9.1-29 StrichartzGroup
+      9.1-30 FRAffineGroup
+      9.1-31 CayleyGroup
+    9.2 [33X[0;0YExamples of semigroups[133X
+      9.2-1 I2Machine
+      9.2-2 I4Machine
+    9.3 [33X[0;0YExamples of algebras[133X
+      9.3-1 PSZAlgebra
+      9.3-2 GrigorchukThinnedAlgebra
+      9.3-3 GuptaSidkiThinnedAlgebra
+      9.3-4 GrigorchukLieAlgebra
+      9.3-5 SidkiFreeAlgebra
+      9.3-6 SidkiMonomialAlgebra
+    9.4 [33X[0;0YBacher's determinant identities[133X
+    9.5 [33X[0;0YVH groups[133X
+      9.5-1 VHStructure
+      9.5-2 VerticalAction
+      9.5-3 VHGroup
+      9.5-4 IsIrreducibleVHGroup
+      9.5-5 MaximalSimpleSubgroup
+  10 [33X[0;0YFR implementation details[133X
+    10.1 [33X[0;0YThe family of FR objects[133X
+      10.1-1 FRMFamily
+      10.1-2 FREFamily
+      10.1-3 AlphabetOfFRObject
+      10.1-4 AsPermutation
+      10.1-5 AsTransformation
+    10.2 [33X[0;0YFilters for [10XFRObject[110Xs[133X
+      10.2-1 IsGroupFRMachine
+      10.2-2 IsFRMachineStrRep
+      10.2-3 IsMealyMachine
+      10.2-4 IsMealyElement
+      10.2-5 IsMealyMachineIntRep
+      10.2-6 IsMealyMachineDomainRep
+      10.2-7 IsVectorFRMachineRep
+      10.2-8 IsAlgebraFRMachineRep
+      10.2-9 IsLinearFRMachine
+      10.2-10 IsLinearFRElement
+      10.2-11 IsFRElement
+      10.2-12 IsFRMealyElement
+      10.2-13 IsFRObject
+      10.2-14 IsFRMachine
+      10.2-15 IsInvertible
+      10.2-16 IsFRGroup
+      10.2-17 IsFRAlgebra
+    10.3 [33X[0;0YSome of the algorithms implemented[133X
+      10.3-1 FRMachineRWS
+      10.3-2 [33X[0;0YOrder of FR elements[133X
+      10.3-3 [33X[0;0YMembership in semigroups[133X
+      10.3-4 [33X[0;0YThe conjugacy problem[133X
+      10.3-5 OrbitSignalizer
+      10.3-6 FRConjugacyAlgorithm
+      10.3-7 FRBranchGroupConjugacyData
+      10.3-8 [33X[0;0YOrder of groups[133X
+      10.3-9 [33X[0;0YImages and preimages of some groups in f.p. and l.p. groups[133X
+      10.3-10 [33X[0;0YComparison of FR, Mealy, vector, and algebra elements[133X
+      10.3-11 [33X[0;0YInverses of linear elements[133X
+  11 [33X[0;0YMiscellanea[133X
+    11.1 [33X[0;0YGeneric operations[133X
+      11.1-1 TensorSum
+      11.1-2 TensorProduct
+      11.1-3 DirectSum
+    11.2 [33X[0;0YPeriodic lists[133X
+      11.2-1 PeriodicListsFamily
+      11.2-2 PeriodicList
+      11.2-3 CompressPeriodicList
+      11.2-4 IsConfinal
+      11.2-5 ConfinalityClass
+      11.2-6 LargestCommonPrefix
+    11.3 [33X[0;0YWord growth[133X
+      11.3-1 WordGrowth
+    11.4 [33X[0;0YFinding short relations[133X
+      11.4-1 ShortGroupRelations
+      11.4-2 ShortGroupWordInSet
+    11.5 [33X[0;0YBraid groups[133X
+      11.5-1 SurfaceBraidFpGroup
+      11.5-2 CharneyBraidFpGroup
+      11.5-3 ArtinRepresentation
+    11.6 [33X[0;0YDirichlet series[133X
+      11.6-1 DirichletSeries
+      11.6-2 DegreeDirichletSeries
+      11.6-3 SpreadDirichletSeries
+      11.6-4 ShiftDirichletSeries
+      11.6-5 ShrunkDirichletSeries
+      11.6-6 ZetaSeriesOfGroup
+      11.6-7 ValueOfDirichletSeries
+    11.7 [33X[0;0YProjective representations[133X
+      11.7-1 IsProjectiveRepresentation
+      11.7-2 ProjectiveRepresentationByFunction
+      11.7-3 LinearRepresentationByImages
+      11.7-4 DegreeOfProjectiveRepresentation
+      11.7-5 ProjectiveExtension
+      11.7-6 ProjectiveQuotient
+    11.8 [33X[0;0YMiscellanea[133X
+      11.8-1 ForwardOrbit
+      11.8-2 StringByInt
+      11.8-3 PositionInTower
+      11.8-4 RenameSubobjects
+      11.8-5 CoefficientsInAbelianExtension
+      11.8-6 MagmaEndomorphismByImagesNC
+      11.8-7 MagmaHomomorphismByImagesNC
+      11.8-8 Draw
+      11.8-9 IsFIFO
+      11.8-10 ProductIdeal
+      11.8-11 DimensionSeries
+      11.8-12 AlgebraHomomorphismByFunction
+      11.8-13 IsFpLieAlgebra
+      11.8-14 JenningsLieAlgebra
+      11.8-15 SolutionMatModN
+      11.8-16 SolutionMatMod1
+      11.8-17 CyclotomicByArgument
+      11.8-18 ArgumentOfCyclotomic
+    11.9 [33X[0;0YUser settings[133X
+      11.9-1 InfoFR
+      11.9-2 SEARCH@
+  
+  
+  [32X

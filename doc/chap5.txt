@@ -1,0 +1,970 @@
+  
+  [1X5 [33X[0;0YMealy machines and elements[133X[101X
+  
+  [33X[0;0Y[13XMealy  machines[113X form a special class of FR machines. They have as stateset a
+  finite  set,  as  opposed  to  a  free  group/monoid/semigroup. All commands
+  available  for  FR  machines  are also available for Mealy machines, but the
+  latter have added functionality.[133X
+  
+  [33X[0;0YThere  are  currently  two  types  of Mealy machines; one has as stateset an
+  interval  of  integers of the form [10X[1..m][110X and as alphabet a set of integers;
+  the  other  has  an  arbitrary  domain  as  stateset and alphabet. Almost no
+  functionality  is  implemented  for the latter type, but there is a function
+  converting it to the former type (see [2XAsMealyMachine[102X ([14X5.2-18[114X)).[133X
+  
+  [33X[0;0YThe  internal  representation  of a Mealy machine of the first kind is quite
+  different  from  that  of  FR  machines.  The  alphabet  is assumed to be an
+  interval  [10X[1..n][110X,  and the stateset is assumed to be an interval [10X[1..m][110X. The
+  transitions  are  stored  as a [22Xm × n[122X matrix, and the outputs are stored in a
+  list of length [22Xm[122X, consisting of permutations or transformations.[133X
+  
+  [33X[0;0YMealy  machines  have  additional  properties, in particular they can act on
+  periodic  sequences  (see  [2XPeriodicList[102X ([14X11.2-2[114X)). For example, the periodic
+  sequence  [10XPeriodicList([1],[1,2])[110X  describes the infinite ray [10X[1,1,2,1,2,..][110X
+  in the tree. In principle, Mealy machines could act on sequences accepted by
+  an automaton, although this is not yet implemented.[133X
+  
+  [33X[0;0YMealy  elements  are  Mealy  machines  with an initial state. For efficiency
+  reasons,  Mealy  elements are always minimized, and their states are ordered
+  in  a  canonical  top-down, left-to-right order of traversal of the tree. In
+  particular,  their  initial  state  is  always  1.  In  this implementation,
+  multiplication  of  Mealy elements is slower than multiplication of group FR
+  elements,  while  comparison  of Mealy elements is faster than comparison of
+  group  FR elements. In practise, it is better to work with Mealy elements as
+  often as possible.[133X
+  
+  [33X[0;0YProducts  of Mealy machines behave in the same way as products of general FR
+  machines,  see  [14X3.2[114X. The only difference is that now the sum and products of
+  statesets are distinct; the sum of statesets being their disjoint union, and
+  their product being their cartesian product.[133X
+  
+  [33X[0;0YSometimes  one would like to know how a Mealy element was obtained as a word
+  in   Mealy   elements.   This   is   possible   within   the  representation
+  [2XIsFRMealyElement[102X    ([14X10.2-12[114X),    which    combines    the   representations
+  [2XIsMealyElement[102X  ([14X10.2-4[114X)  and  [2XIsFRElement[102X  ([14X10.2-11[114X).  On  top  of usual FR
+  elements,  they  have an attribute [10XUnderlyingMealyMachine[110X, which is used for
+  faster comparison of elements, and computation of the action.[133X
+  
+  [33X[0;0YTherefore,    if    [10XL[110X    is    a    list    of   FR   elements,   the   call
+  [10XList(L,UnderlyingElement);;[110X  will set these attributes, and all calculations
+  made  with  elements  of  [10XL[110X  will use and propagate the attributes. FR-Mealy
+  elements  are  displayed  in  the form [10X<d|w|n>[110X, where [10Xd[110X is the degree of the
+  alphabet,  [10Xw[110X is a word in the stateset, and [10Xn[110X is the number of states of the
+  underlying Mealy element.[133X
+  
+  
+  [1X5.1 [33X[0;0YCreators for [10XMealyMachine[110X[101X[1Xs and [10XMealyElement[110X[101X[1Xs[133X[101X
+  
+  [1X5.1-1 MealyMachine[101X
+  
+  [29X[2XMealyMachine[102X( [[3Xalphabet[103X, ][3Xtransitions[103X, [3Xoutput[103X ) [32X operation
+  [29X[2XMealyElement[102X( [[3Xalphabet[103X, ][3Xtransitions[103X, [3Xoutput[103X, [3Xinit[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA new Mealy machine/element.[133X
+  
+  [33X[0;0YThis function constructs a new Mealy machine or element, of integer type.[133X
+  
+  [33X[0;0Y[3Xtransitions[103X  is  a  list of lists; [10Xtransitions[s][x][110X is an integer, which is
+  the state reached by the machine when started in state [3Xs[103X and fed input [3Xx[103X.[133X
+  
+  [33X[0;0Y[3Xoutput[103X  is a list; at position [3Xs[103X it contains a permutation, a transformation
+  describing  the  activity of state [3Xs[103X, or a list describing the images of the
+  transformation.[133X
+  
+  [33X[0;0Y[3Xalphabet[103X  is an optional domain given as first argument; When present, it is
+  assumed  to  be  a  finite  domain,  mapped  bijectively  to  [10X[1..n][110X  by its
+  enumerator. The indices "[10X[s][110X" above are then understood with respect to this
+  enumeration.[133X
+  
+  [33X[0;0Y[3Xinit[103X  is  an  integer  describing  the initial state the newly created Mealy
+  element should be in.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xb := MealyMachine([[3,2],[3,1],[3,3]],[(1,2),(),()]);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 1, 2 ] with 3 states>[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(b);[127X[104X
+    [4X[28X   |  1     2[128X[104X
+    [4X[28X---+-----+-----+[128X[104X
+    [4X[28X a | c,2   b,1[128X[104X
+    [4X[28X b | c,1   a,2[128X[104X
+    [4X[28X c | c,1   c,2[128X[104X
+    [4X[28X---+-----+-----+[128X[104X
+    [4X[25Xgap>[125X [27Xn := MealyMachine(Domain([11,12]),[[3,2],[3,1],[3,3]],[(1,2),(),()]);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 11, 12 ] with states [ 1 .. 3 ]>[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(n);[127X[104X
+    [4X[28X   |  11     12[128X[104X
+    [4X[28X---+------+------+[128X[104X
+    [4X[28X a | c,12   b,11[128X[104X
+    [4X[28X b | c,11   a,12[128X[104X
+    [4X[28X c | c,11   c,12[128X[104X
+    [4X[28X---+------+------+[128X[104X
+  [4X[32X[104X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtau := MealyElement([[2,1],[2,2]],[(1,2),()],1);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 1, 2 ] with 2 states, initial state 1>[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(tau);[127X[104X
+    [4X[28X   |  1     2[128X[104X
+    [4X[28X---+-----+-----+[128X[104X
+    [4X[28X a | b,2   a,1[128X[104X
+    [4X[28X b | b,1   b,2[128X[104X
+    [4X[28X---+-----+-----+[128X[104X
+    [4X[28XInitial state:  a[128X[104X
+    [4X[25Xgap>[125X [27X[1,1]^tau; [[1]]^tau; [[2]]^tau;[127X[104X
+    [4X[28X[ 2, 1 ][128X[104X
+    [4X[28X[ 2, [ 1 ] ][128X[104X
+    [4X[28X[ [ 1 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X5.1-2 MealyMachine[101X
+  
+  [29X[2XMealyMachine[102X( [3Xstateset[103X, [3Xalphabet[103X, [3Xtransitions[103X, [3Xoutput[103X ) [32X operation
+  [29X[2XMealyElement[102X( [3Xstateset[103X, [3Xalphabet[103X, [3Xtransitions[103X, [3Xoutput[103X, [3Xinit[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA new Mealy machine/element.[133X
+  
+  [33X[0;0YThis function constructs a new Mealy machine or element, of domain type.[133X
+  
+  [33X[0;0Y[3Xstateset[103X and [3Xalphabet[103X are domains; they are not necessarily finite.[133X
+  
+  [33X[0;0Y[3Xtransitions[103X  is  a  function;  it takes as arguments a state and an alphabet
+  letter, and returns a state.[133X
+  
+  [33X[0;0Y[3Xoutput[103X  is  either  a function, accepting as arguments a state and a letter,
+  and returning a letter.[133X
+  
+  [33X[0;0Y[3Xinit[103X  is  an  element  of  [3Xstateset[103X  describing  the initial state the newly
+  created Mealy element should be in.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xg := Group((1,2));; n := MealyMachine(g,g,\*,\*);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ (), (1,2) ] with states Group( [ (1,2) ] )>[128X[104X
+    [4X[25Xgap>[125X [27X[(1,2),()]^FRElement(n,());[127X[104X
+    [4X[28X[ (1,2), (1,2) ][128X[104X
+    [4X[25Xgap>[125X [27Xa := MealyElement(g,g,\*,\*,());[127X[104X
+    [4X[28X<Mealy machine on alphabet [ (), (1,2) ] with states Group([128X[104X
+    [4X[28X[ (1,2) ] ), initial state ()>[128X[104X
+    [4X[25Xgap>[125X [27X[(1,2),()]^a;[127X[104X
+    [4X[28X[ (1,2), (1,2) ][128X[104X
+  [4X[32X[104X
+  
+  [1X5.1-3 MealyMachineNC[101X
+  
+  [29X[2XMealyMachineNC[102X( [3Xfam[103X, [3Xtransitions[103X, [3Xoutput[103X ) [32X operation
+  [29X[2XMealyElementNC[102X( [3Xfam[103X, [3Xtransitions[103X, [3Xoutput[103X, [3Xinit[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA new Mealy machine/element.[133X
+  
+  [33X[0;0YThis function constructs a new Mealy machine or element, of integer type. No
+  tests  are  performed  to  check  that  the  arguments contain values within
+  bounds,  or  even of the right type (beyond the simple checking performed by
+  [5XGAP[105X's method selection algorithms). In particular, Mealy elements are always
+  assumed to be minimized, but these functions leave this task to the user.[133X
+  
+  [33X[0;0Y[3Xfam[103X is the family to which the newly created Mealy machine will belong.[133X
+  
+  [33X[0;0Y[3Xtransitions[103X  is  a  list of lists; [10Xtransitions[s][x][110X is an integer, which is
+  the state reached by the machine when started in state [3Xs[103X and fed input [3Xx[103X.[133X
+  
+  [33X[0;0Y[3Xoutput[103X   is   a  list;  at  position  [3Xs[103X  it  contains  a  permutation  or  a
+  transformation describing the activity of state [3Xs[103X.[133X
+  
+  [33X[0;0Y[3Xinit[103X  is  an  integer  describing  the initial state the newly created Mealy
+  element should be in.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtaum := MealyMachine([[2,1],[2,2]],[(1,2),()]);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 1, 2 ] with 2 states>[128X[104X
+    [4X[25Xgap>[125X [27Xtauminv := MealyMachineNC(FamilyObj(taum),[[1,2],[2,2]],[(1,2),()]);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 1, 2 ] with 2 states>[128X[104X
+    [4X[25Xgap>[125X [27Xtau := MealyElement([[2,1],[2,2]],[(1,2),()],1);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 1, 2 ] with 2 states, initial state 1>[128X[104X
+    [4X[25Xgap>[125X [27Xtauinv := MealyElementNC(FamilyObj(n),[[1,2],[2,2]],[(1,2),()],1);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 1, 2 ] with 2 states, initial state 1>[128X[104X
+    [4X[25Xgap>[125X [27Xtau=FRElement(taum,1); tauinv=FRElement(tauminv,1);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsOne(tau*tauinv);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X5.1-4 AllMealyMachines[101X
+  
+  [29X[2XAllMealyMachines[102X( [3Xm[103X, [3Xn[103X[, [3Xfilters[103X] ) [32X function
+  [6XReturns:[106X  [33X[0;10YA list of all Mealy machines with specified properties.[133X
+  
+  [33X[0;0YThis  function  constructs all Mealy machines with alphabet [10X[1..m][110X, stateset
+  [10X[1..n][110X and specified properties.[133X
+  
+  [33X[0;0YThese  properties  are  specified  as additional arguments. They can include
+  [2XIsInvertible[102X  ([14X10.2-15[114X),  [2XIsReversible[102X  ([14X5.2-4[114X), [2XIsBireversible[102X ([14X5.2-7[114X), and
+  [2XIsMinimized[102X ([14X5.2-5[114X) to specify that the machines should have that property.[133X
+  
+  [33X[0;0YA  group/monoid/semigroup  [10Xp[110X  may also be passed as argument; this specifies
+  the   allowable   vertex  transformations  of  the  machines.  The  property
+  [10XIsTransitive[110X  requires  that  the state-closed group/monoid/semigroup of the
+  machine act transitively on its alphabet, and [10XIsSurjective[110X requires that its
+  [2XVertexTransformationsFRMachine[102X ([14X5.2-15[114X) be precisely equal to [10Xp[110X.[133X
+  
+  [33X[0;0YThe  argument  [10XEquivalenceClasses[110X  returns  one  isomorphism  class of Mealy
+  machine, under the permutations of the stateset and alphabet.[133X
+  
+  [33X[0;0YThe  argument  [10XInverseClasses[110X returns one isomorphism class of Mealy machine
+  under inversion of the stateset.[133X
+  
+  [33X[0;0YThe  following  example  constructs  the  two  Mealy machines [2XAleshinMachine[102X
+  ([14X9.1-15[114X) and [2XBabyAleshinMachine[102X ([14X9.1-16[114X):[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xl := AllMealyMachines(2,3,IsBireversible,IsSurjective,EquivalenceClasses);;[127X[104X
+    [4X[25Xgap>[125X [27XLength(l);[127X[104X
+    [4X[28X20[128X[104X
+    [4X[25Xgap>[125X [27XFiltered(l,x->VertexTransformationsFRMachine(DualMachine(x))=SymmetricGroup(3)[127X[104X
+    [4X[25X>[125X [27X                    and Size(StateSet(Minimized(x)))=3);[127X[104X
+    [4X[28X[ <Mealy machine on alphabet [ 1, 2 ] with 3 states>,[128X[104X
+    [4X[28X  <Mealy machine on alphabet [ 1, 2 ] with 3 states> ][128X[104X
+    [4X[28X gap> Display(last[1]);[128X[104X
+    [4X[28X   |  1     2[128X[104X
+    [4X[28X---+-----+-----+[128X[104X
+    [4X[28X a | a,1   b,2[128X[104X
+    [4X[28X b | c,2   c,1[128X[104X
+    [4X[28X c | b,1   a,2[128X[104X
+    [4X[28X---+-----+-----+[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(last[2]);[127X[104X
+    [4X[28X   |  1     2[128X[104X
+    [4X[28X---+-----+-----+[128X[104X
+    [4X[28X a | a,2   b,1[128X[104X
+    [4X[28X b | c,1   c,2[128X[104X
+    [4X[28X c | b,2   a,1[128X[104X
+    [4X[28X---+-----+-----+[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X5.2 [33X[0;0YOperations and Attributes for [10XMealyMachine[110X[101X[1Xs and [10XMealyElement[110X[101X[1Xs[133X[101X
+  
+  [1X5.2-1 Draw[101X
+  
+  [29X[2XDraw[102X( [3Xm[103X[, [3Xfilename[103X] ) [32X operation
+  
+  [33X[0;0YThis function creates a graph description of the Mealy machine/element [3Xm[103X. If
+  a  second  argument  [3Xfilename[103X is present, the graph is saved, in [9Xdot[109X format,
+  under  that  filename;  otherwise  it  is  converted to Postscript using the
+  program  [9Xdot[109X  from  the  [5Xgraphviz[105X  package, and is displayed in a separate X
+  window using the program [5Xdisplay[105X or [5Xrsvg-view[105X. This works on UNIX systems.[133X
+  
+  [33X[0;0YIt  is  assumed,  but  not  checked, that [5Xgraphviz[105X and [5Xdisplay[105X/[5Xrsvg-view[105X are
+  properly  installed  on  the  system.  The option [9Xusesvg[109X requests the use of
+  [5Xrsvg-view[105X; by default, [5Xdisplay[105X is used.[133X
+  
+  [33X[0;0YA  circle  is displayed for every state of [3Xm[103X, and there is an edge for every
+  transition  in  [3Xm[103X. It has label of the form [22Xx/y[122X, where [22Xx[122X is the input symbol
+  and [22Xy[122X is the corresponding output. Edges are coloured according to the input
+  symbol,  in  the  order  "red",  "blue",  "green", "gray", "yellow", "cyan",
+  "orange",  "purple".  If [3Xm[103X has an initial state, it is indicated as a doubly
+  circled state.[133X
+  
+  [33X[0;0YIf  [3Xm[103X  is a FR machine, [10XDraw[110X first attempts to convert it to a Mealy machine
+  (see [2XAsMealyMachine[102X ([14X5.2-18[114X)).[133X
+  
+  [33X[0;0YThe  optional  value  "detach"  detaches  the drawing subprocess after it is
+  started, in the syntax [10XDraw(M:detach)[110X.[133X
+  
+  [33X[0;0YIt  is assumed that [5Xgraphviz[105X and [5Xdisplay[105X/[5Xrsvg-view[105X are properly installed on
+  the  system.  The  option  [9Xusesvg[109X requests the use of [5Xrsvg-view[105X; by default,
+  [5Xdisplay[105X is used.[133X
+  
+  [33X[0;0YFor example, the command [10XDraw(NucleusMachine(BasilicaGroup));[110X produces (in a
+  new window) the following picture:[133X
+  
+  [1X5.2-2 Minimized[101X
+  
+  [29X[2XMinimized[102X( [3Xm[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA minimized machine equivalent to [3Xm[103X.[133X
+  
+  [33X[0;0YThis function contructs the minimized Mealy machine [10Xr[110X corresponding to [3Xm[103X, by
+  identifying   isomorphic   states;   and,  if  [3Xm[103X  is  initial,  by  removing
+  inaccessible states.[133X
+  
+  [33X[0;0YIf  [3Xm[103X  is  initial,  the  minimized  automaton  is  such that its states are
+  numbered  first by distance to the initial state, and then lexicographically
+  by  input  letter.  (in  particular,  the  initial  state  is 1). This makes
+  comparison of minimized automata efficient.[133X
+  
+  [33X[0;0YFurthermore,  [10XCorrespondence(r)[110X  is a list describing, for each (accessible)
+  state of [3Xm[103X, its corresponding state in [10Xr[110X; see [2XCorrespondence[102X ([14X3.5-12[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XGrigorchukMachine := MealyMachine([[2,3],[4,4],[2,5],[4,4],[4,1]],[127X[104X
+    [4X[28X                                       [(),(1,2),(),(),()]);[128X[104X
+    [4X[28X<Mealy machine on alphabet [ 1, 2 ] with 5 states>[128X[104X
+    [4X[25Xgap>[125X [27Xg2 := GrigorchukMachine^2;[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 1, 2 ] with 25 states>[128X[104X
+    [4X[25Xgap>[125X [27XMinimized(g2);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 1, 2 ] with 11 states, minimized>[128X[104X
+    [4X[25Xgap>[125X [27XCorrespondence(last);[127X[104X
+    [4X[28X[ 2, 1, 4, 11, 9, 1, 2, 5, 7, 6, 4, 3, 2, 9, 11, 11, 10, 9, 2, 4, 9, 8, 11, 4, 2 ][128X[104X
+    [4X[25Xgap>[125X [27Xe := FRElement(g2,11);[127X[104X
+    [4X[28X<Mealy element on alphabet [ 1, 2 ] with 25 states, initial state 11>[128X[104X
+    [4X[25Xgap>[125X [27XMinimized(e);[127X[104X
+    [4X[28X<Mealy element on alphabet [ 1, 2 ] with 5 states, initial state 1, minimized>[128X[104X
+    [4X[25Xgap>[125X [27XCorrespondence(last);[127X[104X
+    [4X[28X[ 3, 2, 1, 4, 5, 2, 3,,,, 1,, 3, 5, 4, 4,, 5, 3, 1, 5,, 4, 1, 3 ][128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-3 DualMachine[101X
+  
+  [29X[2XDualMachine[102X( [3Xm[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe dual Mealy machine of [3Xm[103X.[133X
+  
+  [33X[0;0YThis  function  constructs  the  [13Xdual[113X  machine  of  [3Xm[103X, i.e. the machine with
+  stateset  the  alphabet of [3Xm[103X, with alphabet the stateset of [3Xm[103X, and similarly
+  with transitions and output switched.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xb := MealyMachine([[3,2],[3,1],[3,3]],[(1,2),(),()]);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 1, 2 ] with 3 states>[128X[104X
+    [4X[25Xgap>[125X [27Xd := DualMachine(b)^4);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 1, 2, 3 ] with 16 states>[128X[104X
+    [4X[25Xgap>[125X [27XDraw(d); # action on 2^4 points[127X[104X
+    [4X[25Xgap>[125X [27XDualMachine(d);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16[128X[104X
+    [4X[28X ] with 3 states>[128X[104X
+    [4X[25Xgap>[125X [27XOutput(last,1)=Activity(FRElement(b,1),4);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-4 IsReversible[101X
+  
+  [29X[2XIsReversible[102X( [3Xm[103X ) [32X property
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xm[103X is a reversible Mealy machine.[133X
+  
+  [33X[0;0YThis  function  tests  whether [3Xm[103X is [13Xreversible[113X, i.e. whether the [2XDualMachine[102X
+  ([14X5.2-3[114X) of [3Xm[103X is invertible. See [MNS00] for more details.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsReversible(MealyMachine([[1,2],[2,2]],[(1,2),()]));[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XIsReversible(MealyMachine([[1,2],[2,1]],[(),(1,2)]));[127X[104X
+  [4X[32X[104X
+  
+  [1X5.2-5 IsMinimized[101X
+  
+  [29X[2XIsMinimized[102X( [3Xm[103X ) [32X property
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xm[103X is a minimized Mealy machine.[133X
+  
+  [33X[0;0YThis  function tests whether [3Xm[103X is [13Xminimized[113X, i.e. whether nono of its states
+  can be removed or coalesced. All Mealy elements are automatically minimized.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XAllMealyMachines(2, 2, IsBireversible,EquivalenceClasses);[127X[104X
+    [4X[28X[ <Mealy machine on alphabet [ 1, 2 ] with 2 states>,[128X[104X
+    [4X[28X  <Mealy machine on alphabet [ 1, 2 ] with 2 states>,[128X[104X
+    [4X[28X  <Mealy machine on alphabet [ 1, 2 ] with 2 states>,[128X[104X
+    [4X[28X  <Mealy machine on alphabet [ 1, 2 ] with 2 states>,[128X[104X
+    [4X[28X  <Mealy machine on alphabet [ 1, 2 ] with 2 states>,[128X[104X
+    [4X[28X  <Mealy machine on alphabet [ 1, 2 ] with 2 states>,[128X[104X
+    [4X[28X  <Mealy machine on alphabet [ 1, 2 ] with 2 states>,[128X[104X
+    [4X[28X  <Mealy machine on alphabet [ 1, 2 ] with 2 states> ][128X[104X
+    [4X[25Xgap>[125X [27XList(last,IsMinimized);[127X[104X
+    [4X[28X[ false, true, false, false, false, false, true, false ][128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-6 AlphabetInvolution[101X
+  
+  [29X[2XAlphabetInvolution[102X( [3Xm[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YA list giving, for each alphabet letter, its inverse.[133X
+  
+  [33X[0;0YIf  [3Xm[103X is a bireversible machine, it may happen that the stateset of the dual
+  of  [3Xm[103X  (see  [2XDualMachine[102X  ([14X5.2-3[114X))  is closed under taking inverses. If this
+  happens,  then this list records the mapping from an alphabet letter of [3Xm[103X to
+  its inverse.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := GammaPQMachine(3,5);; AlphabetOfFRObject(m);[127X[104X
+    [4X[28X[ 1 .. 6 ][128X[104X
+    [4X[25Xgap>[125X [27XIsBireversible(m); AlphabetInvolution(GammaPQMachine(3,5));[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[28X[ 6, 5, 4, 3, 2, 1 ][128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-7 IsBireversible[101X
+  
+  [29X[2XIsBireversible[102X( [3Xm[103X ) [32X property
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xm[103X is a bireversible Mealy machine.[133X
+  
+  [33X[0;0YThis  function  tests  whether  [3Xm[103X  is  [13Xbireversible[113X,  i.e. whether all eight
+  machines   obtained  from  [3Xm[103X  using  [2XDualMachine[102X  ([14X5.2-3[114X)  and  [10XInverse[110X  are
+  well-defined. See [MNS00] for more details.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsBireversible(MealyMachine([[1,2],[2,1]],[(),(1,2)]));[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XIsBireversible(MealyMachine([[1,1],[2,2]],[(),(1,2)]));[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-8 StateGrowth[101X
+  
+  [29X[2XStateGrowth[102X( [3Xm[103X[, [3Xx[103X] ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe state growth of the Mealy machine or element [3Xm[103X.[133X
+  
+  [33X[0;0YThis  function computes, as a rational function, the power series in [3Xx[103X whose
+  coefficient  of  degree  [22Xn[122X is the number of non-trivial states at level [22Xn[122X of
+  the tree.[133X
+  
+  [33X[0;0YIf [3Xx[103X is absent, it is assumed to be [10XIndeterminate(Rationals)[110X.[133X
+  
+  [33X[0;0YIf  [3Xm[103X  is  a  Mealy  machine,  this function is computed with respect to all
+  possible starting states. If [3Xm[103X is a Mealy element, this function is computed
+  with respect to the initial state of [3Xm[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xb := MealyMachine([[3,2],[3,1],[3,3]],[(1,2),(),()]);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 1, 2 ] with 3 states>[128X[104X
+    [4X[25Xgap>[125X [27XStateGrowth(b,Indeterminate(Rationals));[127X[104X
+    [4X[28X(2)/(-x_1+1)[128X[104X
+    [4X[25Xgap>[125X [27XStateGrowth(FRElement(b,1),Indeterminate(Rationals));[127X[104X
+    [4X[28X(1)/(-x_1+1)[128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-9 Degree[101X
+  
+  [29X[2XDegree[102X( [3Xm[103X ) [32X operation
+  [29X[2XDegreeOfFRMachine[102X( [3Xm[103X ) [32X operation
+  [29X[2XDegreeOfFRElement[102X( [3Xm[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe growth degree of the Mealy machine or element [3Xm[103X.[133X
+  
+  [33X[0;0YThis  function computes the order of the pole at [22Xx=1[122X of [10XStateGrowth(m,x)[110X, in
+  case  its  denominator  is  a  product  of cyclotomics; and returns [9Xinfinity[109X
+  otherwise.[133X
+  
+  [33X[0;0YThis attribute of Mealy machines was studied inter alia in [Sid00].[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := MealyMachine([[2,1],[3,2],[3,3]],[(),(1,2),()]);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 1, 2 ] with 3 states>[128X[104X
+    [4X[25Xgap>[125X [27XStateGrowth(m,Indeterminate(Rationals));[127X[104X
+    [4X[28X(-x_1+2)/(x_1^2-2*x_1+1)[128X[104X
+    [4X[25Xgap>[125X [27XList(StateSet(m),i->Degree(FRElement(m,i)));[127X[104X
+    [4X[28X[ 2, 1, -1 ][128X[104X
+    [4X[25Xgap>[125X [27Xa := MealyMachine(Group((1,2)),Group((1,2)),\*,\*);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ (), (1,2) ] with states Group( [ (1,2) ] )>[128X[104X
+    [4X[25Xgap>[125X [27XDegree(a);[127X[104X
+    [4X[28Xinfinity[128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-10 IsFinitaryFRElement[101X
+  
+  [29X[2XIsFinitaryFRElement[102X( [3Xe[103X ) [32X property
+  [29X[2XIsFinitaryFRMachine[102X( [3Xe[103X ) [32X property
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xe[103X is a finitary element.[133X
+  
+  [33X[0;0YThis function tests whether [3Xe[103X is a finitary element. These are by definition
+  the elements of growth degree at most [22X0[122X.[133X
+  
+  [33X[0;0YWhen  applied  to  a  Mealy  machine, it returns [9Xtrue[109X if all states of [3Xe[103X are
+  finitary.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := GuptaSidkiMachines(3);; Display(m);[127X[104X
+    [4X[28X   |  1     2     3[128X[104X
+    [4X[28X---+-----+-----+-----+[128X[104X
+    [4X[28X a | a,1   a,2   a,3[128X[104X
+    [4X[28X b | a,2   a,3   a,1[128X[104X
+    [4X[28X c | a,3   a,1   a,2[128X[104X
+    [4X[28X d | b,1   c,2   d,3[128X[104X
+    [4X[28X---+-----+-----+-----+[128X[104X
+    [4X[25Xgap>[125X [27XFiltered(StateSet(m),i->IsFinitaryFRElement(FRElement(m,i)));[127X[104X
+    [4X[28X[ 1, 2, 3 ][128X[104X
+    [4X[25Xgap>[125X [27XIsFinitaryFRElement(m);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-11 Depth[101X
+  
+  [29X[2XDepth[102X( [3Xm[103X ) [32X attribute
+  [29X[2XDepthOfFRMachine[102X( [3Xm[103X ) [32X attribute
+  [29X[2XDepthOfFRElement[102X( [3Xm[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YThe depth of the finitary Mealy machine or element [3Xm[103X.[133X
+  
+  [33X[0;0YThis  function  computes the maximal level at which the [3Xm[103X has an non-trivial
+  state.  In  particular the identity has depth 0, and FR elements acting only
+  at  the root vertex have depth 1. The value [9Xinfinity[109X is returned if [3Xm[103X is not
+  finitary (see [2XIsFinitaryFRElement[102X ([14X5.2-10[114X)).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := MealyMachine([[2,1],[3,3],[4,4],[4,4]],[(),(),(1,2),()]);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 1, 2 ] with 4 states>[128X[104X
+    [4X[25Xgap>[125X [27XDepthOfFRMachine(m);[127X[104X
+    [4X[28Xinfinity[128X[104X
+    [4X[25Xgap>[125X [27XList(StateSet(m),i->DepthOfFRElement(FRElement(m,i)));[127X[104X
+    [4X[28X[ infinity, 2, 1, 0 ][128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-12 IsBoundedFRElement[101X
+  
+  [29X[2XIsBoundedFRElement[102X( [3Xe[103X ) [32X property
+  [29X[2XIsBoundedFRMachine[102X( [3Xe[103X ) [32X property
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xe[103X is a finitary element.[133X
+  
+  [33X[0;0YThis  function tests whether [3Xe[103X is a bounded element. These are by definition
+  the elements of growth degree at most [22X1[122X.[133X
+  
+  [33X[0;0YWhen  applied  to  a  Mealy  machine, it returns [9Xtrue[109X if all states of [3Xe[103X are
+  bounded.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := GuptaSidkiMachines(3);; Display(m);[127X[104X
+    [4X[28X   |  1     2     3[128X[104X
+    [4X[28X---+-----+-----+-----+[128X[104X
+    [4X[28X a | a,1   a,2   a,3[128X[104X
+    [4X[28X b | a,2   a,3   a,1[128X[104X
+    [4X[28X c | a,3   a,1   a,2[128X[104X
+    [4X[28X d | b,1   c,2   d,3[128X[104X
+    [4X[28X---+-----+-----+-----+[128X[104X
+    [4X[25Xgap>[125X [27XFiltered(StateSet(m),i->IsBoundedFRElement(FRElement(m,i)));[127X[104X
+    [4X[28X[ 1, 2, 3, 4 ][128X[104X
+    [4X[25Xgap>[125X [27XIsBoundedFRMachine(m);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-13 IsPolynomialGrowthFRElement[101X
+  
+  [29X[2XIsPolynomialGrowthFRElement[102X( [3Xe[103X ) [32X property
+  [29X[2XIsPolynomialGrowthFRMachine[102X( [3Xe[103X ) [32X property
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xe[103X is an element of polynomial growth.[133X
+  
+  [33X[0;0YThis  function  tests  whether  [3Xe[103X  is  a  polynomial  element.  These are by
+  definition the elements of polynomial growth degree.[133X
+  
+  [33X[0;0YWhen  applied  to a Mealy machine, it returns [9Xtrue[109X if all states of [3Xe[103X are of
+  polynomial growth.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := GuptaSidkiMachines(3);; Display(m);[127X[104X
+    [4X[28X   |  1     2     3[128X[104X
+    [4X[28X---+-----+-----+-----+[128X[104X
+    [4X[28X a | a,1   a,2   a,3[128X[104X
+    [4X[28X b | a,2   a,3   a,1[128X[104X
+    [4X[28X c | a,3   a,1   a,2[128X[104X
+    [4X[28X d | b,1   c,2   d,3[128X[104X
+    [4X[28X---+-----+-----+-----+[128X[104X
+    [4X[25Xgap>[125X [27XFiltered(StateSet(m),i->IsPolynomialGrowthFRElement(FRElement(m,i)));[127X[104X
+    [4X[28X[ 1, 2, 3, 4 ][128X[104X
+    [4X[25Xgap>[125X [27XIsPolynomialGrowthFRMachine(m);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-14 Signatures[101X
+  
+  [29X[2XSignatures[102X( [3Xe[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA list describing the product of the activities on each level.[133X
+  
+  [33X[0;0YThis function computes the product of the activities of [3Xe[103X on each level, and
+  returns a periodic list describing it (see [2XPeriodicList[102X ([14X11.2-2[114X)).[133X
+  
+  [33X[0;0YThe  entries  [10Xpi[110X are permutations, and their values are meaningful only when
+  projected in the abelianization of [10XVertexTransformationsFRElement(e)[110X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XSignatures(GrigorchukGroup.1);[127X[104X
+    [4X[28X[ (1,2), / () ][128X[104X
+    [4X[25Xgap>[125X [27XSignatures(GrigorchukGroup.2);[127X[104X
+    [4X[28X[/ (), (1,2), (1,2) ][128X[104X
+    [4X[25Xgap>[125X [27Xlast[50];[127X[104X
+    [4X[28X(1,2)[128X[104X
+    [4X[25Xgap>[125X [27XSignatures(AddingMachine(3)[2]);[127X[104X
+    [4X[28X[/ (1,2,3) ][128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-15 VertexTransformationsFRMachine[101X
+  
+  [29X[2XVertexTransformationsFRMachine[102X( [3Xm[103X ) [32X operation
+  [29X[2XVertexTransformationsFRElement[102X( [3Xe[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe group/monoid generated by all vertex transformations of states
+            of [3Xm[103X.[133X
+  
+  [33X[0;0YThe  first  function  computes the finite permutation group / transformation
+  monoid generated by all outputs of states of [3Xm[103X.[133X
+  
+  [33X[0;0YThe        second        command       is       a       short-hand       for
+  [10XVertexTransformationsFRMachine(UnderlyingFRMachine(e))[110X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := MealyMachine([[1,3,2],[3,2,1],[2,1,3]],[(2,3),(1,3),(1,2)]);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 1, 2 ] with 3 states>[128X[104X
+    [4X[25Xgap>[125X [27XVertexTransformationsFRMachine(m);[127X[104X
+    [4X[28XGroup([ (2,3), (1,3), (1,2) ])[128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-16 FixedRay[101X
+  
+  [29X[2XFixedRay[102X( [3Xe[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe lexicographically first ray fixed by [3Xe[103X.[133X
+  
+  [33X[0;0YThis function computes the lexicographically first infinite sequence that is
+  fixed  by  the  FR  element  [3Xe[103X,  and  returns  it  as  a  periodic list (see
+  [2XPeriodicList[102X ([14X11.2-2[114X)). It returns [9Xfail[109X if no such ray exists.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := MealyMachine([[1,3,2],[3,2,1],[2,1,3]],[(2,3),(1,3),(1,2)]);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 1, 2 ] with 3 states>[128X[104X
+    [4X[25Xgap>[125X [27XFixedRay(FRElement(m,1));[127X[104X
+    [4X[28X[/ 1 ][128X[104X
+    [4X[25Xgap>[125X [27Xlast^FRElement(m,1);[127X[104X
+    [4X[28X[/ 1 ][128X[104X
+    [4X[25Xgap>[125X [27XFixedRay(FRElement(m,[1,2]));[127X[104X
+    [4X[28Xfail[128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-17 IsLevelTransitive[101X
+  
+  [29X[2XIsLevelTransitive[102X( [3Xe[103X ) [32X property
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xe[103X acts transitively on each level of the tree.[133X
+  
+  [33X[0;0YThis  function  tests whether [3Xe[103X acts transitively on each level of the tree.
+  It is implemented only if [10XVertexTransformationsFRElement(e)[110X is abelian.[133X
+  
+  [33X[0;0YThis  function  is  used  as  a simple test to detect whether an element has
+  infinite  order:  if  [3Xe[103X  has  a  fixed  vertex [22Xv[122X such that the [10XState(e,v)[110X is
+  level-transitive, then [3Xe[103X has infinite order.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := AddingMachine(3);; Display(m);[127X[104X
+    [4X[28X   |  1     2     3[128X[104X
+    [4X[28X---+-----+-----+-----+[128X[104X
+    [4X[28X a | a,1   a,2   a,3[128X[104X
+    [4X[28X b | a,2   a,3   b,1[128X[104X
+    [4X[28X---+-----+-----+-----+[128X[104X
+    [4X[28XInitial state:  b[128X[104X
+    [4X[25Xgap>[125X [27XIsLevelTransitive(m);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsLevelTransitive(Product(UnderlyingFRMachine(GrigorchukOverGroup){[2..5]}));[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-18 AsMealyMachine[101X
+  
+  [29X[2XAsMealyMachine[102X( [3Xm[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YA Mealy machine isomorphic to [3Xm[103X.[133X
+  
+  [33X[0;0YThis function constructs a Mealy machine [10Xr[110X, which is as close as possible to
+  the  FR machine [3Xm[103X. Furthermore, [10XCorrespondence(r)[110X is a list identifying, for
+  every generator of the stateset of [3Xm[103X, a corresponding state in the new Mealy
+  machine; see [2XCorrespondence[102X ([14X3.5-12[114X).[133X
+  
+  [33X[0;0Y[3Xm[103X  may  be a group/monoid/semigroup FR machine, or a Mealy machine; in which
+  case the result is returned unchanged.[133X
+  
+  [33X[0;0YIn  particular, [10XFRElement(m,s)[110X and [10XFRElement(AsMealyMachine(m),s)[110X return the
+  same tree automorphism, for any FR machine [10Xm[110X and any state [10Xs[110X.[133X
+  
+  [33X[0;0YThis function is not guaranteed to return; if [3Xm[103X does not have finite states,
+  then it will loop forever.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xn := FRMachine(["tau","mu"],[[[],[1]],[[],[-2]]],[(1,2),(1,2)]);[127X[104X
+    [4X[28X<FR machine with alphabet [ 1 .. 2 ] on Group( [ tau, mu ] )>[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(n);[127X[104X
+    [4X[28X     |     1         2[128X[104X
+    [4X[28X-----+--------+---------+[128X[104X
+    [4X[28X tau | <id>,2     tau,1[128X[104X
+    [4X[28X  mu | <id>,2   mu^-1,1[128X[104X
+    [4X[28X-----+--------+---------+[128X[104X
+    [4X[25Xgap>[125X [27XAsMealyMachine(n);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 1, 2 ] with 4 states>[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(last);[127X[104X
+    [4X[28X   |  1     2[128X[104X
+    [4X[28X---+-----+-----+[128X[104X
+    [4X[28X a | c,2   a,1[128X[104X
+    [4X[28X b | c,2   d,1[128X[104X
+    [4X[28X c | c,1   c,2[128X[104X
+    [4X[28X d | b,2   c,1[128X[104X
+    [4X[28X---+-----+-----+[128X[104X
+    [4X[25Xgap>[125X [27XCorrespondence(last);[127X[104X
+    [4X[28X[ 1, 2 ][128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-19 AsMealyMachine[101X
+  
+  [29X[2XAsMealyMachine[102X( [3Xl[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YA Mealy machine constructed out of the FR elements in [3Xl[103X.[133X
+  
+  [33X[0;0YThis  function  constructs a Mealy machine [10Xr[110X, with states [3Xl[103X (which must be a
+  state-closed  set).  Its  outputs  are  the outputs of its elements, and its
+  transitions   are   the   transitions   of   its  elements;  in  particular,
+  [10XFRElement(r,i)[110X is equal to [10Xl[i][110X as an FR element.[133X
+  
+  [33X[0;0Y[10XCorrespondence(r)[110X records the argument [3Xl[103X.[133X
+  
+  [33X[0;0YThis function returns [9Xfail[109X if [3Xl[103X is not state-closed.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27X mu := FRElement([[[],[-1]]],[(1,2)],[1]);[127X[104X
+    [4X[28X<2|f1>[128X[104X
+    [4X[28Xgap>[128X[104X
+    [4X[25Xgap>[125X [27XStates(mu);[127X[104X
+    [4X[28X[ <2|f1>, <2|identity ...>, <2|f1^-1> ][128X[104X
+    [4X[25Xgap>[125X [27XAsMealyMachine(last);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 1, 2 ] with 3 states>[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(last);[127X[104X
+    [4X[28X   |  1     2[128X[104X
+    [4X[28X---+-----+-----+[128X[104X
+    [4X[28X a | b,2   c,1[128X[104X
+    [4X[28X b | b,1   b,2[128X[104X
+    [4X[28X c | a,2   b,1[128X[104X
+    [4X[28X---+-----+-----+[128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-20 AsMealyElement[101X
+  
+  [29X[2XAsMealyElement[102X( [3Xm[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YA Mealy element isomorphic to [3Xm[103X.[133X
+  
+  [33X[0;0YThis  function  constructs  a  Mealy  element,  which  induces the same tree
+  automorphism as the FR element [3Xm[103X.[133X
+  
+  [33X[0;0Y[3Xm[103X  may  be a group/monoid/semigroup FR element, or a Mealy element; in which
+  case the result is returned unchanged.[133X
+  
+  [33X[0;0YThis function is not guaranteed to return; if [3Xm[103X does not have finite states,
+  then it will loop forever.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xmu := FRElement([[[],[-1]]],[(1,2)],[1]);[127X[104X
+    [4X[28X<2|f1>[128X[104X
+    [4X[25Xgap>[125X [27XAsMealyElement(mu);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 1, 2 ] with 3 states, initial state 1>[128X[104X
+    [4X[25Xgap>[125X [27X[[2,1]]^last;[127X[104X
+    [4X[28X[ [ 1, 2 ] ][128X[104X
+    [4X[25Xgap>[125X [27X[2,1,2,1]^mu;[127X[104X
+    [4X[28X[ 1, 2, 1, 2 ][128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-21 AsIntMealyMachine[101X
+  
+  [29X[2XAsIntMealyMachine[102X( [3Xm[103X ) [32X attribute
+  [29X[2XAsIntMealyElement[102X( [3Xm[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YA Mealy machine in integer format, isomorphic to [3Xm[103X.[133X
+  
+  [33X[0;0YThis function constructs a Mealy machine [10Xr[110X, which has similar behaviour as [3Xm[103X
+  while  having  stateset  [10X[1..n][110X for some natural [10Xn[110X. Most [5XFR[105X commands operate
+  efficiently only on Mealy machines of this type.[133X
+  
+  [33X[0;0YThis function is not guaranteed to return; if [3Xm[103X does not have finite states,
+  then it will loop forever.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xg := Group((1,2));; n := MealyMachine(g,g,\*,\*);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ (), (1,2) ] with states Group( [ (1,2) ] )>[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(n);[127X[104X
+    [4X[28X       |      ()            (1,2)[128X[104X
+    [4X[28X-------+-------------+-------------+[128X[104X
+    [4X[28X    () |    (),()      (1,2),(1,2)[128X[104X
+    [4X[28X (1,2) | (1,2),(1,2)      (),()[128X[104X
+    [4X[28X-------+-------------+-------------+[128X[104X
+    [4X[25Xgap>[125X [27XAsIntMealyMachine(n);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 1, 2 ] with 2 states>[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(last);[127X[104X
+    [4X[28X   |  1     2[128X[104X
+    [4X[28X---+-----+-----+[128X[104X
+    [4X[28X a | a,1   b,2[128X[104X
+    [4X[28X b | b,2   a,1[128X[104X
+    [4X[28X---+-----+-----+[128X[104X
+    [4X[25Xgap>[125X [27XCorrespondence(last);[127X[104X
+    [4X[28X[ 1, 2 ][128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-22 TopElement[101X
+  
+  [29X[2XTopElement[102X( [3Xp[103X[, [3Xn[103X] ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YA  Mealy  machine in integer format, acting on the first symbol of
+            sequences.[133X
+  
+  [33X[0;0YThis  function  constructs  a  Mealy machine [10Xr[110X, which acts as [3Xp[103X on the first
+  letter  of sequences and fixes the other letters. The argument [3Xn[103X is the size
+  of the alphabet of [10Xr[110X; if it is ommitted, then it is assumed to be the degree
+  of  the  transformation  [3Xp[103X, or the largest moved point of the permutation or
+  trans [3Xp[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xa := TopElement((1,2));[127X[104X
+    [4X[28X<Mealy element on alphabet [ 1, 2 ] with 2 states>[128X[104X
+    [4X[25Xgap>[125X [27Xlast=GrigorchukGroup.1;[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27Xa := TopElement((1,2),3);[127X[104X
+    [4X[28X<Mealy element on alphabet [ 1, 2, 3 ] with 2 states>[128X[104X
+    [4X[25Xgap>[125X [27Xlast in GuptaSidkiGroup;[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-23 ConfinalityClasses[101X
+  
+  [29X[2XConfinalityClasses[102X( [3Xe[103X ) [32X attribute
+  [29X[2XIsWeaklyFinitaryFRElement[102X( [3Xe[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YA list describing the non-trivial confinality classes of [3Xe[103X.[133X
+  
+  [33X[0;0YIf  [3Xe[103X  is  a  bounded  element  (see [2XIsBoundedFRElement[102X ([14X5.2-12[114X)), there are
+  finitely  many  infinite  sequences  that have confinality class larger that
+  one;  i.e.  ultimately periodic sequences that are mapped by [3Xe[103X to a sequence
+  with  different  period. This function returns a list of equivalence classes
+  of periodic lists, see [2XPeriodicList[102X ([14X11.2-2[114X), which are related under [3Xe[103X.[133X
+  
+  [33X[0;0YBy  definition,  an  element  is  [13Xweakly finitary[113X if it has no non-singleton
+  confinality classes.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xg := FRGroup("t=<,,t>(2,3)","u=<u,,>(1,2)","v=<u,t,>");;[127X[104X
+    [4X[25Xgap>[125X [27XConfinalityClasses(g.1);[127X[104X
+    [4X[28X[ {PeriodicList([  ],[ 2 ])} ][128X[104X
+    [4X[25Xgap>[125X [27XList(GeneratorsOfGroup(g),x->Elements(ConfinalityClasses(x)[1]));[127X[104X
+    [4X[28X[ [ [/ 2 ], [/ 3 ] ],[128X[104X
+    [4X[28X  [ [/ 1 ], [/ 2 ] ],[128X[104X
+    [4X[28X  [ [/ 1 ], [/ 2 ], [/ 3 ] ] ][128X[104X
+    [4X[25Xgap>[125X [27XIsWeaklyFinitaryFRElement(BinaryAddingElement);[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XIsWeaklyFinitaryFRElement(GuptaSidkiGroup.2);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-24 Germs[101X
+  
+  [29X[2XGerms[102X( [3Xe[103X ) [32X attribute
+  [29X[2XNormOfBoundedFRElement[102X( [3Xe[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YThe germs of the bounded element [3Xe[103X.[133X
+  
+  [33X[0;0YThe  [13Xgerms[113X  of  a  bounded element are the finitely many ultimately periodic
+  sequences on which the state of [3Xe[103X does not vanish. This function returns the
+  germs  of  [3Xe[103X,  as  a  list of pairs; the first entry is a ray described as a
+  periodic  sequence  of  integers (see [2XPeriodicList[102X ([14X11.2-2[114X)), and the second
+  entry is the periodic sequence of states that appear along that ray.[133X
+  
+  [33X[0;0YThe [13Xnorm[113X of a bounded element is the length of its list of germs.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XGerms(BinaryAddingElement);[127X[104X
+    [4X[28X[ [ [/ 2 ], [/ 1 ] ] ][128X[104X
+    [4X[25Xgap>[125X [27XGerms(GrigorchukGroup.1);[127X[104X
+    [4X[28X[  ][128X[104X
+    [4X[25Xgap>[125X [27XGerms(GrigorchukGroup.2);[127X[104X
+    [4X[28X[ [ [/ 2 ], [/ 1, 3, 5 ] ] ][128X[104X
+    [4X[25Xgap>[125X [27XDisplay(GrigorchukGroup.2);[127X[104X
+    [4X[28X   |  1     2[128X[104X
+    [4X[28X---+-----+-----+[128X[104X
+    [4X[28X a | b,1   c,2[128X[104X
+    [4X[28X b | d,2   d,1[128X[104X
+    [4X[28X c | b,1   e,2[128X[104X
+    [4X[28X d | d,1   d,2[128X[104X
+    [4X[28X e | d,1   a,2[128X[104X
+    [4X[28X---+-----+-----+[128X[104X
+    [4X[28XInitial state: a[128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-25 HasOpenSetConditionFRElement[101X
+  
+  [29X[2XHasOpenSetConditionFRElement[102X( [3Xe[103X ) [32X property
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xe[103X has the open set condition.[133X
+  
+  [33X[0;0YAn  FR element [3Xe[103X has the [13Xopen set condition[113X if for every infinite ray in the
+  tree which is fixed by [3Xe[103X, there is an open set around that ray which is also
+  fixed  by  [3Xe[103X.  This  function tests for [3Xe[103X to have the open set condition. It
+  currently is implemented only for bounded elements.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XHasOpenSetConditionFRElement(GrigorchukGroup.1);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XHasOpenSetConditionFRElement(GrigorchukGroup.2);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-26 LimitFRMachine[101X
+  
+  [29X[2XLimitFRMachine[102X( [3Xm[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YThe submachine of [3Xm[103X on all recurrent states.[133X
+  
+  [33X[0;0YThis  command creates a new Mealy machine, with stateset the limit states of
+  [3Xm[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := MealyMachine([[2,2,3],[2,3,3],[3,3,3]],[(),(),(1,2,3)]);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 1 .. 3 ] with 3 states>[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(m);[127X[104X
+    [4X[28X   |  1     2     3[128X[104X
+    [4X[28X---+-----+-----+-----+[128X[104X
+    [4X[28X a | b,1   b,2   c,3[128X[104X
+    [4X[28X b | b,1   c,2   c,3[128X[104X
+    [4X[28X c | c,2   c,3   c,1[128X[104X
+    [4X[28X---+-----+-----+-----+[128X[104X
+    [4X[25Xgap>[125X [27XLimitStates(m);[127X[104X
+    [4X[28X[ <Mealy element on alphabet [ 1 .. 3 ] with 2 states>,[128X[104X
+    [4X[28X  <Mealy element on alphabet [ 1 .. 3 ] with 1 state> ][128X[104X
+    [4X[25Xgap>[125X [27XLimitFRMachine(m);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 1 .. 3 ] with 2 states>[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(last);[127X[104X
+    [4X[28X   |  1     2     3[128X[104X
+    [4X[28X---+-----+-----+-----+[128X[104X
+    [4X[28X a | a,1   b,2   b,3[128X[104X
+    [4X[28X b | b,2   b,3   b,1[128X[104X
+    [4X[28X---+-----+-----+-----+[128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-27 NucleusMachine[101X
+  
+  [29X[2XNucleusMachine[102X( [3Xm[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YThe nucleus of [3Xm[103X.[133X
+  
+  [33X[0;0YThis  command  creates a new Mealy machine [10Xn[110X, with stateset the nucleus (see
+  [2XNucleusOfFRMachine[102X ([14X4.2-13[114X)) of [3Xm[103X.[133X
+  
+  [33X[0;0YThis  nucleus  machine  is characterized as the smallest machine [10Xn[110X such that
+  [10XMinimized(LimitFRMachine(m*n))[110X  is isomorphic to [10Xn[110X. It is also isomorphic to
+  the  [2XNucleusMachine[102X ([14X7.2-20[114X) of the state closure of the [2XSCSemigroup[102X ([14X7.1-3[114X)
+  of [3Xm[103X.[133X
+  
+  [33X[0;0YNote  that  the  ordering  of  the  states  in  the resulting machine is not
+  necessarily  the same as in [3Xm[103X; however, if [3Xm[103X and [10Xn[110X are isomorphic, then this
+  command returns [3Xm[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xm := MealyMachine([[2,1,1],[2,2,2]],[(1,2,3),()]);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 1, 2, 3 ] with 2 states>[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(m);[127X[104X
+    [4X[28X   |  1     2     3[128X[104X
+    [4X[28X---+-----+-----+-----+[128X[104X
+    [4X[28X a | b,2   a,3   a,1[128X[104X
+    [4X[28X b | b,1   b,2   b,3[128X[104X
+    [4X[28X---+-----+-----+-----+[128X[104X
+    [4X[25Xgap>[125X [27XNucleusMachine(m);[127X[104X
+    [4X[28X<Mealy machine on alphabet [ 1, 2, 3 ] with 3 states>[128X[104X
+    [4X[25Xgap>[125X [27XDisplay(last);[127X[104X
+    [4X[28X   |  1     2     3[128X[104X
+    [4X[28X---+-----+-----+-----+[128X[104X
+    [4X[28X a | a,1   a,2   a,3[128X[104X
+    [4X[28X b | c,3   b,1   c,2[128X[104X
+    [4X[28X c | a,2   c,3   c,1[128X[104X
+    [4X[28X---+-----+-----+-----+[128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-28 GuessMealyElement[101X
+  
+  [29X[2XGuessMealyElement[102X( [3Xp[103X, [3Xd[103X, [3Xn[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA Mealy element that probably has the same activity as [3Xp[103X.[133X
+  
+  [33X[0;0YThis  function  receives a permutation or transformation [3Xp[103X, a degree [3Xd[103X and a
+  level  [3Xn[103X,  and attempts to find a Mealy element on the alphabet [10X[1..d][110X whose
+  activity on level [3Xn[103X is [3Xp[103X.[133X
+  
+  [33X[0;0YThis  function  returns  [10Xfail[110X if it thinks that the given level is not large
+  enough  to  make  a  reasonable  guess.  In  all  cases, the function is not
+  guaranteed to return the correct Mealy machine.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XGuessMealyElement(Activity(GrigorchukGroup.2,6),2,6);[127X[104X
+    [4X[28X<Mealy element on alphabet [ 1, 2 ] with 5 states>[128X[104X
+    [4X[25Xgap>[125X [27Xlast=GrigorchukGroup.2;[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XGuessMealyElement(Activity(GrigorchukGroup.2,5),2,5);[127X[104X
+    [4X[28Xfail[128X[104X
+    [4X[25Xgap>[125X [27XComposeElement([GrigorchukGroup.2,One(GrigorchukGroup)],());[127X[104X
+    [4X[28X<Mealy element on alphabet [ 1, 2 ] with 6 states>[128X[104X
+    [4X[25Xgap>[125X [27Xlast=GuessMealyElement(Activity(GrigorchukGroup.2,6),2,7);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  

@@ -1,0 +1,766 @@
+  
+  [1X11 [33X[0;0YMiscellanea[133X[101X
+  
+  
+  [1X11.1 [33X[0;0YGeneric operations[133X[101X
+  
+  [1X11.1-1 TensorSum[101X
+  
+  [29X[2XTensorSum[102X( [3Xobjects[103X, [3X...[103X ) [32X function
+  
+  [33X[0;0YThis   function   is   similar   in   syntax  to  [2XDirectProduct[102X  ([14XReference:
+  DirectProduct[114X),  and  delegates  to  [10XTensorSumOp[110X;  its  meaning  depends  on
+  context, see e.g. [2XTensorSumOp[102X ([14X3.5-4[114X).[133X
+  
+  [1X11.1-2 TensorProduct[101X
+  
+  [29X[2XTensorProduct[102X( [3Xobjects[103X, [3X...[103X ) [32X function
+  
+  [33X[0;0YThis   function   is   similar   in   syntax  to  [2XDirectProduct[102X  ([14XReference:
+  DirectProduct[114X),  and  delegates  to  [10XTensorProductOp[110X; its meaning depends on
+  context, see e.g. [2XTensorProductOp[102X ([14X3.5-5[114X).[133X
+  
+  [1X11.1-3 DirectSum[101X
+  
+  [29X[2XDirectSum[102X( [3Xobjects[103X, [3X...[103X ) [32X function
+  
+  [33X[0;0YThis   function   is   similar   in   syntax  to  [2XDirectProduct[102X  ([14XReference:
+  DirectProduct[114X),  and  delegates  to  [10XDirectSumOp[110X;  its  meaning  depends  on
+  context, see e.g. [2XDirectSumOp[102X ([14X3.5-6[114X).[133X
+  
+  
+  [1X11.2 [33X[0;0YPeriodic lists[133X[101X
+  
+  [1X11.2-1 PeriodicListsFamily[101X
+  
+  [29X[2XPeriodicListsFamily[102X[32X family
+  [29X[2XIsPeriodicList[102X[32X filter
+  
+  [33X[0;0YThe family, respectively filter, of [2XPeriodicList[102X ([14X11.2-2[114X)s.[133X
+  
+  [1X11.2-2 PeriodicList[101X
+  
+  [29X[2XPeriodicList[102X( [3Xpreperiod[103X[, [3Xperiod[103X] ) [32X operation
+  [29X[2XPeriodicList[102X( [3Xlist[103X, [3Xi[103X ) [32X operation
+  [29X[2XPeriodicList[102X( [3Xlist[103X, [3Xf[103X ) [32X operation
+  [29X[2XCompressedPeriodicList[102X( [3Xpreperiod[103X[, [3Xperiod[103X] ) [32X operation
+  [29X[2XCompressedPeriodicList[102X( [3Xlist[103X, [3Xi[103X ) [32X operation
+  [29X[2XPrePeriod[102X( [3Xlist[103X ) [32X operation
+  [29X[2XPeriod[102X( [3Xlist[103X ) [32X operation
+  
+  [33X[0;0YThese  functions  manipulate  [13Xperiodic  lists[113X, i.e. lists of infinite length
+  such that elements follow a periodic order after some point.[133X
+  
+  [33X[0;0YThe  first  command  creates a periodic list, specified by its preperiod and
+  period,  which must both be lists. If the period is absent, this is actually
+  a finite list.[133X
+  
+  [33X[0;0YThe  second  command  creates  a periodic list by decreeing that the entries
+  after the end of the list start again at position [3Xi[103X.[133X
+  
+  [33X[0;0YThe  third  command creates a list by applying function [3Xf[103X to all elements of
+  [3Xl[103X.[133X
+  
+  [33X[0;0YThe  fourth  and fifth command compress the newly created periodic list, see
+  [2XCompressPeriodicList[102X ([14X11.2-3[114X).[133X
+  
+  [33X[0;0YThe  sixth and seventh commands return respectively the preperiod and period
+  of a periodic list.[133X
+  
+  [33X[0;0YMost  of  the  methods  applied  for  lists  have  an obvious equivalent for
+  periodic  lists:  [2XList[102X  ([14XReference:  Lists[114X), [2XFiltered[102X ([14XReference: Filtered[114X),
+  [2XFirst[102X  ([14XReference:  First[114X),  [2XForAll[102X  ([14XReference: ForAll[114X), [2XForAny[102X ([14XReference:
+  ForAny[114X), [2XNumber[102X ([14XReference: Number[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xl := PeriodicList([1],[2,3,4]);[127X[104X
+    [4X[28X[ 1, / 2, 3, 4 ][128X[104X
+    [4X[25Xgap>[125X [27Xl[5];[127X[104X
+    [4X[28X2[128X[104X
+    [4X[25Xgap>[125X [27XAdd(l,100,3); l;[127X[104X
+    [4X[28X[ 1, 2, 100, / 3, 4, 2 ][128X[104X
+    [4X[25Xgap>[125X [27XRemove(l,5);[127X[104X
+    [4X[28X4[128X[104X
+    [4X[25Xgap>[125X [27Xl;[127X[104X
+    [4X[28X[ 1, 2, 100, 3, / 2, 3, 4 ][128X[104X
+    [4X[25Xgap>[125X [27XPrePeriod(l);[127X[104X
+    [4X[28X[ 1, 2, 100, 3 ][128X[104X
+    [4X[25Xgap>[125X [27XPeriod(l);[127X[104X
+    [4X[28X[ 2, 3, 4 ][128X[104X
+  [4X[32X[104X
+  
+  [1X11.2-3 CompressPeriodicList[101X
+  
+  [29X[2XCompressPeriodicList[102X( [3Xl[103X ) [32X operation
+  
+  [33X[0;0YThis  function  compresses  a  periodic  list,  in replacing the period by a
+  minimal  period, and shortening the preperiod. No value is returned, but the
+  list [3Xl[103X is modified. It remains equal (under [10X=[110X) to the original list.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xl := PeriodicList([1],[2,3,4,2,3,4]);[127X[104X
+    [4X[28X[ 1, / 2, 3, 4, 2, 3, 4 ][128X[104X
+    [4X[25Xgap>[125X [27XAdd(l,4,5); l;[127X[104X
+    [4X[28X[ 1, 2, 3, 4, 4, / 2, 3, 4, 2, 3, 4 ][128X[104X
+    [4X[25Xgap>[125X [27XCompressPeriodicList(l);[127X[104X
+    [4X[25Xgap>[125X [27Xl;[127X[104X
+    [4X[28X[ 1, 2, 3, 4, / 4, 2, 3 ][128X[104X
+  [4X[32X[104X
+  
+  [1X11.2-4 IsConfinal[101X
+  
+  [29X[2XIsConfinal[102X( [3Xl[103X, [3Xm[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xl[103X and [3Xm[103X are eventually equal.[133X
+  
+  [33X[0;0YThis  function  tests  whether  two  lists are [13Xconfinal[113X, i.e. whether, after
+  removal of the same suitable number of elements from both lists, they become
+  equal.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xl := PeriodicList([1],[2,3,2,3]);[127X[104X
+    [4X[28X[ 1, / 2, 3, 2, 3 ][128X[104X
+    [4X[25Xgap>[125X [27Xm := PeriodicList([0,1],[3,2]);[127X[104X
+    [4X[28X[ 0, 1, / 3, 2 ][128X[104X
+    [4X[25Xgap>[125X [27XIsConfinal(l,m);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X11.2-5 ConfinalityClass[101X
+  
+  [29X[2XConfinalityClass[102X( [3Xl[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe strictly periodic list with same tail as [3Xl[103X.[133X
+  
+  [33X[0;0YThere  exists  a  unique periodic list, with no preperiod, which is confinal
+  (see  [2XIsConfinal[102X  ([14X11.2-4[114X)) to [3Xl[103X. This strictly periodic list is returned by
+  this command.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xl := PeriodicList([1],[2,3,2,3]);[127X[104X
+    [4X[28X[ 1, / 2, 3, 2, 3 ][128X[104X
+    [4X[25Xgap>[125X [27XConfinalityClass(l);[127X[104X
+    [4X[28X[/ 3, 2 ][128X[104X
+  [4X[32X[104X
+  
+  [1X11.2-6 LargestCommonPrefix[101X
+  
+  [29X[2XLargestCommonPrefix[102X( [3Xc[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe longest list that is a prefix of all elements of [3Xc[103X.[133X
+  
+  [33X[0;0YThis  command  computes  the  longest  (finite  or periodic) list which is a
+  prefix  of  all  elements of [3Xc[103X. The argument [3Xc[103X is a collection of finite and
+  periodic lists.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XLargestCommonPrefix([PeriodicList([1],[2,3,2,3]),[1,2,3,4]]);[127X[104X
+    [4X[28X[ 1, 2, 3 ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X11.3 [33X[0;0YWord growth[133X[101X
+  
+  [1X11.3-1 WordGrowth[101X
+  
+  [29X[2XWordGrowth[102X( [3Xg[103X, [3Xrec(options...)[103X ) [32X function
+  [29X[2XWordGrowth[102X( [3Xg:[103X [3Xoptions...[103X ) [32X function
+  [29X[2XOrbitGrowth[102X( [3Xg[103X, [3Xpoint[103X[, [3Xlimit[103X] ) [32X function
+  [29X[2XBall[102X( [3Xg[103X, [3Xradius[103X ) [32X function
+  [29X[2XSphere[102X( [3Xg[103X, [3Xradius[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10YThe word growth of the semigroup [3Xg[103X.[133X
+  
+  [33X[0;0YThis  function computes the first terms of growth series associated with the
+  semigroup  [3Xg[103X.  The argument [3Xg[103X can actually be a group/monoid/semigroup, or a
+  list representing that semigroup's generating set.[133X
+  
+  [33X[0;0YThe  behaviour  of [10XWordGrowth[110X is controlled via options passed in the second
+  argument, which is a record. They can be combined when reasonable, and are:[133X
+  
+  [8X[10Xlimit:=n[110X[108X
+        [33X[0;6Yto specify a limit radius;[133X
+  
+  [8X[10Xsphere:=radius[110X[108X
+        [33X[0;6Yto  return  the  sphere  of  the specified radius, unless a radius was
+        specified in [10Xlimit[110X, in which case the value is ignored;[133X
+  
+  [8X[10Xspheres:=maxradius[110X[108X
+        [33X[0;6Yto  return  the  list of spheres of radius between 0 and the specified
+        limit;[133X
+  
+  [8X[10Xspheresizes:=maxradius[110X[108X
+        [33X[0;6Yto  return  the  list  sizes  of  spheres  of radius between 0 and the
+        specified limit;[133X
+  
+  [8X[10Xball:=radius[110X[108X
+        [33X[0;6Yto return the ball of the specified radius;[133X
+  
+  [8X[10Xballs:=maxradius[110X[108X
+        [33X[0;6Yto  return  the  list  of  balls of radius between 0 and the specified
+        limit;[133X
+  
+  [8X[10Xballsizes:=maxradius[110X[108X
+        [33X[0;6Yto  return  the  list  sizes  of  balls  of  radius  between 0 and the
+        specified limit;[133X
+  
+  [8X[10Xindet:=z[110X[108X
+        [33X[0;6Yto  return  the  [10Xspheresizes[110X,  as  a  polynomial  in  [10Xz[110X  (or the first
+        indeterminate if [10Xz[110X is not a polynomial;[133X
+  
+  [8X[10Xdraw:=filename[110X[108X
+        [33X[0;6Yto  create  a  rendering  of  the  Cayley  graph of [3Xg[103X. Edges are given
+        colours  according  to  the  cyclic  ordering  "red", "blue", "green",
+        "gray", "yellow", "cyan", "orange", "purple". If [10Xfilename[110X is a string,
+        the  graph  is  appended,  in [9Xdot[109X format, to that file. Otherwise, the
+        output  is  converted  to  Postscript using the program [9Xneato[109X from the
+        [5Xgraphviz[105X  package,  and  displayed  in  a  separate X window using the
+        program [5Xdisplay[105X or [5Xrsvg-view[105X. This works on UNIX systems.[133X
+  
+        [33X[0;6YIt  is  assumed,  but not checked, that [5Xgraphviz[105X and [5Xdisplay[105X/[5Xrsvg-view[105X
+        are  properly  installed on the system. The option [9Xusesvg[109X requests the
+        use of [5Xrsvg-view[105X; by default, [5Xdisplay[105X is used.[133X
+  
+  [8X[10Xpoint:=p[110X[108X
+        [33X[0;6Yto  compute  the  growth  of  the  orbit of [10Xp[110X under [3Xg[103X, rather than the
+        growth of [3Xg[103X.[133X
+  
+  [8X[10Xtrack:=true[110X[108X
+        [33X[0;6Yto keep track of a word in the generators that gives the element. This
+        affects  the  "ball",  "balls", "sphere" and "spheres" commands, where
+        the  result  returned  is  a  3-element  list:  the first entry is the
+        original  results;  the  second  entry  is  a homomorphism from a free
+        group/monoid/semigroup;   and  the  third  entry  contains  the  words
+        corresponding to the first entry via the homomorphism.[133X
+  
+  [33X[0;0YIf  the  first  argument  is  an  integer [10Xn[110X and not a record, the command is
+  interpreted as [10XWordGrowth(...,rec(spheresizes:=n))[110X.[133X
+  
+  [33X[0;0Y[10XWordGrowth(...,rec(draw:=true))[110X    may    be   abbreviated   as   [10XDraw(...)[110X;
+  [10XWordGrowth(...,rec(ball:=n))[110X    may    be    abbreviated   as   [10XBall(...,n)[110X;
+  [10XWordGrowth(...,rec(sphere:=n))[110X may be abbreviated as [10XSphere(...,n)[110X;[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XWordGrowth(GrigorchukGroup,4);[127X[104X
+    [4X[28X[ 1, 4, 6, 12, 17 ][128X[104X
+    [4X[25Xgap>[125X [27XWordGrowth(GrigorchukGroup,rec(limit:=4,indet:=true));[127X[104X
+    [4X[28X17*x_1^4+12*x_1^3+6*x_1^2+4*x_1+1[128X[104X
+    [4X[25Xgap>[125X [27XWordGrowth(GrigorchukGroup,rec(limit:=1,spheres:=true));[127X[104X
+    [4X[28X[ [ <Mealy element on alphabet [ 1, 2 ] with 1 state, initial state 1> ],[128X[104X
+    [4X[28X  [ d, b, c, a ] ][128X[104X
+    [4X[25Xgap>[125X [27XWordGrowth(GrigorchukGroup,rec(point:=[2,2,2]));[127X[104X
+    [4X[28X[ 1, 1, 1, 1, 1, 1, 1, 1 ][128X[104X
+    [4X[25Xgap>[125X [27XOrbitGrowth(GrigorchukGroup,[1,1,1]);[127X[104X
+    [4X[28X[ 1, 2, 2, 1, 1, 1 ][128X[104X
+    [4X[25Xgap>[125X [27XWordGrowth(GrigorchukGroup,rec(spheres:=4,point:=PeriodicList([],[2])));[127X[104X
+    [4X[28X[ [ [/ 2 ] ], [ [ 1, / 2 ] ], [ [ 1, 1, / 2 ] ], [ [ 2, 1, / 2 ] ],[128X[104X
+    [4X[28X  [ [ 2, 1, 1, / 2 ] ] ][128X[104X
+    [4X[25Xgap>[125X [27XWordGrowth([(1,2),(2,3)],rec(spheres:=infinity,track:=true));[127X[104X
+    [4X[28X[ [ [  ], [ (2,3), (1,2) ], [ (), (1,2,3), (1,3,2) ], [ (1,3) ] ],[128X[104X
+    [4X[28X  MappingByFunction( <free semigroup on the generators [ s1, s2 ]>, <group>, function( w ) ... end ),[128X[104X
+    [4X[28X  [ [  ], [ s2, s1 ], [ s2^2, s2*s1, s1*s2 ], [ s2*s1*s2 ] ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YNote  that  the  orbit  growth  of [10X[/2][110X is constant 1, while that of [10X[/1][110X is
+  constant  2.  The  following  code  would  find the point with maximal orbit
+  growth  of a semigroup acting on the integers (for example, constructed with
+  [2XPermGroup[102X ([14X7.2-1[114X)):[133X
+  
+  [4X[32X[104X
+    [4XMaximalOrbitGrowth := function(g)[104X
+    [4X    local maxpt, growth, max;[104X
+    [4X    maxpt := LargestMovedPoint(g);[104X
+    [4X    growth := List([1..maxpt],n->WordGrowth(g:point:=n));[104X
+    [4X    max := Maximum(growth);[104X
+    [4X    return [max,Filtered([1..maxpt],n->growth[n]=max)];[104X
+    [4Xend;[104X
+  [4X[32X[104X
+  
+  [33X[0;0YFor                   example,                  the                  command
+  [10XDraw(BasilicaGroup,rec(point:=PeriodicList([],[2,1]),limit:=3));[110X    produces
+  (in a new window) the following picture:[133X
+  
+  
+  [1X11.4 [33X[0;0YFinding short relations[133X[101X
+  
+  [1X11.4-1 ShortGroupRelations[101X
+  
+  [29X[2XShortGroupRelations[102X( [3Xg[103X, [3Xn[103X ) [32X operation
+  [29X[2XShortMonoidRelations[102X( [3Xg[103X, [3Xn[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA list of relations between words over [3Xg[103X, of length at most [3Xn[103X.[133X
+  
+  [33X[0;0YThis  function  assumes that [3Xg[103X is a list of monoid elements. it searches for
+  products of at most [3Xn[103X elements over [3Xg[103X that are equal.[133X
+  
+  [33X[0;0YIn  its first form, it returns a list of words in a free group [10Xf[110X of rank the
+  length  of  [3Xg[103X,  that are trivial in [3Xg[103X. The first argument may be a group, in
+  which case its symmetric generating set is considered.[133X
+  
+  [33X[0;0YIn  its  second  form,  it  returns a list of pairs [10X[l,r][110X, where [10Xl[110X and [10Xr[110X are
+  words  in  a free monoid [10Xf[110X of rank the length of [3Xg[103X, that are equal in [3Xg[103X. The
+  first  argument  may be a monoid, in which case its monoid generating set is
+  considered.[133X
+  
+  [33X[0;0YThis  command  does not construct all such pairs; rather, it returns a small
+  set,  in  the  hope  that  it  may  serve  as  a presentation for the monoid
+  generated by [3Xg[103X.[133X
+  
+  [33X[0;0YThe  first  element of the list returned is actually not a relation: it is a
+  homomorphism from [10Xf[110X to [the group/monoid generated by] [3Xg[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XShortGroupRelations(GrigorchukGroup,10);[127X[104X
+    [4X[28X[ [ x1, x2, x3, x4 ] -> [ a, b, c, d ],[128X[104X
+    [4X[28X  x1^2, x2^2, x3^2, x4^2, x2*x3*x4, x4*x1*x4*x1*x4*x1*x4*x1,[128X[104X
+    [4X[28X  x3*x1*x3*x1*x3*x1*x3*x1*x3*x1*x3*x1*x3*x1*x3*x1 ][128X[104X
+    [4X[25Xgap>[125X [27XShortGroupRelations(GuptaSidkiGroup,9);[127X[104X
+    [4X[28X[ [ x1, x2 ] -> [ x, gamma ],[128X[104X
+    [4X[28X  x1^3, x2^3, x2*x1^-1*x2*x1^-1*x2*x1^-1*x2*x1^-1*x2*x1^-1*x2*x1^-1*[128X[104X
+    [4X[28X     x2*x1^-1*x2*x1^-1*x2*x1^-1,    x1^-1*x2^-1*x1^-1*x2^-1*x1^-1*x2^-1*[128X[104X
+    [4X[28Xx1^-1*x2^-1*x1^-1*x2^-1*x1^-1*x2^-1*x1^-1*x2^-1*x1^-1*x2^-1*x1^-1*x2^-1 ][128X[104X
+  [4X[32X[104X
+  
+  [1X11.4-2 ShortGroupWordInSet[101X
+  
+  [29X[2XShortGroupWordInSet[102X( [3Xg[103X, [3Xs[103X, [3Xn[103X ) [32X operation
+  [29X[2XShortMonoidWordInSet[102X( [3Xg[103X, [3Xs[103X, [3Xn[103X ) [32X operation
+  [29X[2XShortSemigroupWordInSet[102X( [3Xg[103X, [3Xs[103X, [3Xn[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YWords over [3Xg[103X that express elements of [3Xs[103X.[133X
+  
+  [33X[0;0YThis  command produces words in the free group/monoid/semigroup generated by
+  [3Xg[103X's  generators  that  express  elements of the set [3Xs[103X. Elements of length at
+  most  [3XAbsoluteValue(n)[103X  are  searched; if [3Xn[103X is non-negative then at most one
+  element is returned. The value [10X[3Xn[103X[10X=infinity[110X is allowed.[133X
+  
+  [33X[0;0YThe  second  argument  may  be  either  a list, a predicate (i.e. a function
+  returning [9Xtrue[109X or [9Xfalse[109X) or an element.[133X
+  
+  [33X[0;0YThe function returns a list of words in the free group/monoid/semigroup; the
+  first    entry   of   the   list   is   a   homomorphism   from   the   free
+  group/monoid/semigroup to [3Xg[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xl := ShortMonoidWordInSet(Group((1,2),(2,3),(3,4)),[127X[104X
+    [4X[28X            [(1,2,3,4),(4,3,2,1)],-3);[128X[104X
+    [4X[28X[ MappingByFunction( <free monoid on the generators [ m1, m2, m3 ]>, Group([128X[104X
+    [4X[28X    [ (1,2), (2,3), (3,4) ]), function( w ) ... end ), m3*m2*m1, m1*m2*m3 ][128X[104X
+    [4X[25Xgap>[125X [27Xf := Remove(l,1);;[127X[104X
+    [4X[25Xgap>[125X [27XList(l,x->x^f);[127X[104X
+    [4X[28X[ (1,2,3,4), (1,4,3,2) ][128X[104X
+    [4X[25Xgap>[125X [27XShortMonoidWordInSet(GrigorchukGroup,[127X[104X
+    [4X[28X       [Comm(GrigorchukGroup.1,GrigorchukGroup.2)],4);[128X[104X
+    [4X[28X[ MappingByFunction( <free monoid on the generators [ m1, m2, m3, m4[128X[104X
+    [4X[28X     ]>, <self-similar monoid over [ 1 .. 2 ] with[128X[104X
+    [4X[28X    4 generators>, function( w ) ... end ), m1*m2*m1*m2 ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X11.5 [33X[0;0YBraid groups[133X[101X
+  
+  [1X11.5-1 SurfaceBraidFpGroup[101X
+  
+  [29X[2XSurfaceBraidFpGroup[102X( [3Xn[103X, [3Xg[103X, [3Xp[103X ) [32X function
+  [29X[2XPureSurfaceBraidFpGroup[102X( [3Xn[103X, [3Xg[103X, [3Xp[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10YThe [pure] surface braid group on [3Xn[103X strands.[133X
+  
+  [33X[0;0YThis  function  creates a finitely presented group, isomorphic to the [pure]
+  braid  group  on  [3Xn[103X  strands of the surface of genus [3Xg[103X, with [3Xp[103X punctures. In
+  particular,  [10XSurfaceBraidFpGroup(n,0,1)[110X  is  the  usual  braid group (on the
+  disc).[133X
+  
+  [33X[0;0YThe  presentation  comes  from  [Bel04].  The  first  [22X2g[122X  generators are the
+  standard [22Xa_i,b_i[122X surface generators; the next [22Xn-1[122X are the standard [22Xs_i[122X braid
+  generators; and the last are the extra [22Xz[122X generators.[133X
+  
+  [33X[0;0YThe  pure  surface  braid  group  is  the kernel of the natural map from the
+  surface  braid  group to the symmetric group on [3Xn[103X points, defined by sending
+  [22Xa_i,b_i,z[122X to the identity and [22Xs_i[122X to the transposition [10X(i,i+1)[110X.[133X
+  
+  [1X11.5-2 CharneyBraidFpGroup[101X
+  
+  [29X[2XCharneyBraidFpGroup[102X( [3Xn[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10YThe braid group on [3Xn[103X strands.[133X
+  
+  [33X[0;0YThis  function  creates  a finitely presented group, isomorphic to the braid
+  group    on    [3Xn[103X    strands   (on   the   disc).   It   is   isomorphic   to
+  [10XSurfaceBraidFpGroup(n,0,1)[110X, but has a different presentation, due to Charney
+  ([Cha95]), with one generator per non-trivial permutation of [3Xn[103X points.[133X
+  
+  [1X11.5-3 ArtinRepresentation[101X
+  
+  [29X[2XArtinRepresentation[102X( [3Xn[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10YThe braid group's representation on [10XFreeGroup(n)[110X.[133X
+  
+  [33X[0;0YThis function creates a Artin's representatin, a homomorphism from the braid
+  group on [3Xn[103X strands (on the disc) into the automorphism group of a free group
+  of rank [3Xn[103X.[133X
+  
+  
+  [1X11.6 [33X[0;0YDirichlet series[133X[101X
+  
+  [1X11.6-1 DirichletSeries[101X
+  
+  [29X[2XDirichletSeries[102X(  ) [32X operation
+  [29X[2XDirichletSeries[102X( [3Xmaxdeg[103X ) [32X operation
+  [29X[2XDirichletSeries[102X( [3Xindices[103X, [3Xcoeffs[103X[, [3Xmaxdeg[103X] ) [32X operation
+  [29X[2XDirichletSeries[102X( [3Xseries[103X, [3Xmaxdeg[103X ) [32X operation
+  
+  [33X[0;0YCreates  a  new  Dirichlet series, namely, a formal power series of the form
+  [22Xf(s)=∑_nge1  a(n)  n^-s[122X.  Such  series  have  a maximal degree, which may be
+  [9Xinfinity[109X, and may be added or multiplied as polynomials.[133X
+  
+  [1X11.6-2 DegreeDirichletSeries[101X
+  
+  [29X[2XDegreeDirichletSeries[102X( [3Xf[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YThe maximal degree of a non-zero coefficient of [3Xf[103X.[133X
+  
+  [1X11.6-3 SpreadDirichletSeries[101X
+  
+  [29X[2XSpreadDirichletSeries[102X( [3Xf[103X, [3Xn[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YThe series [22Xf(ns)[122X.[133X
+  
+  [1X11.6-4 ShiftDirichletSeries[101X
+  
+  [29X[2XShiftDirichletSeries[102X( [3Xs[103X, [3Xn[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YThe series [22Xn^-sf(s)[122X.[133X
+  
+  [1X11.6-5 ShrunkDirichletSeries[101X
+  
+  [29X[2XShrunkDirichletSeries[102X( [3Xf[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YThe series [3Xf[103X, with maximal precision set to its maximal degree.[133X
+  
+  [1X11.6-6 ZetaSeriesOfGroup[101X
+  
+  [29X[2XZetaSeriesOfGroup[102X( [3XG[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YThe series [3X\sum_{\chi\in\widehat G}(\dim G)^{-s}[103X.[133X
+  
+  [1X11.6-7 ValueOfDirichletSeries[101X
+  
+  [29X[2XValueOfDirichletSeries[102X( [3Xf[103X, [3Xs[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YThe evaluation of [3Xf[103X at [3Xs[103X. Synonym for [10XValue[110X.[133X
+  
+  
+  [1X11.7 [33X[0;0YProjective representations[133X[101X
+  
+  [1X11.7-1 IsProjectiveRepresentation[101X
+  
+  [29X[2XIsProjectiveRepresentation[102X( [3Xrep[103X ) [32X property
+  [29X[2XIsLinearRepresentation[102X( [3Xrep[103X ) [32X property
+  
+  [33X[0;0YA projective representation is a mapping to matrices, that is multiplicative
+  up  to  scalars. This property is set by the following functions that create
+  projective representations.[133X
+  
+  [33X[0;0YThe  second  property describes those projective representations that are in
+  fact homomorphisms.[133X
+  
+  [1X11.7-2 ProjectiveRepresentationByFunction[101X
+  
+  [29X[2XProjectiveRepresentationByFunction[102X( [3Xgroup[103X, [3Xmatrixgroup[103X, [3Xfunction[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA projective representation of [3Xgroup[103X.[133X
+  
+  [1X11.7-3 LinearRepresentationByImages[101X
+  
+  [29X[2XLinearRepresentationByImages[102X( [3Xgroup[103X, [3Xmatrixgroup[103X, [3Xsrc[103X, [3Xdst[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA linear representation of [3Xgroup[103X.[133X
+  
+  [1X11.7-4 DegreeOfProjectiveRepresentation[101X
+  
+  [29X[2XDegreeOfProjectiveRepresentation[102X( [3Xrep[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe dimension of the matrices in the image of [3Xrep[103X.[133X
+  
+  [1X11.7-5 ProjectiveExtension[101X
+  
+  [29X[2XProjectiveExtension[102X( [3Xrep[103X, [3Xgroup[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA   projective   representation  of  [3Xgroup[103X  whose  restriction  to
+            [3XSource(rep)[103X (which is a subgroup of [3Xgroup[103X) is [3Xrep[103X.[133X
+  
+  [1X11.7-6 ProjectiveQuotient[101X
+  
+  [29X[2XProjectiveQuotient[102X( [3Xrep[103X, [3Xhom[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA projective representation of [3XImage(hom)[103X that comes from [3Xrep[103X.[133X
+  
+  
+  [1X11.8 [33X[0;0YMiscellanea[133X[101X
+  
+  [1X11.8-1 ForwardOrbit[101X
+  
+  [29X[2XForwardOrbit[102X( [3Xg[103X, [3Xx[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe forward orbit of [3Xx[103X under [3Xg[103X.[133X
+  
+  [33X[0;0YThis  operation  computes  the  smallest  list containing [3Xx[103X and closed under
+  application of [3Xg[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XForwardOrbit((1,2,4,3),2);[127X[104X
+    [4X[28X[ 2, 4, 3, 1 ][128X[104X
+    [4X[25Xgap>[125X [27XForwardOrbit(Transformation([4,4,5,2,1]),1);[127X[104X
+    [4X[28X[ 1, 4, 2 ][128X[104X
+  [4X[32X[104X
+  
+  [1X11.8-2 StringByInt[101X
+  
+  [29X[2XStringByInt[102X( [3Xn[103X[, [3Xb[103X] ) [32X function
+  [6XReturns:[106X  [33X[0;10YA string representing [3Xn[103X in base [3Xb[103X.[133X
+  
+  [33X[0;0YThis  function converts a positive integer to string. It accepts an optional
+  second argument, which is a base in which to print [3Xn[103X. By default, [3Xb[103X is 2.[133X
+  
+  [1X11.8-3 PositionInTower[101X
+  
+  [29X[2XPositionInTower[102X( [3Xt[103X, [3Xx[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10YThe largest index such that [10Xt[i][110X contains [3Xx[103X.[133X
+  
+  [33X[0;0YThis  function  assumes  [3Xt[103X  is  a  descending tower of domains, such as that
+  constructed  by  [10XLowerCentralSeries[110X.  It  returns the largest integer [10Xi[110X such
+  that  [10Xt[i][110X  contains  [3Xx[103X;  in case the tower ends precisely with [3Xx[103X, the value
+  [9Xinfinity[109X is returned.[133X
+  
+  [33X[0;0Y[3Xx[103X can be an element or a subdomain of [10Xt[1][110X.[133X
+  
+  [1X11.8-4 RenameSubobjects[101X
+  
+  [29X[2XRenameSubobjects[102X( [3Xobj[103X, [3Xrefobj[103X ) [32X function
+  
+  [33X[0;0YThis  function traverses [3Xobj[103X if it is a list or a record, and, when it finds
+  an element which has no name, but is equal (in the sense of [10X=[110X) to an element
+  of [3Xrefobj[103X, assigns it the name of that element.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtrivial := Group(());; SetName(trivial,"trivial");[127X[104X
+    [4X[25Xgap>[125X [27Xa := List([1..10],i->Group(Random(SymmetricGroup(3))));[127X[104X
+    [4X[28X[ Group([ (2,3) ]), Group([ (2,3) ]), Group([ (1,3) ]), Group([ (1,3) ]),[128X[104X
+    [4X[28X  Group([ (1,3,2) ]), Group([ (1,3,2) ]), Group([ (1,2) ]), Group(()),[128X[104X
+    [4X[28X  Group([ (2,3) ]), Group([ (1,3,2) ]) ][128X[104X
+    [4X[25Xgap>[125X [27XRenameSubobjects(a,[trivial]); a;[127X[104X
+    [4X[28X[ Group([ (2,3) ]), Group([ (2,3) ]), Group([ (1,3) ]), Group([ (1,3) ]),[128X[104X
+    [4X[28X  Group([ (1,3,2) ]), Group([ (1,3,2) ]), Group([ (1,2) ]), trivial,[128X[104X
+    [4X[28X  Group([ (2,3) ]), Group([ (1,3,2) ]) ][128X[104X
+  [4X[32X[104X
+  
+  [1X11.8-5 CoefficientsInAbelianExtension[101X
+  
+  [29X[2XCoefficientsInAbelianExtension[102X( [3Xx[103X, [3Xb[103X, [3XG[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10YThe coefficients in [3Xb[103X of the element [3Xx[103X, modulo [3XG[103X.[133X
+  
+  [33X[0;0YIf  [3Xb[103X  is  a  list  of  group  elements  [22Xb_1,...,b_k[122X, and [22XH=⟨ G,b_1,...,b_k⟩[122X
+  contains  [3XG[103X  as  a  normal  subgroup, and [22XH/G[122X is abelian and [22Xx∈ H[122X, then this
+  function computes exponents [22Xe_1,...,e_k[122X such that [22X∏ b_i^e_iG=xG[122X.[133X
+  
+  [1X11.8-6 MagmaEndomorphismByImagesNC[101X
+  
+  [29X[2XMagmaEndomorphismByImagesNC[102X( [3Xf[103X, [3Xim[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10YAn endomorphism of [3Xf[103X.[133X
+  
+  [33X[0;0YThis  function constructs an endomorphism of the group,monoid or semigroup [3Xf[103X
+  specified  by  sending  generator  number  [22Xi[122X to the [22Xi[122Xth entry in [3Xim[103X. It is a
+  shortcut     for     a     call     to     [10XGroupHomomorphismByImagesNC[110X    or
+  [10XMagmaHomomorphismByFunctionNC(...,MappedWord(...))[110X.[133X
+  
+  [1X11.8-7 MagmaHomomorphismByImagesNC[101X
+  
+  [29X[2XMagmaHomomorphismByImagesNC[102X( [3Xf[103X, [3Xg[103X, [3Xim[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10YAn homomorphism from [3Xf[103X to [3Xg[103X.[133X
+  
+  [33X[0;0YThis  function  constructs a homomorphism of the group,monoid or semigroup [3Xf[103X
+  specified  by  sending  generator  number  [22Xi[122X to the [22Xi[122Xth entry in [3Xim[103X. It is a
+  shortcut     for     a     call     to     [10XGroupHomomorphismByImagesNC[110X    or
+  [10XMagmaHomomorphismByFunctionNC(...,MappedWord(...))[110X.[133X
+  
+  [1X11.8-8 Draw[101X
+  
+  [29X[2XDraw[102X( [3Xp[103X ) [32X function
+  [29X[2XHeightOfPoset[102X( [3Xp[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10YThe length of a maximal chain in the poset.[133X
+  
+  [1X11.8-9 IsFIFO[101X
+  
+  [29X[2XIsFIFO[102X[32X filter
+  [29X[2XNewFIFO[102X( [[3Xl[103X] ) [32X operation
+  [29X[2XAdd[102X( [3Xf[103X, [3Xi[103X ) [32X operation
+  [29X[2XAppend[102X( [3Xf[103X, [3Xl[103X ) [32X operation
+  
+  [33X[0;0YThese  functions  create  and  extend  FIFOs,  i.e.  first-in first-out data
+  structures.[133X
+  
+  [33X[0;0YThe first command creates a FIFO, with an optional list initializing it.[133X
+  
+  [33X[0;0YThe second and third commands add an element, or append a list, to the FIFO.[133X
+  
+  [33X[0;0YElements  are  removed  via  [10XNextIterator(f)[110X,  and  the  FIFO  is tested for
+  emptyness  via [10XIsDoneIterator(f)[110X. Thus, a typical use is the following code,
+  which  tests  in  breadth-first  manner that all numbers in [10X[1..1000][110X have a
+  successor which is prime:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xf := NewFIFO([1..10000]);[127X[104X
+    [4X[28X<iterator>[128X[104X
+    [4X[25Xgap>[125X [27Xfor i in f do if not IsPrime(i) then Add(f,i+1); fi; od;[127X[104X
+  [4X[32X[104X
+  
+  [1X11.8-10 ProductIdeal[101X
+  
+  [29X[2XProductIdeal[102X( [3Xa[103X, [3Xb[103X ) [32X function
+  [29X[2XProductBOIIdeal[102X( [3Xa[103X, [3Xb[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Ythe product of the ideals [3Xa[103X and [3Xb[103X.[133X
+  
+  [33X[0;0YThe  first  command  computes  the product of the left ideal [3Xa[103X and the right
+  ideal  [3Xb[103X.  If  they  are  not  appropriately-sided ideals, the command first
+  attempts to convert them.[133X
+  
+  [33X[0;0YThe second command assumes that the ring of these ideals has a basis made of
+  invertible elements. It is then much easier to compute the product.[133X
+  
+  [1X11.8-11 DimensionSeries[101X
+  
+  [29X[2XDimensionSeries[102X( [3Xa[103X[, [3Xn[103X] ) [32X function
+  [6XReturns:[106X  [33X[0;10YA nested list of ideals in the algebra-with-one [3Xa[103X.[133X
+  
+  [33X[0;0YThis command computes the powers of the augmentation ideal of [3Xa[103X, and returns
+  their list. The list stops when the list becomes stationary.[133X
+  
+  [33X[0;0YThe  optional second argument gives a limit to the number of terms to put in
+  the series.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xa := ThinnedAlgebraWithOne(GF(2),GrigorchukGroup);[127X[104X
+    [4X[28X<self-similar algebra-with-one on alphabet GF(2)^2 with 4 generators>[128X[104X
+    [4X[25Xgap>[125X [27Xq := MatrixQuotient(a,3);[127X[104X
+    [4X[28X<algebra-with-one of dimension 22 over GF(2)>[128X[104X
+    [4X[25Xgap>[125X [27Xl := DimensionSeries(q);[127X[104X
+    [4X[28X[ <two-sided ideal in <algebra-with-one of dimension 22 over GF(2)>, (5 generators)>,[128X[104X
+    [4X[28X  <two-sided ideal in <algebra-with-one of dimension 22 over GF(2)>, (dimension 21)>,[128X[104X
+    [4X[28X  <two-sided ideal in <algebra-with-one of dimension 22 over GF(2)>, (dimension 18)>,[128X[104X
+    [4X[28X  <two-sided ideal in <algebra-with-one of dimension 22 over GF(2)>, (dimension 14)>,[128X[104X
+    [4X[28X  <two-sided ideal in <algebra-with-one of dimension 22 over GF(2)>, (dimension 10)>,[128X[104X
+    [4X[28X  <two-sided ideal in <algebra-with-one of dimension 22 over GF(2)>, (dimension 6)>,[128X[104X
+    [4X[28X  <two-sided ideal in <algebra-with-one of dimension 22 over GF(2)>, (dimension 3)>,[128X[104X
+    [4X[28X  <two-sided ideal in <algebra-with-one of dimension 22 over GF(2)>, (dimension 1)>,[128X[104X
+    [4X[28X  <algebra of dimension 0 over GF(2)> ][128X[104X
+  [4X[32X[104X
+  
+  [1X11.8-12 AlgebraHomomorphismByFunction[101X
+  
+  [29X[2XAlgebraHomomorphismByFunction[102X( [3XA[103X, [3XB[103X, [3Xf[103X ) [32X operation
+  [29X[2XAlgebraWithOneHomomorphismByFunction[102X( [3XA[103X, [3XB[103X, [3Xf[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA homomorphism from the algebra [3XA[103X to the algebra [3XB[103X.[133X
+  
+  [33X[0;0YThese  functions  construct  an  algebra  homomorphism  from  a one-argument
+  function.   They   do  not  check  that  the  function  actually  defines  a
+  homomorphism.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XA := MatrixAlgebra(Rationals,2);[127X[104X
+    [4X[28X( Rationals^[ 2, 2 ] )[128X[104X
+    [4X[25Xgap>[125X [27Xe1 := AlgebraHomomorphismByFunction(Rationals,A,f->[[f,0],[0,0]]);[127X[104X
+    [4X[28XMappingByFunction( Rationals, ( Rationals^[ 2, 2 ] ), function( f ) ... end )[128X[104X
+    [4X[25Xgap>[125X [27X11^e1;[127X[104X
+    [4X[28X[ [ 11, 0 ], [ 0, 0 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X11.8-13 IsFpLieAlgebra[101X
+  
+  [29X[2XIsFpLieAlgebra[102X[32X filter
+  
+  [33X[0;0YThe  category  of  Lie algebras coming from a finitely presented group. They
+  appear  as  the  [2XJenningsLieAlgebra[102X  ([14XReference:  JenningsLieAlgebra[114X)  of  a
+  finitely presented group.[133X
+  
+  [33X[0;0YIf   [10XG[110X   is  an  infinite,  finitely  presented  group,  then  the  original
+  implementation  of  [2XJenningsLieAlgebra[102X  ([14XReference: JenningsLieAlgebra[114X) does
+  not  return. On the other hand, the implementation in [5XFR[105X constructs a graded
+  object,  for  which  the  graded  components  are  computed  on-demand;  see
+  [2XJenningsLieAlgebra[102X ([14X11.8-14[114X).[133X
+  
+  [1X11.8-14 JenningsLieAlgebra[101X
+  
+  [29X[2XJenningsLieAlgebra[102X( [3Xring[103X, [3Xfpgroup[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe Jennings Lie algebra of [3Xfpgroup[103X.[133X
+  
+  [33X[0;0YThis  method  does  not  compute  the Jennings Lie algebra [13Xper se[113X; it merely
+  constructs a placeholder to contain the result.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xf := FreeGroup(4);[127X[104X
+    [4X[28X<free group on the generators [ f1, f2, f3, f4 ]>[128X[104X
+    [4X[25Xgap>[125X [27Xsurfacegp := f/[Comm(f.1,f.2)*Comm(f.3,f.4)];[127X[104X
+    [4X[28X<fp group of size infinity on the generators [ f1, f2, f3, f4 ]>[128X[104X
+    [4X[25Xgap>[125X [27Xj := JenningsLieAlgebra(Rationals,surfgp);[127X[104X
+    [4X[28X<FP Lie algebra over Rationals>[128X[104X
+    [4X[25Xgap>[125X [27XList([1..4],Grading(j).hom_components);[127X[104X
+    [4X[28X[ <vector space over Rationals, with 4 generators>,[128X[104X
+    [4X[28X  <vector space over Rationals, with 5 generators>,[128X[104X
+    [4X[28X  <vector space over Rationals, with 16 generators>,[128X[104X
+    [4X[28X  <vector space over Rationals, with 45 generators> ][128X[104X
+    [4X[25Xgap>[125X [27XB := Basis(Grading(j).hom_components(1));[127X[104X
+    [4X[25Xgap>[125X [27XB[1]*B[2]+B[3]*B[4];[127X[104X
+    [4X[28X<zero Lie element>[128X[104X
+  [4X[32X[104X
+  
+  [1X11.8-15 SolutionMatModN[101X
+  
+  [29X[2XSolutionMatModN[102X( [3Xmat[103X, [3Xvec[103X, [3XN[103X ) [32X operation
+  
+  [33X[0;0YSolve  the  linear system [10Xsol*mat=vec[110X modulo [3XN[103X. The arguments are assumed to
+  be an integer matrix and vector. Either returns an integer solution, or [9Xfail[109X
+  if no such solution exists.[133X
+  
+  [1X11.8-16 SolutionMatMod1[101X
+  
+  [29X[2XSolutionMatMod1[102X( [3Xmat[103X, [3Xvec[103X ) [32X operation
+  
+  [33X[0;0YSolve  the linear system [10Xsol*mat=vec[110X in [22XQ/Z[122X. The arguments are assumed to be
+  rational  matrices. Assuming there are finitely many solutions, returns them
+  all.[133X
+  
+  [1X11.8-17 CyclotomicByArgument[101X
+  
+  [29X[2XCyclotomicByArgument[102X( [3Xq[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe cyclotomic field element equal to [22Xexp(2π i q)[122X.[133X
+  
+  [1X11.8-18 ArgumentOfCyclotomic[101X
+  
+  [29X[2XArgumentOfCyclotomic[102X( [3Xz[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe rational [22Xq[122X such that [22Xexp(2π i q)=z[122X.[133X
+  
+  
+  [1X11.9 [33X[0;0YUser settings[133X[101X
+  
+  [1X11.9-1 InfoFR[101X
+  
+  [29X[2XInfoFR[102X[32X info class
+  
+  [33X[0;0YThis    is    an    [9XInfo[109X   class   for   the   package   [5XFR[105X.   The   command
+  [10XSetInfoLevel(InfoFR,1);[110X  switches on the printing of some information during
+  the  computations  of  certain  [5XFR[105X  functions;  in  particular all automatic
+  conversions between FR machines and Mealy machines.[133X
+  
+  [33X[0;0YThe  command [10XSetInfoLevel(InfoFR,2);[110X requests a little more information, and
+  in  particular  prints intermediate results in potentially long calculations
+  such as [2XNucleusOfFRSemigroup[102X ([14X7.2-19[114X).[133X
+  
+  [33X[0;0YThe  command  [10XSetInfoLevel(InfoFR,3);[110X ensures that [5XFR[105X will print information
+  every  few seconds or so. This is useful to gain confidence that the program
+  is not stuck due to a programming bug by the author of [5XFR[105X.[133X
+  
+  [1X11.9-2 SEARCH@[101X
+  
+  [29X[2XSEARCH@[102X[32X global variable
+  
+  [33X[0;0YThis  variable  controls  the  search mechanism in FR groups. It is a record
+  with in particular entries [10Xradius[110X and [10Xdepth[110X.[133X
+  
+  [33X[0;0Y[10Xradius[110X  limits  the  search  in  FR  groups  to  balls of that radius in the
+  generating  set. For example, the command [10Xx in G[110X will initiate a search in [10XG[110X
+  to attempt to express [10Xx[110X as a reasonably short word in the generators of [10XG[110X.[133X
+  
+  [33X[0;0Y[10Xdepth[110X limits the level of the tree on which quotients of FR groups should be
+  considered.  Again  for the command [10Xx in G[110X, deeper and deeper quotients will
+  be  considered,  in  the hope of finding a quotient of [10XG[110X to which [10Xx[110X does not
+  belong.[133X
+  
+  [33X[0;0YA  primitive mechanism is implemented to search alternatively for a quotient
+  disproving [10Xx in G[110X and a word proving [10Xx in G[110X.[133X
+  
+  [33X[0;0YWhen  the limits are reached and the search was unsuccessful, an interactive
+  [10XError()[110X is raised, to let the user increase their values.[133X
+  
+  [33X[0;0YSpecific  limits  can  be  passed to any command via the options [10XFRdepth[110X and
+  [10XFRradius[110X, as for example in [10XSize(G:FRdepth:=3,FRradius:=5)[110X.[133X
+  

@@ -1,0 +1,452 @@
+  
+  
+  [1XIndex[101X
+  
+  [2X\*[102X  3.5-3
+  [2X\*[102X (PROD)  4.2-16
+  [2X\+[102X  3.5-2
+  [2X\[\][102X (ELMLIST)  4.2-17
+  [2X\^[102X (POW)  4.2-15
+  [2X\{\}[102X (ELMSLIST)  4.2-17
+  [2XActivities[102X  6.1-8
+  [2XActivity[102X  4.2-2
+  [2XActivityInt[102X  4.2-2
+  [2XActivityPerm[102X  4.2-2
+  [2XActivitySparse[102X  6.1-7
+  [2XActivityTransformation[102X  4.2-2
+  [2XAdd[102X (FIFO)  11.8-9
+  [2XAddingElement[102X  9.1-5
+  [2XAddingGroup[102X  9.1-5
+  [2XAddingMachine[102X  9.1-5
+  [2XAdjacencyBasesWithOne[102X  7.2-21
+  [2XAdjacencyPoset[102X  7.2-21
+  [2XAleshinGroup[102X  9.1-15
+  [2XAleshinGroups[102X  9.1-14
+  [2XAleshinMachine[102X  9.1-15
+  [2XAleshinMachines[102X  9.1-14
+  [2XAlgebraElement[102X  6.1-3
+  [2XAlgebraElementNC[102X  6.1-3
+  [2XAlgebraHomomorphismByFunction[102X  11.8-12
+  [2XAlgebraMachine[102X  6.1-3
+  [2XAlgebraMachineNC[102X  6.1-3
+  [2XAlgebraWithOneHomomorphismByFunction[102X  11.8-12
+  [2XAllMealyMachines[102X  5.1-4
+  [2XAlphabet[102X  10.1-3
+  [2XAlphabetInvolution[102X  5.2-6
+  [2XAlphabetOfFRAlgebra[102X  10.1-3
+  [2XAlphabetOfFRObject[102X  10.1-3
+  [2XAlphabetOfFRSemigroup[102X  10.1-3
+  [2XAppend[102X (FIFO)  11.8-9
+  [2XArgumentOfCyclotomic[102X  11.8-18
+  [2XArtinRepresentation[102X  11.5-3
+  [2XAsAlgebraElement[102X  6.1-15
+  [2XAsAlgebraElement[102X (Linear machine)  6.1-17
+  [2XAsAlgebraMachine[102X  6.1-15
+  [2XAsAlgebraMachine[102X (Linear machine)  6.1-17
+  [2XAsGroupFRElement[102X  4.1-7
+  [2XAsGroupFRMachine[102X  3.3-4
+  [2XAsGroupFRMachine[102X (endomorphism)  3.3-5
+  [2XAsIntMealyElement[102X  5.2-21
+  [2XAsIntMealyMachine[102X  5.2-21
+  [2XAsLinearElement[102X  6.1-13
+  [2XAsLinearMachine[102X  6.1-13
+  [2XAsLpGroup[102X  7.2-31
+  [2XAsMealyElement[102X  5.2-20
+  [2XAsMealyMachine[102X (FR machine)  5.2-18
+  [2XAsMealyMachine[102X (List)  5.2-19
+  [2XAsMonoidFRElement[102X  4.1-7
+  [2XAsMonoidFRMachine[102X  3.3-4
+  [2XAsMonoidFRMachine[102X (endomorphism)  3.3-5
+  [2XAsPermutation[102X (FR object)  10.1-4
+  [2XAsSemigroupFRElement[102X  4.1-7
+  [2XAsSemigroupFRMachine[102X  3.3-4
+  [2XAsSemigroupFRMachine[102X (endomorphism)  3.3-5
+  [2XAssociativeObject[102X  6.1-2
+  [2XAsSubgroupFpGroup[102X  7.2-31
+  [2XAsTransformation[102X (FR object)  10.1-5
+  [2XAsVectorElement[102X  6.1-14
+  [2XAsVectorElement[102X (Linear machine)  6.1-16
+  [2XAsVectorMachine[102X  6.1-14
+  [2XAsVectorMachine[102X (Linear machine)  6.1-16
+  [2XBabyAleshinGroup[102X  9.1-16
+  [2XBabyAleshinMachine[102X  9.1-16
+  [2XBall[102X  11.3-1
+  [2XBasilicaGroup[102X  9.1-3
+  [2XBinaryAddingElement[102X  9.1-6
+  [2XBinaryAddingGroup[102X  9.1-6
+  [2XBinaryAddingMachine[102X  9.1-6
+  [2XBinaryKneadingGroup[102X  9.1-2
+  [2XBinaryKneadingMachine[102X  9.1-2
+  [2XBoundedBinaryGroup[102X  9.1-1
+  [2XBranchingIdeal[102X  8.1-4
+  [2XBranchingSubgroup[102X  7.2-22
+  [2XBranchStructure[102X  7.2-26
+  [2XBrunnerSidkiVieiraGroup[102X  9.1-13
+  [2XBrunnerSidkiVieiraMachine[102X  9.1-13
+  [2XCayleyGroup[102X  9.1-31
+  [2XCayleyMachine[102X  9.1-31
+  [2XChangeFRMachineBasis[102X  3.5-10
+  [2XCharneyBraidFpGroup[102X  11.5-2
+  [2XCoefficientsInAbelianExtension[102X  11.8-5
+  [2XComposeElement[102X (elementcoll,perm)  4.1-4
+  [2XCompressedPeriodicList[102X  11.2-2
+  [2XCompressedPeriodicList[102X (period, looping point)  11.2-2
+  [2XCompressPeriodicList[102X  11.2-3
+  [2XConfinalityClass[102X  11.2-5
+  [2XConfinalityClasses[102X  5.2-23
+  [2XCorrespondence[102X (FR machine)  3.5-12
+  [2XCorrespondence[102X (FR semigroup)  7.1-4
+  [2XCyclotomicByArgument[102X  11.8-17
+  [2XDahmaniGroup[102X  9.1-26
+  [2XDecompositionOfFRElement[102X  4.2-6
+  [2XDegree[102X (FR element)  5.2-9
+  [2XDegree[102X (FR semigroup)  7.2-15
+  [2XDegreeDirichletSeries[102X  11.6-2
+  [2XDegreeOfFRElement[102X  5.2-9
+  [2XDegreeOfFRMachine[102X  5.2-9
+  [2XDegreeOfFRSemigroup[102X  7.2-15
+  [2XDegreeOfHomogeneousElement[102X  8.2-4
+  [2XDegreeOfProjectiveRepresentation[102X  11.7-4
+  [2XDepth[102X (FR element)  5.2-11
+  [2XDepth[102X (FR semigroup)  7.2-15
+  [2XDepthOfFRElement[102X  5.2-11
+  [2XDepthOfFRMachine[102X  5.2-11
+  [2XDepthOfFRSemigroup[102X  7.2-15
+  [2XDiagonalElement[102X  4.1-6
+  [2XDimensionSeries[102X  11.8-11
+  [2XDirectProductOp[102X (FR Machines)  3.5-7
+  [2XDirectSum[102X  11.1-3
+  [2XDirectSumOp[102X (FR Machines)  3.5-6
+  [2XDirichletSeries[102X (0)  11.6-1
+  [2XDirichletSeries[102X (ic)  11.6-1
+  [2XDirichletSeries[102X (md)  11.6-1
+  [2XDirichletSeries[102X (sm)  11.6-1
+  [2XDraw[102X (poset)  11.8-8
+  [2XDraw[102X  5.2-1
+  [2XDualMachine[102X  5.2-3
+  [2XEpimorphismFromFpGroup[102X  7.2-30
+  [2XEpimorphismGermGroup[102X  7.2-5
+  [2XEpimorphismGermGroup[102X (EGG0)  7.2-5
+  [2XEpimorphismMatrixQuotient[102X  8.2-1
+  [2XEpimorphismPcGroup[102X  7.2-2
+  [2XEpimorphismPermGroup[102X  7.2-1
+  [2XEpimorphismTransformationMonoid[102X  7.2-3
+  [2XEpimorphismTransformationSemigroup[102X  7.2-4
+  [2XFabrykowskiGuptaGroup[102X  9.1-21
+  [2XFabrykowskiGuptaGroups[102X  9.1-21
+  [2XFindBranchingSubgroup[102X  7.2-23
+  [2XFinitaryBinaryGroup[102X  9.1-1
+  [2XFiniteDepthBinaryGroup[102X  9.1-1
+  [2XFiniteStateBinaryGroup[102X  9.1-1
+  [2XFixedRay[102X (FR element)  5.2-16
+  [2XFixedStates[102X  4.2-10
+  [2XFornaessSibonyGroup[102X  9.1-4
+  [2XForwardOrbit[102X  11.8-1
+  [2XFRAffineGroup[102X  9.1-30
+  [2XFRAlgebra[102X  8.1-1
+  [2XFRAlgebraWithOne[102X  8.1-1
+  [2XFRBranchGroupConjugacyData[102X  10.3-7
+  [2XFRConjugacyAlgorithm[102X  10.3-6
+  [2XFREFamily[102X  10.1-2
+  [2XFRElement[102X ([list,]list,list,list)  4.1-2
+  [2XFRElement[102X (semigroup,list,list,list)  4.1-2
+  [2XFRElement[102X (machine/element,list)  4.1-3
+  [2XFRElementNC[102X (family,free,listlist,list,assocword)  4.1-1
+  [2XFRGroup[102X  7.1-1
+  [2XFRGroupByVirtualEndomorphism[102X  7.1-9
+  [2XFRMachine[102X ([list,]list,list)  3.3-2
+  [2XFRMachine[102X (semigroup,list,list)  3.3-2
+  [2XFRMachineFRGroup[102X  7.1-6
+  [2XFRMachineFRMonoid[102X  7.1-6
+  [2XFRMachineFRSemigroup[102X  7.1-6
+  [2XFRMachineNC[102X (family,free,listlist,list)  3.3-1
+  [2XFRMachineRWS[102X  10.3-1
+  [2XFRMFamily[102X  10.1-1
+  [2XFRMonoid[102X  7.1-1
+  [2XFRSemigroup[102X  7.1-1
+  [2XFullBinaryGroup[102X  9.1-1
+  [2XFullSCGroup[102X  7.1-5
+  [2XFullSCMonoid[102X  7.1-5
+  [2XFullSCSemigroup[102X  7.1-5
+  [2XGammaPQGroup[102X  9.1-23
+  [2XGammaPQMachine[102X  9.1-23
+  [2XGeneralizedGuptaSidkiGroups[102X  9.1-18
+  [2XGeneratorsOfFRMachine[102X  3.4-2
+  [2XGermData[102X  7.2-6
+  [2XGerms[102X  5.2-24
+  [2XGermValue[102X  7.2-6
+  [2XGrigorchukGroup[102X  9.1-10
+  [2XGrigorchukGroups[102X  9.1-9
+  [2XGrigorchukLieAlgebra[102X  9.3-4
+  [2XGrigorchukMachine[102X  9.1-10
+  [2XGrigorchukMachines[102X  9.1-9
+  [2XGrigorchukOverGroup[102X  9.1-11
+  [2XGrigorchukThinnedAlgebra[102X  9.3-2
+  [2XGrigorchukTwistedTwin[102X  9.1-12
+  [2XGuessMealyElement[102X  5.2-28
+  [2XGuessVectorElement[102X  6.1-12
+  [2XGuptaSidkiGroup[102X  9.1-19
+  [2XGuptaSidkiGroups[102X  9.1-18
+  [2XGuptaSidkiLieAlgebra[102X  9.3-4
+  [2XGuptaSidkiMachine[102X  9.1-19
+  [2XGuptaSidkiMachines[102X  9.1-18
+  [2XGuptaSidkiThinnedAlgebra[102X  9.3-3
+  [2XHanoiGroup[102X  9.1-25
+  [2XHasCongruenceProperty[102X  7.2-17
+  [2XHasOpenSetConditionFRElement[102X  5.2-25
+  [2XHasOpenSetConditionFRSemigroup[102X  7.2-16
+  [2XHeightOfPoset[102X  11.8-8
+  [2XHorizontalAction[102X  9.5-2
+  [2XI2Machine[102X  9.2-1
+  [2XI2Monoid[102X  9.2-1
+  [2XI4Machine[102X  9.2-2
+  [2XI4Monoid[102X  9.2-2
+  [2XInfoFR[102X  11.9-1
+  [2XInitialState[102X  4.2-14
+  [2XIsAlgebraFRMachineRep[102X  10.2-8
+  [2XIsAmenableGroup[102X  7.3-3
+  [2XIsAntisymmetricFRElement[102X  6.1-10
+  [2XIsBireversible[102X  5.2-7
+  [2XIsBoundedFRElement[102X  5.2-12
+  [2XIsBoundedFRMachine[102X  5.2-12
+  [2XIsBoundedFRSemigroup[102X  7.2-14
+  [2XIsBranched[102X (FR group)  7.2-24
+  [2XIsBranchingSubgroup[102X (FR semigroup)  7.2-25
+  [2XIsConfinal[102X  11.2-4
+  [2XIsContracting[102X  7.2-18
+  [2XIsConvergent[102X  6.1-9
+  [2XIsDiagonalFRElement[102X  6.1-10
+  [2XIsFIFO[102X  11.8-9
+  [2XIsFinitaryFRElement[102X  5.2-10
+  [2XIsFinitaryFRMachine[102X  5.2-10
+  [2XIsFinitaryFRSemigroup[102X  7.2-14
+  [2XIsFiniteStateFRElement[102X  4.2-12
+  [2XIsFiniteStateFRMachine[102X  4.2-12
+  [2XIsFiniteStateFRSemigroup[102X  7.2-14
+  [2XIsFpLieAlgebra[102X  11.8-13
+  [2XIsFRAlgebra[102X  10.2-17
+  [2XIsFRAlgebraWithOne[102X  10.2-17
+  [2XIsFRElement[102X  10.2-11
+  [2XIsFRGroup[102X  10.2-16
+  [2XIsFRMachine[102X  10.2-14
+  [2XIsFRMachineStrRep[102X  10.2-2
+  [2XIsFRMealyElement[102X  10.2-12
+  [2XIsFRMonoid[102X  10.2-16
+  [2XIsFRObject[102X  10.2-13
+  [2XIsFRSemigroup[102X  10.2-16
+  [2XIsGroupFRElement[102X  10.2-11
+  [2XIsGroupFRMachine[102X  10.2-1
+  [2XIsGroupFRMealyElement[102X  10.2-12
+  [2XIsHomogeneousElement[102X  8.2-4
+  [2XIsInfinitelyTransitive[102X  7.2-13
+  [2XIsInvertible[102X  10.2-15
+  [2XIsIrreducibleVHGroup[102X  9.5-4
+  [2XIsJustInfinite[102X  7.3-7
+  [2XIsLevelTransitive[102X (FR element)  5.2-17
+  [2XIsLevelTransitive[102X (FR group)  7.2-12
+  [2XIsLevelTransitiveOnPatterns[102X  7.2-13
+  [2XIsLinearFRElement[102X  10.2-10
+  [2XIsLinearFRMachine[102X  10.2-9
+  [2XIsLinearRepresentation[102X  11.7-1
+  [2XIsLowerTriangularFRElement[102X  6.1-10
+  [2XIsMealyElement[102X  10.2-4
+  [2XIsMealyMachine[102X  10.2-3
+  [2XIsMealyMachineDomainRep[102X  10.2-6
+  [2XIsMealyMachineIntRep[102X  10.2-5
+  [2XIsMinimized[102X  5.2-5
+  [2XIsMonoidFRElement[102X  10.2-11
+  [2XIsMonoidFRMachine[102X  10.2-1
+  [2XIsMonoidFRMealyElement[102X  10.2-12
+  [2XIsNilElement[102X  8.2-3
+  [2XIsomorphismFRGroup[102X  7.1-7
+  [2XIsomorphismFRMonoid[102X  7.1-7
+  [2XIsomorphismFRSemigroup[102X  7.1-7
+  [2XIsomorphismLpGroup[102X  7.2-31
+  [2XIsomorphismMealyGroup[102X  7.1-8
+  [2XIsomorphismMealyMonoid[102X  7.1-8
+  [2XIsomorphismMealySemigroup[102X  7.1-8
+  [2XIsomorphismSubgroupFpGroup[102X  7.2-31
+  [2XIsPeriodicList[102X  11.2-1
+  [2XIsPolynomialGrowthFRElement[102X  5.2-13
+  [2XIsPolynomialGrowthFRMachine[102X  5.2-13
+  [2XIsPolynomialGrowthFRSemigroup[102X  7.2-14
+  [2XIsProjectiveRepresentation[102X  11.7-1
+  [2XIsRecurrentFRSemigroup[102X  7.2-11
+  [2XIsResiduallyFinite[102X  7.3-5
+  [2XIsReversible[102X  5.2-4
+  [2XIsSemigroupFRElement[102X  10.2-11
+  [2XIsSemigroupFRMachine[102X  10.2-1
+  [2XIsSemigroupFRMealyElement[102X  10.2-12
+  [2XIsSQUniversal[102X  7.3-6
+  [2XIsStateClosed[102X  7.2-9
+  [2XIsSymmetricFRElement[102X  6.1-10
+  [2XIsTorsionFreeGroup[102X  7.3-2
+  [2XIsTorsionGroup[102X  7.3-1
+  [2XIsUpperTriangularFRElement[102X  6.1-10
+  [2XIsVectorFRMachineRep[102X  10.2-7
+  [2XIsVHGroup[102X  9.5-1
+  [2XIsVirtuallySimpleGroup[102X  7.3-4
+  [2XIsWeaklyFinitaryFRElement[102X  5.2-23
+  [2XIsWeaklyFinitaryFRSemigroup[102X  7.2-14
+  [2XJenningsLieAlgebra[102X  11.8-14
+  [2XLambdaElementVHGroup[102X  7.3-4
+  [2XLamplighterGroup[102X  9.1-31
+  [2XLargestCommonPrefix[102X  11.2-6
+  [2XLDUDecompositionFRElement[102X  6.1-11
+  [2XLevelStabilizer[102X  7.2-8
+  [2XLimitFRMachine[102X  5.2-26
+  [2XLimitStates[102X  4.2-11
+  [2XLinearRepresentationByImages[102X  11.7-3
+  [2XMagmaEndomorphismByImagesNC[102X  11.8-6
+  [2XMagmaHomomorphismByImagesNC[102X  11.8-7
+  [2XMamaghaniGroup[102X  9.1-27
+  [2XMatrixQuotient[102X  8.2-1
+  [2XMaximalSimpleSubgroup[102X  9.5-5
+  [2XMealyElement[102X ([list,]listlist,list,int)  5.1-1
+  [2XMealyElement[102X (domain,domain,function,function,obj)  5.1-2
+  [2XMealyElementNC[102X (family,listlist,list,int)  5.1-3
+  [2XMealyMachine[102X ([list,]listlist,list)  5.1-1
+  [2XMealyMachine[102X (domain,domain,function,function)  5.1-2
+  [2XMealyMachineFRGroup[102X  7.1-6
+  [2XMealyMachineFRMonoid[102X  7.1-6
+  [2XMealyMachineFRSemigroup[102X  7.1-6
+  [2XMealyMachineNC[102X (family,listlist,list)  5.1-3
+  [2XMinimized[102X (FR machine)  3.5-11
+  [2XMinimized[102X (Mealy machine)  5.2-2
+  [2XMixerGroup[102X  9.1-7
+  [2XMixerMachine[102X  9.1-7
+  [2XNestedMatrixCoefficient[102X  6.1-6
+  [2XNestedMatrixState[102X  6.1-6
+  [2XNeumannGroup[102X  9.1-20
+  [2XNeumannMachine[102X  9.1-20
+  [2XNewFIFO[102X  11.8-9
+  [2XNewGroupFRMachine[102X  7.1-2
+  [2XNewMonoidFRMachine[102X  7.1-2
+  [2XNewSemigroupFRMachine[102X  7.1-2
+  [2XNillity[102X  8.2-3
+  [2XNormOfBoundedFRElement[102X  5.2-24
+  [2XNucleus[102X (FR machine)  4.2-13
+  [2XNucleus[102X (FR semigroup)  7.2-19
+  [2XNucleus[102X (FR algebra)  8.1-3
+  [2XNucleusMachine[102X (FR machine)  5.2-27
+  [2XNucleusMachine[102X (FR semigroup)  7.2-20
+  [2XNucleusOfFRAlgebra[102X  8.1-3
+  [2XNucleusOfFRMachine[102X  4.2-13
+  [2XNucleusOfFRSemigroup[102X  7.2-19
+  [2XOrbitGrowth[102X  11.3-1
+  [2XOrbitSignalizer[102X  10.3-5
+  [2XOutput[102X (FR machine)  3.4-3
+  [2XOutput[102X (FR machine,state)  3.4-3
+  [2XOutput[102X (FR machine,state,letter)  3.4-3
+  [2XOutput[102X (FR element)  4.2-1
+  [2XPcGroup[102X  7.2-2
+  [2XPeriod[102X  11.2-2
+  [2XPeriodicList[102X  11.2-2
+  [2XPeriodicList[102X (list, function)  11.2-2
+  [2XPeriodicList[102X (period, looping point)  11.2-2
+  [2XPeriodicListsFamily[102X  11.2-1
+  [2XPermGroup[102X  7.2-1
+  [2XPolynomialGrowthBinaryGroup[102X  9.1-1
+  [2XPortrait[102X  4.2-5
+  [2XPortraitInt[102X  4.2-5
+  [2XPortraitPerm[102X  4.2-5
+  [2XPortraitTransformation[102X  4.2-5
+  [2XPositionInTower[102X  11.8-3
+  [2XPrePeriod[102X  11.2-2
+  [2XProductBOIIdeal[102X  11.8-10
+  [2XProductIdeal[102X  11.8-10
+  [2XProjectiveExtension[102X  11.7-5
+  [2XProjectiveQuotient[102X  11.7-6
+  [2XProjectiveRepresentationByFunction[102X  11.7-2
+  [2XPSZAlgebra[102X  9.3-1
+  [2XPureSurfaceBraidFpGroup[102X  11.5-1
+  [2XRattaggiGroup[102X  9.1-24
+  [2XRenameSubobjects[102X  11.8-4
+  [2XSCAlgebra[102X  8.1-2
+  [2XSCAlgebraNC[102X  8.1-2
+  [2XSCAlgebraWithOne[102X  8.1-2
+  [2XSCAlgebraWithOneNC[102X  8.1-2
+  [2XSCGroup[102X  7.1-3
+  [2XSCGroupNC[102X  7.1-3
+  [2XSCLieAlgebra[102X  8.1-2
+  [2XSCMonoid[102X  7.1-3
+  [2XSCMonoidNC[102X  7.1-3
+  [2XSCSemigroup[102X  7.1-3
+  [2XSCSemigroupNC[102X  7.1-3
+  [2XSEARCH@[102X  11.9-2
+  [2XShiftDirichletSeries[102X  11.6-4
+  [2XShortGroupRelations[102X  11.4-1
+  [2XShortGroupWordInSet[102X  11.4-2
+  [2XShortMonoidRelations[102X  11.4-1
+  [2XShortMonoidWordInSet[102X  11.4-2
+  [2XShortSemigroupWordInSet[102X  11.4-2
+  [2XShrunkDirichletSeries[102X  11.6-5
+  [2XSidkiFreeAlgebra[102X  9.3-5
+  [2XSidkiFreeGroup[102X  9.1-17
+  [2XSidkiMonomialAlgebra[102X  9.3-6
+  [2XSignatures[102X  5.2-14
+  [2XSolutionMatMod1[102X  11.8-16
+  [2XSolutionMatModN[102X  11.8-15
+  [2XSphere[102X  11.3-1
+  [2XSpreadDirichletSeries[102X  11.6-3
+  [2XStabilizerImage[102X  7.2-7
+  [2XState[102X  4.2-8
+  [2XStateClosure[102X  7.2-10
+  [2XStateGrowth[102X  5.2-8
+  [2XStates[102X  4.2-9
+  [2XStateSet[102X (FR machine)  3.4-1
+  [2XStateSet[102X (FR element)  4.2-7
+  [2XStrichartzGroup[102X  9.1-29
+  [2XStringByInt[102X  11.8-2
+  [2XStructuralGroup[102X  3.5-1
+  [2XStructuralMonoid[102X  3.5-1
+  [2XStructuralSemigroup[102X  3.5-1
+  [2XSubFRMachine[102X  3.5-9
+  [2XSubFRMachine[102X (machine,map)  3.5-9
+  [2XSunicGroup[102X  9.1-8
+  [2XSunicMachine[102X  9.1-8
+  [2XSurfaceBraidFpGroup[102X  11.5-1
+  [2XTensorProduct[102X  11.1-2
+  [2XTensorProductOp[102X (FR Machines)  3.5-5
+  [2XTensorSum[102X  11.1-1
+  [2XTensorSumOp[102X (FR Machines)  3.5-4
+  [2XThinnedAlgebra[102X  8.2-2
+  [2XThinnedAlgebraWithOne[102X  8.2-2
+  [2XTopElement[102X  5.2-22
+  [2XTopVertexTransformations[102X  7.2-27
+  [2XTransformationMonoid[102X  7.2-3
+  [2XTransformationSemigroup[102X  7.2-4
+  [2XTransition[102X (FR machine,state,input)  3.4-4
+  [2XTransition[102X (FR element,input)  4.2-3
+  [2XTransition[102X (Linear machine)  6.1-4
+  [2XTransitions[102X (FR machine,state)  3.4-5
+  [2XTransitions[102X (FR element)  4.2-4
+  [2XTransitions[102X  6.1-5
+  [2XTransposedFRElement[102X  6.1-10
+  [2XTreeWreathProduct[102X (FR machine)  3.5-8
+  [2XTreeWreathProduct[102X (FR group)  7.1-10
+  [2XUnderlyingFRMachine[102X  3.3-3
+  [2XUnderlyingMealyElement[102X  10.2-12
+  [2XValueOfDirichletSeries[102X  11.6-7
+  [2XVectorElement[102X  6.1-1
+  [2XVectorElementNC[102X  6.1-1
+  [2XVectorMachine[102X  6.1-1
+  [2XVectorMachineNC[102X  6.1-1
+  [2XVertexElement[102X  4.1-5
+  [2XVertexTransformations[102X (FR semigroup)  7.2-28
+  [2XVertexTransformationsFRElement[102X  5.2-15
+  [2XVertexTransformationsFRMachine[102X  5.2-15
+  [2XVerticalAction[102X  9.5-2
+  [2XVHGroup[102X  9.5-3
+  [2XVHStructure[102X  9.5-1
+  [2XVirtualEndomorphism[102X  7.2-29
+  [2XWeaklyBranchedEmbedding[102X  7.1-11
+  [2XWeierstrassGroup[102X  9.1-28
+  [2XWordGrowth[102X  11.3-1
+  [2XWordGrowth[102X (1arg)  11.3-1
+  [2XWreathRecursion[102X  3.4-6
+  [2XZetaSeriesOfGroup[102X  11.6-6
+  [2XZugadiSpinalGroup[102X  9.1-22
+  
+  
+  -------------------------------------------------------

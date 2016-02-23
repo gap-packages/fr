@@ -1,0 +1,195 @@
+  
+  
+  [1XReferences[101X
+  
+  [[20XAle83[120X]  [16XAleshin,  S.  V.[116X,  [17XA free group of finite automata[117X, [18XVestnik Moskov.
+  Univ. Ser. I Mat. Mekh.[118X, 4 (1983), 12-14.
+  
+  [[20XBac08[120X] [16XBacher, R.[116X, [17XDeterminants related to Dirichlet characters modulo 2, 4
+  and  8  of  binomial  coefficients  and  the algebra of recurrence matrices[117X,
+  [18XInternat. J. Algebra Comput.[118X, [19X18[119X, 3 (2008), 535--566.
+  
+  [[20XBar03a[120X]  [16XBartholdi, L.[116X, [17XA Wilson group of non-uniformly exponential growth[117X,
+  [18XC. R. Math. Acad. Sci. Paris[118X, [19X336[119X, 7 (2003), 549--554.
+  
+  [[20XBar03b[120X]  [16XBartholdi,  L.[116X,  [17XEndomorphic  presentations  of  branch groups[117X, [18XJ.
+  Algebra[118X, [19X268[119X, 2 (2003), 419--443.
+  
+  [[20XBar06[120X]  [16XBartholdi,  L.[116X, [17XBranch rings, thinned rings, tree enveloping rings[117X,
+  [18XIsrael J. Math.[118X, [19X154[119X (2006), 93--139.
+  
+  [[20XBar10[120X]     [16XBartholdi,     L.[116X,    [17XSelf-similar    Lie    algebras[117X    (2010),
+  ((arXiv:math/1003.1125)).
+  
+  [[20XBEH08[120X]  [16XBartholdi,  L.,  Eick,  B.  and  Hartung,  R.[116X, [17XA nilpotent quotient
+  algorithm  for  certain  infinitely  presented  groups and its applications[117X,
+  [18XInternat. J. Algebra Comput.[118X, [19X18[119X, 8 (2008), 1321--1344.
+  
+  [[20XBG02[120X] [16XBartholdi, L. and Grigorchuk, R. I.[116X, [17XOn parabolic subgroups and Hecke
+  algebras of some fractal groups[117X, [18XSerdica Math. J.[118X, [19X28[119X, 1 (2002), 47--90.
+  
+  [[20XBGN03[120X]  [16XBartholdi, L., Grigorchuk, R. I. and Nekrashevych, V.[116X, [17XFrom fractal
+  groups  to fractal sets[117X, in Fractals in Graz 2001, Birkhäuser, Trends Math.,
+  Basel (2003), 25--118.
+  
+  [[20XBGŠ03[120X]  [16XBartholdi,  L.,  Grigorchuk, R. I. and Šuniḱ, Z.[116X, [17XBranch groups[117X, in
+  Handbook of algebra, Vol. 3, North-Holland, Amsterdam (2003), 989--1112.
+  
+  [[20XBR08[120X]  [16XBartholdi,  L.  and Reznykov, I. I.[116X, [17XA Mealy machine with polynomial
+  growth  of  irrational  degree[117X,  [18XInternat. J. Algebra Comput.[118X, [19X18[119X, 1 (2008),
+  59--82.
+  
+  [[20XBRS06[120X]  [16XBartholdi, L., Reznykov, I. I. and Sushchansky, V. I.[116X, [17XThe smallest
+  Mealy automaton of intermediate growth[117X, [18XJ. Algebra[118X, [19X295[119X, 2 (2006), 387--414.
+  
+  [[20XBŠ01[120X]  [16XBartholdi,  L.  and Šuniḱ, Z.[116X, [17XOn the word and period growth of some
+  groups of tree automorphisms[117X, [18XComm. Algebra[118X, [19X29[119X, 11 (2001), 4923--4964.
+  
+  [[20XBV05[120X] [16XBartholdi, L. and Virág, B.[116X, [17XAmenability via random walks[117X, [18XDuke Math.
+  J.[118X, [19X130[119X, 1 (2005), 39--56.
+  
+  [[20XBS62[120X]   [16XBaumslag,  G.  and  Solitar,  D.[116X,  [17XSome  two-generator  one-relator
+  non-Hopfian groups[117X, [18XBull. Amer. Math. Soc.[118X, [19X68[119X (1962), 199--201.
+  
+  [[20XBKNPPT12[120X]  [16XBegue,  M.,  Kelleher, D. J., Nelson, A., Panzo, H., Pellico, R.
+  and   Teplyaev,  A.[116X,  [17XRandom  walks  on  barycentric  subdivisions  and  the
+  Strichartz hexacarpet[117X, [18XExp. Math.[118X, [19X21[119X, 4 (2012), 402--417.
+  
+  [[20XBel04[120X]  [16XBellingeri,  P.[116X,  [17XOn  presentations  of  surface  braid  groups[117X, [18XJ.
+  Algebra[118X, [19X274[119X, 2 (2004), 543--563.
+  
+  [[20XBBSZ13[120X]  [16XBondarenko,  I. V., Bondarenko, N. V., Sidki, S. N. and Zapata, F.
+  R.[116X,  [17XOn  the  conjugacy  problem  for  finite-state automorphisms of regular
+  rooted  trees[117X,  [18XGroups Geom. Dyn.[118X, [19X7[119X, 2 (2013), 323--355, ((With an appendix
+  by Rapha{\"e}l M. Jungers)).
+  
+  [[20XBSV99[120X]  [16XBrunner,  A. M., Sidki, S. N. and Vieira, A. C.[116X, [17XA just nonsolvable
+  torsion-free  group  defined  on the binary tree[117X, [18XJ. Algebra[118X, [19X211[119X, 1 (1999),
+  99--114.
+  
+  [[20XBM97[120X]  [16XBurger,  M.  and  Mozes,  S.[116X,  [17XFinitely  presented simple groups and
+  products  of  trees[117X,  [18XC.  R.  Acad.  Sci. Paris Sér. I Math.[118X, [19X324[119X, 7 (1997),
+  747--752.
+  
+  [[20XBM00a[120X]  [16XBurger,  M.  and  Mozes,  S.[116X, [17XGroups acting on trees: from local to
+  global  structure[117X, [18XInst. Hautes Études Sci. Publ. Math.[118X, 92 (2000), 113--150
+  (2001).
+  
+  [[20XBM00b[120X] [16XBurger, M. and Mozes, S.[116X, [17XLattices in product of trees[117X, [18XInst. Hautes
+  Études Sci. Publ. Math.[118X, 92 (2000), 151--194 (2001).
+  
+  [[20XCha95[120X]  [16XCharney,  R.[116X,  [17XGeodesic  automation  and growth functions for Artin
+  groups of finite type[117X, [18XMath. Ann.[118X, [19X301[119X, 2 (1995), 307--324.
+  
+  [[20XDah05[120X]  [16XDahmani,  F.[116X, [17XAn example of non-contracting weakly branch automaton
+  group[117X,  in  Geometric  methods  in  group theory, Amer. Math. Soc., Contemp.
+  Math., [19X372[119X, Providence, RI (2005), 219--224.
+  
+  [[20XErs04[120X] [16XErschler, A.[116X, [17XBoundary behavior for groups of subexponential growth[117X,
+  [18XAnn. of Math. (2)[118X, [19X160[119X, 3 (2004), 1183--1210.
+  
+  [[20XFG85[120X]  [16XFabrykowski, J. and Gupta, N.[116X, [17XOn groups with sub-exponential growth
+  functions[117X, [18XJ. Indian Math. Soc. (N.S.)[118X, [19X49[119X, 3-4 (1985), 249--256 (1987).
+  
+  [[20XFG91[120X]  [16XFabrykowski, J. and Gupta, N.[116X, [17XOn groups with sub-exponential growth
+  functions. II[117X, [18XJ. Indian Math. Soc. (N.S.)[118X, [19X56[119X, 1-4 (1991), 217--228.
+  
+  [[20XGM05[120X]  [16XGlasner,  Y.  and  Mozes,  S.[116X,  [17XAutomata and square complexes[117X, [18XGeom.
+  Dedicata[118X, [19X111[119X (2005), 43--64.
+  
+  [[20XGri80[120X]  [16XGrigorchuk,  R.  I.[116X,  [17XOn  Burnside's  problem  on  periodic groups[117X,
+  [18XFunktsional. Anal. i Prilozhen.[118X, [19X14[119X, 1 (1980), 53--54.
+  
+  [[20XGri84[120X]  [16XGrigorchuk,  R.  I.[116X, [17XDegrees of growth of finitely generated groups
+  and  the  theory  of  invariant means[117X, [18XIzv. Akad. Nauk SSSR Ser. Mat.[118X, [19X48[119X, 5
+  (1984), 939--985.
+  
+  [[20XGŠ06[120X]  [16XGrigorchuk,  R.  I.  and  Šuniḱ,  Z.[116X, [17XAsymptotic aspects of Schreier
+  graphs and Hanoi Towers groups[117X, [18XC. R. Math. Acad. Sci. Paris[118X, [19X342[119X, 8 (2006),
+  545--550.
+  
+  [[20XGŻ02a[120X] [16XGrigorchuk, R. I. and Żuk, A.[116X, [17XOn a torsion-free weakly branch group
+  defined  by  a  three state automaton[117X, [18XInternat. J. Algebra Comput.[118X, [19X12[119X, 1-2
+  (2002),  223--246, ((International Conference on Geometric and Combinatorial
+  Methods in Group Theory and Semigroup Theory (Lincoln, NE, 2000))).
+  
+  [[20XGŻ02b[120X] [16XGrigorchuk, R. I. and Żuk, A.[116X, [17XOn a torsion-free weakly branch group
+  defined  by  a  three state automaton[117X, [18XInternat. J. Algebra Comput.[118X, [19X12[119X, 1-2
+  (2002),  223--246, ((International Conference on Geometric and Combinatorial
+  Methods in Group Theory and Semigroup Theory (Lincoln, NE, 2000))).
+  
+  [[20XGS83[120X]  [16XGupta,  N.  and  Sidki,  S. N.[116X, [17XOn the Burnside problem for periodic
+  groups[117X, [18XMath. Z.[118X, [19X182[119X, 3 (1983), 385--388.
+  
+  [[20XLys85[120X]  [16XLysënok,  I.  G.[116X,  [17XA  set  of defining relations for the Grigorchuk
+  group[117X, [18XMat. Zametki[118X, [19X38[119X, 4 (1985), 503--516, 634.
+  
+  [[20XMNS00[120X]  [16XMacedońska,  O.,  Nekrashevych,  V.  V.  and  Sushchansky,  V.  I.[116X,
+  [17XCommensurators  of  groups  and reversible automata[117X, [18XDopov. Nats. Akad. Nauk
+  Ukr. Mat. Prirodozn. Tekh. Nauki[118X, 12 (2000), 36--39.
+  
+  [[20XMam03[120X]  [16XMamaghani,  M.  J.[116X,  [17XA  fractal  non-contracting  class of automata
+  groups[117X, [18XBull. Iranian Math. Soc.[118X, [19X29[119X, 2 (2003), 51--64, 92.
+  
+  [[20XNek05[120X]   [16XNekrashevych,   V.[116X,  [17XSelf-similar  groups[117X,  American  Mathematical
+  Society,  Mathematical  Surveys  and Monographs, [19X117[119X, Providence, RI (2005),
+  xii+231 pages.
+  
+  [[20XNek08a[120X]  [16XNekrashevych,  V.[116X,  [17XCombinatorial  models  of  expanding dynamical
+  systems[117X (2008), ((arXiv:math.GR/0810.4936)).
+  
+  [[20XNek08b[120X]  [16XNekrashevych,  V.[116X,  [17XThe  Julia  set  of  a  post-critically finite
+  endomorphism of PC^2[117X (2008), ((arXiv:math.GR/0811.2777)).
+  
+  [[20XNeu86[120X]  [16XNeumann,  P.  M.[116X, [17XSome questions of Edjvet and Pride about infinite
+  groups[117X, [18XIllinois J. Math.[118X, [19X30[119X, 2 (1986), 301--316.
+  
+  [[20XPet06[120X]  [16XPetrogradsky,  V.  M.[116X,  [17XExamples of self-iterating Lie algebras[117X, [18XJ.
+  Algebra[118X, [19X302[119X, 2 (2006), 881--886.
+  
+  [[20XPSZ[120X]   [16XPetrogradsky,  V.,  Shestakov,  I.  and  Zelmanov,  E.[116X,  [17XNil  graded
+  self-similar algebras[117X, Submitted.
+  
+  [[20XRat04[120X]  [16XRattaggi,  D.[116X, [17XComputations in Groups Acting on a Product of Trees:
+  Normal   Subgroup   Structures   and   Quaternion  Lattices[117X,  Ph.D.  thesis,
+  Eidgenössische Technische Hochschule Zürich (2004).
+  
+  [[20XSZ08[120X] [16XShestakov, I. P. and Zelmanov, E.[116X, [17XSome examples of nil Lie algebras[117X,
+  [18XJ. Eur. Math. Soc. (JEMS)[118X, [19X10[119X, 2 (2008), 391--398.
+  
+  [[20XSid97[120X]  [16XSidki, S. N.[116X, [17XA primitive ring associated to a Burnside 3-group[117X, [18XJ.
+  London Math. Soc. (2)[118X, [19X55[119X, 1 (1997), 55--64.
+  
+  [[20XSid00[120X]  [16XSidki,  S.  N.[116X,  [17XAutomorphisms of one-rooted trees: growth, circuit
+  structure,  and  acyclicity[117X,  [18XJ.  Math.  Sci.  (New  York)[118X,  [19X100[119X,  1 (2000),
+  1925--1943, ((Algebra, 12)).
+  
+  [[20XSid05[120X]  [16XSidki,  S.  N.[116X,  [17XTree-wreathing  applied to generation of groups by
+  finite automata[117X, [18XInternat. J. Algebra Comput.[118X, [19X15[119X, 5-6 (2005), 1205--1212.
+  
+  [[20XSW03[120X]  [16XSidki,  S.  N.  and  Wilson, J. S.[116X, [17XFree subgroups of branch groups[117X,
+  [18XArch. Math. (Basel)[118X, [19X80[119X, 5 (2003), 458--463.
+  
+  [[20XSS05[120X]  [16XSilva,  P.  V.  and  Steinberg,  B.[116X,  [17XOn  a class of automata groups
+  generalizing  lamplighter  groups[117X,  [18XInternat.  J.  Algebra  Comput.[118X, [19X15[119X, 5-6
+  (2005), 1213--1234.
+  
+  [[20XSVV06[120X] [16XSteinberg, B., Vorobets, M. and Vorobets, Y.[116X, [17XAutomata over a binary
+  alphabet     generating     free     groups    of    even    rank[117X    (2006),
+  ((arXiv:math.GR/0610033)).
+  
+  [[20XŠun07[120X]  [16XŠunić,  Z.[116X, [17XHausdorff dimension in a family of self-similar groups[117X,
+  [18XGeom. Dedicata[118X, [19X124[119X (2007), 213--236.
+  
+  [[20XvN29[120X]  [16Xvon Neumann, J.[116X, [17XZur allgemeinen Theorie des Masses[117X, [18XFund. Math.[118X, [19X13[119X
+  (1929), 73--116 and 333, (((= Collected works, vol. I, pages 599--643))).
+  
+  [[20XVV06[120X]  [16XVorobets,  M.  and  Vorobets,  Y.[116X,  [17XOn  a  series of finite automata
+  defining free transformation groups[117X (2006), ((arXiv:math.GR/0604328)).
+  
+  [[20XVV07[120X]  [16XVorobets,  M.  and  Vorobets, Y.[116X, [17XOn a free group of transformations
+  defined by an automaton[117X, [18XGeom. Dedicata[118X, [19X124[119X (2007), 237--249.
+  
+  
+  
+  [32X
