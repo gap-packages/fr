@@ -30,7 +30,7 @@ suggested-pkgs:
       url: "http://mathdox.org/products/gbnp/"
     - name: "NQ"
       version: ">=2.4"
-      url: "http://gap-system.github.io/nq/"
+      url: "http://gap-packages.github.io/nq/"
     - name: "NQL"
       version: ">=0.10"
       url: "http://www-public.tu-bs.de:8080/~y0019492/pub/nql/"
