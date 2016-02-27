@@ -2,7 +2,7 @@
 ##
 #W Makefile.in                                              Laurent Bartholdi
 ##
-#Y Copyright (C) 2007-2012, Laurent Bartholdi
+#Y Copyright (C) 2007-2016 Laurent Bartholdi
 ##
 #############################################################################
 ##
@@ -20,8 +20,6 @@ LOCALBIN=bin/@GAPARCH@
 
 all: $(LOCALBIN)
 
-distribute: wwwdir doc
-
 $(LOCALBIN):
 	mkdir -p $(LOCALBIN)
 
@@ -37,28 +35,12 @@ configure: cnf/Makefile.in cnf/configure.ac
 doc: doc/chap0.html
 
 doc/chap0.html: doc/fr.xml doc/frbib.xml gap/*.gd
-	@GAP_EXEC@ -q -T makedoc.g
+	@GAPROOT@/bin/gap.sh -A makedoc.g
 
 checkblocks:
 	grep '<#GAPDoc' PackageInfo.g gap/*d | awk -F'"' '{print $$2}' | sort > @@-blocks
 	grep '<#Include' doc/fr.xml | awk -F'"' '{print $$2}' | sort > @@-in
 	comm -3 @@-blocks @@-in
 	@rm @@-blocks @@-in
-
-tarballs: doc
-	mkdir -p zips
-	tar -c -f zips/fr-$(VERSION).tar.gz -z --exclude '*~' --exclude '.[a-z]*' --exclude 'config.[ls]*' --exclude 'fr/Makefile*' --exclude autom4te.cache --exclude sandbox --exclude zips --exclude bin -C .. fr
-	ln -sf fr-$(VERSION).tar.gz zips/fr.tar.gz
-
-wwwdir: doc
-	git tag -f $(VERSION)
-	git push origin :refs/tags/$(VERSION)
-	git push --tags
-	cp PackageInfo.g doc/
-	cp README doc/README.fr
-	(cd doc; git add *.html manual.pdf manual.css PackageInfo.g README.fr; git commit -m 'New html files'; git push gh-pages master:gh-pages --force)
-	github-release release --user gap-packages --repo fr --tag v$(VERSION)
-	github-release upload --user gap-packages --repo fr --tag v$(VERSION) --name fr-$(VERSION).tar.gz --file zips/fr-$(VERSION).tar.gz
-	rm doc/PackageInfo.g doc/README.fr
 
 #E Makefile.in . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
