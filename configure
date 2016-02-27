@@ -2103,12 +2103,8 @@ fi
 mkdir -p bin/$GAPARCH
 CONFIG_STATUS=bin/$GAPARCH/config.status
 
-ac_config_files="$ac_config_files $GAP_MAKEFILE:cnf/Makefile.in bin/$GAPARCH/files.g:cnf/files.g.in"
+ac_config_files="$ac_config_files Makefile:cnf/Makefile.in bin/$GAPARCH/files.g:cnf/files.g.in"
 
-
-if test "$GAP_MAKEFILE" != Makefile; then
-    ln -sf "$GAP_MAKEFILE" Makefile
-fi
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -2815,7 +2811,7 @@ cat >>$CONFIG_STATUS <<\_ACEOF || ac_write_fail=1
 for ac_config_target in $ac_config_targets
 do
   case $ac_config_target in
-    "$GAP_MAKEFILE") CONFIG_FILES="$CONFIG_FILES $GAP_MAKEFILE:cnf/Makefile.in" ;;
+    "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile:cnf/Makefile.in" ;;
     "bin/$GAPARCH/files.g") CONFIG_FILES="$CONFIG_FILES bin/$GAPARCH/files.g:cnf/files.g.in" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
