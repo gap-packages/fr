@@ -22,6 +22,6 @@ doc/*.ind
 doc/*.out
 doc/*.toc
 doc/manual.pdf
-doc/manual.lab
+doc/manual.six
 gh-pages
 zips
