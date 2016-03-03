@@ -79,8 +79,8 @@ else
 fi;
 InstallMethod(Decomposition, [IsFRElement], DecompositionOfFRElement);
 
-while not IsEmpty(POSTHOOK@FR) do Remove(POSTHOOK@FR)(); od;
-Unbind(POSTHOOK@FR);
+while not IsEmpty(POSTHOOK@fr) do Remove(POSTHOOK@fr)(); od;
+Unbind(POSTHOOK@fr);
 
 if IsBound(IO_Pickle) then
     ReadPackage("fr","gap/pickle.g");

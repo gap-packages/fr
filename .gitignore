@@ -24,4 +24,5 @@ doc/*.toc
 doc/manual.pdf
 doc/manual.six
 gh-pages
+tmp
 zips
