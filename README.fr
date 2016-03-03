@@ -15,9 +15,9 @@ computations of presentations for self-similar groups, interval arithmetic
 for complex dynamics, etc.
 
 The package is distributed in source form, and does not require anything
-else than a running GAP 4.5 or later. For updates, check
+else than a running GAP 4.8 or later. For updates, check
 
-     https://github.com/laurentbartholdi/fr
+     https://github.com/gap-packages/fr
 
 To use the package, start GAP and type
 
@@ -26,13 +26,10 @@ LoadPackage("FR");
 The "FR" package banner should appear on the screen.
 
 For details on how to use the FR package, please consult the documentation.
-Though this is usually not necessary, it may be recompiled, after the command
-`LoadPackage("FR")', by invoking
-
-DOC@FR();
-
-at the GAP prompt. The documentation will then be available in the `doc'
-subdirectory (view the file `manual.pdf' via a PDF viewer).
+Though this is usually not necessary, it may be recompiled by reading
+the file 'makedoc.g' in GAP, e.g. with the command 'Read("makedoc.g");' at
+the GAP prompt. The complete documentation is available in the file
+'doc/manual.pdf'.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -48,4 +45,4 @@ You should have received a copy of the GNU General Public License
 along with this program, in the file COPYING.  If not, see
 <http://www.gnu.org/licenses/>.
 
-  Laurent Bartholdi, Göttingen, 19 November 2012
+  Laurent Bartholdi, Göttingen, 3 March 2016
