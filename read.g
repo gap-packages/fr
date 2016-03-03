@@ -2,9 +2,7 @@
 ##
 #W read.g                                                   Laurent Bartholdi
 ##
-#H   @(#)$Id$
-##
-#Y Copyright (C) 2006, Laurent Bartholdi
+#Y Copyright (C) 2006-2016, Laurent Bartholdi
 ##
 #############################################################################
 ##
@@ -81,8 +79,8 @@ else
 fi;
 InstallMethod(Decomposition, [IsFRElement], DecompositionOfFRElement);
 
-while not IsEmpty(POSTHOOK@fr) do Remove(POSTHOOK@fr)(); od;
-Unbind(POSTHOOK@fr);
+while not IsEmpty(POSTHOOK@FR) do Remove(POSTHOOK@FR)(); od;
+Unbind(POSTHOOK@FR);
 
 if IsBound(IO_Pickle) then
     ReadPackage("fr","gap/pickle.g");

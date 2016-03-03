@@ -2,9 +2,7 @@
 ##
 #W vhgroup.gi                                               Laurent Bartholdi
 ##
-#H   @(#)$Id$
-##
-#Y Copyright (C) 2007, Laurent Bartholdi
+#Y Copyright (C) 2007-2016, Laurent Bartholdi
 ##
 #############################################################################
 ##

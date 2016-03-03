@@ -2,9 +2,7 @@
 ##
 #W init.g                                                   Laurent Bartholdi
 ##
-#H   @(#)$Id$
-##
-#Y Copyright (C) 2006, Laurent Bartholdi
+#Y Copyright (C) 2006-2016, Laurent Bartholdi
 ##
 #############################################################################
 ##

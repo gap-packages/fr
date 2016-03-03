@@ -2,7 +2,7 @@
 ##
 #W helpers.gi                                               Laurent Bartholdi
 ##
-#Y Copyright (C) 2012-2013, Laurent Bartholdi
+#Y Copyright (C) 2012-2016, Laurent Bartholdi
 ##
 #############################################################################
 ##
@@ -10,25 +10,6 @@
 ##  in particular related to the geometry of groups.
 ##
 #############################################################################
-
-#############################################################################
-##
-#W  Compile documentation
-##
-BindGlobal("PATH@", PackageInfo("fr")[1].InstallationPath);
-VERSION@ := Filename(DirectoriesPackageLibrary("fr",""),".version");
-if VERSION@<>fail then
-    VERSION@ := ReadLine(InputTextFile(VERSION@));
-    Remove(VERSION@); # remove \n
-fi;
-MakeReadOnlyGlobal("VERSION@");
-
-BindGlobal("DOC@", function() MakeGAPDocDoc(Concatenation(PATH@,"/doc"),"fr",
-  ["../gap/frmachine.gd","../gap/frelement.gd","../gap/mealy.gd",
-   "../gap/group.gd","../gap/vector.gd","../gap/algebra.gd",
-   "../gap/examples.gd","../gap/helpers.gd","../gap/perlist.gd","../gap/cp.gd",
-   "../PackageInfo.g"],"fr","../../.."); # "http://www.gap-system.org/Manuals");
-end);
 
 BindGlobal("INSTALLPRINTERS@", function(filter)
     InstallMethod(PrintObj, "(FR)", [filter], 2*SUM_FLAGS, function(x) Print(String(x)); end);
