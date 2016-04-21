@@ -34,17 +34,14 @@
   <URL>http://gap-system.org</URL>.
   <P/>
   This documentation for <Package>FR</Package> is available at
-  <URL>http://laurentbartholdi.github.com/fr/manual.pdf</URL> in PDF
+  <URL>http://www.gap-system.org/Manuals/pkg/fr-&Version;/doc/manual.pdf</URL> in PDF
   format, and may be accessed online at
-  <URL>http://laurentbartholdi.github.com/fr/</URL>.
+  <URL>http://gap-packages.github.io/fr/</URL>.
   <P/>
   The latest release of the package may be downloaded as
-  <URL>https://github.com/laurentbartholdi/fr/archive/&Version;.tar.gz</URL> (tar, gzipped) and <URL>https://github.com/laurentbartholdi/fr/archive/&Version;.zip</URL> (zip). The latest repository version (possibly unstable) may be downloaded as <URL>https://github.com/laurentbartholdi/fr/tarball/master</URL> (tar, gzipped),
-  <URL>https://github.com/laurentbartholdi/fr.git</URL> (git repository), or
-  explored at <URL>https://github.com/laurentbartholdi/fr/tree/master/</URL>.
-  <P/>
-  The last source compatible with GAP 4.4.12 may be downloaded as
-  <URL>https://github.com/downloads/laurentbartholdi/fr/fr-1.1.2.tar.gz</URL> (tar, gzipped).
+  <URL>https://github.com/gap-packages/fr/archive/&Version;.tar.gz</URL> (tar, gzipped) and <URL>https://github.com/gap-packages/fr/archive/&Version;.zip</URL> (zip). The latest repository version (possibly unstable) may be downloaded as <URL>https://github.com/gap-packages/fr/tarball/master</URL> (tar, gzipped),
+  <URL>https://github.com/gap-packages/fr.git</URL> (git repository), or
+  explored at <URL>https://github.com/gap-packages/fr/tree/master/</URL>.
   </Alt>
   <P/>
     Groups defined by a recursive action on a rooted tree can
