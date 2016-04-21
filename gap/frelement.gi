@@ -1184,6 +1184,10 @@ BindGlobal("ORDER@", function(e)
     if HasUnderlyingMealyElement(e) then
         e := UnderlyingMealyElement(e);
     fi;
+
+    if not IsInvertible(e) then
+	return fail;
+    fi;
     
     if IsAbelian(VertexTransformationsFRElement(e)) then
         found := NewDictionary(e,false);
@@ -1246,10 +1250,10 @@ BindGlobal("ORDER@", function(e)
 end);
 
 InstallMethod(Order, "(FR) for an FR element; not guaranteed to terminate",
-        [IsFRElement and IsFRElementStdRep and IsInvertible], ORDER@);
+        [IsFRElement and IsFRElementStdRep], ORDER@);
         
 InstallMethod(Order, "(FR) for a Mealy element; not guaranteed to terminate",
-        [IsMealyElement and IsInvertible], ORDER@);
+        [IsMealyElement], ORDER@);
         
 InstallMethod(IsLevelTransitive, "(FR) for a group FR element",
         [IsGroupFRMealyElement],
