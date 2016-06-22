@@ -949,7 +949,7 @@ InstallMethod(\in, "(FR) for an FR element and an FR semigroup",
         function ( g, G )
     local b;
     if HasNucleusOfFRSemigroup(G) then
-        if not IsFiniteStateFRElement(G) or not
+        if not IsFiniteStateFRElement(g) or not
            IsSubset(NucleusOfFRSemigroup(G),LimitStates(g)) then
             return false;
         fi;
