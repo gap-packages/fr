@@ -1704,6 +1704,7 @@ BindGlobal("PERIODICBKG_PREIMAGE@", function(G,depth)
                 x := MappedWord(x,Fgens,Sgens)/Fgens[1]*
                      MappedWord(y,Fgens,Sgens);
                 if ISONE@(i[2]) then x := x*Fgens[1]; fi;
+                if MappedWord(x,Fgens,Ggens)<>g then return fail; fi;
                 AddDictionary(knows,g,x);
                 return x;
             end;
@@ -1993,6 +1994,7 @@ BindGlobal("PREPERIODICBKG_PREIMAGE@", function(G,depth)
                     if x=fail or y=fail then return fail; fi;
                     x := x^t*b/tau(i[1][1],rel[1],rel[2])^t*y^t;
                     if ISONE@(i[2]) then x := x*b; fi;
+                    if MappedWord(x,Fgens,Ggens)<>g then return fail; fi;
                     AddDictionary(knows,g,x);
                     return x;
                 end;
@@ -2078,6 +2080,7 @@ BindGlobal("PREPERIODICBKG_PREIMAGE@", function(G,depth)
                          MappedWord(tau(i[1][1],glob_s,Fgens[k]),Fgens,Sgens)*
                          MappedWord(y,Fgens,Sgens);
                     if ISONE@(i[2]) then x := x*Fgens[1]; fi;
+                    if MappedWord(x,Fgens,Ggens)<>g then return fail; fi;
                     AddDictionary(knows,g,x);
                     return x;
                 end;
