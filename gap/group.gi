@@ -3122,14 +3122,16 @@ BindGlobal("HOMOMORPHISMGERMPERMGROUP@", function(G,data,n)
 end);
 
 BindGlobal("HOMOMORPHISMGERMPCGROUP@", function(G,data,n)
-    local pcpP, pcpG, Q, pcpQ, l, i;
+    local pcpP, pcpG, Q, pcpQ, l, i, inv;
 
     l := Length(AlphabetOfFRSemigroup(G))^n;
     i := IsomorphismPcGroup(PermGroup(G,n));
     if i=fail then
         return HOMOMORPHISMGERMPERMGROUP@(G,data,n);
     fi;
-    Q := WreathProduct(data.group,Range(i),InverseGeneralMapping(i),l);
+    inv := InverseGeneralMapping(i);
+    IsMapping(inv); # make sure the attribute IsMapping is actually set
+    Q := WreathProduct(data.group,Range(i),inv,l);
     pcpP := Pcgs(Range(i));
     pcpG := Pcgs(data.group);
     pcpQ := Pcgs(Q);
@@ -3149,14 +3151,16 @@ BindGlobal("HOMOMORPHISMGERMPCGROUP@", function(G,data,n)
 end);
 
 BindGlobal("HOMOMORPHISMGERMPCPGROUP@", function(G,data,n)
-    local pcpP, pcpG, Q, pcpQ, l, i;
+    local pcpP, pcpG, Q, pcpQ, l, i, inv;
 
     l := Length(AlphabetOfFRSemigroup(G))^n;
     i := IsomorphismPcpGroup(PermGroup(G,n));
     if i=fail then
         return HOMOMORPHISMGERMPERMGROUP@(G,data,n);
     fi;
-    Q := WreathProduct(data.group,Range(i),InverseGeneralMapping(i),l);
+    inv := InverseGeneralMapping(i);
+    IsMapping(inv); # make sure the attribute IsMapping is actually set
+    Q := WreathProduct(data.group,Range(i),inv,l);
     pcpP := Pcp(Range(i));
     pcpG := Pcp(data.group);
     pcpQ := Collector(Q);
