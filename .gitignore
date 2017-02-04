@@ -1,11 +1,6 @@
-Makefile
-Makefile-*
-config.log
-bin/*
 *~
 sandbox
 frbib.xml.bib
-autom4te.cache
 .DS_Store
 doc/chap*txt
 doc/chap*html

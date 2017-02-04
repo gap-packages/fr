@@ -58,27 +58,34 @@ BindGlobal("EXEC@", rec());
 CallFuncList(function(file)
     if file<>fail then Read(file); fi;
 end,[Filename(DirectoriesPackagePrograms("fr"),"files.g")]);
+# If 1 argument is passed, search path to find appropriate executable.
+# If >1 arguments, the first is a generic name, such as "psviewer", and the
+#     other arguments are possibilities to be searched in sequence, in the
+#     form ["progname","arg1",...,"argn"]. If the last argument is true, then
+#     do not raise an error if nothing was found.
 BindGlobal("CHECKEXEC@", function(arg)
-    local prog, name;
+    local a, prog, command;
     prog := arg[1];
     
     if IsBound(EXEC@.(prog)) then return; fi;
     
     if Length(arg)=1 then
-        name := prog;
+        command := Filename(DirectoriesSystemPrograms(), prog);
     else
-        name := arg[2]; # supplied default value for a generic command
+        for a in arg{[2..Length(arg)]} do
+            if a=true then return; fi;
+            command := Filename(DirectoriesSystemPrograms(), a[1]);
+            if command<>fail then
+                command := JoinStringsWithSeparator(Concatenation([command],a{[2..Length(a)]})," ");
+                break;
+            fi;
+        od;
     fi;
-
-    name := Filename(DirectoriesSystemPrograms(), name);
-    while name=fail do
-        Error("Could not find program \"",prog,"\" -- set manually EXEC@fr.",prog);
+    
+    while command=fail do
+        Error("Could not find program \"",prog,"\" -- make sure it is installed, and/or set manually EXEC@fr.",prog);
     od;
-    if Length(arg)=1 then
-        EXEC@.(prog) := name;
-    else
-        EXEC@.(prog) := JoinStringsWithSeparator(Concatenation([name],arg{[3..Length(arg)]})," ");
-    fi;
+    EXEC@.(prog) := command;
 end);
 
 BindGlobal("OUTPUTTEXTSTRING@", function(s)
@@ -126,12 +133,11 @@ BindGlobal("DOT2DISPLAY@", function(str,prog)
     
     CHECKEXEC@(prog);
     CHECKEXEC@("sh");
-    CHECKEXEC@("psviewer","display","-flatten -");
-    if ValueOption("usesvg")<>fail or EXEC@.psviewer="false" then
-        CHECKEXEC@("svgviewer","svg-view","--stdin");
+    CHECKEXEC@("psviewer",["display","-flatten","-"],["gv","-"],true);
+    if ValueOption("usesvg")<>fail or EXEC@.psviewer=fail then
+        CHECKEXEC@("svgviewer",["svg-view","--stdin"]);
         command := Concatenation(EXEC@.(prog)," -Tsvg 2>/dev/null | ",EXEC@.svgviewer);
     else
-        CHECKEXEC@("display");
         command := Concatenation(EXEC@.(prog)," -Gbgcolor=white -Tps 2>/dev/null | ",EXEC@.psviewer);
     fi;
     return EXECINSHELL@(str,command,ValueOption("detach"));

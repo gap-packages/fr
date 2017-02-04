@@ -1,3 +1,0 @@
-EXEC@fr.dot := "@DOT@";
-EXEC@fr.psviewer := "@PSVIEWER@";
-EXEC@fr.svgviewer := "@SVGVIEWER@";
