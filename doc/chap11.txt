@@ -8,25 +8,25 @@
   
   [29X[2XTensorSum[102X( [3Xobjects[103X, [3X...[103X ) [32X function
   
-  [33X[0;0YThis   function   is   similar   in   syntax  to  [2XDirectProduct[102X  ([14XReference:
-  DirectProduct[114X),  and  delegates  to  [10XTensorSumOp[110X;  its  meaning  depends  on
-  context, see e.g. [2XTensorSumOp[102X ([14X3.5-4[114X).[133X
+  [33X[0;0YThis  function is similar in syntax to [2XDirectProduct[102X ([14XDirectProduct???[114X), and
+  delegates   to  [10XTensorSumOp[110X;  its  meaning  depends  on  context,  see  e.g.
+  [2XTensorSumOp[102X ([14X3.5-4[114X).[133X
   
   [1X11.1-2 TensorProduct[101X
   
   [29X[2XTensorProduct[102X( [3Xobjects[103X, [3X...[103X ) [32X function
   
-  [33X[0;0YThis   function   is   similar   in   syntax  to  [2XDirectProduct[102X  ([14XReference:
-  DirectProduct[114X),  and  delegates  to  [10XTensorProductOp[110X; its meaning depends on
-  context, see e.g. [2XTensorProductOp[102X ([14X3.5-5[114X).[133X
+  [33X[0;0YThis  function is similar in syntax to [2XDirectProduct[102X ([14XDirectProduct???[114X), and
+  delegates  to  [10XTensorProductOp[110X;  its  meaning  depends  on context, see e.g.
+  [2XTensorProductOp[102X ([14X3.5-5[114X).[133X
   
   [1X11.1-3 DirectSum[101X
   
   [29X[2XDirectSum[102X( [3Xobjects[103X, [3X...[103X ) [32X function
   
-  [33X[0;0YThis   function   is   similar   in   syntax  to  [2XDirectProduct[102X  ([14XReference:
-  DirectProduct[114X),  and  delegates  to  [10XDirectSumOp[110X;  its  meaning  depends  on
-  context, see e.g. [2XDirectSumOp[102X ([14X3.5-6[114X).[133X
+  [33X[0;0YThis  function is similar in syntax to [2XDirectProduct[102X ([14XDirectProduct???[114X), and
+  delegates   to  [10XDirectSumOp[110X;  its  meaning  depends  on  context,  see  e.g.
+  [2XDirectSumOp[102X ([14X3.5-6[114X).[133X
   
   
   [1X11.2 [33X[0;0YPeriodic lists[133X[101X
@@ -68,9 +68,8 @@
   of a periodic list.[133X
   
   [33X[0;0YMost  of  the  methods  applied  for  lists  have  an obvious equivalent for
-  periodic  lists:  [2XList[102X  ([14XReference:  Lists[114X), [2XFiltered[102X ([14XReference: Filtered[114X),
-  [2XFirst[102X  ([14XReference:  First[114X),  [2XForAll[102X  ([14XReference: ForAll[114X), [2XForAny[102X ([14XReference:
-  ForAny[114X), [2XNumber[102X ([14XReference: Number[114X).[133X
+  periodic  lists:  [2XList[102X  ([14XList???[114X), [2XFiltered[102X ([14XFiltered???[114X), [2XFirst[102X ([14XFirst???[114X),
+  [2XForAll[102X ([14XForAll???[114X), [2XForAny[102X ([14XForAny???[114X), [2XNumber[102X ([14XNumber???[114X).[133X
   
   [4X[32X  Example  [32X[104X
     [4X[25Xgap>[125X [27Xl := PeriodicList([1],[2,3,4]);[127X[104X
@@ -659,12 +658,12 @@
   [29X[2XIsFpLieAlgebra[102X[32X filter
   
   [33X[0;0YThe  category  of  Lie algebras coming from a finitely presented group. They
-  appear  as  the  [2XJenningsLieAlgebra[102X  ([14XReference:  JenningsLieAlgebra[114X)  of  a
-  finitely presented group.[133X
+  appear  as  the  [2XJenningsLieAlgebra[102X  ([14XJenningsLieAlgebra???[114X)  of  a finitely
+  presented group.[133X
   
   [33X[0;0YIf   [10XG[110X   is  an  infinite,  finitely  presented  group,  then  the  original
-  implementation  of  [2XJenningsLieAlgebra[102X  ([14XReference: JenningsLieAlgebra[114X) does
-  not  return. On the other hand, the implementation in [5XFR[105X constructs a graded
+  implementation   of   [2XJenningsLieAlgebra[102X  ([14XJenningsLieAlgebra???[114X)  does  not
+  return.  On  the  other  hand,  the implementation in [5XFR[105X constructs a graded
   object,  for  which  the  graded  components  are  computed  on-demand;  see
   [2XJenningsLieAlgebra[102X ([14X11.8-14[114X).[133X
   

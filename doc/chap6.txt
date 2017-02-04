@@ -48,8 +48,8 @@
   b[122X.[133X
   
   [33X[0;0YThe    optional    last    argument    [3Xcategory[103X    specifies    a   category
-  ([2XIsAssociativeElement[102X  ([14XReference:  IsAssociativeElement[114X), [2XIsJacobianElement[102X
-  ([14XReference: IsJacobianElement[114X),...) to which the new element should belong.[133X
+  ([2XIsAssociativeElement[102X      ([14XIsAssociativeElement???[114X),      [2XIsJacobianElement[102X
+  ([14XIsJacobianElement???[114X),...) to which the new element should belong.[133X
   
   [33X[0;0Y[3Xoutput[103X and [3Xinit[103X are vectors in the stateset.[133X
   
@@ -121,7 +121,7 @@
   
   [33X[0;0Y[3Xring[103X  is  a  free  associative  algebra,  optionally with one. [3Xdomain[103X is the
   vector  space  on  which  the  alphabet is defined. If absent, this argument
-  defaults to the [2XLeftActingDomain[102X ([14XReference: LeftActingDomain[114X) of [3Xring[103X.[133X
+  defaults to the [2XLeftActingDomain[102X ([14XLeftActingDomain???[114X) of [3Xring[103X.[133X
   
   [33X[0;0Y[3Xtransitions[103X  is a list of matrices; for each generator number [22Xi[122X of [3Xring[103X, the
   matrix  [10Xtransitions[i][110X, with entries in [3Xring[103X, describes the decomposition of
