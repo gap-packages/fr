@@ -366,10 +366,10 @@
   in [22XL[122X.[133X
   
   [33X[0;0YIn  its  first form, this command returns a permutation (for group elements)
-  or  a [2XTransformation[102X ([14XTransformation???[114X) (for other elements). In the second
-  form, it returns the unique integer [10Xi[110X such that the transformation [3Xe[103X acts on
-  [10X[1..Length(AlphabetOfFRObject(e))^n][110X     as     adding     [10Xi[110X     in     base
-  [10XLength(alphabet(e))[110X,  or  [9Xfail[109X  if  no  such [10Xi[110X exists. In the third form, it
+  or  a  [2XTransformation[102X  ([14XReference: Transformations[114X) (for other elements). In
+  the   second   form,   it  returns  the  unique  integer  [10Xi[110X  such  that  the
+  transformation [3Xe[103X acts on [10X[1..Length(AlphabetOfFRObject(e))^n][110X as adding [10Xi[110X in
+  base [10XLength(alphabet(e))[110X, or [9Xfail[109X if no such [10Xi[110X exists. In the third form, it
   returns  a [5XGAP[105X transformation. In the fourth form, it returns a permutation,
   or [9Xfail[109X if [3Xe[103X is not invertible.[133X
   
