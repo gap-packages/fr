@@ -2,8 +2,6 @@
 ##
 #W  chapter-5-b.tst                FR Package               Laurent Bartholdi
 ##
-#H  @(#)$Id$
-##
 #Y  Copyright (C) 2008,  Laurent Bartholdi
 ##
 #############################################################################
@@ -17,10 +15,10 @@ gap>
 gap> Info(InfoFR,1,"5.1 Creators for MealyMachines and MealyElements (continued)");
 #I  5.1 Creators for MealyMachines and MealyElements (continued)
 gap> 
-gap> Read(Filename(DirectoriesPackageLibrary("fr","tst"),"mealymachines.g"));
-gap> Read(Filename(DirectoriesPackageLibrary("fr","tst"),"mealyelements.g"));
-gap> Read(Filename(DirectoriesPackageLibrary("fr","tst"),"frelements.g"));
-gap> Read(Filename(DirectoriesPackageLibrary("fr","tst"),"frmachines.g"));
+gap> Read(Filename(DirectoriesPackageLibrary("FR","tst"),"mealymachines.g"));
+gap> Read(Filename(DirectoriesPackageLibrary("FR","tst"),"mealyelements.g"));
+gap> Read(Filename(DirectoriesPackageLibrary("FR","tst"),"frelements.g"));
+gap> Read(Filename(DirectoriesPackageLibrary("FR","tst"),"frmachines.g"));
 gap> 
 gap> # Minimization of the non-minimized elements.
 gap> for list in mealyel{[1,2,3,4,5, 7,8 ]} do
@@ -377,8 +375,7 @@ gap> One(mealyel[4][2][1]) = TopElement((),5);
 true
 gap> One(mealyel[4][2][1]) = TopElement(IdentityTransformation, 5);
 true
-gap> perm := Random(SymmetricGroup(5));
-(2,4,3)
+gap> perm := (2,4,3);;
 gap> ComposeElement(ListWithIdenticalEntries(5, One(mealym[4][2][1])), perm) = TopElement(perm, 5);
 true
 gap> Activity(TopElement(Transformation([3,2,2]), 4));

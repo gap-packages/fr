@@ -589,9 +589,9 @@ InstallGlobalFunction(GammaPQMachine, function(p,q)
     local i, j, k, pset, qset, trans, out;
 
     if QUATERNIONBASIS@=fail then
-        MakeReadWriteGlobal("QUATERNIONBASIS@fr");
+        MakeReadWriteGlobal("QUATERNIONBASIS@FR");
         QUATERNIONBASIS@ := Basis(QuaternionAlgebra(Rationals));
-        MakeReadOnlyGlobal("QUATERNIONBASIS@fr");
+        MakeReadOnlyGlobal("QUATERNIONBASIS@FR");
     fi;
 
     pset := QUATERNIONNORMP@(p);

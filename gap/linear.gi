@@ -1074,7 +1074,7 @@ end);
 
 if IsPackageMarkedForLoading("gbnp","") then
 
-ReadPackage("fr","gap/linear-gbnp.gi");
+ReadPackage("FR","gap/linear-gbnp.gi");
 
 else    
 

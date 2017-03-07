@@ -55,9 +55,6 @@ BindGlobal("COLOURS@", function(i)
 end);
 
 BindGlobal("EXEC@", rec());
-CallFuncList(function(file)
-    if file<>fail then Read(file); fi;
-end,[Filename(DirectoriesPackagePrograms("fr"),"files.g")]);
 # If 1 argument is passed, search path to find appropriate executable.
 # If >1 arguments, the first is a generic name, such as "psviewer", and the
 #     other arguments are possibilities to be searched in sequence, in the
@@ -83,7 +80,7 @@ BindGlobal("CHECKEXEC@", function(arg)
     fi;
     
     while command=fail do
-        Error("Could not find program \"",prog,"\" -- make sure it is installed, and/or set manually EXEC@fr.",prog);
+        Error("Could not find program \"",prog,"\" -- make sure it is installed, and/or set manually EXEC@FR.",prog);
     od;
     EXEC@.(prog) := command;
 end);
@@ -712,7 +709,7 @@ BindGlobal("MAPPEDWORD@", function(arg)
     return e;
     #!!! could be a bit smarter here: if all gens are free group elements,
     # can construct a word by concatenation and convert it once to a free
-    # group element; if all gens are fr elements on the same machine, idem.
+    # group element; if all gens are FR elements on the same machine, idem.
     # this would presumably speed up quite a lot the code.
 end);
 
@@ -2166,7 +2163,9 @@ InstallMethod(EpimorphismSchurCover@, [IsPcGroup],
         function(G)
     local c;
     c := EpimorphismSchurCover(G);
-    return InverseGeneralMapping(IsomorphismPcGroup(Source(c)))*c;
+    c := InverseGeneralMapping(IsomorphismPcGroup(Source(c)))*c;
+    IsGroupHomomorphism(c);
+    return c;
 end);
 
 InstallMethod(EpimorphismSchurCover@, [IsPermGroup],

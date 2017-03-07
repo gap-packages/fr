@@ -2,8 +2,6 @@
 ##
 #W  chapter-5-a.tst                FR Package               Laurent Bartholdi
 ##
-#H  @(#)$Id$
-##
 #Y  Copyright (C) 2008,  Laurent Bartholdi
 ##
 #############################################################################
@@ -12,15 +10,15 @@
 ##
 #############################################################################
 
-gap> START_TEST("fr:chapter 5 (1/2)");
+gap> START_TEST("FR:chapter 5 (1/2)");
 gap> 
 gap> Info(InfoFR,1,"5.1 Creators for MealyMachines and MealyElements");
 #I  5.1 Creators for MealyMachines and MealyElements
 gap> 
-gap> Read(Filename(DirectoriesPackageLibrary("fr","tst"),"mealymachines.g"));
-gap> Read(Filename(DirectoriesPackageLibrary("fr","tst"),"mealyelements.g"));
-gap> Read(Filename(DirectoriesPackageLibrary("fr","tst"),"frelements.g"));
-gap> Read(Filename(DirectoriesPackageLibrary("fr","tst"),"frmachines.g"));
+gap> Read(Filename(DirectoriesPackageLibrary("FR","tst"),"mealymachines.g"));
+gap> Read(Filename(DirectoriesPackageLibrary("FR","tst"),"mealyelements.g"));
+gap> Read(Filename(DirectoriesPackageLibrary("FR","tst"),"frelements.g"));
+gap> Read(Filename(DirectoriesPackageLibrary("FR","tst"),"frmachines.g"));
 gap> 
 gap> # Minimization of the non-minimized elements.
 gap> for list in mealyel{[1,2,3,4,5, 7,8 ]} do

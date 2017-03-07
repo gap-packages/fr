@@ -9,6 +9,6 @@ MakeGAPDocDoc("doc","fr",
    "../gap/examples.gd","../gap/helpers.gd","../gap/perlist.gd","../gap/cp.gd",
    "../PackageInfo.g"],"fr","../../..");
 CopyHTMLStyleFiles("doc");
-GAPDocManualLab("Float");
+GAPDocManualLab("fr");
 
 QUIT;
