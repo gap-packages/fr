@@ -369,12 +369,14 @@ InstallMethod(Activity, "(FR) for a vector element and a level",
     local b, i, m;
     if IsZero(e) then
         i := Dimension(AlphabetOfFRObject(e))^n;
-        return NullMat(i,i,LeftActingDomain(e));
+        m := NullMat(i,i,LeftActingDomain(e));
+        ConvertToMatrixRep(m);
+        return m;
     fi;
     if n=0 then
-        i := [[e!.input*e!.output]];
-        ConvertToMatrixRep(i);
-        return i;
+        m := [[e!.input*e!.output]];
+        ConvertToMatrixRep(m);
+        return m;
     fi;
     m := MATRIX@(e!.transitions, function(v)
         v := [e!.input*v]; ConvertToMatrixRep(v); return v;

@@ -419,16 +419,18 @@ BindGlobal("NILLITY@", function(x,isnil)
     return n;
 end);
 
-InstallMethod(Nillity, "(FR) for an associative element",
-        [IsAssociativeElement and IsMultiplicativeElementWithZero],
+InstallOtherMethod(Nillity, "(FR) for an associative element",
+#        [IsAssociativeElement and IsMultiplicativeElementWithZero],
+        [IsAssociativeElement and IsMultiplicativeElement],
         x->NILLITY@(x,ISNIL_GENERIC@));
 
 InstallMethod(Nillity, "(FR) for an FR element",
         [IsLinearFRElement],
         x->NILLITY@(x,ISNIL_FR@));
 
-InstallMethod(IsNilElement, "(FR) for an associative element",
-        [IsAssociativeElement and IsMultiplicativeElementWithZero],
+InstallOtherMethod(IsNilElement, "(FR) for an associative element",
+#        [IsAssociativeElement and IsMultiplicativeElementWithZero], ## removed "WithZero" filter, because GAP doesn't set it for linear elements
+        [IsAssociativeElement and IsMultiplicativeElement],
         x->ISNIL_GENERIC@(x)<>false);
 
 InstallMethod(IsNilElement, "(FR) for an FR element",

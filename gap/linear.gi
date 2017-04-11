@@ -131,7 +131,7 @@ end);
 InstallMethod(Activity, "(FR) for a linear machine and a level",
         [IsLinearFRElement and IsFRElementStdRep, IsInt],
         function(E,n)
-    local i, j, m, mm, oldm, e, x;
+    local i, j, b, m, mm, oldm, e, x;
     m := [[E![2]]];
     for j in [1..n] do
         oldm := m;
@@ -148,9 +148,11 @@ InstallMethod(Activity, "(FR) for a linear machine and a level",
         od;
     od;
     m := MATRIX@(m,v->SUBS@(v,E![1]!.output));
-    i := ValueOption("blocks");
-    if i<>fail then
-        m := AsBlockMatrix(m,i,i);
+    b := ValueOption("blocks");
+    if b=fail then
+        ConvertToMatrixRep(m);
+    else
+        m := AsBlockMatrix(m,b,b);
     fi;
     if IsJacobianElement(E) then
         m := LieObject(m);
@@ -179,7 +181,9 @@ InstallMethod(Activities, "(FR) for a linear machine and a level",
             Append(m,mm);
         od;
         x := MATRIX@(m,v->SUBS@(v,E![1]!.output));
-        if b<>fail then
+        if b=fail then
+            ConvertToMatrixRep(m);
+        else
             x := AsBlockMatrix(x,b,b);
         fi;
         if IsJacobianElement(E) then
@@ -546,6 +550,7 @@ InstallMethod(DisplayString, "(FR) for a linear element",
         Append(s, "Jacobian; ");
     fi;
     APPEND@(s,"Initial state: ",ALG2STRING@(E![2]),"\n");
+    return s;
 end);
 #############################################################################
 
