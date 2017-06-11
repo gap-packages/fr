@@ -67,11 +67,11 @@ BindGlobal("CHECKEXEC@", function(arg)
     if IsBound(EXEC@.(prog)) then return; fi;
     
     if Length(arg)=1 then
-        command := Filename(DirectoriesSystemPrograms(), prog);
+        command := IO_FindExecutable(prog);
     else
         for a in arg{[2..Length(arg)]} do
             if a=true then return; fi;
-            command := Filename(DirectoriesSystemPrograms(), a[1]);
+            command := IO_FindExecutable(a[1]);
             if command<>fail then
                 command := JoinStringsWithSeparator(Concatenation([command],a{[2..Length(a)]})," ");
                 break;

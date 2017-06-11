@@ -1722,6 +1722,65 @@ InstallMethod(ChangeFRMachineBasis, "(FR) for an FR machine",
     od;
     return ChangeFRMachineBasis(M,basis,());
 end);
+
+BindGlobal("RIGHTACTMACHINE@", function(M,f)
+    local S;
+    S := StateSet(M);
+    if S<>Source(f) or S<>Range(f) then
+        Error("\*: source, range and stateset must be the same\n");
+    fi;
+    return FRMachineNC(FamilyObj(M),S,List(M!.transitions,r->List(r,x->x^f)),M!.output);
+end);
+
+InstallMethod(\*, "(FR) for an FR machine and a mapping",
+        [IsFRMachine and IsFRMachineStdRep, IsMapping],
+        RIGHTACTMACHINE@);
+
+BindGlobal("LEFTACTMACHINE@", function(f,M)
+    local S, trans, out, i, pi, x;
+    S := StateSet(M);
+    if S<>Source(f) or S<>Range(f) then
+        Error("\*: source, range and stateset must be the same\n");
+    fi;
+    pi := WreathRecursion(M);
+    trans := [];
+    out := [];
+    
+    for i in [1..Length(M!.output)] do
+        x := pi(GeneratorsOfFRMachine(M)[i]^f);
+        Add(trans,x[1]);
+        Add(out,x[2]);
+    od;
+    return FRMachineNC(FamilyObj(M),S,trans,out);
+end);
+
+InstallMethod(\*, "(FR) for a mapping and an FR machine",
+        [IsMapping, IsFRMachine and IsFRMachineStdRep],
+        LEFTACTMACHINE@);
+
+BindGlobal("CONJACTMACHINE@", function(M,f)
+    local S, newS, trans, out, i, pi, x, finv;
+    S := StateSet(M);
+    if S<>Source(f) then
+        Error("\^: source and stateset must be the same\n");
+    fi;
+    newS := Range(f);
+    pi := WreathRecursion(M);
+    trans := [];
+    out := [];
+    finv := InverseGeneralMapping(f);
+    if finv=fail then return fail; fi;
+    for i in GeneratorsOfGroup(newS) do
+        x := pi(ImagesRepresentative(finv,i));
+        Add(trans,List(x[1],x->ImagesRepresentative(f,x)));
+        Add(out,x[2]);
+    od;
+    return FRMachineNC(FamilyObj(M),newS,trans,out);
+end);
+
+InstallMethod(\^, "(FR) for a group FR machine and a mapping",
+        [IsFRMachine and IsFRMachineStdRep, IsMapping],
+        CONJACTMACHINE@);
 ################################################################
 
 #E frmachine.gi . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
