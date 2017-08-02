@@ -1036,7 +1036,5 @@ gap> Length(AsSet(Concatenation(mg[1],mg[3],mm[7]))) = 3;
 true
 gap> 
 gap> STOP_TEST( "chapter-3.tst", 3*10^8 );
-fr:chapter 3
-GAP4stones: 700000
 
 #E chapter-3.tst . . . . . . . . . . . . . . . . . . . . . . . . . .ends here

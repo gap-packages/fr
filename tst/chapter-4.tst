@@ -665,7 +665,5 @@ true
 true
 gap> 
 gap> STOP_TEST( "chapter-4.tst", 10^10 );
-fr:chapter 4
-GAP4stones: 600000
 
 #E chapter-4.tst . . . . . . . . . . . . . . . . . . . . . . . . . .ends here
