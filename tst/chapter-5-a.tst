@@ -1272,7 +1272,7 @@ gap> Info(InfoFR,1,"4.1.6 DiagonalElement");
 #I  4.1.6 DiagonalElement
 gap> 
 gap> a := mealyel[1][1][2];
-<Mealy element on alphabet [ 1 .. 2 ] with 2 states>
+<Mealy element on alphabet [ 1, 2 ] with 2 states>
 gap> DiagonalElement(0,a) = VertexElement(1,a);
 true
 gap> DiagonalElement(1,a) = VertexElement(1,a)*VertexElement(2,a);
@@ -1589,7 +1589,5 @@ true
 true
 gap> 
 gap> STOP_TEST( "chapter-5-a.tst", 2*10^9 );
-fr:chapter 5 (1/2)
-GAP4stones: 350000
 
 #E chapter-5-a.tst . . . . . . . . . . . . . . . . . . . . . . . . .ends here

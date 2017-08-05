@@ -9,16 +9,18 @@ gap> SetInfoLevel(InfoFR,0);
 gap> SetInfoLevel(InfoFRCP,1);
 gap> Read(Filename(DirectoriesPackageLibrary("fr","tst"),"groups.g"));
 gap> ForAll([1..Size(grps)],i->List(pairs[i],x->IsConjugate(grps[i],x[1],x[2])) = [true,false]);
-true	
+true
 gap> List(sc_grps,x->List(pairs_sc,y->IsConjugate(x,y[1],y[2]))) = [[true,false,true],[true,false,true],[false,false,true],[false,false,false],[false,true,false],[false,true,false],[false,false,false],[false,false,false]];
 true
+
 ## Test Method for branched groups
 gap> SetIsBranched(GrigorchukGroup,true);
 gap> IsConjugate(GrigorchukGroup,pairs[1][1][1],pairs[1][1][2]);
 #I  Init FRBranchGroupConjugacyData
 #I  Finished Init FRBranchGroupConjugacyData
-true 
-##Setting the recursion end manuelly. 
+true
+
+# Setting the recursion end manually. 
 gap> SetFRBranchGroupConjugacyData(GuptaSidkiGroup,
 >  rec(initial_conj_dic:=NewDictionary([One(GuptaSidkiGroup),One(GuptaSidkiGroup)],true),
 >     Branchstructure:=BranchStructure(GuptaSidkiGroup),
@@ -43,10 +45,8 @@ gap> CallFuncList(function(a,t)
 >   );
 gap> SetIsBranched(GuptaSidkiGroup,true);
 gap> IsConjugate(GuptaSidkiGroup,GuptaSidkiGroup.1^GuptaSidkiGroup.2,GuptaSidkiGroup.1);
-true 
+true
 
+#
 gap> SetInfoLevel(InfoFR,n);
 gap> STOP_TEST( "cp.tst", 15*10^8 );
-frcp
-GAP4stones: 93000
-

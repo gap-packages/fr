@@ -37,7 +37,5 @@ gap> Info(InfoFR,1,"12.10 Projective reps");
 gap> 
 gap> 
 gap> STOP_TEST( "chapter-12.tst", 3*10^8 );
-fr:chapter 12
-GAP4stones: 10000
 
 #E chapter-12.tst . . . . . . . . . . . . . . . . . . . . . . . . . ends here
