@@ -36,15 +36,15 @@ CommunicatedBy := "Götz Pfeiffer (NUI Galway)",
 
 SourceRepository := rec(
     Type := "git",
-    URL := Concatenation( "https://github.com/gap-packages/", ~.PackageName ),
+    URL := Concatenation( "https://github.com/gap-packages/", LowercaseString(~.PackageName) ),
 ),
 IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
-PackageWWWHome  := Concatenation( "https://gap-packages.github.io/", ~.PackageName ),
+PackageWWWHome  := Concatenation( "https://gap-packages.github.io/", LowercaseString(~.PackageName) ),
 README_URL      := Concatenation( ~.PackageWWWHome, "/README" ),
 PackageInfoURL  := Concatenation( ~.PackageWWWHome, "/PackageInfo.g" ),
 ArchiveURL      := Concatenation( ~.SourceRepository.URL,
                                  "/releases/download/v", ~.Version,
-                                 "/", ~.PackageName, "-", ~.Version ),
+                                 "/", LowercaseString(~.PackageName), "-", ~.Version ),
 ArchiveFormats := ".tar.gz",
 
 AbstractHTML := "The <span class=\"pkgname\">fr</span> package allows \
@@ -62,7 +62,7 @@ PackageDoc := rec(
 ),
 
 Dependencies := rec(
-  GAP := ">=4.7.6",
+  GAP := ">=4.8",
   NeededOtherPackages := [["FGA",">=1.1"],
                       ["Polycyclic",">=2.2"],
                       ["GAPDoc",">=1.0"]],
