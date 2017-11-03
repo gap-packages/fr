@@ -19,8 +19,8 @@ test := function(s,t)
   ff := IsomorphismFpSubgroup(gg);
   AssignGeneratorVariables(Parent(Range(ff)));
   r := InputTextString(Concatenation(String(RelatorsOfFpGroup(Parent(Range(ff)))),";"));
-  ee := READ_COMMAND(r,false);
+  ee := READ_COMMAND_REAL(r,false);
   CloseStream(r);
-  return List(ee,x->PreImageElm(ff,x));
+  return List(ee,x->PreImageElm(ff,x[2]));
 end;
 
