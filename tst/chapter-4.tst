@@ -610,7 +610,7 @@ true
 gap> f := StateSet(frel[9][1][1]);
 <free semigroup on the generators [ s1, s2 ]>
 gap> g := f.2^2*f.1^4*f.2*f.1*f.2;
-s2^2*s1^3*(s1*s2)^2
+s2^2*s1^4*s2*s1*s2
 gap> InitialState(FRElement(UnderlyingFRMachine(frel[9][1][1]), g)) = g;
 true
 gap> 
