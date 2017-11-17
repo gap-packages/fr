@@ -126,19 +126,19 @@ gap> Info(InfoFR,1,"5.2.8 StateGrowth");
 gap> 
 gap> x := Indeterminate(Rationals, "x" : old);
 x
-gap> AsSet(List(Flat(mealym), StateGrowth));
+gap> AsSet(List(Flat(mealym), m->StateGrowth(m,x)));
 [ (3)/(-x+1), (2*x+3)/(-x^2-x+1), (1)/(-x+1), 
   (79228162514264337593543950336*x+237684487542793012780631851008)/(-158456325\
 028528675187087900672*x^2-396140812571321687967719751680*x+7922816251426433759\
 3543950336), (702464)/(-2458624*x+351232), (x+4)/(-x+1) ]
-gap> AsSet(List(Flat(mealyel), StateGrowth));
+gap> AsSet(List(Flat(mealyel), m->StateGrowth(m,x)));
 [ 0, (-1)/(-x^3+2*x-1), (2*x^2+2*x+1)/(-x^3+1), (-2*x-1)/(x^2-1), 
   (x+1)/(-x^2-x+1), (1)/(-x+1), 
   (8589934592*x+8589934592)/(-17179869184*x^2-42949672960*x+8589934592), 
   (-1792)/(12544*x-1792), (32*x-32)/(64*x^2+160*x-32), 
   (x^3+2*x^2+x+1)/(-x^3+1), (x^3+x^2+2*x+1)/(-x^3+1), (-x^2-x-1)/(x^2-1), 
   (x+1)/(-x+1), 1 ]
-gap> List(GeneratorsOfGroup(AleshinGroup), StateGrowth) = [1/(1-2*x),1/(1-2*x),1/(1-2*x)];
+gap> List(GeneratorsOfGroup(AleshinGroup), m->StateGrowth(m,x)) = [1/(1-2*x),1/(1-2*x),1/(1-2*x)];
 true
 gap> 
 gap> Info(InfoFR,1,"5.2.9 Degree");

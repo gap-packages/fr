@@ -5,12 +5,61 @@
 #############################################################################
 gap> START_TEST("frcp");
 gap> n := InfoLevel(InfoFR);;
-gap> SetInfoLevel(InfoFR,0);
-gap> SetInfoLevel(InfoFRCP,1);
-gap> Read(Filename(DirectoriesPackageLibrary("fr","tst"),"groups.g"));
+gap> sc_grps := [];;
+gap> for alph in [[1,2],[1..3]] do
+> 	for fil in [IsFRElement,IsFiniteStateFRElement,IsBoundedFRElement,IsFinitaryFRElement] do
+> 	Add(sc_grps,FullSCGroup(alph,fil));
+>    od;
+> od;
+gap> grps := [GrigorchukGroup,AleshinGroup,GuptaSidkiGroup];;
+
+################################################################ init
+# create pairs of group elements
+gap> pairs := [];;
+gap> for grp in grps do
+> 	pairs_group:=[];
+> 	n := Size(GeneratorsOfGroup(grp));
+> 	Add(pairs_group,[grp.(2 mod n +1)^grp.(1 mod n +1),grp.(2 mod n +1)^grp.(3 mod n +1)]);
+> 	Add(pairs_group,[grp.(1 mod n +1)^grp.(1 mod n +1),grp.(2 mod n +1)^grp.(3 mod n +1)]);
+> 	Add(pairs,pairs_group);
+> od;
+gap> pairs_sc := [[AsGroupFRElement(AddingElement(2)),AsGroupFRElement(AddingElement(2))^-1],[AsGroupFRElement(AddingElement(3)),AsGroupFRElement(AddingElement(3))^-1],[AsGroupFRElement(AddingElement(2)),(AsGroupFRElement(AddingElement(2)))^FRElement([[[1],[AddingElement(2)]]],[()],[1])]];;
+
+################################################################ tests
 gap> ForAll([1..Size(grps)],i->List(pairs[i],x->IsConjugate(grps[i],x[1],x[2])) = [true,false]);
 true
 gap> List(sc_grps,x->List(pairs_sc,y->IsConjugate(x,y[1],y[2]))) = [[true,false,true],[true,false,true],[false,false,true],[false,false,false],[false,true,false],[false,true,false],[false,false,false],[false,false,false]];
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
+#I  Degree: converting to Mealy element
 true
 
 ## Test Method for branched groups

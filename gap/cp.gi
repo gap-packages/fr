@@ -731,7 +731,7 @@ InstallMethod(FRBranchGroupConjugacyData,
 	[ IsFRGroup ],	
 	 function(G)
 	 	local init, N, g, h, b, CT, c, i;
-	 	Info(InfoFRCP, 1, "Init FRBranchGroupConjugacyData");
+	 	Info(InfoFR, 1, "Init FRBranchGroupConjugacyData");
 		init := rec(initial_conj_dic:=NewDictionary([One(G),One(G)],true),
 								Branchstructure:=BranchStructure(G),
 								RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentative(~.Branchstructure.quo,x)));
@@ -746,7 +746,7 @@ InstallMethod(FRBranchGroupConjugacyData,
 				 	while b=fail and SEARCH@.EXTEND(G)=fail do
             SEARCH@.ERROR(G,"RepresentativeAction");
         	od;
-        	Info(InfoFRCP, 3, "RepresentativeAction: searching at level ",G!.FRData.level," and in sphere of radius ",G!.FRData.radius);
+        	Info(InfoFR, 3, "RepresentativeAction: searching at level ",G!.FRData.level," and in sphere of radius ",G!.FRData.radius);
         until b<>fail;
 		    CT := []; #The Conjugator tuple
 		    if b <> false then
@@ -767,7 +767,7 @@ InstallMethod(FRBranchGroupConjugacyData,
 				AddDictionary(init.initial_conj_dic,[g,h],CT);
 			od;
 		od;
-		Info(InfoFRCP, 1, "Finished Init FRBranchGroupConjugacyData");
+		Info(InfoFR, 1, "Finished Init FRBranchGroupConjugacyData");
 		return init;
 	 end);
 ##################################################################
@@ -790,9 +790,9 @@ BindGlobal("CONJUGATORS_BRANCH@",function(G,g,h)
 	quo := function(elm) #Calculate only if asked for.
 		local q;
 		if not KnowsDictionary(saved_quo,elm) then
-			Info(InfoFRCP,4,"Computing elm^BS.quo. May take some time...");
+			Info(InfoFR,4,"Computing elm^BS.quo. May take some time...");
 			q := elm^BS.quo;
-			Info(InfoFRCP,4,"Finished");
+			Info(InfoFR,4,"Finished");
 			AddDictionary(saved_quo,elm,q);
 			return q;
 		fi;
@@ -812,26 +812,26 @@ BindGlobal("CONJUGATORS_BRANCH@",function(G,g,h)
 			SetName(h,Concatenation("h_",String(rek_count)));
 		fi; 
 		rek_count := rek_count +1;
-		Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"");
+		Info(InfoFR,3,"Computing g,h=",Name(g),",",Name(h),"");
 		if IsOne(g) or IsOne(h) then
 			if g = h then
-				Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     g=h=1 So return B");
+				Info(InfoFR,3,"Computing g,h=",Name(g),",",Name(h),"     g=h=1 So return B");
 				return CP_init.RepSystem;
 			else
-				Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     g,h is One but the other not. So return []");
+				Info(InfoFR,3,"Computing g,h=",Name(g),",",Name(h),"     g,h is One but the other not. So return []");
 				return [];
 			fi;
 		fi;
 		if KnowsDictionary(Con_dic,[g,h]) then
-			Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     g,h are already known. So return them]");
+			Info(InfoFR,3,"Computing g,h=",Name(g),",",Name(h),"     g,h are already known. So return them]");
 			return LookupDictionary(Con_dic,[g,h]);
 		fi;
 		orbits := List(Orbits(Group(g),Alph),SortedList);
 		orb_repr := List(orbits,Minimum);
 		CT := []; # Resulting Conjugator Tuple
-		Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Orbit: ",orbits);
+		Info(InfoFR,3,"Computing g,h=",Name(g),",",Name(h),"     Orbit: ",orbits);
 		for p in LEVEL_PERM_CONJ@(g,h,BS.top) do
-			Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Try a conjugator with activity ",p);
+			Info(InfoFR,3,"Computing g,h=",Name(g),",",Name(h),"     Try a conjugator with activity ",p);
 			L := [];
 			L_Pos := []; #Stores the position at which the conjugator tuples are defined.
 			dep := []; #Stores the dependencies
@@ -862,7 +862,7 @@ BindGlobal("CONJUGATORS_BRANCH@",function(G,g,h)
 					c:= Product([1..Size(Pos_Con[i])],x->(quo(Con[i][x][1])*B[Pos_Con[i][x]]*quo(Con[i][x][3]))^Embedding(BS.wreath,x));
 					c:= (c*p^Embedding(BS.wreath,Size(Alph)+1))^BS.epi;;	
 					if c <> fail then #Con is a valid element with representative c;
-						Info(InfoFRCP,3,"Computing g,h=",Name(g),",",Name(h),"     Conjugator found. Add to conjugator tuple ");
+						Info(InfoFR,3,"Computing g,h=",Name(g),",",Name(h),"     Conjugator found. Add to conjugator tuple ");
 						CT[Position(B,c)] := MEALY_FROM_STATES@(Con[i],p);
 						#CT[Position(B,c)] := FRElement([Con[i]],[p],[1]);
 					fi;
@@ -887,7 +887,7 @@ InstallOtherMethod(RepresentativeActionOp,
 	function(G,g,h,f)
 		local con;
 		if f <> OnPoints then TryNextMethod(); fi;
-		Info(InfoFRCP,2,"Try method for branch groups.");
+		Info(InfoFR,2,"Try method for branch groups.");
 		con := CONJUGATORS_BRANCH@(G,g,h);
 		if con <> fail then
 			if Size(con)>0 then
@@ -895,7 +895,7 @@ InstallOtherMethod(RepresentativeActionOp,
 			fi;
 			return fail;
 		fi;
-		Info(InfoFRCP,2,"Doesn't work. Try next...");
+		Info(InfoFR,2,"Doesn't work. Try next...");
 		TryNextMethod();
 		end);
 InstallMethod(IsConjugate,
@@ -903,7 +903,7 @@ InstallMethod(IsConjugate,
 	[ IsBranched and IsFinitelyGeneratedGroup,IsFRElement,IsFRElement], 
   function(G,g,h)
   	local con;
-		Info(InfoFRCP,2,"Try method for branch groups.");
+		Info(InfoFR,2,"Try method for branch groups.");
   	con := CONJUGATORS_BRANCH@(G,g,h);
 		if con <> fail then
 			if Size(con)>0 then
@@ -911,7 +911,7 @@ InstallMethod(IsConjugate,
 			fi;
 			return false;
 		fi;
-		Info(InfoFRCP,2,"Doesn't work. Try next...");
+		Info(InfoFR,2,"Doesn't work. Try next...");
 		TryNextMethod();
 		end);	
 
@@ -1019,11 +1019,11 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 	#TeporaryDebug function to locate possable errors.
 	Check := function(s,g,h,C)
 		local c;
-		if InfoLevel(InfoFRCP)>2 then
+		if InfoLevel(InfoFR)>2 then
 			for c in C do
 				if g^c <> h then
-					Info(InfoFRCP,2,"Error at ",s);
-					Info(InfoFRCP,3,"Error happened here: g=",g,", and h=",h,", and Conjugator c=",c," number: ",Position(C,c),"in ",C);
+					Info(InfoFR,2,"Error at ",s);
+					Info(InfoFR,3,"Error happened here: g=",g,", and h=",h,", and Conjugator c=",c," number: ",Position(C,c),"in ",C);
 					return fail;
 				fi;
 			od;
@@ -1299,7 +1299,7 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 		con_at_1 := compute_conjugates_of_word(l,Reversed(g1_modL));
 		con_word := L_word_to_Grig(con_at_1);
 		Append(con_word,con);
-		Info(InfoFRCP,4,"Conjugator in gen_L: <",con_at_1,",1>",con,"\nConjugator in gen_Grig: ",con_word,"\n");
+		Info(InfoFR,4,"Conjugator in gen_L: <",con_at_1,",1>",con,"\nConjugator in gen_Grig: ",con_word,"\n");
 		#Determine Cosets of K in which the conjugator lies.
 		#See Roskov CP Lemma3 for centralizer of a
 		Centr_a := List([[],[a],[a,d,a,d],[a,d,a,d,a]],x -> AssocWordByLetterRep(Fam,Concatenation(con_word,x)));
@@ -1320,8 +1320,8 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 			aw_w := aw;
 			aw_t := (x_1,x_2);
 		fi;
-		Info(InfoFRCP,4,"Computing ",g,",",h,"  Sub Conjugators: ",L1,"\n");
-		Info(InfoFRCP,4,"Computing ",g,",",h,"  Sub Conjugators: ",L2,"\n");
+		Info(InfoFR,4,"Computing ",g,",",h,"  Sub Conjugators: ",L1,"\n");
+		Info(InfoFR,4,"Computing ",g,",",h,"  Sub Conjugators: ",L2,"\n");
 		#See Lemma 6.16 for <g1,g2<in Grig,  <=> g1=v(a,d)l g2=v(d,a)l
 		#So <K_repr[i],K_repr[j]> in Grig  <=> j in [17-x mod 16 +1, 25-x mod 16 +1]
 		res_Con := [];
@@ -1335,7 +1335,7 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 						else
 							dw_w := One(dw);
 						fi;
-						Info(InfoFRCP,4,"Computing ",g,",",h,"  Conjugator found:",i,",",x,"\n");
+						Info(InfoFR,4,"Computing ",g,",",h,"  Conjugator found:",i,",",x,"\n");
 						if L1[i]=ImageElm(f,K_repr_words[i]) and L2[x]=ImageElm(f,K_repr_words[x]) then
 							res_Con[Position(K_repr_words,Compute_K_rep(dw_w*D[i]*aw_w))] := ImageElm(f,dw_w*D[i]*aw_w);
 						else #Could always compute the words as generators, but seems uneccassary
@@ -1361,7 +1361,7 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	conjugators_grig_rek := function(g,h)
 		local Centr_bc, Centr_d, L1, L1_temp, L2, res_Con, g1, h1, x ,y;
-		Info(InfoFRCP,3,"Compute Conjugator for pair: ",g,",",h,".\n");
+		Info(InfoFR,3,"Compute Conjugator for pair: ",g,",",h,".\n");
 		if Activity(g) <> Activity(h) then
 			return [];
 		fi;
@@ -1470,7 +1470,7 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 	end;
 	
 	Res:= conjugators_grig_rek(g,h);
-	Info(InfoFRCP,3,"Result of rekursive computation: ",Res,"\n");
+	Info(InfoFR,3,"Result of recursive computation: ",Res,"\n");
 	if Size(Res) = 0 then
 		return fail;
 	fi;

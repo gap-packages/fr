@@ -20,10 +20,6 @@ BindGlobal("@", rec()); # a record to store locals in the package
 ##
 DeclareInfoClass("InfoFR");
 SetInfoLevel(InfoFR, 1);
-
-#! remove later, make it the same as InfoFR
-InfoFRCP := NewInfoClass("InfoFRCP");
-SetInfoLevel(InfoFRCP, 1);
 #############################################################################
 
 #############################################################################
