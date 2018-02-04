@@ -20,7 +20,7 @@
   
   [1X10.1-1 FRMFamily[101X
   
-  [29X[2XFRMFamily[102X( [3Xobj[103X ) [32X operation
+  [33X[1;0Y[29X[2XFRMFamily[102X( [3Xobj[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10Ythe family of FR machines on alphabet [3Xobj[103X.[133X
   
   [33X[0;0YThe  family  of  an FR object is the arity of the tree on which elements cat
@@ -28,7 +28,7 @@
   
   [1X10.1-2 FREFamily[101X
   
-  [29X[2XFREFamily[102X( [3Xobj[103X ) [32X operation
+  [33X[1;0Y[29X[2XFREFamily[102X( [3Xobj[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10Ythe family of FR elements on alphabet [3Xobj[103X.[133X
   
   [33X[0;0YThe  family  of  an FR object is the arity of the tree on which elements cat
@@ -38,10 +38,10 @@
   
   [1X10.1-3 AlphabetOfFRObject[101X
   
-  [29X[2XAlphabetOfFRObject[102X( [3Xobj[103X ) [32X operation
-  [29X[2XAlphabetOfFRAlgebra[102X( [3Xobj[103X ) [32X operation
-  [29X[2XAlphabetOfFRSemigroup[102X( [3Xobj[103X ) [32X operation
-  [29X[2XAlphabet[102X( [3Xobj[103X ) [32X operation
+  [33X[1;0Y[29X[2XAlphabetOfFRObject[102X( [3Xobj[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XAlphabetOfFRAlgebra[102X( [3Xobj[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XAlphabetOfFRSemigroup[102X( [3Xobj[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XAlphabet[102X( [3Xobj[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10Ythe alphabet associated with [3Xobj[103X.[133X
   
   [33X[0;0YThis  command  applies  to  the  family  of  any FR object, or to the object
@@ -50,7 +50,7 @@
   
   [1X10.1-4 AsPermutation[101X
   
-  [29X[2XAsPermutation[102X( [3Xo[103X ) [32X method
+  [33X[1;0Y[29X[2XAsPermutation[102X( [3Xo[103X ) [32X method[133X
   
   [33X[0;0YThis  method  takes  as argument an FR object [3Xo[103X: machine, element, or group,
   and  produces  an  equivalent  object  whose  outputs  are  permutations. In
@@ -61,7 +61,7 @@
   
   [1X10.1-5 AsTransformation[101X
   
-  [29X[2XAsTransformation[102X( [3Xo[103X ) [32X method
+  [33X[1;0Y[29X[2XAsTransformation[102X( [3Xo[103X ) [32X method[133X
   
   [33X[0;0YThis  method  takes  as argument an FR object [3Xo[103X: machine, element, or group,
   and  produces  an  equivalent  object  whose outputs are transformations. In
@@ -76,9 +76,9 @@
   
   [1X10.2-1 IsGroupFRMachine[101X
   
-  [29X[2XIsGroupFRMachine[102X( [3Xobj[103X ) [32X property
-  [29X[2XIsMonoidFRMachine[102X( [3Xobj[103X ) [32X property
-  [29X[2XIsSemigroupFRMachine[102X( [3Xobj[103X ) [32X property
+  [33X[1;0Y[29X[2XIsGroupFRMachine[102X( [3Xobj[103X ) [32X property[133X
+  [33X[1;0Y[29X[2XIsMonoidFRMachine[102X( [3Xobj[103X ) [32X property[133X
+  [33X[1;0Y[29X[2XIsSemigroupFRMachine[102X( [3Xobj[103X ) [32X property[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X   if   [3Xobj[103X  is  an  FR  machine  whose  stateset  is  a  free
             group/monoid/semigroup.[133X
   
@@ -89,7 +89,7 @@
   
   [1X10.2-2 IsFRMachineStrRep[101X
   
-  [29X[2XIsFRMachineStrRep[102X( [3Xobj[103X ) [32X filter
+  [33X[1;0Y[29X[2XIsFRMachineStrRep[102X( [3Xobj[103X ) [32X filter[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is a standard (group,monoid,semigroup) FR machine.[133X
   
   [33X[0;0YThere is a free object [10Xfree[110X, of rank [22XN[122X, a list [10Xtransitions[110X of length [22XN[122X, each
@@ -98,7 +98,7 @@
   
   [1X10.2-3 IsMealyMachine[101X
   
-  [29X[2XIsMealyMachine[102X( [3Xobj[103X ) [32X filter
+  [33X[1;0Y[29X[2XIsMealyMachine[102X( [3Xobj[103X ) [32X filter[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is a Mealy machine.[133X
   
   [33X[0;0YThis  function  is  the  acceptor  for  the  [13XMealy machine[113X subcategory of [13XFR
@@ -106,7 +106,7 @@
   
   [1X10.2-4 IsMealyElement[101X
   
-  [29X[2XIsMealyElement[102X( [3Xobj[103X ) [32X filter
+  [33X[1;0Y[29X[2XIsMealyElement[102X( [3Xobj[103X ) [32X filter[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is a Mealy element.[133X
   
   [33X[0;0YThis  function  is  the  acceptor  for  the  [13XMealy element[113X subcategory of [13XFR
@@ -114,7 +114,7 @@
   
   [1X10.2-5 IsMealyMachineIntRep[101X
   
-  [29X[2XIsMealyMachineIntRep[102X( [3Xobj[103X ) [32X filter
+  [33X[1;0Y[29X[2XIsMealyMachineIntRep[102X( [3Xobj[103X ) [32X filter[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is a Mealy machine in integer representation.[133X
   
   [33X[0;0YA   Mealy   machine  in  [13Xinteger[113X  representation  has  components  [10Xnrstates[110X,
@@ -127,7 +127,7 @@
   
   [1X10.2-6 IsMealyMachineDomainRep[101X
   
-  [29X[2XIsMealyMachineDomainRep[102X( [3Xobj[103X ) [32X filter
+  [33X[1;0Y[29X[2XIsMealyMachineDomainRep[102X( [3Xobj[103X ) [32X filter[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is a Mealy machine in domain representation.[133X
   
   [33X[0;0YA Mealy machine in [13Xdomain[113X representation has components [10Xstates[110X, [10Xtransitions[110X,
@@ -140,7 +140,7 @@
   
   [1X10.2-7 IsVectorFRMachineRep[101X
   
-  [29X[2XIsVectorFRMachineRep[102X( [3Xobj[103X ) [32X filter
+  [33X[1;0Y[29X[2XIsVectorFRMachineRep[102X( [3Xobj[103X ) [32X filter[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is a vector machine[133X
   
   [33X[0;0YA   [13Xvector   machine[113X   is   a  representation  of  a  linear  machine  by  a
@@ -150,7 +150,7 @@
   
   [1X10.2-8 IsAlgebraFRMachineRep[101X
   
-  [29X[2XIsAlgebraFRMachineRep[102X( [3Xobj[103X ) [32X filter
+  [33X[1;0Y[29X[2XIsAlgebraFRMachineRep[102X( [3Xobj[103X ) [32X filter[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is an algebra machine[133X
   
   [33X[0;0YAn  [13Xalgebra  machine[113X  is  a representation of a linear machine by a finitely
@@ -164,7 +164,7 @@
   
   [1X10.2-9 IsLinearFRMachine[101X
   
-  [29X[2XIsLinearFRMachine[102X( [3Xobj[103X ) [32X filter
+  [33X[1;0Y[29X[2XIsLinearFRMachine[102X( [3Xobj[103X ) [32X filter[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is a linear machine.[133X
   
   [33X[0;0YThis  function  is  the  acceptor  for  the [13Xlinear machine[113X subcategory of [13XFR
@@ -172,7 +172,7 @@
   
   [1X10.2-10 IsLinearFRElement[101X
   
-  [29X[2XIsLinearFRElement[102X( [3Xobj[103X ) [32X filter
+  [33X[1;0Y[29X[2XIsLinearFRElement[102X( [3Xobj[103X ) [32X filter[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is a linear element.[133X
   
   [33X[0;0YThis  function  is  the  acceptor  for  the [13Xlinear element[113X subcategory of [13XFR
@@ -180,10 +180,10 @@
   
   [1X10.2-11 IsFRElement[101X
   
-  [29X[2XIsFRElement[102X( [3Xobj[103X ) [32X filter
-  [29X[2XIsSemigroupFRElement[102X( [3Xobj[103X ) [32X filter
-  [29X[2XIsMonoidFRElement[102X( [3Xobj[103X ) [32X filter
-  [29X[2XIsGroupFRElement[102X( [3Xobj[103X ) [32X filter
+  [33X[1;0Y[29X[2XIsFRElement[102X( [3Xobj[103X ) [32X filter[133X
+  [33X[1;0Y[29X[2XIsSemigroupFRElement[102X( [3Xobj[103X ) [32X filter[133X
+  [33X[1;0Y[29X[2XIsMonoidFRElement[102X( [3Xobj[103X ) [32X filter[133X
+  [33X[1;0Y[29X[2XIsGroupFRElement[102X( [3Xobj[103X ) [32X filter[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is an FR element.[133X
   
   [33X[0;0YThis filter is the acceptor for the [13Xfunctionally recursive element[113X category.[133X
@@ -196,11 +196,11 @@
   
   [1X10.2-12 IsFRMealyElement[101X
   
-  [29X[2XIsFRMealyElement[102X( [3Xobj[103X ) [32X filter
-  [29X[2XIsSemigroupFRMealyElement[102X( [3Xobj[103X ) [32X filter
-  [29X[2XIsMonoidFRMealyElement[102X( [3Xobj[103X ) [32X filter
-  [29X[2XIsGroupFRMealyElement[102X( [3Xobj[103X ) [32X filter
-  [29X[2XUnderlyingMealyElement[102X( [3Xobj[103X ) [32X attribute
+  [33X[1;0Y[29X[2XIsFRMealyElement[102X( [3Xobj[103X ) [32X filter[133X
+  [33X[1;0Y[29X[2XIsSemigroupFRMealyElement[102X( [3Xobj[103X ) [32X filter[133X
+  [33X[1;0Y[29X[2XIsMonoidFRMealyElement[102X( [3Xobj[103X ) [32X filter[133X
+  [33X[1;0Y[29X[2XIsGroupFRMealyElement[102X( [3Xobj[103X ) [32X filter[133X
+  [33X[1;0Y[29X[2XUnderlyingMealyElement[102X( [3Xobj[103X ) [32X attribute[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is an FR element.[133X
   
   [33X[0;0YThis filter is the acceptor for the [13Xfunctionally recursive element[113X category,
@@ -213,7 +213,7 @@
   
   [1X10.2-13 IsFRObject[101X
   
-  [29X[2XIsFRObject[102X( [3Xobj[103X ) [32X filter
+  [33X[1;0Y[29X[2XIsFRObject[102X( [3Xobj[103X ) [32X filter[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is an FR machine or element.[133X
   
   [33X[0;0YThis function is the acceptor for the most general FR category (which splits
@@ -223,7 +223,7 @@
   
   [1X10.2-14 IsFRMachine[101X
   
-  [29X[2XIsFRMachine[102X( [3Xobj[103X ) [32X filter
+  [33X[1;0Y[29X[2XIsFRMachine[102X( [3Xobj[103X ) [32X filter[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is an FR machine.[133X
   
   [33X[0;0YThis  function  is  the  acceptor  for  the  [13Xfunctionally  recursive machine[113X
@@ -236,7 +236,7 @@
   
   [1X10.2-15 IsInvertible[101X
   
-  [29X[2XIsInvertible[102X( [3Xm[103X ) [32X property
+  [33X[1;0Y[29X[2XIsInvertible[102X( [3Xm[103X ) [32X property[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xm[103X is an invertible FR machine.[133X
   
   [33X[0;0YThis  function  accepts  invertible  FR  machines, i.e. machines [3Xm[103X such that
@@ -256,9 +256,9 @@
   
   [1X10.2-16 IsFRGroup[101X
   
-  [29X[2XIsFRGroup[102X( [3Xobj[103X ) [32X filter
-  [29X[2XIsFRMonoid[102X( [3Xobj[103X ) [32X filter
-  [29X[2XIsFRSemigroup[102X( [3Xobj[103X ) [32X filter
+  [33X[1;0Y[29X[2XIsFRGroup[102X( [3Xobj[103X ) [32X filter[133X
+  [33X[1;0Y[29X[2XIsFRMonoid[102X( [3Xobj[103X ) [32X filter[133X
+  [33X[1;0Y[29X[2XIsFRSemigroup[102X( [3Xobj[103X ) [32X filter[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is a FR group/monoid/semigroup.[133X
   
   [33X[0;0YThese   functions   accept   [13Xself-similar   groups/monoids/semigroups[113X,  i.e.
@@ -266,8 +266,8 @@
   
   [1X10.2-17 IsFRAlgebra[101X
   
-  [29X[2XIsFRAlgebra[102X( [3Xobj[103X ) [32X filter
-  [29X[2XIsFRAlgebraWithOne[102X( [3Xobj[103X ) [32X filter
+  [33X[1;0Y[29X[2XIsFRAlgebra[102X( [3Xobj[103X ) [32X filter[133X
+  [33X[1;0Y[29X[2XIsFRAlgebraWithOne[102X( [3Xobj[103X ) [32X filter[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xobj[103X is a FR algebra [with one].[133X
   
   [33X[0;0YThese functions accept [13Xself-similar algebras [with one][113X, i.e. algebras whose
@@ -282,7 +282,7 @@
   
   [1X10.3-1 FRMachineRWS[101X
   
-  [29X[2XFRMachineRWS[102X( [3Xm[103X ) [32X attribute
+  [33X[1;0Y[29X[2XFRMachineRWS[102X( [3Xm[103X ) [32X attribute[133X
   [6XReturns:[106X  [33X[0;10YA record containing a rewriting system for [3Xm[103X.[133X
   
   [33X[0;0YElements  of  an  FR  machine  are  compared using a rewriting system, which
@@ -368,7 +368,7 @@
   
   [1X10.3-5 OrbitSignalizer[101X
   
-  [29X[2XOrbitSignalizer[102X( [3Xg[103X ) [32X attribute
+  [33X[1;0Y[29X[2XOrbitSignalizer[102X( [3Xg[103X ) [32X attribute[133X
   [6XReturns:[106X  [33X[0;10YThe Orbit Signalizer of the group element [3Xg[103X[133X
   
   [33X[0;0YThis  attribute computes the orbit signalizer of an element. This is the set
@@ -386,7 +386,7 @@
   
   [1X10.3-6 FRConjugacyAlgorithm[101X
   
-  [29X[2XFRConjugacyAlgorithm[102X( [3XG[103X ) [32X attribute
+  [33X[1;0Y[29X[2XFRConjugacyAlgorithm[102X( [3XG[103X ) [32X attribute[133X
   [6XReturns:[106X  [33X[0;10YA function which solves the conjugacy problem for [3XG[103X[133X
   
   [33X[0;0YThis  attribute  stores  a  function  in  three  arguments  which computes a
@@ -408,7 +408,7 @@
   
   [1X10.3-7 FRBranchGroupConjugacyData[101X
   
-  [29X[2XFRBranchGroupConjugacyData[102X( [3XG[103X ) [32X attribute
+  [33X[1;0Y[29X[2XFRBranchGroupConjugacyData[102X( [3XG[103X ) [32X attribute[133X
   [6XReturns:[106X  [33X[0;10YThe initial data for the branch algorithm for [3XG[103X[133X
   
   [33X[0;0YThis attribute records the data for the branch algorithm. The record has the
@@ -446,7 +446,7 @@
   
   [1X10.3-9 [33X[0;0YImages and preimages of some groups in f.p. and l.p. groups[133X[101X
   
-  [33X[0;0YContracting,  branched  groups  admit finite L-presentations (see [Bar03b]),
+  [33X[0;0YContracting,  branched  groups  admit finite L-presentations (see [Bar03a]),
   that   is,   presentations   by   finitely  many  generators,  relators  and
   endomorphisms;  the  (usual)  relators  are the images of the given relators
   under iteration by all endomorphisms.[133X
@@ -528,14 +528,14 @@
     [4X[28X<Linear element on alphabet CF(5)^2 with 6-dimensional stateset>[128X[104X
   [4X[32X[104X
   
-                [22Xn[122X │ 1    2    3    4    5    6    7    8    9    10
-        dimension │      2    4    4    6    3    5    5    8    5 
-        ──────────┼───   ──   ──   ──   ──   ──   ──   ──   ──     
-                [22Xn[122X │ 11   12   13   14   15   16   17   18   19   20
-        dimension │ ?    5    ?    4    6    6    ?    7    ?    7 
-        ──────────┼───   ──   ──   ──   ──   ──   ──   ──   ──     
-                [22Xn[122X │ 22   24   26   28   30   32   34   36   38   40
-        dimension │ ?    6    ?    6    ?    7    ?    ?    ?    ? 
+                [22Xn[122X │ 1    2    3    4    5    6    7    8    9    10   
+        dimension │      2    4    4    6    3    5    5    8    5    
+        ──────────┼───   ──   ──   ──   ──   ──   ──   ──   ──   ──  
+                [22Xn[122X │ 11   12   13   14   15   16   17   18   19   20   
+        dimension │ ?    5    ?    4    6    6    ?    7    ?    7    
+        ──────────┼───   ──   ──   ──   ──   ──   ──   ──   ──   ──  
+                [22Xn[122X │ 22   24   26   28   30   32   34   36   38   40   
+        dimension │ ?    6    ?    6    ?    7    ?    ?    ?    ?    
   
        [1XTable:[101X Dimension of states of inverse
   

@@ -34,10 +34,10 @@
   
   [1X6.1-1 VectorMachine[101X
   
-  [29X[2XVectorMachine[102X( [3Xdomain[103X, [3Xtransitions[103X, [3Xoutput[103X ) [32X operation
-  [29X[2XVectorElement[102X( [3Xdomain[103X, [3Xtransitions[103X, [3Xoutput[103X, [3Xinit[103X ) [32X operation
-  [29X[2XVectorMachineNC[102X( [3Xfam[103X, [3Xtransitions[103X, [3Xoutput[103X ) [32X operation
-  [29X[2XVectorElementNC[102X( [3Xfam[103X, [3Xtransitions[103X, [3Xoutput[103X, [3Xinit[103X, [3Xcategory[103X ) [32X operation
+  [33X[1;0Y[29X[2XVectorMachine[102X( [3Xdomain[103X, [3Xtransitions[103X, [3Xoutput[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XVectorElement[102X( [3Xdomain[103X, [3Xtransitions[103X, [3Xoutput[103X, [3Xinit[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XVectorMachineNC[102X( [3Xfam[103X, [3Xtransitions[103X, [3Xoutput[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XVectorElementNC[102X( [3Xfam[103X, [3Xtransitions[103X, [3Xoutput[103X, [3Xinit[103X, [3Xcategory[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YA new vector machine/element.[133X
   
   [33X[0;0YThis function constructs a new linear machine or element, of vector type.[133X
@@ -88,7 +88,7 @@
   
   [1X6.1-2 AssociativeObject[101X
   
-  [29X[2XAssociativeObject[102X( [3Xx[103X ) [32X operation
+  [33X[1;0Y[29X[2XAssociativeObject[102X( [3Xx[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YAn associative object related to [3Xx[103X.[133X
   
   [33X[0;0YIf  [3Xx[103X  belongs  to a family that admits a non-associative and an associative
@@ -111,10 +111,10 @@
   
   [1X6.1-3 AlgebraMachine[101X
   
-  [29X[2XAlgebraMachine[102X( [[3Xdomain[103X, ][3Xring[103X, [3Xtransitions[103X, [3Xoutput[103X ) [32X operation
-  [29X[2XAlgebraElement[102X( [[3Xdomain[103X, ][3Xring[103X, [3Xtransitions[103X, [3Xoutput[103X, [3Xinit[103X ) [32X operation
-  [29X[2XAlgebraMachineNC[102X( [3Xfam[103X, [3Xring[103X, [3Xtransitions[103X, [3Xoutput[103X ) [32X operation
-  [29X[2XAlgebraElementNC[102X( [3Xfam[103X, [3Xring[103X, [3Xtransitions[103X, [3Xoutput[103X, [3Xinit[103X ) [32X operation
+  [33X[1;0Y[29X[2XAlgebraMachine[102X( [[3Xdomain[103X, ][3Xring[103X, [3Xtransitions[103X, [3Xoutput[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XAlgebraElement[102X( [[3Xdomain[103X, ][3Xring[103X, [3Xtransitions[103X, [3Xoutput[103X, [3Xinit[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XAlgebraMachineNC[102X( [3Xfam[103X, [3Xring[103X, [3Xtransitions[103X, [3Xoutput[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XAlgebraElementNC[102X( [3Xfam[103X, [3Xring[103X, [3Xtransitions[103X, [3Xoutput[103X, [3Xinit[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YA new algebra machine/element.[133X
   
   [33X[0;0YThis function constructs a new linear machine or element, of algebra type.[133X
@@ -158,7 +158,7 @@
   
   [1X6.1-4 Transition[101X
   
-  [29X[2XTransition[102X( [3Xm[103X, [3Xs[103X, [3Xa[103X, [3Xb[103X ) [32X operation
+  [33X[1;0Y[29X[2XTransition[102X( [3Xm[103X, [3Xs[103X, [3Xa[103X, [3Xb[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YAn element of [3Xm[103X's stateset.[133X
   
   [33X[0;0YThis  function  returns  the  state reached by [3Xm[103X when started in state [3Xs[103X and
@@ -181,7 +181,7 @@
   
   [1X6.1-5 Transitions[101X
   
-  [29X[2XTransitions[102X( [3Xm[103X, [3Xs[103X, [3Xa[103X ) [32X operation
+  [33X[1;0Y[29X[2XTransitions[102X( [3Xm[103X, [3Xs[103X, [3Xa[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YAn vector of elements of [3Xm[103X's stateset.[133X
   
   [33X[0;0YThis  function  returns  the  state reached by [3Xm[103X when started in state [3Xs[103X and
@@ -201,8 +201,8 @@
   
   [1X6.1-6 NestedMatrixState[101X
   
-  [29X[2XNestedMatrixState[102X( [3Xe[103X, [3Xi[103X, [3Xj[103X ) [32X operation
-  [29X[2XNestedMatrixCoefficient[102X( [3Xe[103X, [3Xi[103X, [3Xj[103X ) [32X operation
+  [33X[1;0Y[29X[2XNestedMatrixState[102X( [3Xe[103X, [3Xi[103X, [3Xj[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XNestedMatrixCoefficient[102X( [3Xe[103X, [3Xi[103X, [3Xj[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YA coefficent of an iterated decomposition of [3Xe[103X.[133X
   
   [33X[0;0YThe  first  form  returns  the entry at position [22X(i,j)[122X of [3Xe[103X's decomposition.
@@ -224,7 +224,7 @@
   
   [1X6.1-7 ActivitySparse[101X
   
-  [29X[2XActivitySparse[102X( [3Xm[103X, [3Xi[103X ) [32X operation
+  [33X[1;0Y[29X[2XActivitySparse[102X( [3Xm[103X, [3Xi[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YA sparse matrix.[133X
   
   [33X[0;0Y[10XActivity(m,i)[110X returns an [22Xn^i× n^i[122X matrix describing the action on the [22Xi[122X-fold
@@ -254,7 +254,7 @@
   
   [1X6.1-8 Activities[101X
   
-  [29X[2XActivities[102X( [3Xm[103X, [3Xi[103X ) [32X operation
+  [33X[1;0Y[29X[2XActivities[102X( [3Xm[103X, [3Xi[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YActivities of [3Xm[103X on the first [3Xi[103X levels.[133X
   
   [33X[0;0Y[10XActivity(m,i)[110X returns an [22Xn^i× n^i[122X matrix describing the action on the [22Xi[122X-fold
@@ -271,7 +271,7 @@
   
   [1X6.1-9 IsConvergent[101X
   
-  [29X[2XIsConvergent[102X( [3Xe[103X ) [32X property
+  [33X[1;0Y[29X[2XIsConvergent[102X( [3Xe[103X ) [32X property[133X
   [6XReturns:[106X  [33X[0;10YWhether the linear element [3Xe[103X is convergent.[133X
   
   [33X[0;0YA  linear  element  is [13Xconvergent[113X if its state at position [22X(1,1)[122X is equal to
@@ -302,12 +302,12 @@
   
   [1X6.1-10 TransposedFRElement[101X
   
-  [29X[2XTransposedFRElement[102X( [3Xe[103X ) [32X operation
-  [29X[2XIsSymmetricFRElement[102X( [3Xe[103X ) [32X property
-  [29X[2XIsAntisymmetricFRElement[102X( [3Xe[103X ) [32X property
-  [29X[2XIsLowerTriangularFRElement[102X( [3Xe[103X ) [32X property
-  [29X[2XIsUpperTriangularFRElement[102X( [3Xe[103X ) [32X property
-  [29X[2XIsDiagonalFRElement[102X( [3Xe[103X ) [32X property
+  [33X[1;0Y[29X[2XTransposedFRElement[102X( [3Xe[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XIsSymmetricFRElement[102X( [3Xe[103X ) [32X property[133X
+  [33X[1;0Y[29X[2XIsAntisymmetricFRElement[102X( [3Xe[103X ) [32X property[133X
+  [33X[1;0Y[29X[2XIsLowerTriangularFRElement[102X( [3Xe[103X ) [32X property[133X
+  [33X[1;0Y[29X[2XIsUpperTriangularFRElement[102X( [3Xe[103X ) [32X property[133X
+  [33X[1;0Y[29X[2XIsDiagonalFRElement[102X( [3Xe[103X ) [32X property[133X
   [6XReturns:[106X  [33X[0;10YThe elementary matrix operation/property.[133X
   
   [33X[0;0YSince  linear  FR elements may be interpreted as infinite matrices, it makes
@@ -341,7 +341,7 @@
   
   [1X6.1-11 LDUDecompositionFRElement[101X
   
-  [29X[2XLDUDecompositionFRElement[102X( [3Xe[103X ) [32X operation
+  [33X[1;0Y[29X[2XLDUDecompositionFRElement[102X( [3Xe[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YA factorization [22Xe=LDU[122X.[133X
   
   [33X[0;0YGiven  a  linear element [3Xe[103X, this command attempts to find a decomposition of
@@ -370,7 +370,7 @@
   
   [1X6.1-12 GuessVectorElement[101X
   
-  [29X[2XGuessVectorElement[102X( [3Xm[103X ) [32X function
+  [33X[1;0Y[29X[2XGuessVectorElement[102X( [3Xm[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10YA vector element that acts like [3Xm[103X.[133X
   
   [33X[0;0YThe  arguments to this function include a matrix or list of matrices, and an
@@ -401,8 +401,8 @@
   
   [1X6.1-13 AsLinearMachine[101X
   
-  [29X[2XAsLinearMachine[102X( [3Xr[103X, [3Xm[103X ) [32X operation
-  [29X[2XAsLinearElement[102X( [3Xr[103X, [3Xm[103X ) [32X operation
+  [33X[1;0Y[29X[2XAsLinearMachine[102X( [3Xr[103X, [3Xm[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XAsLinearElement[102X( [3Xr[103X, [3Xm[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YThe linear machine/element associated with [3Xm[103X.[133X
   
   [33X[0;0YThis   command  accepts  a  domain  and  an  ordinary  machine/element,  and
@@ -461,8 +461,8 @@
   
   [1X6.1-14 AsVectorMachine[101X
   
-  [29X[2XAsVectorMachine[102X( [3Xr[103X, [3Xm[103X ) [32X operation
-  [29X[2XAsVectorElement[102X( [3Xr[103X, [3Xm[103X ) [32X operation
+  [33X[1;0Y[29X[2XAsVectorMachine[102X( [3Xr[103X, [3Xm[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XAsVectorElement[102X( [3Xr[103X, [3Xm[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YThe vector machine/element associated with [3Xm[103X.[133X
   
   [33X[0;0YThis   command  accepts  a  domain  and  an  ordinary  machine/element,  and
@@ -473,8 +473,8 @@
   
   [1X6.1-15 AsAlgebraMachine[101X
   
-  [29X[2XAsAlgebraMachine[102X( [3Xr[103X, [3Xm[103X ) [32X operation
-  [29X[2XAsAlgebraElement[102X( [3Xr[103X, [3Xm[103X ) [32X operation
+  [33X[1;0Y[29X[2XAsAlgebraMachine[102X( [3Xr[103X, [3Xm[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XAsAlgebraElement[102X( [3Xr[103X, [3Xm[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YThe algebra machine/element associated with [3Xm[103X.[133X
   
   [33X[0;0YThis   command  accepts  a  domain  and  an  ordinary  machine/element,  and
@@ -484,8 +484,8 @@
   
   [1X6.1-16 AsVectorMachine[101X
   
-  [29X[2XAsVectorMachine[102X( [3Xm[103X ) [32X operation
-  [29X[2XAsVectorElement[102X( [3Xm[103X ) [32X operation
+  [33X[1;0Y[29X[2XAsVectorMachine[102X( [3Xm[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XAsVectorElement[102X( [3Xm[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YThe machine/element [3Xm[103X in vector form.[133X
   
   [33X[0;0YThis  command accepts a linear machine, and converts it to vector form. This
@@ -504,8 +504,8 @@
   
   [1X6.1-17 AsAlgebraMachine[101X
   
-  [29X[2XAsAlgebraMachine[102X( [3Xm[103X ) [32X operation
-  [29X[2XAsAlgebraElement[102X( [3Xm[103X ) [32X operation
+  [33X[1;0Y[29X[2XAsAlgebraMachine[102X( [3Xm[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XAsAlgebraElement[102X( [3Xm[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YThe machine/element [3Xm[103X in algebra form.[133X
   
   [33X[0;0YThis command accepts a linear machine, and converts it to algebra form.[133X

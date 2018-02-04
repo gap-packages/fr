@@ -39,7 +39,7 @@
   
   [1X4.1-1 FRElementNC[101X
   
-  [29X[2XFRElementNC[102X( [3Xfam[103X, [3Xfree[103X, [3Xtransitions[103X, [3Xoutputs[103X, [3Xinit[103X ) [32X operation
+  [33X[1;0Y[29X[2XFRElementNC[102X( [3Xfam[103X, [3Xfree[103X, [3Xtransitions[103X, [3Xoutputs[103X, [3Xinit[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YA new FR element.[133X
   
   [33X[0;0YThis  function  constructs a new FR element, belonging to family [3Xfam[103X. It has
@@ -64,8 +64,8 @@
   
   [1X4.1-2 FRElement[101X
   
-  [29X[2XFRElement[102X( [[3Xnames[103X, ][3Xtransitions[103X, [3Xoutputs[103X, [3Xinit[103X ) [32X operation
-  [29X[2XFRElement[102X( [3Xfree[103X, [3Xtransitions[103X, [3Xoutputs[103X, [3Xinit[103X ) [32X operation
+  [33X[1;0Y[29X[2XFRElement[102X( [[3Xnames[103X, ][3Xtransitions[103X, [3Xoutputs[103X, [3Xinit[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XFRElement[102X( [3Xfree[103X, [3Xtransitions[103X, [3Xoutputs[103X, [3Xinit[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YA new FR element.[133X
   
   [33X[0;0YThis  function  constructs  a  new  FR  element.  It  has  stateset  a  free
@@ -119,7 +119,7 @@
   
   [1X4.1-3 FRElement[101X
   
-  [29X[2XFRElement[102X( [3Xm[103X, [3Xq[103X ) [32X operation
+  [33X[1;0Y[29X[2XFRElement[102X( [3Xm[103X, [3Xq[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YA new FR element.[133X
   
   [33X[0;0YThis function constructs a new FR element. If [3Xm[103X is an FR machine, it creates
@@ -144,7 +144,7 @@
   
   [1X4.1-4 ComposeElement[101X
   
-  [29X[2XComposeElement[102X( [3Xl[103X, [3Xp[103X ) [32X operation
+  [33X[1;0Y[29X[2XComposeElement[102X( [3Xl[103X, [3Xp[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YA new FR element.[133X
   
   [33X[0;0YThis function constructs a new FR element. [3Xl[103X is a list of FR elements, and [3Xp[103X
@@ -169,7 +169,7 @@
   
   [1X4.1-5 VertexElement[101X
   
-  [29X[2XVertexElement[102X( [3Xv[103X, [3Xe[103X ) [32X operation
+  [33X[1;0Y[29X[2XVertexElement[102X( [3Xv[103X, [3Xe[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YA new FR element.[133X
   
   [33X[0;0YThis  function constructs a new FR element. [3Xv[103X is either an integer or a list
@@ -194,7 +194,7 @@
   
   [1X4.1-6 DiagonalElement[101X
   
-  [29X[2XDiagonalElement[102X( [3Xn[103X, [3Xe[103X ) [32X operation
+  [33X[1;0Y[29X[2XDiagonalElement[102X( [3Xn[103X, [3Xe[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YA new FR element.[133X
   
   [33X[0;0YThis  function constructs a new FR element. [3Xn[103X is either an integer or a list
@@ -269,9 +269,9 @@
   
   [1X4.1-7 AsGroupFRElement[101X
   
-  [29X[2XAsGroupFRElement[102X( [3Xe[103X ) [32X operation
-  [29X[2XAsMonoidFRElement[102X( [3Xe[103X ) [32X operation
-  [29X[2XAsSemigroupFRElement[102X( [3Xe[103X ) [32X operation
+  [33X[1;0Y[29X[2XAsGroupFRElement[102X( [3Xe[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XAsMonoidFRElement[102X( [3Xe[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XAsSemigroupFRElement[102X( [3Xe[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YAn  FR element isomorphic to [3Xm[103X, with a free group/monoid/semigroup
             as stateset.[133X
   
@@ -332,7 +332,7 @@
   
   [1X4.2-1 Output[101X
   
-  [29X[2XOutput[102X( [3Xe[103X ) [32X operation
+  [33X[1;0Y[29X[2XOutput[102X( [3Xe[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YA transformation of [3Xe[103X's alphabet.[133X
   
   [33X[0;0YThis function returns the transformation of [3Xe[103X's alphabet, i.e. the action on
@@ -350,10 +350,10 @@
   
   [1X4.2-2 Activity[101X
   
-  [29X[2XActivity[102X( [3Xe[103X[, [3Xl[103X] ) [32X operation
-  [29X[2XActivityInt[102X( [3Xe[103X[, [3Xl[103X] ) [32X operation
-  [29X[2XActivityTransformation[102X( [3Xe[103X[, [3Xl[103X] ) [32X operation
-  [29X[2XActivityPerm[102X( [3Xe[103X[, [3Xl[103X] ) [32X operation
+  [33X[1;0Y[29X[2XActivity[102X( [3Xe[103X[, [3Xl[103X] ) [32X operation[133X
+  [33X[1;0Y[29X[2XActivityInt[102X( [3Xe[103X[, [3Xl[103X] ) [32X operation[133X
+  [33X[1;0Y[29X[2XActivityTransformation[102X( [3Xe[103X[, [3Xl[103X] ) [32X operation[133X
+  [33X[1;0Y[29X[2XActivityPerm[102X( [3Xe[103X[, [3Xl[103X] ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YThe transformation induced by [3Xe[103X on the [3Xl[103Xth level of the tree.[133X
   
   [33X[0;0YThis  function  returns  the transformation induced by [3Xe[103X on the [3Xl[103Xth level of
@@ -394,7 +394,7 @@
   
   [1X4.2-3 Transition[101X
   
-  [29X[2XTransition[102X( [3Xe[103X, [3Xi[103X ) [32X operation
+  [33X[1;0Y[29X[2XTransition[102X( [3Xe[103X, [3Xi[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YAn element of [3Xmachine[103X's stateset.[133X
   
   [33X[0;0YThis  function  returns  the state reached by [3Xe[103X when fed input [3Xi[103X. This input
@@ -412,7 +412,7 @@
   
   [1X4.2-4 Transitions[101X
   
-  [29X[2XTransitions[102X( [3Xe[103X ) [32X operation
+  [33X[1;0Y[29X[2XTransitions[102X( [3Xe[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YA list of elements of [3Xmachine[103X's stateset.[133X
   
   [33X[0;0YThis  function  returns  the  states  reached  by [3Xe[103X when fed the alphabet as
@@ -428,10 +428,10 @@
   
   [1X4.2-5 Portrait[101X
   
-  [29X[2XPortrait[102X( [3Xe[103X, [3Xl[103X ) [32X operation
-  [29X[2XPortraitPerm[102X( [3Xe[103X, [3Xl[103X ) [32X operation
-  [29X[2XPortraitTransformation[102X( [3Xe[103X, [3Xl[103X ) [32X operation
-  [29X[2XPortraitInt[102X( [3Xe[103X, [3Xl[103X ) [32X operation
+  [33X[1;0Y[29X[2XPortrait[102X( [3Xe[103X, [3Xl[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XPortraitPerm[102X( [3Xe[103X, [3Xl[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XPortraitTransformation[102X( [3Xe[103X, [3Xl[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XPortraitInt[102X( [3Xe[103X, [3Xl[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YA nested list describing the action of [3Xe[103X.[133X
   
   [33X[0;0YThis  function returns a sequence of [22Xl+1[122X lists; the [22Xi[122Xth list in the sequence
@@ -462,7 +462,7 @@
   
   [1X4.2-6 DecompositionOfFRElement[101X
   
-  [29X[2XDecompositionOfFRElement[102X( [3Xe[103X[, [3Xn[103X] ) [32X operation
+  [33X[1;0Y[29X[2XDecompositionOfFRElement[102X( [3Xe[103X[, [3Xn[103X] ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YA list describing the action and transitions of [3Xe[103X.[133X
   
   [33X[0;0YThis  function  returns  a list. The second coordinate is the action of [3Xe[103X on
@@ -483,7 +483,7 @@
   
   [1X4.2-7 StateSet[101X
   
-  [29X[2XStateSet[102X( [3Xe[103X ) [32X operation
+  [33X[1;0Y[29X[2XStateSet[102X( [3Xe[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YThe set of states associated with [3Xe[103X.[133X
   
   [33X[0;0YThis  function returns the stateset of [3Xe[103X. If [3Xe[103X is of Mealy type, this is the
@@ -501,7 +501,7 @@
   
   [1X4.2-8 State[101X
   
-  [29X[2XState[102X( [3Xe[103X, [3Xv[103X ) [32X operation
+  [33X[1;0Y[29X[2XState[102X( [3Xe[103X, [3Xv[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YAn FR element describing the action of [3Xe[103X at vertex [3Xv[103X.[133X
   
   [33X[0;0YThis  function  returns  the  FR  element with same underlying machine as [3Xe[103X,
@@ -522,7 +522,7 @@
   
   [1X4.2-9 States[101X
   
-  [29X[2XStates[102X( [3Xe[103X ) [32X operation
+  [33X[1;0Y[29X[2XStates[102X( [3Xe[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YA list of FR elements describing the action of [3Xe[103X on all subtrees.[133X
   
   [33X[0;0YThis function calls repeatedly [2XState[102X ([14X4.2-8[114X) to compute all the states of [3Xe[103X;
@@ -555,7 +555,7 @@
   
   [1X4.2-10 FixedStates[101X
   
-  [29X[2XFixedStates[102X( [3Xe[103X ) [32X operation
+  [33X[1;0Y[29X[2XFixedStates[102X( [3Xe[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YA  list  of  FR  elements  describing  the  action  of  [3Xe[103X at fixed
             vertices.[133X
   
@@ -587,7 +587,7 @@
   
   [1X4.2-11 LimitStates[101X
   
-  [29X[2XLimitStates[102X( [3Xe[103X ) [32X operation
+  [33X[1;0Y[29X[2XLimitStates[102X( [3Xe[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YA  set  of FR element describing the recurring actions of [3Xe[103X on all
             subtrees.[133X
   
@@ -613,8 +613,8 @@
   
   [1X4.2-12 IsFiniteStateFRElement[101X
   
-  [29X[2XIsFiniteStateFRElement[102X( [3Xe[103X ) [32X property
-  [29X[2XIsFiniteStateFRMachine[102X( [3Xe[103X ) [32X property
+  [33X[1;0Y[29X[2XIsFiniteStateFRElement[102X( [3Xe[103X ) [32X property[133X
+  [33X[1;0Y[29X[2XIsFiniteStateFRMachine[102X( [3Xe[103X ) [32X property[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xe[103X is a finite-state element.[133X
   
   [33X[0;0YThis function tests whether [3Xe[103X is a finite-state element.[133X
@@ -638,8 +638,8 @@
   
   [1X4.2-13 NucleusOfFRMachine[101X
   
-  [29X[2XNucleusOfFRMachine[102X( [3Xm[103X ) [32X operation
-  [29X[2XNucleus[102X( [3Xm[103X ) [32X operation
+  [33X[1;0Y[29X[2XNucleusOfFRMachine[102X( [3Xm[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XNucleus[102X( [3Xm[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YThe nucleus of the machine [3Xm[103X.[133X
   
   [33X[0;0YThis function computes the [13Xnucleus[113X of the machine [3Xm[103X. It is the minimal set [10XN[110X
@@ -667,7 +667,7 @@
   
   [1X4.2-14 InitialState[101X
   
-  [29X[2XInitialState[102X( [3Xe[103X ) [32X operation
+  [33X[1;0Y[29X[2XInitialState[102X( [3Xe[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YThe initial state of an FR element.[133X
   
   [33X[0;0YThis  function  returns the initial state of an FR element. It is an element
@@ -684,7 +684,7 @@
   
   [1X4.2-15 \^[101X
   
-  [29X[2X\^[102X( [3Xe[103X, [3Xv[103X ) [32X method
+  [33X[1;0Y[29X[2X\^[102X( [3Xe[103X, [3Xv[103X ) [32X method[133X
   [6XReturns:[106X  [33X[0;10YThe image of a vertex [3Xv[103X under [3Xe[103X.[133X
   
   [33X[0;0YThis  function  accepts  an  FR  element  and a vertex [3Xv[103X, which is either an
@@ -710,7 +710,7 @@
   
   [1X4.2-16 \*[101X
   
-  [29X[2X\*[102X( [3Xm[103X, [3Xn[103X ) [32X method
+  [33X[1;0Y[29X[2X\*[102X( [3Xm[103X, [3Xn[103X ) [32X method[133X
   [6XReturns:[106X  [33X[0;10YThe product of the two FR elements [3Xm[103X and [3Xn[103X.[133X
   
   [33X[0;0YThis  function  returns  a  new  FR  element, which is the product of the FR
@@ -734,8 +734,8 @@
   
   [1X4.2-17 \[\][101X
   
-  [29X[2X\[\][102X( [3Xm[103X, [3Xi[103X ) [32X method
-  [29X[2X\{\}[102X( [3Xm[103X, [3Xl[103X ) [32X method
+  [33X[1;0Y[29X[2X\[\][102X( [3Xm[103X, [3Xi[103X ) [32X method[133X
+  [33X[1;0Y[29X[2X\{\}[102X( [3Xm[103X, [3Xl[103X ) [32X method[133X
   [6XReturns:[106X  [33X[0;10YA [list of] FR element[s] with initial state [3Xi[103X.[133X
   
   [33X[0;0YThese     are     respectively     synonyms     for    [10XFRElement(m,i)[110X    and

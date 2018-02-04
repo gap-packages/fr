@@ -19,6 +19,7 @@
 
 <div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap8.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap10.html">[Next Chapter]</a>&nbsp;  </div>
 
+<p id="mathjaxlink" class="pcenter"></p>
 <p><a id="X7A489A5D79DA9E5C" name="X7A489A5D79DA9E5C"></a></p>
 <div class="ChapSects"><a href="chap9.html#X7A489A5D79DA9E5C">9 <span class="Heading">Examples</span></a>
 <div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap9.html#X7AF5DEF08531AFA5">9.1 <span class="Heading">Examples of groups</span></a>
@@ -98,12 +99,12 @@
 
 <h5>9.1-1 FullBinaryGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FullBinaryGroup</code></td><td class="tdright">( global variable )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FiniteDepthBinaryGroup</code>( <var class="Arg">l</var> )</td><td class="tdright">( function )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FinitaryBinaryGroup</code></td><td class="tdright">( global variable )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BoundedBinaryGroup</code></td><td class="tdright">( global variable )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PolynomialGrowthBinaryGroup</code></td><td class="tdright">( global variable )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FiniteStateBinaryGroup</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FullBinaryGroup</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FiniteDepthBinaryGroup</code>( <var class="Arg">l</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FinitaryBinaryGroup</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BoundedBinaryGroup</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PolynomialGrowthBinaryGroup</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FiniteStateBinaryGroup</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
 <p>These are the finitary, bounded, polynomial-growth, finite-state, or unrestricted groups acting on the binary tree. They are respectively shortcuts for <code class="code">FullSCGroup([1..2])</code>, <code class="code">FullSCGroup([1..2],l)</code>, <code class="code">FullSCGroup([1..2],IsFinitaryFRSemigroup)</code>, <code class="code">FullSCGroup([1..2],IsBoundedFRSemigroup)</code>, <code class="code">FullSCGroup([1..2],IsPolynomialGrowthFRSemigroup)</code>, and <code class="code">FullSCGroup([1..2],IsFiniteStateFRSemigroup)</code>.</p>
 
 <p>They may be used to draw random elements, or to test membership.</p>
@@ -112,8 +113,8 @@
 
 <h5>9.1-2 BinaryKneadingGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BinaryKneadingGroup</code>( <var class="Arg">angle/ks</var> )</td><td class="tdright">( function )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BinaryKneadingMachine</code>( <var class="Arg">angle/ks</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BinaryKneadingGroup</code>( <var class="Arg">angle/ks</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BinaryKneadingMachine</code>( <var class="Arg">angle/ks</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: The [machine generating the] iterated monodromy group of a quadratic polynomial.</p>
 
 <p>The first function constructs a Mealy machine whose state closure is the binary kneading group.</p>
@@ -148,8 +149,8 @@ true
 
 <h5>9.1-3 BasilicaGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BasilicaGroup</code></td><td class="tdright">( global variable )</td></tr></table></div>
-<p>The <em>Basilica group</em>. This is a shortcut for <code class="code">BinaryKneadingGroup("1")</code>. It is the first-discovered amenable group that is not subexponentially amenable, see <a href="chapBib.html#biBMR2176547">[BV05]</a> and <a href="chapBib.html#biBMR1902367">[GŻ02a]</a>.</p>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BasilicaGroup</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
+<p>The <em>Basilica group</em>. This is a shortcut for <code class="code">BinaryKneadingGroup("1")</code>. It is the first-discovered amenable group that is not subexponentially amenable, see <a href="chapBib.html#biBMR2176547">[BV05]</a> and <a href="chapBib.html#biBMR1902367">[G{\.Z}02]</a>.</p>
 
 
 <div class="example"><pre>
@@ -167,7 +168,7 @@ true
 
 <h5>9.1-4 FornaessSibonyGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FornaessSibonyGroup</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FornaessSibonyGroup</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
 <p>The <em>Fornaess-Sibony group</em>. This group was studied by Nekrashevych in <a href="chapBib.html#biB0811.2777">[Nek08b]</a>. It is the iterated monodromy group of the endomorphism of <span class="SimpleMath">CP^2</span> defined by <span class="SimpleMath">(z,p)↦((1-2z/p)^2,(1-2/p)^2)</span>.</p>
 
 
@@ -187,9 +188,9 @@ true
 
 <h5>9.1-5 AddingGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AddingGroup</code>( <var class="Arg">n</var> )</td><td class="tdright">( function )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AddingMachine</code>( <var class="Arg">n</var> )</td><td class="tdright">( function )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AddingElement</code>( <var class="Arg">n</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AddingGroup</code>( <var class="Arg">n</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AddingMachine</code>( <var class="Arg">n</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AddingElement</code>( <var class="Arg">n</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>The second function constructs the adding machine on the alphabet <code class="code">[1..n]</code>. This machine has a trivial state 1, and a non-trivial state 2. It implements the operation "add 1 with carry" on sequences.</p>
 
 <p>The third function constructs the Mealy element on the adding machine, with initial state 2.</p>
@@ -221,17 +222,17 @@ true
 
 <h5>9.1-6 BinaryAddingGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BinaryAddingGroup</code></td><td class="tdright">( global variable )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BinaryAddingMachine</code></td><td class="tdright">( global variable )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BinaryAddingElement</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BinaryAddingGroup</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BinaryAddingMachine</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BinaryAddingElement</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
 <p>These are respectively the same as <code class="code">AddingGroup(2)</code>, <code class="code">AddingMachine(2)</code> and <code class="code">AddingElement(2)</code>.</p>
 
 <p><a id="X78AFA63B86C94227" name="X78AFA63B86C94227"></a></p>
 
 <h5>9.1-7 MixerGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MixerGroup</code>( <var class="Arg">A</var>, <var class="Arg">B</var>, <var class="Arg">f</var>[, <var class="Arg">g</var>] )</td><td class="tdright">( function )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MixerMachine</code>( <var class="Arg">A</var>, <var class="Arg">B</var>, <var class="Arg">f</var>[, <var class="Arg">g</var>] )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MixerGroup</code>( <var class="Arg">A</var>, <var class="Arg">B</var>, <var class="Arg">f</var>[, <var class="Arg">g</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MixerMachine</code>( <var class="Arg">A</var>, <var class="Arg">B</var>, <var class="Arg">f</var>[, <var class="Arg">g</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: A Mealy "mixer" machine/group.</p>
 
 <p>The second function constructs a Mealy "mixer" machine <code class="code">m</code>. This is a machine determined by a permutation group <var class="Arg">A</var>, a finitely generated group <var class="Arg">B</var>, and a matrix of homomorphisms from <var class="Arg">B</var> to <var class="Arg">A</var>. If <var class="Arg">A</var> acts on <code class="code">[1..d]</code>, then each row of <var class="Arg">f</var> contains at most <span class="SimpleMath">d-1</span> homomorphisms. The optional last argument is an endomorphism of <var class="Arg">B</var>. If absent, it is treated as the identity map on <var class="Arg">B</var>.</p>
@@ -240,7 +241,7 @@ true
 
 <p>The transitions from <code class="code">a</code> are towards 1 and the outputs are the permutations in <var class="Arg">A</var>. The transitions from <code class="code">b</code> are periodically given by <var class="Arg">f</var>, completed by trivial elements, and finally by <span class="SimpleMath">b^g</span>; the output of <code class="code">b</code> is trivial.</p>
 
-<p>This construction is described in more detail in <a href="chapBib.html#biBMR1856923">[BŠ01]</a> and <a href="chapBib.html#biBMR2035113">[BGŠ03]</a>.</p>
+<p>This construction is described in more detail in <a href="chapBib.html#biBMR1856923">[B{\v S}01]</a> and <a href="chapBib.html#biBMR2035113">[BG{\v S}03]</a>.</p>
 
 <p><code class="code">Correspondence(m)</code> is a list, with in first position the subset of the states that correspond to <var class="Arg">A</var>, in second position the states that correspond to the first copy of <var class="Arg">B</var>, etc.</p>
 
@@ -259,13 +260,13 @@ true
 
 <h5>9.1-8 SunicGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SunicGroup</code>( <var class="Arg">phi</var> )</td><td class="tdright">( function )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SunicMachine</code>( <var class="Arg">phi</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SunicGroup</code>( <var class="Arg">phi</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SunicMachine</code>( <var class="Arg">phi</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: The Sunic machine associated with the polynomial <var class="Arg">phi</var>.</p>
 
 <p>A "Sunic machine" is a special kind of <code class="func">MixerMachine</code> (<a href="chap9.html#X78AFA63B86C94227"><span class="RefLink">9.1-7</span></a>), in which the group <span class="SimpleMath">A</span> is a finite field <span class="SimpleMath">GF(q)</span>, the group <span class="SimpleMath">B</span> is an extension <span class="SimpleMath">A[x]/(ϕ)</span>, where <span class="SimpleMath">ϕ</span> is a monic polynomial; there is a map <span class="SimpleMath">f:B-&gt; A</span>, given say by evaluation; and there is an endomorphism of <span class="SimpleMath">g:B-&gt; B</span> given by multiplication by <span class="SimpleMath">ϕ</span>.</p>
 
-<p>These groups were described in <a href="chapBib.html#biBMR2318546">[Šun07]</a>. In particular, the case <span class="SimpleMath">q=2</span> and <span class="SimpleMath">ϕ=x^2+x+1</span> gives the original <code class="func">GrigorchukGroup</code> (<a href="chap9.html#X85BAE48780E665A4"><span class="RefLink">9.1-10</span></a>).</p>
+<p>These groups were described in <a href="chapBib.html#biBMR2318546">[{\v S}un07]</a>. In particular, the case <span class="SimpleMath">q=2</span> and <span class="SimpleMath">ϕ=x^2+x+1</span> gives the original <code class="func">GrigorchukGroup</code> (<a href="chap9.html#X85BAE48780E665A4"><span class="RefLink">9.1-10</span></a>).</p>
 
 
 <div class="example"><pre>
@@ -280,8 +281,8 @@ true
 
 <h5>9.1-9 GrigorchukMachines</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GrigorchukMachines</code>( <var class="Arg">omega</var> )</td><td class="tdright">( function )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GrigorchukGroups</code>( <var class="Arg">omega</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GrigorchukMachines</code>( <var class="Arg">omega</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GrigorchukGroups</code>( <var class="Arg">omega</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: One of the Grigorchuk groups.</p>
 
 <p>This function constructs the Grigorchuk machine or group associated with the infinite sequence <var class="Arg">omega</var>, which is assumed (pre)periodic; <var class="Arg">omega</var> is either a periodic list (see <code class="func">PeriodicList</code> (<a href="chap11.html#X7B401DFE817D3927"><span class="RefLink">11.2-2</span></a>)) or a plain list describing the period. Entries in the list are integers in <code class="code">[1..3]</code>.</p>
@@ -313,8 +314,8 @@ true
 
 <h5>9.1-10 GrigorchukMachine</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GrigorchukMachine</code></td><td class="tdright">( global variable )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GrigorchukGroup</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GrigorchukMachine</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GrigorchukGroup</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
 <p>This is Grigorchuk's first group, introduced in <a href="chapBib.html#biBMR565099">[Gri80]</a>. It is a 4-generated infinite torsion group, and has intermediate word growth. It could have been defined as <code class="code">FRGroup("a=(1,2)","b=&lt;a,c&gt;","c=&lt;a,d&gt;","d=&lt;,b&gt;")</code>, but is rather defined using Mealy elements.</p>
 
 <p>The command <code class="code">EpimorphismFromFpGroup(GrigorchukGroup,n)</code> constructs an approximating presentation for the Grigorchuk group, as proven in <a href="chapBib.html#biBMR819415">[Lys85]</a>. Adding the relations <code class="code">Image(sigma^(n-2),(a*d)^2)</code>, <code class="code">Image(sigma^(n-1),(a*b)^2)</code> and <code class="code">Image(sigma^(n-2),(a*c)^4)</code> yields the quotient acting on <span class="SimpleMath">2^n</span> points, as a finitely presented group.</p>
@@ -323,7 +324,7 @@ true
 
 <h5>9.1-11 GrigorchukOverGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GrigorchukOverGroup</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GrigorchukOverGroup</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
 <p>This is a group strictly containing the Grigorchuk group (see <code class="func">GrigorchukGroup</code> (<a href="chap9.html#X85BAE48780E665A4"><span class="RefLink">9.1-10</span></a>)). It also has intermediate growth (see <a href="chapBib.html#biBMR1899368">[BG02]</a>, but it contains elements of infinite order. It could have been defined as <code class="code">FRGroup("a=(1,2)","b=&lt;a,c&gt;","c=&lt;,d&gt;","d=&lt;,b&gt;")</code>, but is rather defined using Mealy elements.</p>
 
 
@@ -336,13 +337,13 @@ infinity
 true
 </pre></div>
 
-<p>The command <code class="code">EpimorphismFromFpGroup(GrigorchukOverGroup,n)</code> will will construct an approximating presentation for the Grigorchuk overgroup, as proven in <a href="chapBib.html#biBMR2009317">[Bar03b]</a>.</p>
+<p>The command <code class="code">EpimorphismFromFpGroup(GrigorchukOverGroup,n)</code> will will construct an approximating presentation for the Grigorchuk overgroup, as proven in <a href="chapBib.html#biBMR2009317">[Bar03a]</a>.</p>
 
 <p><a id="X7E765AF77AAC21A6" name="X7E765AF77AAC21A6"></a></p>
 
 <h5>9.1-12 GrigorchukTwistedTwin</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GrigorchukTwistedTwin</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GrigorchukTwistedTwin</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
 <p>This is a group with same closure as the Grigorchuk group (see <code class="func">GrigorchukGroup</code> (<a href="chap9.html#X85BAE48780E665A4"><span class="RefLink">9.1-10</span></a>)), but not isomorphic to it. It could have been defined as <code class="code">FRGroup("a=(1,2)","x=&lt;y,a&gt;","y=&lt;a,z&gt;","z=&lt;,x&gt;")</code>, but is rather defined using Mealy elements.</p>
 
 
@@ -359,8 +360,8 @@ true
 
 <h5>9.1-13 BrunnerSidkiVieiraGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BrunnerSidkiVieiraGroup</code></td><td class="tdright">( global variable )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BrunnerSidkiVieiraMachine</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BrunnerSidkiVieiraGroup</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BrunnerSidkiVieiraMachine</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
 <p>This machine is the sum of two adding machines, one in standard form and one conjugated by the element <code class="code">d</code> described below. The group that it generates is described in <a href="chapBib.html#biBMR1656573">[BSV99]</a>. It could have been defined as <code class="code">FRGroup("tau=&lt;,tau&gt;(1,2)","mu=&lt;,mu^-1&gt;(1,2)")</code>, but is rather defined using Mealy elements.</p>
 
 
@@ -379,8 +380,8 @@ true
 
 <h5>9.1-14 AleshinGroups</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AleshinGroups</code>( <var class="Arg">l</var> )</td><td class="tdright">( function )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AleshinMachines</code>( <var class="Arg">l</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AleshinGroups</code>( <var class="Arg">l</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AleshinMachines</code>( <var class="Arg">l</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: The Aleshin machine with <code class="code">Length(l)</code> states.</p>
 
 <p>This function constructs the bireversible machines introduced by Aleshin in <a href="chapBib.html#biBMR713968">[Ale83]</a>. The argument <var class="Arg">l</var> is a list of permutations, either <code class="code">()</code> or <code class="code">(1,2)</code>. The groups that they generate are contructed as <code class="func">AleshinGroups</code>.</p>
@@ -395,16 +396,16 @@ true
 
 <h5>9.1-15 AleshinGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AleshinGroup</code></td><td class="tdright">( global variable )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AleshinMachine</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AleshinGroup</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AleshinMachine</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
 <p>This is the first example of non-abelian free group. It is the group generated by <code class="code">AleshinMachine([(1,2),(1,2),()])</code>. It could have been defined as <code class="code">FRGroup("a=&lt;b,c&gt;(1,2)","b=&lt;c,b&gt;(1,2)","c=&lt;a,a&gt;")</code>, but is rather defined using Mealy elements.</p>
 
 <p><a id="X7E024B4D7BA411B1" name="X7E024B4D7BA411B1"></a></p>
 
 <h5>9.1-16 BabyAleshinGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BabyAleshinGroup</code></td><td class="tdright">( global variable )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BabyAleshinMachine</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BabyAleshinGroup</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BabyAleshinMachine</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
 <p>There are only two connected, transitive bireversible machines on a 2-letter alphabet, with 3 generators: <code class="code">AleshinMachine(3)</code> and the baby Aleshin machine.</p>
 
 <p>The group generated by this machine is abstractly the free product of three <span class="SimpleMath">C_2</span>'s, see <a href="chapBib.html#biBMR2162164">[Nek05, 1.10.3]</a>. It could have been defined as <code class="code">FRGroup("a=&lt;b,c&gt;","b=&lt;c,b&gt;","c=&lt;a,a&gt;(1,2)")</code>, but is rather defined here using Mealy elements.</p>
@@ -424,16 +425,16 @@ true
 
 <h5>9.1-17 SidkiFreeGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SidkiFreeGroup</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SidkiFreeGroup</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
 <p>This is a group suggested by Sidki as an example of a non-abelian state-closed free group. Nothing is known about that group: whether it is free as conjectured; whether generator <var class="Arg">a</var> is state-closed, etc. It is defined as <code class="code">FRGroup("a=&lt;a^2,a^t&gt;","t=&lt;,t&gt;(1,2)")]]&gt;</code>.</p>
 
 <p><a id="X82D3CB6A7C189C78" name="X82D3CB6A7C189C78"></a></p>
 
 <h5>9.1-18 GuptaSidkiGroups</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GuptaSidkiGroups</code>( <var class="Arg">n</var> )</td><td class="tdright">( function )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GeneralizedGuptaSidkiGroups</code>( <var class="Arg">n</var> )</td><td class="tdright">( function )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GuptaSidkiMachines</code>( <var class="Arg">n</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GuptaSidkiGroups</code>( <var class="Arg">n</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GeneralizedGuptaSidkiGroups</code>( <var class="Arg">n</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GuptaSidkiMachines</code>( <var class="Arg">n</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: The Gupta-Sidki group/machine on an <var class="Arg">n</var>-letter alphabet.</p>
 
 <p>This function constructs the machines introduced by Gupta and Sidki in <a href="chapBib.html#biBMR696534">[GS83]</a>. They generate finitely generated infinite torsion groups: the exponent of every element divides some power of <var class="Arg">n</var>. The special case <span class="SimpleMath">n=3</span> is defined as <code class="func">GuptaSidkiGroup</code> (<a href="chap9.html#X83E59288860EF661"><span class="RefLink">9.1-19</span></a>) and <code class="func">GuptaSidkiMachine</code> (<a href="chap9.html#X83E59288860EF661"><span class="RefLink">9.1-19</span></a>).</p>
@@ -444,19 +445,19 @@ true
 
 <h5>9.1-19 GuptaSidkiGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GuptaSidkiGroup</code></td><td class="tdright">( global variable )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GuptaSidkiMachine</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GuptaSidkiGroup</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GuptaSidkiMachine</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
 <p>This is an infinite, 2-generated, torsion 3-group. It could have been defined as <code class="code">FRGroup("a=(1,2,3)","t=&lt;a,a^-1,t&gt;")</code>, but is rather defined using Mealy elements.</p>
 
 <p><a id="X8521B4FF7BA189B2" name="X8521B4FF7BA189B2"></a></p>
 
 <h5>9.1-20 NeumannGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NeumannGroup</code>( <var class="Arg">P</var> )</td><td class="tdright">( function )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NeumannMachine</code>( <var class="Arg">P</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NeumannGroup</code>( <var class="Arg">P</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NeumannMachine</code>( <var class="Arg">P</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: The Neumann group/machine on the permutation group <var class="Arg">P</var>.</p>
 
-<p>The first function constructs the Neumann group associated with the permutation group <var class="Arg">P</var>. These groups were first considered in <a href="chapBib.html#biBMR840129">[Neu86]</a>. In particular, <code class="code">NeumannGroup(PSL(3,2))</code> is a group of non-uniform exponential growth (see <a href="chapBib.html#biBMR1981466">[Bar03a]</a>), and <code class="code">NeumannGroup(Group((1,2,3)))</code> is <code class="func">FabrykowskiGuptaGroup</code> (<a href="chap9.html#X878D1C7080EA9797"><span class="RefLink">9.1-21</span></a>).</p>
+<p>The first function constructs the Neumann group associated with the permutation group <var class="Arg">P</var>. These groups were first considered in <a href="chapBib.html#biBMR840129">[Neu86]</a>. In particular, <code class="code">NeumannGroup(PSL(3,2))</code> is a group of non-uniform exponential growth (see <a href="chapBib.html#biBMR1981466">[Bar03b]</a>), and <code class="code">NeumannGroup(Group((1,2,3)))</code> is <code class="func">FabrykowskiGuptaGroup</code> (<a href="chap9.html#X878D1C7080EA9797"><span class="RefLink">9.1-21</span></a>).</p>
 
 <p>The second function constructs the Neumann machine associated to the permutation group <var class="Arg">P</var>. It is a shortcut for <code class="code">MixerMachine(P,P,[[IdentityMapping(P)]])</code>.</p>
 
@@ -466,8 +467,8 @@ true
 
 <h5>9.1-21 FabrykowskiGuptaGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FabrykowskiGuptaGroup</code></td><td class="tdright">( global variable )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FabrykowskiGuptaGroups</code>( <var class="Arg">p</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FabrykowskiGuptaGroup</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FabrykowskiGuptaGroups</code>( <var class="Arg">p</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>This is an infinite, 2-generated group of intermediate word growth. It was studied in <a href="chapBib.html#biBMR942349">[FG85]</a> and <a href="chapBib.html#biBMR1153150">[FG91]</a>. It could have been defined as <code class="code">FRGroup("a=(1,2,3)","t=&lt;a,,t&gt;")</code>, but is rather defined using Mealy elements. It has a torsion-free subgroup of index 3 and is branched.</p>
 
 <p>The natural generalization, replacing 3 by <span class="SimpleMath">p</span>, is constructed by the second form. It is a specific case of Neumann group (see <code class="func">NeumannGroup</code> (<a href="chap9.html#X8521B4FF7BA189B2"><span class="RefLink">9.1-20</span></a>)), for which an ascending L-presentation is known.</p>
@@ -476,7 +477,7 @@ true
 
 <h5>9.1-22 ZugadiSpinalGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ZugadiSpinalGroup</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ZugadiSpinalGroup</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
 <p>This is an infinite, 2-generated group, which was studied in <a href="chapBib.html#biBMR1899368">[BG02]</a>. It has a torsion-free subgroup of index 3, and is virtually branched but not branched. It could have been defined as <code class="code">FRGroup("a=(1,2,3)","t=&lt;a,a,t&gt;")</code>, but is rather defined using Mealy elements.</p>
 
 <p>Amaia Zugadi computed its Hausdorff dimension to be <span class="SimpleMath">1/2</span>.</p>
@@ -485,8 +486,8 @@ true
 
 <h5>9.1-23 GammaPQMachine</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GammaPQMachine</code>( <var class="Arg">p</var>, <var class="Arg">q</var> )</td><td class="tdright">( function )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GammaPQGroup</code>( <var class="Arg">p</var>, <var class="Arg">q</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GammaPQMachine</code>( <var class="Arg">p</var>, <var class="Arg">q</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GammaPQGroup</code>( <var class="Arg">p</var>, <var class="Arg">q</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: The quaternion-based machine / SC group.</p>
 
 <p>The first function constructs a bireversible (see <code class="func">IsBireversible</code> (<a href="chap5.html#X80D2545D7D0990A2"><span class="RefLink">5.2-7</span></a>)) Mealy machine based on quaternions, see <a href="chapBib.html#biBMR1839488">[BM00a]</a> and <a href="chapBib.html#biBMR1839489">[BM00b]</a>. This machine has <span class="SimpleMath">p+1</span> states indexed by integer quaternions of norm <var class="Arg">p</var>, and an alphabet of size <span class="SimpleMath">q+1</span> indexed by quaternions of norm <var class="Arg">q</var>. These quaternions are congruent to <span class="SimpleMath">1mod 2</span> or <span class="SimpleMath">imod 2</span> depending on whether the odd prime <span class="SimpleMath">p</span> or <span class="SimpleMath">q</span> is <span class="SimpleMath">1</span> or <span class="SimpleMath">3mod 4</span>.</p>
@@ -501,7 +502,7 @@ true
 
 <h5>9.1-24 RattaggiGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RattaggiGroup</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RattaggiGroup</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
 <p>This record contains interesting examples of VH groups, that were studied by Rattaggi in his PhD thesis <a href="chapBib.html#biBRattaggi">[Rat04]</a>. His Example 2.x appears as <code class="code">RattaggiGroup.2_x</code>.</p>
 
 <p>The following summary of the examples' properties are copied from Rattaggi's thesis. RF means "residually finite"; JI means "just infinite"; VS means "virtually simple".</p>
@@ -784,16 +785,16 @@ true
 
 <h5>9.1-25 HanoiGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; HanoiGroup</code>( <var class="Arg">n</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; HanoiGroup</code>( <var class="Arg">n</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: The Hanoi group on an <var class="Arg">n</var> pegs.</p>
 
-<p>This function constructs the Hanoi group on <var class="Arg">n</var> pegs. Generators of the group correspond to moving a peg, and tree vertices correspond to peg configurations. This group is studied in <a href="chapBib.html#biBMR2217913">[GŠ06]</a>.</p>
+<p>This function constructs the Hanoi group on <var class="Arg">n</var> pegs. Generators of the group correspond to moving a peg, and tree vertices correspond to peg configurations. This group is studied in <a href="chapBib.html#biBMR2217913">[G{\v S}06]</a>.</p>
 
 <p><a id="X7C7A0EEF7EFF8B99" name="X7C7A0EEF7EFF8B99"></a></p>
 
 <h5>9.1-26 DahmaniGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DahmaniGroup</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DahmaniGroup</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
 <p>This is an example of a non-contracting weakly branched group. It was first studied in <a href="chapBib.html#biBMR2140091">[Dah05]</a>. It could have been defined as <code class="code">FRGroup("a=&lt;c,a&gt;(1,2)","b=&lt;b,a&gt;(1,2)","c=&lt;b,c&gt;")</code>, but is rather defined using Mealy elements.</p>
 
 <p>It has relators <span class="SimpleMath">abc</span>, <span class="SimpleMath">[a^2c,[a,c]]</span>, <span class="SimpleMath">[cab,a^-1c^-1ab]</span> and <span class="SimpleMath">[ac^2,c^-1b^-1c^2]</span> among others.</p>
@@ -804,14 +805,14 @@ true
 
 <h5>9.1-27 MamaghaniGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MamaghaniGroup</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MamaghaniGroup</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
 <p>This group was studied in <a href="chapBib.html#biBMR2139928">[Mam03]</a>. It is fractal, but not contracting. It could have been defined as <code class="code">FRGroup("a=&lt;,b&gt;(1,2)","b=&lt;a,c&gt;","c=&lt;a,a^-1&gt;(1,2)")]]&gt;</code>, but is rather defined using Mealy elements. It partially admits branching on its subgroup <code class="code">Subgroup(G,[a^2,(a^2)^b,(a^2)^c])</code>, and, setting <code class="code">x=Comm(a^2,b)</code>, on <code class="code">Subgroup(G,[x,x^a,x^b,x^(b*a),x^(b/a)])</code>. One has <code class="code">FRElement(1,x)=(x^-1)^b/x</code>.</p>
 
 <p><a id="X86D952E8784E4D97" name="X86D952E8784E4D97"></a></p>
 
 <h5>9.1-28 WeierstrassGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; WeierstrassGroup</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; WeierstrassGroup</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
 <p>This is the iterated monodromy group associated with the Weierstrass <span class="SimpleMath">℘</span>-function.</p>
 
 <p>Some relators in the group: <span class="SimpleMath">(atbt)^4</span>, <span class="SimpleMath">((atbt)(bt)^4n)^4</span>, <span class="SimpleMath">((atbt)^2(bt)^4n)^2</span>.</p>
@@ -828,20 +829,20 @@ true
 
 <h5>9.1-29 StrichartzGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; StrichartzGroup</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; StrichartzGroup</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
 <p>This group generates the graph of the Strichartz hexacarpet.</p>
 
 <p>The Strichartz hexacarpet is the dual graph to the infinitely iterated barycentric subdivision of the triangle. The Strichartz group acts on <span class="SimpleMath">{1,dots,6}^n</span> for all <span class="SimpleMath">n</span>, and the Schreier graph with <span class="SimpleMath">6^n</span> vertices is the <span class="SimpleMath">n</span>th Strichartz graph.</p>
 
 <p>Conjecturally, that graph's radius is <span class="SimpleMath">1/18(2^(n+1)(13+3n)+(-1)^n-9)</span> and its diameter is <span class="SimpleMath">1/9(2^(n-1)(31+12n)+2(-1)^(n-1)-18)</span>.</p>
 
-<p>See <a href="chapBib.html#biBMR3004256">[BKNPPT12]</a> for details.</p>
+<p>See <a href="chapBib.html#biBMR3004256">[BKN+12]</a> for details.</p>
 
 <p><a id="X86B124758135DFBD" name="X86B124758135DFBD"></a></p>
 
 <h5>9.1-30 FRAffineGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FRAffineGroup</code>( <var class="Arg">d</var>, <var class="Arg">R</var>, <var class="Arg">u</var>[, <var class="Arg">transversal</var>] )</td><td class="tdright">( operation )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FRAffineGroup</code>( <var class="Arg">d</var>, <var class="Arg">R</var>, <var class="Arg">u</var>[, <var class="Arg">transversal</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: The <var class="Arg">d</var>-dimensional affine group over <var class="Arg">R</var>.</p>
 
 <p>This function constructs a new FR group <code class="code">G</code>, which is finite-index subgroup of the <var class="Arg">d</var>-dimensional affine group over <span class="SimpleMath">R_u</span>, the local ring over <var class="Arg">R</var> in which all non-multiples of <var class="Arg">u</var> are invertible. Since no generators of <code class="code">G</code> are known, <code class="code">G</code> is in fact returned as a full SC group; only its attribute <code class="code">Correspondence(G)</code>, which is a homomorphism from <span class="SimpleMath">GL_d+1(R_u)</span> to <code class="code">G</code>, is relevant.</p>
@@ -900,9 +901,9 @@ true
 
 <h5>9.1-31 CayleyGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CayleyGroup</code>( <var class="Arg">G</var> )</td><td class="tdright">( function )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CayleyMachine</code>( <var class="Arg">G</var> )</td><td class="tdright">( function )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; LamplighterGroup</code>( <var class="Arg">IsFRGroup</var>, <var class="Arg">G</var> )</td><td class="tdright">( method )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CayleyGroup</code>( <var class="Arg">G</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CayleyMachine</code>( <var class="Arg">G</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; LamplighterGroup</code>( <var class="Arg">IsFRGroup</var>, <var class="Arg">G</var> )</td><td class="tdright">(&nbsp;method&nbsp;)</td></tr></table></div>
 <p>Returns: The Cayley machine/group of the group <var class="Arg">G</var>.</p>
 
 <p>The <em>Cayley machine</em> of a group <var class="Arg">G</var> is a machine with alphabet and stateset equal to <var class="Arg">G</var>, and with output and transition functions given by multiplication in the group, in the order <code class="code">state*letter</code>.</p>
@@ -941,8 +942,8 @@ Initial state: a
 
 <h5>9.2-1 I2Machine</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; I2Machine</code></td><td class="tdright">( global variable )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; I2Monoid</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; I2Machine</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; I2Monoid</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
 <p>The Mealy machine <span class="SimpleMath">I_2</span>, and the monoid that it generates. This is the smallest Mealy machine generating a monoid of intermediate word growth; see <a href="chapBib.html#biBMR2194959">[BRS06]</a>.</p>
 
 <p>For sample calculations in this monoid see <code class="func">SCSemigroup</code> (<a href="chap7.html#X853E3F0680C76F56"><span class="RefLink">7.1-3</span></a>).</p>
@@ -951,8 +952,8 @@ Initial state: a
 
 <h5>9.2-2 I4Machine</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; I4Machine</code></td><td class="tdright">( global variable )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; I4Monoid</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; I4Machine</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; I4Monoid</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
 <p>The Mealy machine generating <span class="SimpleMath">I_4</span>, and the monoid that it generates. This is a very small Mealy machine generating a monoid of intermediate word growth; see <a href="chapBib.html#biBMR2394721">[BR08]</a>.</p>
 
 <p>For sample calculations in this monoid see <code class="func">SCMonoid</code> (<a href="chap7.html#X853E3F0680C76F56"><span class="RefLink">7.1-3</span></a>).</p>
@@ -965,7 +966,7 @@ Initial state: a
 
 <h5>9.3-1 PSZAlgebra</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PSZAlgebra</code>( <var class="Arg">k</var>[, <var class="Arg">m</var>] )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PSZAlgebra</code>( <var class="Arg">k</var>[, <var class="Arg">m</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>This function creates an associative algebra <code class="code">A</code>, over the field <var class="Arg">k</var> of positive characteristic, generated by <var class="Arg">m</var> derivations <code class="code">d0,...,d(m-1),v</code>. If the argument <var class="Arg">m</var> is absent, it is taken to be <code class="code">2</code>.</p>
 
 <p>This algebra has polynomial growth, and is not nilpotent. Petrogradsky showed in <a href="chapBib.html#biBMR2293788">[Pet06]</a> that the Lie subalgebra of <code class="code">PSZAlgebra(GF(2))</code> generated by <span class="SimpleMath">v,[u,v]</span> is nil; this result was generalized by Shestakov and Zelmanov in <a href="chapBib.html#biBMR2390328">[SZ08]</a> to arbitrary <var class="Arg">k</var> and <span class="SimpleMath">m=2</span>.</p>
@@ -989,7 +990,7 @@ true
 
 <h5>9.3-2 GrigorchukThinnedAlgebra</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GrigorchukThinnedAlgebra</code>( <var class="Arg">k</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GrigorchukThinnedAlgebra</code>( <var class="Arg">k</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>This function creates the associative envelope <code class="code">A</code>, over the field <var class="Arg">k</var>, of Grigorchuk's group <code class="func">GrigorchukGroup</code> (<a href="chap9.html#X85BAE48780E665A4"><span class="RefLink">9.1-10</span></a>).</p>
 
 <p><var class="Arg">k</var> may be a field or an prime representing the prime field <code class="code">GF(k)</code>. In characteristic 2, this ring is graded, and the attribute <code class="code">Grading</code> is set.</p>
@@ -1020,7 +1021,7 @@ true
 
 <h5>9.3-3 GuptaSidkiThinnedAlgebra</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GuptaSidkiThinnedAlgebra</code>( <var class="Arg">k</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GuptaSidkiThinnedAlgebra</code>( <var class="Arg">k</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>This function creates the associative envelope <code class="code">A</code>, over the field <var class="Arg">k</var>, of Gupta-Sidki's group <code class="func">GuptaSidkiGroup</code> (<a href="chap9.html#X83E59288860EF661"><span class="RefLink">9.1-19</span></a>).</p>
 
 <p><var class="Arg">k</var> may be a field or an prime representing the prime field <code class="code">GF(k)</code>.</p>
@@ -1051,15 +1052,15 @@ Error, user interrupt in
 
 <h5>9.3-4 GrigorchukLieAlgebra</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GrigorchukLieAlgebra</code>( <var class="Arg">k</var> )</td><td class="tdright">( function )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GuptaSidkiLieAlgebra</code>( <var class="Arg">k</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GrigorchukLieAlgebra</code>( <var class="Arg">k</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GuptaSidkiLieAlgebra</code>( <var class="Arg">k</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Two more examples of self-similar Lie algebras; see <a href="chapBib.html#biB1003.1125">[Bar10]</a>.</p>
 
 <p><a id="X7B0B5B09878C7CEA" name="X7B0B5B09878C7CEA"></a></p>
 
 <h5>9.3-5 SidkiFreeAlgebra</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SidkiFreeAlgebra</code>( <var class="Arg">k</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SidkiFreeAlgebra</code>( <var class="Arg">k</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>This is an example of a free 2-generated associative ring over the <span class="SimpleMath">Z</span>, defined by self-similar matrices. It is due to S. Sidki. The argument is a field on which to construct the algebra. The recursion is <code class="code">s=[[1,0],[0,2*s]]</code> and <code class="code">t=[[0,2*s],[0,2*t]]</code>.</p>
 
 
@@ -1083,7 +1084,7 @@ Error, user interrupt in
 
 <h5>9.3-6 SidkiMonomialAlgebra</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SidkiMonomialAlgebra</code>( <var class="Arg">k</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SidkiMonomialAlgebra</code>( <var class="Arg">k</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>This is an example of a self-similar algebra that does not come from a semigroup; it is due to S. Sidki. The argument is a field on which to construct the algebra. The recursion is <code class="code">s=[[0,0],[1,0]]</code> and <code class="code">t=[[0,t],[0,s]]</code>. Sidki shows that this algebra, like the Grigorchuk thinned algebra in characteristic 2 (see <code class="func">GrigorchukThinnedAlgebra</code> (<a href="chap9.html#X7D015CA5829FAA2A"><span class="RefLink">9.3-2</span></a>)), admits a monomial presentation, and in particular is a graded ring.</p>
 
 
@@ -1303,8 +1304,8 @@ Initial state:   1   0   0   0
 
 <h5>9.5-1 VHStructure</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VHStructure</code>( <var class="Arg">g</var> )</td><td class="tdright">( operation )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsVHGroup</code>( <var class="Arg">g</var> )</td><td class="tdright">( filter )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VHStructure</code>( <var class="Arg">g</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsVHGroup</code>( <var class="Arg">g</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
 <p>Returns: A VH-structure for the group <var class="Arg">g</var>.</p>
 
 <p>A <em>VH-structure</em> on a group <var class="Arg">g</var> is a partition of the generators in two sets <span class="SimpleMath">V,H</span> such that every relator of <var class="Arg">g</var> is of the form <span class="SimpleMath">vhv'h'</span>, and such that for all <span class="SimpleMath">v∈ V,h∈ H</span> there exist unique <span class="SimpleMath">v'∈ V,h'∈ H</span> such that <span class="SimpleMath">vhv'h'=1</span>.</p>
@@ -1317,8 +1318,8 @@ Initial state:   1   0   0   0
 
 <h5>9.5-2 VerticalAction</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VerticalAction</code>( <var class="Arg">g</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; HorizontalAction</code>( <var class="Arg">g</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VerticalAction</code>( <var class="Arg">g</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; HorizontalAction</code>( <var class="Arg">g</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: A homomorphism to an FR group.</p>
 
 <p>A group with VH structure admits a <em>vertical action</em> of its subgroup <span class="SimpleMath">⟨ V⟩</span>; this is the group generated by the automaton <code class="code">MealyMachine(trans,out)</code>. The function returns the group homomorphism from the subgroup <span class="SimpleMath">⟨ V⟩</span> to that FR group.</p>
@@ -1353,7 +1354,7 @@ S (1 gens, size 2)
 
 <h5>9.5-3 VHGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VHGroup</code>( <var class="Arg">l1</var>, <var class="Arg">l2</var>, <var class="Arg">...</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VHGroup</code>( <var class="Arg">l1</var>, <var class="Arg">l2</var>, <var class="Arg">...</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: A new VH group.</p>
 
 <p>This function constructs the VH group specified by the squares <var class="Arg">l1, l2, ...</var>. Each <var class="Arg">li</var> is a list of length 4, of the form <code class="code">[v,h,v',h']</code>. Here the entries are indices of vertical, respectively horizontal generators, if positive; and their inverses if negative.</p>
@@ -1378,7 +1379,7 @@ generators = [ a1, a2, a3, b1, b2 ]                                          ## 
 
 <h5>9.5-4 IsIrreducibleVHGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsIrreducibleVHGroup</code>( <var class="Arg">g</var> )</td><td class="tdright">( property )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsIrreducibleVHGroup</code>( <var class="Arg">g</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: Whether <var class="Arg">g</var> is an irreducible lattice.</p>
 
 <p>A VH group is <em>irreducible</em> if its projections on both trees is dense.</p>
@@ -1408,7 +1409,7 @@ true
 
 <h5>9.5-5 MaximalSimpleSubgroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MaximalSimpleSubgroup</code>( <var class="Arg">g</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MaximalSimpleSubgroup</code>( <var class="Arg">g</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: A maximal simple subgroup of <var class="Arg">g</var>, if possible.</p>
 
 <p>A VH group is never simple, but in favourable cases it admits a finite-index simple subgroup, see <a href="chapBib.html#biBMR1446574">[BM97]</a>. This function attempts to construct such a subgroup. It returns <code class="keyw">fail</code> if no such subgroup can be found.</p>

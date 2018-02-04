@@ -19,9 +19,10 @@
 
 <div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap4.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap6.html">[Next Chapter]</a>&nbsp;  </div>
 
+<p id="mathjaxlink" class="pcenter"></p>
 <p><a id="X7C77EBC17DEF4CF6" name="X7C77EBC17DEF4CF6"></a></p>
 <div class="ChapSects"><a href="chap5.html#X7C77EBC17DEF4CF6">5 <span class="Heading">Mealy machines and elements</span></a>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap5.html#X7AE529E37838E6FC">5.1 <span class="Heading">Creators for <code class="code">MealyMachine</code>s and <code class="code">MealyElement</code>s</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap5.html#X846B89F686B50AE1">5.1 <span class="Heading">Creators for <code class="code">MealyMachine</code>s and <code class="code">MealyElement</code>s</span></a>
 </span>
 <div class="ContSSBlock">
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7EF3E00080624B70">5.1-1 MealyMachine</a></span>
@@ -29,7 +30,7 @@
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X8578657C7F4B6254">5.1-3 MealyMachineNC</a></span>
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X83BBE01884D6E315">5.1-4 AllMealyMachines</a></span>
 </div></div>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap5.html#X815F9A067AF7DC33">5.2 <span class="Heading">Operations and Attributes for <code class="code">MealyMachine</code>s and <code class="code">MealyElement</code>s</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap5.html#X7F673D877B205708">5.2 <span class="Heading">Operations and Attributes for <code class="code">MealyMachine</code>s and <code class="code">MealyElement</code>s</span></a>
 </span>
 <div class="ContSSBlock">
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7DF9F3AD86602DFC">5.2-1 Draw</a></span>
@@ -81,7 +82,7 @@
 
 <p>Therefore, if <code class="code">L</code> is a list of FR elements, the call <code class="code">List(L,UnderlyingElement);;</code> will set these attributes, and all calculations made with elements of <code class="code">L</code> will use and propagate the attributes. FR-Mealy elements are displayed in the form <code class="code">&lt;d|w|n&gt;</code>, where <code class="code">d</code> is the degree of the alphabet, <code class="code">w</code> is a word in the stateset, and <code class="code">n</code> is the number of states of the underlying Mealy element.</p>
 
-<p><a id="X7AE529E37838E6FC" name="X7AE529E37838E6FC"></a></p>
+<p><a id="X846B89F686B50AE1" name="X846B89F686B50AE1"></a></p>
 
 <h4>5.1 <span class="Heading">Creators for <code class="code">MealyMachine</code>s and <code class="code">MealyElement</code>s</span></h4>
 
@@ -89,8 +90,8 @@
 
 <h5>5.1-1 MealyMachine</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MealyMachine</code>( [<var class="Arg">alphabet</var>, ]<var class="Arg">transitions</var>, <var class="Arg">output</var> )</td><td class="tdright">( operation )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MealyElement</code>( [<var class="Arg">alphabet</var>, ]<var class="Arg">transitions</var>, <var class="Arg">output</var>, <var class="Arg">init</var> )</td><td class="tdright">( operation )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MealyMachine</code>( [<var class="Arg">alphabet</var>, ]<var class="Arg">transitions</var>, <var class="Arg">output</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MealyElement</code>( [<var class="Arg">alphabet</var>, ]<var class="Arg">transitions</var>, <var class="Arg">output</var>, <var class="Arg">init</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: A new Mealy machine/element.</p>
 
 <p>This function constructs a new Mealy machine or element, of integer type.</p>
@@ -146,8 +147,8 @@ Initial state:  a
 
 <h5>5.1-2 MealyMachine</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MealyMachine</code>( <var class="Arg">stateset</var>, <var class="Arg">alphabet</var>, <var class="Arg">transitions</var>, <var class="Arg">output</var> )</td><td class="tdright">( operation )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MealyElement</code>( <var class="Arg">stateset</var>, <var class="Arg">alphabet</var>, <var class="Arg">transitions</var>, <var class="Arg">output</var>, <var class="Arg">init</var> )</td><td class="tdright">( operation )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MealyMachine</code>( <var class="Arg">stateset</var>, <var class="Arg">alphabet</var>, <var class="Arg">transitions</var>, <var class="Arg">output</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MealyElement</code>( <var class="Arg">stateset</var>, <var class="Arg">alphabet</var>, <var class="Arg">transitions</var>, <var class="Arg">output</var>, <var class="Arg">init</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: A new Mealy machine/element.</p>
 
 <p>This function constructs a new Mealy machine or element, of domain type.</p>
@@ -177,8 +178,8 @@ Initial state:  a
 
 <h5>5.1-3 MealyMachineNC</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MealyMachineNC</code>( <var class="Arg">fam</var>, <var class="Arg">transitions</var>, <var class="Arg">output</var> )</td><td class="tdright">( operation )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MealyElementNC</code>( <var class="Arg">fam</var>, <var class="Arg">transitions</var>, <var class="Arg">output</var>, <var class="Arg">init</var> )</td><td class="tdright">( operation )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MealyMachineNC</code>( <var class="Arg">fam</var>, <var class="Arg">transitions</var>, <var class="Arg">output</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MealyElementNC</code>( <var class="Arg">fam</var>, <var class="Arg">transitions</var>, <var class="Arg">output</var>, <var class="Arg">init</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: A new Mealy machine/element.</p>
 
 <p>This function constructs a new Mealy machine or element, of integer type. No tests are performed to check that the arguments contain values within bounds, or even of the right type (beyond the simple checking performed by <strong class="pkg">GAP</strong>'s method selection algorithms). In particular, Mealy elements are always assumed to be minimized, but these functions leave this task to the user.</p>
@@ -212,7 +213,7 @@ true
 
 <h5>5.1-4 AllMealyMachines</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllMealyMachines</code>( <var class="Arg">m</var>, <var class="Arg">n</var>[, <var class="Arg">filters</var>] )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllMealyMachines</code>( <var class="Arg">m</var>, <var class="Arg">n</var>[, <var class="Arg">filters</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: A list of all Mealy machines with specified properties.</p>
 
 <p>This function constructs all Mealy machines with alphabet <code class="code">[1..m]</code>, stateset <code class="code">[1..n]</code> and specified properties.</p>
@@ -252,7 +253,7 @@ true
 ---+-----+-----+
 </pre></div>
 
-<p><a id="X815F9A067AF7DC33" name="X815F9A067AF7DC33"></a></p>
+<p><a id="X7F673D877B205708" name="X7F673D877B205708"></a></p>
 
 <h4>5.2 <span class="Heading">Operations and Attributes for <code class="code">MealyMachine</code>s and <code class="code">MealyElement</code>s</span></h4>
 
@@ -260,7 +261,7 @@ true
 
 <h5>5.2-1 Draw</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Draw</code>( <var class="Arg">m</var>[, <var class="Arg">filename</var>] )</td><td class="tdright">( operation )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Draw</code>( <var class="Arg">m</var>[, <var class="Arg">filename</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>This function creates a graph description of the Mealy machine/element <var class="Arg">m</var>. If a second argument <var class="Arg">filename</var> is present, the graph is saved, in <code class="keyw">dot</code> format, under that filename; otherwise it is converted to Postscript using the program <code class="keyw">dot</code> from the <strong class="pkg">graphviz</strong> package, and is displayed in a separate X window using the program <strong class="pkg">display</strong> or <strong class="pkg">rsvg-view</strong>. This works on UNIX systems.</p>
 
 <p>It is assumed, but not checked, that <strong class="pkg">graphviz</strong> and <strong class="pkg">display</strong>/<strong class="pkg">rsvg-view</strong> are properly installed on the system. The option <code class="keyw">usesvg</code> requests the use of <strong class="pkg">rsvg-view</strong>; by default, <strong class="pkg">display</strong> is used.</p>
@@ -279,7 +280,7 @@ true
 
 <h5>5.2-2 Minimized</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Minimized</code>( <var class="Arg">m</var> )</td><td class="tdright">( operation )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Minimized</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: A minimized machine equivalent to <var class="Arg">m</var>.</p>
 
 <p>This function contructs the minimized Mealy machine <code class="code">r</code> corresponding to <var class="Arg">m</var>, by identifying isomorphic states; and, if <var class="Arg">m</var> is initial, by removing inaccessible states.</p>
@@ -311,7 +312,7 @@ true
 
 <h5>5.2-3 DualMachine</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DualMachine</code>( <var class="Arg">m</var> )</td><td class="tdright">( operation )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DualMachine</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: The dual Mealy machine of <var class="Arg">m</var>.</p>
 
 <p>This function constructs the <em>dual</em> machine of <var class="Arg">m</var>, i.e. the machine with stateset the alphabet of <var class="Arg">m</var>, with alphabet the stateset of <var class="Arg">m</var>, and similarly with transitions and output switched.</p>
@@ -334,7 +335,7 @@ true
 
 <h5>5.2-4 IsReversible</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsReversible</code>( <var class="Arg">m</var> )</td><td class="tdright">( property )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsReversible</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">m</var> is a reversible Mealy machine.</p>
 
 <p>This function tests whether <var class="Arg">m</var> is <em>reversible</em>, i.e. whether the <code class="func">DualMachine</code> (<a href="chap5.html#X809F069B798ED985"><span class="RefLink">5.2-3</span></a>) of <var class="Arg">m</var> is invertible. See <a href="chapBib.html#biBMR1841119">[MNS00]</a> for more details.</p>
@@ -350,7 +351,7 @@ false
 
 <h5>5.2-5 IsMinimized</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsMinimized</code>( <var class="Arg">m</var> )</td><td class="tdright">( property )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsMinimized</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">m</var> is a minimized Mealy machine.</p>
 
 <p>This function tests whether <var class="Arg">m</var> is <em>minimized</em>, i.e. whether nono of its states can be removed or coalesced. All Mealy elements are automatically minimized.</p>
@@ -374,7 +375,7 @@ false
 
 <h5>5.2-6 AlphabetInvolution</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AlphabetInvolution</code>( <var class="Arg">m</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AlphabetInvolution</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: A list giving, for each alphabet letter, its inverse.</p>
 
 <p>If <var class="Arg">m</var> is a bireversible machine, it may happen that the stateset of the dual of <var class="Arg">m</var> (see <code class="func">DualMachine</code> (<a href="chap5.html#X809F069B798ED985"><span class="RefLink">5.2-3</span></a>)) is closed under taking inverses. If this happens, then this list records the mapping from an alphabet letter of <var class="Arg">m</var> to its inverse.</p>
@@ -392,7 +393,7 @@ true
 
 <h5>5.2-7 IsBireversible</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsBireversible</code>( <var class="Arg">m</var> )</td><td class="tdright">( property )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsBireversible</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">m</var> is a bireversible Mealy machine.</p>
 
 <p>This function tests whether <var class="Arg">m</var> is <em>bireversible</em>, i.e. whether all eight machines obtained from <var class="Arg">m</var> using <code class="func">DualMachine</code> (<a href="chap5.html#X809F069B798ED985"><span class="RefLink">5.2-3</span></a>) and <code class="code">Inverse</code> are well-defined. See <a href="chapBib.html#biBMR1841119">[MNS00]</a> for more details.</p>
@@ -409,7 +410,7 @@ true
 
 <h5>5.2-8 StateGrowth</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; StateGrowth</code>( <var class="Arg">m</var>[, <var class="Arg">x</var>] )</td><td class="tdright">( operation )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; StateGrowth</code>( <var class="Arg">m</var>[, <var class="Arg">x</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: The state growth of the Mealy machine or element <var class="Arg">m</var>.</p>
 
 <p>This function computes, as a rational function, the power series in <var class="Arg">x</var> whose coefficient of degree <span class="SimpleMath">n</span> is the number of non-trivial states at level <span class="SimpleMath">n</span> of the tree.</p>
@@ -432,9 +433,9 @@ true
 
 <h5>5.2-9 Degree</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Degree</code>( <var class="Arg">m</var> )</td><td class="tdright">( operation )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DegreeOfFRMachine</code>( <var class="Arg">m</var> )</td><td class="tdright">( operation )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DegreeOfFRElement</code>( <var class="Arg">m</var> )</td><td class="tdright">( operation )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Degree</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DegreeOfFRMachine</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DegreeOfFRElement</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: The growth degree of the Mealy machine or element <var class="Arg">m</var>.</p>
 
 <p>This function computes the order of the pole at <span class="SimpleMath">x=1</span> of <code class="code">StateGrowth(m,x)</code>, in case its denominator is a product of cyclotomics; and returns <code class="keyw">infinity</code> otherwise.</p>
@@ -459,8 +460,8 @@ infinity
 
 <h5>5.2-10 IsFinitaryFRElement</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFinitaryFRElement</code>( <var class="Arg">e</var> )</td><td class="tdright">( property )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFinitaryFRMachine</code>( <var class="Arg">e</var> )</td><td class="tdright">( property )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFinitaryFRElement</code>( <var class="Arg">e</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFinitaryFRMachine</code>( <var class="Arg">e</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">e</var> is a finitary element.</p>
 
 <p>This function tests whether <var class="Arg">e</var> is a finitary element. These are by definition the elements of growth degree at most <span class="SimpleMath">0</span>.</p>
@@ -487,9 +488,9 @@ false
 
 <h5>5.2-11 Depth</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Depth</code>( <var class="Arg">m</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DepthOfFRMachine</code>( <var class="Arg">m</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DepthOfFRElement</code>( <var class="Arg">m</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Depth</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DepthOfFRMachine</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DepthOfFRElement</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: The depth of the finitary Mealy machine or element <var class="Arg">m</var>.</p>
 
 <p>This function computes the maximal level at which the <var class="Arg">m</var> has an non-trivial state. In particular the identity has depth 0, and FR elements acting only at the root vertex have depth 1. The value <code class="keyw">infinity</code> is returned if <var class="Arg">m</var> is not finitary (see <code class="func">IsFinitaryFRElement</code> (<a href="chap5.html#X793C427084F830CE"><span class="RefLink">5.2-10</span></a>)).</p>
@@ -508,8 +509,8 @@ infinity
 
 <h5>5.2-12 IsBoundedFRElement</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsBoundedFRElement</code>( <var class="Arg">e</var> )</td><td class="tdright">( property )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsBoundedFRMachine</code>( <var class="Arg">e</var> )</td><td class="tdright">( property )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsBoundedFRElement</code>( <var class="Arg">e</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsBoundedFRMachine</code>( <var class="Arg">e</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">e</var> is a finitary element.</p>
 
 <p>This function tests whether <var class="Arg">e</var> is a bounded element. These are by definition the elements of growth degree at most <span class="SimpleMath">1</span>.</p>
@@ -536,8 +537,8 @@ true
 
 <h5>5.2-13 IsPolynomialGrowthFRElement</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsPolynomialGrowthFRElement</code>( <var class="Arg">e</var> )</td><td class="tdright">( property )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsPolynomialGrowthFRMachine</code>( <var class="Arg">e</var> )</td><td class="tdright">( property )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsPolynomialGrowthFRElement</code>( <var class="Arg">e</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsPolynomialGrowthFRMachine</code>( <var class="Arg">e</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">e</var> is an element of polynomial growth.</p>
 
 <p>This function tests whether <var class="Arg">e</var> is a polynomial element. These are by definition the elements of polynomial growth degree.</p>
@@ -564,7 +565,7 @@ true
 
 <h5>5.2-14 Signatures</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Signatures</code>( <var class="Arg">e</var> )</td><td class="tdright">( operation )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Signatures</code>( <var class="Arg">e</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: A list describing the product of the activities on each level.</p>
 
 <p>This function computes the product of the activities of <var class="Arg">e</var> on each level, and returns a periodic list describing it (see <code class="func">PeriodicList</code> (<a href="chap11.html#X7B401DFE817D3927"><span class="RefLink">11.2-2</span></a>)).</p>
@@ -587,8 +588,8 @@ true
 
 <h5>5.2-15 VertexTransformationsFRMachine</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VertexTransformationsFRMachine</code>( <var class="Arg">m</var> )</td><td class="tdright">( operation )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VertexTransformationsFRElement</code>( <var class="Arg">e</var> )</td><td class="tdright">( operation )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VertexTransformationsFRMachine</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VertexTransformationsFRElement</code>( <var class="Arg">e</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: The group/monoid generated by all vertex transformations of states of <var class="Arg">m</var>.</p>
 
 <p>The first function computes the finite permutation group / transformation monoid generated by all outputs of states of <var class="Arg">m</var>.</p>
@@ -607,7 +608,7 @@ Group([ (2,3), (1,3), (1,2) ])
 
 <h5>5.2-16 FixedRay</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FixedRay</code>( <var class="Arg">e</var> )</td><td class="tdright">( operation )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FixedRay</code>( <var class="Arg">e</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: The lexicographically first ray fixed by <var class="Arg">e</var>.</p>
 
 <p>This function computes the lexicographically first infinite sequence that is fixed by the FR element <var class="Arg">e</var>, and returns it as a periodic list (see <code class="func">PeriodicList</code> (<a href="chap11.html#X7B401DFE817D3927"><span class="RefLink">11.2-2</span></a>)). It returns <code class="keyw">fail</code> if no such ray exists.</p>
@@ -628,7 +629,7 @@ fail
 
 <h5>5.2-17 IsLevelTransitive</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsLevelTransitive</code>( <var class="Arg">e</var> )</td><td class="tdright">( property )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsLevelTransitive</code>( <var class="Arg">e</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">e</var> acts transitively on each level of the tree.</p>
 
 <p>This function tests whether <var class="Arg">e</var> acts transitively on each level of the tree. It is implemented only if <code class="code">VertexTransformationsFRElement(e)</code> is abelian.</p>
@@ -654,7 +655,7 @@ true
 
 <h5>5.2-18 AsMealyMachine</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AsMealyMachine</code>( <var class="Arg">m</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AsMealyMachine</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: A Mealy machine isomorphic to <var class="Arg">m</var>.</p>
 
 <p>This function constructs a Mealy machine <code class="code">r</code>, which is as close as possible to the FR machine <var class="Arg">m</var>. Furthermore, <code class="code">Correspondence(r)</code> is a list identifying, for every generator of the stateset of <var class="Arg">m</var>, a corresponding state in the new Mealy machine; see <code class="func">Correspondence</code> (<a href="chap3.html#X7C107A42815F91DA"><span class="RefLink">3.5-12</span></a>).</p>
@@ -693,7 +694,7 @@ true
 
 <h5>5.2-19 AsMealyMachine</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AsMealyMachine</code>( <var class="Arg">l</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AsMealyMachine</code>( <var class="Arg">l</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: A Mealy machine constructed out of the FR elements in <var class="Arg">l</var>.</p>
 
 <p>This function constructs a Mealy machine <code class="code">r</code>, with states <var class="Arg">l</var> (which must be a state-closed set). Its outputs are the outputs of its elements, and its transitions are the transitions of its elements; in particular, <code class="code">FRElement(r,i)</code> is equal to <code class="code">l[i]</code> as an FR element.</p>
@@ -724,7 +725,7 @@ gap&gt;
 
 <h5>5.2-20 AsMealyElement</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AsMealyElement</code>( <var class="Arg">m</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AsMealyElement</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: A Mealy element isomorphic to <var class="Arg">m</var>.</p>
 
 <p>This function constructs a Mealy element, which induces the same tree automorphism as the FR element <var class="Arg">m</var>.</p>
@@ -749,8 +750,8 @@ gap&gt;
 
 <h5>5.2-21 AsIntMealyMachine</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AsIntMealyMachine</code>( <var class="Arg">m</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AsIntMealyElement</code>( <var class="Arg">m</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AsIntMealyMachine</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AsIntMealyElement</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: A Mealy machine in integer format, isomorphic to <var class="Arg">m</var>.</p>
 
 <p>This function constructs a Mealy machine <code class="code">r</code>, which has similar behaviour as <var class="Arg">m</var> while having stateset <code class="code">[1..n]</code> for some natural <code class="code">n</code>. Most <strong class="pkg">FR</strong> commands operate efficiently only on Mealy machines of this type.</p>
@@ -783,7 +784,7 @@ gap&gt;
 
 <h5>5.2-22 TopElement</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TopElement</code>( <var class="Arg">p</var>[, <var class="Arg">n</var>] )</td><td class="tdright">( attribute )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TopElement</code>( <var class="Arg">p</var>[, <var class="Arg">n</var>] )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: A Mealy machine in integer format, acting on the first symbol of sequences.</p>
 
 <p>This function constructs a Mealy machine <code class="code">r</code>, which acts as <var class="Arg">p</var> on the first letter of sequences and fixes the other letters. The argument <var class="Arg">n</var> is the size of the alphabet of <code class="code">r</code>; if it is ommitted, then it is assumed to be the degree of the transformation <var class="Arg">p</var>, or the largest moved point of the permutation or trans <var class="Arg">p</var>.</p>
@@ -804,8 +805,8 @@ false
 
 <h5>5.2-23 ConfinalityClasses</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ConfinalityClasses</code>( <var class="Arg">e</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsWeaklyFinitaryFRElement</code>( <var class="Arg">e</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ConfinalityClasses</code>( <var class="Arg">e</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsWeaklyFinitaryFRElement</code>( <var class="Arg">e</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: A list describing the non-trivial confinality classes of <var class="Arg">e</var>.</p>
 
 <p>If <var class="Arg">e</var> is a bounded element (see <code class="func">IsBoundedFRElement</code> (<a href="chap5.html#X82F4410E85C54C7E"><span class="RefLink">5.2-12</span></a>)), there are finitely many infinite sequences that have confinality class larger that one; i.e. ultimately periodic sequences that are mapped by <var class="Arg">e</var> to a sequence with different period. This function returns a list of equivalence classes of periodic lists, see <code class="func">PeriodicList</code> (<a href="chap11.html#X7B401DFE817D3927"><span class="RefLink">11.2-2</span></a>), which are related under <var class="Arg">e</var>.</p>
@@ -831,8 +832,8 @@ true
 
 <h5>5.2-24 Germs</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Germs</code>( <var class="Arg">e</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NormOfBoundedFRElement</code>( <var class="Arg">e</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Germs</code>( <var class="Arg">e</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NormOfBoundedFRElement</code>( <var class="Arg">e</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: The germs of the bounded element <var class="Arg">e</var>.</p>
 
 <p>The <em>germs</em> of a bounded element are the finitely many ultimately periodic sequences on which the state of <var class="Arg">e</var> does not vanish. This function returns the germs of <var class="Arg">e</var>, as a list of pairs; the first entry is a ray described as a periodic sequence of integers (see <code class="func">PeriodicList</code> (<a href="chap11.html#X7B401DFE817D3927"><span class="RefLink">11.2-2</span></a>)), and the second entry is the periodic sequence of states that appear along that ray.</p>
@@ -863,7 +864,7 @@ Initial state: a
 
 <h5>5.2-25 HasOpenSetConditionFRElement</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; HasOpenSetConditionFRElement</code>( <var class="Arg">e</var> )</td><td class="tdright">( property )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; HasOpenSetConditionFRElement</code>( <var class="Arg">e</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">e</var> has the open set condition.</p>
 
 <p>An FR element <var class="Arg">e</var> has the <em>open set condition</em> if for every infinite ray in the tree which is fixed by <var class="Arg">e</var>, there is an open set around that ray which is also fixed by <var class="Arg">e</var>. This function tests for <var class="Arg">e</var> to have the open set condition. It currently is implemented only for bounded elements.</p>
@@ -880,7 +881,7 @@ false
 
 <h5>5.2-26 LimitFRMachine</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; LimitFRMachine</code>( <var class="Arg">m</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; LimitFRMachine</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: The submachine of <var class="Arg">m</var> on all recurrent states.</p>
 
 <p>This command creates a new Mealy machine, with stateset the limit states of <var class="Arg">m</var>.</p>
@@ -913,7 +914,7 @@ false
 
 <h5>5.2-27 NucleusMachine</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NucleusMachine</code>( <var class="Arg">m</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NucleusMachine</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: The nucleus of <var class="Arg">m</var>.</p>
 
 <p>This command creates a new Mealy machine <code class="code">n</code>, with stateset the nucleus (see <code class="func">NucleusOfFRMachine</code> (<a href="chap4.html#X829A87E087F15194"><span class="RefLink">4.2-13</span></a>)) of <var class="Arg">m</var>.</p>
@@ -947,7 +948,7 @@ false
 
 <h5>5.2-28 GuessMealyElement</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GuessMealyElement</code>( <var class="Arg">p</var>, <var class="Arg">d</var>, <var class="Arg">n</var> )</td><td class="tdright">( operation )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GuessMealyElement</code>( <var class="Arg">p</var>, <var class="Arg">d</var>, <var class="Arg">n</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: A Mealy element that probably has the same activity as <var class="Arg">p</var>.</p>
 
 <p>This function receives a permutation or transformation <var class="Arg">p</var>, a degree <var class="Arg">d</var> and a level <var class="Arg">n</var>, and attempts to find a Mealy element on the alphabet <code class="code">[1..d]</code> whose activity on level <var class="Arg">n</var> is <var class="Arg">p</var>.</p>

@@ -57,8 +57,8 @@
   
   [1X5.1-1 MealyMachine[101X
   
-  [29X[2XMealyMachine[102X( [[3Xalphabet[103X, ][3Xtransitions[103X, [3Xoutput[103X ) [32X operation
-  [29X[2XMealyElement[102X( [[3Xalphabet[103X, ][3Xtransitions[103X, [3Xoutput[103X, [3Xinit[103X ) [32X operation
+  [33X[1;0Y[29X[2XMealyMachine[102X( [[3Xalphabet[103X, ][3Xtransitions[103X, [3Xoutput[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XMealyElement[102X( [[3Xalphabet[103X, ][3Xtransitions[103X, [3Xoutput[103X, [3Xinit[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YA new Mealy machine/element.[133X
   
   [33X[0;0YThis function constructs a new Mealy machine or element, of integer type.[133X
@@ -117,8 +117,8 @@
   
   [1X5.1-2 MealyMachine[101X
   
-  [29X[2XMealyMachine[102X( [3Xstateset[103X, [3Xalphabet[103X, [3Xtransitions[103X, [3Xoutput[103X ) [32X operation
-  [29X[2XMealyElement[102X( [3Xstateset[103X, [3Xalphabet[103X, [3Xtransitions[103X, [3Xoutput[103X, [3Xinit[103X ) [32X operation
+  [33X[1;0Y[29X[2XMealyMachine[102X( [3Xstateset[103X, [3Xalphabet[103X, [3Xtransitions[103X, [3Xoutput[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XMealyElement[102X( [3Xstateset[103X, [3Xalphabet[103X, [3Xtransitions[103X, [3Xoutput[103X, [3Xinit[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YA new Mealy machine/element.[133X
   
   [33X[0;0YThis function constructs a new Mealy machine or element, of domain type.[133X
@@ -148,8 +148,8 @@
   
   [1X5.1-3 MealyMachineNC[101X
   
-  [29X[2XMealyMachineNC[102X( [3Xfam[103X, [3Xtransitions[103X, [3Xoutput[103X ) [32X operation
-  [29X[2XMealyElementNC[102X( [3Xfam[103X, [3Xtransitions[103X, [3Xoutput[103X, [3Xinit[103X ) [32X operation
+  [33X[1;0Y[29X[2XMealyMachineNC[102X( [3Xfam[103X, [3Xtransitions[103X, [3Xoutput[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XMealyElementNC[102X( [3Xfam[103X, [3Xtransitions[103X, [3Xoutput[103X, [3Xinit[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YA new Mealy machine/element.[133X
   
   [33X[0;0YThis function constructs a new Mealy machine or element, of integer type. No
@@ -187,7 +187,7 @@
   
   [1X5.1-4 AllMealyMachines[101X
   
-  [29X[2XAllMealyMachines[102X( [3Xm[103X, [3Xn[103X[, [3Xfilters[103X] ) [32X function
+  [33X[1;0Y[29X[2XAllMealyMachines[102X( [3Xm[103X, [3Xn[103X[, [3Xfilters[103X] ) [32X function[133X
   [6XReturns:[106X  [33X[0;10YA list of all Mealy machines with specified properties.[133X
   
   [33X[0;0YThis  function  constructs all Mealy machines with alphabet [10X[1..m][110X, stateset
@@ -241,7 +241,7 @@
   
   [1X5.2-1 Draw[101X
   
-  [29X[2XDraw[102X( [3Xm[103X[, [3Xfilename[103X] ) [32X operation
+  [33X[1;0Y[29X[2XDraw[102X( [3Xm[103X[, [3Xfilename[103X] ) [32X operation[133X
   
   [33X[0;0YThis function creates a graph description of the Mealy machine/element [3Xm[103X. If
   a  second  argument  [3Xfilename[103X is present, the graph is saved, in [9Xdot[109X format,
@@ -275,7 +275,7 @@
   
   [1X5.2-2 Minimized[101X
   
-  [29X[2XMinimized[102X( [3Xm[103X ) [32X operation
+  [33X[1;0Y[29X[2XMinimized[102X( [3Xm[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YA minimized machine equivalent to [3Xm[103X.[133X
   
   [33X[0;0YThis function contructs the minimized Mealy machine [10Xr[110X corresponding to [3Xm[103X, by
@@ -310,7 +310,7 @@
   
   [1X5.2-3 DualMachine[101X
   
-  [29X[2XDualMachine[102X( [3Xm[103X ) [32X operation
+  [33X[1;0Y[29X[2XDualMachine[102X( [3Xm[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YThe dual Mealy machine of [3Xm[103X.[133X
   
   [33X[0;0YThis  function  constructs  the  [13Xdual[113X  machine  of  [3Xm[103X, i.e. the machine with
@@ -332,7 +332,7 @@
   
   [1X5.2-4 IsReversible[101X
   
-  [29X[2XIsReversible[102X( [3Xm[103X ) [32X property
+  [33X[1;0Y[29X[2XIsReversible[102X( [3Xm[103X ) [32X property[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xm[103X is a reversible Mealy machine.[133X
   
   [33X[0;0YThis  function  tests  whether [3Xm[103X is [13Xreversible[113X, i.e. whether the [2XDualMachine[102X
@@ -346,7 +346,7 @@
   
   [1X5.2-5 IsMinimized[101X
   
-  [29X[2XIsMinimized[102X( [3Xm[103X ) [32X property
+  [33X[1;0Y[29X[2XIsMinimized[102X( [3Xm[103X ) [32X property[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xm[103X is a minimized Mealy machine.[133X
   
   [33X[0;0YThis  function tests whether [3Xm[103X is [13Xminimized[113X, i.e. whether nono of its states
@@ -368,7 +368,7 @@
   
   [1X5.2-6 AlphabetInvolution[101X
   
-  [29X[2XAlphabetInvolution[102X( [3Xm[103X ) [32X attribute
+  [33X[1;0Y[29X[2XAlphabetInvolution[102X( [3Xm[103X ) [32X attribute[133X
   [6XReturns:[106X  [33X[0;10YA list giving, for each alphabet letter, its inverse.[133X
   
   [33X[0;0YIf  [3Xm[103X is a bireversible machine, it may happen that the stateset of the dual
@@ -386,7 +386,7 @@
   
   [1X5.2-7 IsBireversible[101X
   
-  [29X[2XIsBireversible[102X( [3Xm[103X ) [32X property
+  [33X[1;0Y[29X[2XIsBireversible[102X( [3Xm[103X ) [32X property[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xm[103X is a bireversible Mealy machine.[133X
   
   [33X[0;0YThis  function  tests  whether  [3Xm[103X  is  [13Xbireversible[113X,  i.e. whether all eight
@@ -402,7 +402,7 @@
   
   [1X5.2-8 StateGrowth[101X
   
-  [29X[2XStateGrowth[102X( [3Xm[103X[, [3Xx[103X] ) [32X operation
+  [33X[1;0Y[29X[2XStateGrowth[102X( [3Xm[103X[, [3Xx[103X] ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YThe state growth of the Mealy machine or element [3Xm[103X.[133X
   
   [33X[0;0YThis  function computes, as a rational function, the power series in [3Xx[103X whose
@@ -426,9 +426,9 @@
   
   [1X5.2-9 Degree[101X
   
-  [29X[2XDegree[102X( [3Xm[103X ) [32X operation
-  [29X[2XDegreeOfFRMachine[102X( [3Xm[103X ) [32X operation
-  [29X[2XDegreeOfFRElement[102X( [3Xm[103X ) [32X operation
+  [33X[1;0Y[29X[2XDegree[102X( [3Xm[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XDegreeOfFRMachine[102X( [3Xm[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XDegreeOfFRElement[102X( [3Xm[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YThe growth degree of the Mealy machine or element [3Xm[103X.[133X
   
   [33X[0;0YThis  function computes the order of the pole at [22Xx=1[122X of [10XStateGrowth(m,x)[110X, in
@@ -452,8 +452,8 @@
   
   [1X5.2-10 IsFinitaryFRElement[101X
   
-  [29X[2XIsFinitaryFRElement[102X( [3Xe[103X ) [32X property
-  [29X[2XIsFinitaryFRMachine[102X( [3Xe[103X ) [32X property
+  [33X[1;0Y[29X[2XIsFinitaryFRElement[102X( [3Xe[103X ) [32X property[133X
+  [33X[1;0Y[29X[2XIsFinitaryFRMachine[102X( [3Xe[103X ) [32X property[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xe[103X is a finitary element.[133X
   
   [33X[0;0YThis function tests whether [3Xe[103X is a finitary element. These are by definition
@@ -479,9 +479,9 @@
   
   [1X5.2-11 Depth[101X
   
-  [29X[2XDepth[102X( [3Xm[103X ) [32X attribute
-  [29X[2XDepthOfFRMachine[102X( [3Xm[103X ) [32X attribute
-  [29X[2XDepthOfFRElement[102X( [3Xm[103X ) [32X attribute
+  [33X[1;0Y[29X[2XDepth[102X( [3Xm[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XDepthOfFRMachine[102X( [3Xm[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XDepthOfFRElement[102X( [3Xm[103X ) [32X attribute[133X
   [6XReturns:[106X  [33X[0;10YThe depth of the finitary Mealy machine or element [3Xm[103X.[133X
   
   [33X[0;0YThis  function  computes the maximal level at which the [3Xm[103X has an non-trivial
@@ -500,8 +500,8 @@
   
   [1X5.2-12 IsBoundedFRElement[101X
   
-  [29X[2XIsBoundedFRElement[102X( [3Xe[103X ) [32X property
-  [29X[2XIsBoundedFRMachine[102X( [3Xe[103X ) [32X property
+  [33X[1;0Y[29X[2XIsBoundedFRElement[102X( [3Xe[103X ) [32X property[133X
+  [33X[1;0Y[29X[2XIsBoundedFRMachine[102X( [3Xe[103X ) [32X property[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xe[103X is a finitary element.[133X
   
   [33X[0;0YThis  function tests whether [3Xe[103X is a bounded element. These are by definition
@@ -527,8 +527,8 @@
   
   [1X5.2-13 IsPolynomialGrowthFRElement[101X
   
-  [29X[2XIsPolynomialGrowthFRElement[102X( [3Xe[103X ) [32X property
-  [29X[2XIsPolynomialGrowthFRMachine[102X( [3Xe[103X ) [32X property
+  [33X[1;0Y[29X[2XIsPolynomialGrowthFRElement[102X( [3Xe[103X ) [32X property[133X
+  [33X[1;0Y[29X[2XIsPolynomialGrowthFRMachine[102X( [3Xe[103X ) [32X property[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xe[103X is an element of polynomial growth.[133X
   
   [33X[0;0YThis  function  tests  whether  [3Xe[103X  is  a  polynomial  element.  These are by
@@ -554,7 +554,7 @@
   
   [1X5.2-14 Signatures[101X
   
-  [29X[2XSignatures[102X( [3Xe[103X ) [32X operation
+  [33X[1;0Y[29X[2XSignatures[102X( [3Xe[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YA list describing the product of the activities on each level.[133X
   
   [33X[0;0YThis function computes the product of the activities of [3Xe[103X on each level, and
@@ -576,8 +576,8 @@
   
   [1X5.2-15 VertexTransformationsFRMachine[101X
   
-  [29X[2XVertexTransformationsFRMachine[102X( [3Xm[103X ) [32X operation
-  [29X[2XVertexTransformationsFRElement[102X( [3Xe[103X ) [32X operation
+  [33X[1;0Y[29X[2XVertexTransformationsFRMachine[102X( [3Xm[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XVertexTransformationsFRElement[102X( [3Xe[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YThe group/monoid generated by all vertex transformations of states
             of [3Xm[103X.[133X
   
@@ -596,7 +596,7 @@
   
   [1X5.2-16 FixedRay[101X
   
-  [29X[2XFixedRay[102X( [3Xe[103X ) [32X operation
+  [33X[1;0Y[29X[2XFixedRay[102X( [3Xe[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YThe lexicographically first ray fixed by [3Xe[103X.[133X
   
   [33X[0;0YThis function computes the lexicographically first infinite sequence that is
@@ -616,7 +616,7 @@
   
   [1X5.2-17 IsLevelTransitive[101X
   
-  [29X[2XIsLevelTransitive[102X( [3Xe[103X ) [32X property
+  [33X[1;0Y[29X[2XIsLevelTransitive[102X( [3Xe[103X ) [32X property[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xe[103X acts transitively on each level of the tree.[133X
   
   [33X[0;0YThis  function  tests whether [3Xe[103X acts transitively on each level of the tree.
@@ -642,7 +642,7 @@
   
   [1X5.2-18 AsMealyMachine[101X
   
-  [29X[2XAsMealyMachine[102X( [3Xm[103X ) [32X attribute
+  [33X[1;0Y[29X[2XAsMealyMachine[102X( [3Xm[103X ) [32X attribute[133X
   [6XReturns:[106X  [33X[0;10YA Mealy machine isomorphic to [3Xm[103X.[133X
   
   [33X[0;0YThis function constructs a Mealy machine [10Xr[110X, which is as close as possible to
@@ -684,7 +684,7 @@
   
   [1X5.2-19 AsMealyMachine[101X
   
-  [29X[2XAsMealyMachine[102X( [3Xl[103X ) [32X attribute
+  [33X[1;0Y[29X[2XAsMealyMachine[102X( [3Xl[103X ) [32X attribute[133X
   [6XReturns:[106X  [33X[0;10YA Mealy machine constructed out of the FR elements in [3Xl[103X.[133X
   
   [33X[0;0YThis  function  constructs a Mealy machine [10Xr[110X, with states [3Xl[103X (which must be a
@@ -715,7 +715,7 @@
   
   [1X5.2-20 AsMealyElement[101X
   
-  [29X[2XAsMealyElement[102X( [3Xm[103X ) [32X attribute
+  [33X[1;0Y[29X[2XAsMealyElement[102X( [3Xm[103X ) [32X attribute[133X
   [6XReturns:[106X  [33X[0;10YA Mealy element isomorphic to [3Xm[103X.[133X
   
   [33X[0;0YThis  function  constructs  a  Mealy  element,  which  induces the same tree
@@ -740,8 +740,8 @@
   
   [1X5.2-21 AsIntMealyMachine[101X
   
-  [29X[2XAsIntMealyMachine[102X( [3Xm[103X ) [32X attribute
-  [29X[2XAsIntMealyElement[102X( [3Xm[103X ) [32X attribute
+  [33X[1;0Y[29X[2XAsIntMealyMachine[102X( [3Xm[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XAsIntMealyElement[102X( [3Xm[103X ) [32X attribute[133X
   [6XReturns:[106X  [33X[0;10YA Mealy machine in integer format, isomorphic to [3Xm[103X.[133X
   
   [33X[0;0YThis function constructs a Mealy machine [10Xr[110X, which has similar behaviour as [3Xm[103X
@@ -774,7 +774,7 @@
   
   [1X5.2-22 TopElement[101X
   
-  [29X[2XTopElement[102X( [3Xp[103X[, [3Xn[103X] ) [32X attribute
+  [33X[1;0Y[29X[2XTopElement[102X( [3Xp[103X[, [3Xn[103X] ) [32X attribute[133X
   [6XReturns:[106X  [33X[0;10YA  Mealy  machine in integer format, acting on the first symbol of
             sequences.[133X
   
@@ -797,8 +797,8 @@
   
   [1X5.2-23 ConfinalityClasses[101X
   
-  [29X[2XConfinalityClasses[102X( [3Xe[103X ) [32X attribute
-  [29X[2XIsWeaklyFinitaryFRElement[102X( [3Xe[103X ) [32X attribute
+  [33X[1;0Y[29X[2XConfinalityClasses[102X( [3Xe[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XIsWeaklyFinitaryFRElement[102X( [3Xe[103X ) [32X attribute[133X
   [6XReturns:[106X  [33X[0;10YA list describing the non-trivial confinality classes of [3Xe[103X.[133X
   
   [33X[0;0YIf  [3Xe[103X  is  a  bounded  element  (see [2XIsBoundedFRElement[102X ([14X5.2-12[114X)), there are
@@ -826,8 +826,8 @@
   
   [1X5.2-24 Germs[101X
   
-  [29X[2XGerms[102X( [3Xe[103X ) [32X attribute
-  [29X[2XNormOfBoundedFRElement[102X( [3Xe[103X ) [32X attribute
+  [33X[1;0Y[29X[2XGerms[102X( [3Xe[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XNormOfBoundedFRElement[102X( [3Xe[103X ) [32X attribute[133X
   [6XReturns:[106X  [33X[0;10YThe germs of the bounded element [3Xe[103X.[133X
   
   [33X[0;0YThe  [13Xgerms[113X  of  a  bounded element are the finitely many ultimately periodic
@@ -859,7 +859,7 @@
   
   [1X5.2-25 HasOpenSetConditionFRElement[101X
   
-  [29X[2XHasOpenSetConditionFRElement[102X( [3Xe[103X ) [32X property
+  [33X[1;0Y[29X[2XHasOpenSetConditionFRElement[102X( [3Xe[103X ) [32X property[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xe[103X has the open set condition.[133X
   
   [33X[0;0YAn  FR element [3Xe[103X has the [13Xopen set condition[113X if for every infinite ray in the
@@ -876,7 +876,7 @@
   
   [1X5.2-26 LimitFRMachine[101X
   
-  [29X[2XLimitFRMachine[102X( [3Xm[103X ) [32X attribute
+  [33X[1;0Y[29X[2XLimitFRMachine[102X( [3Xm[103X ) [32X attribute[133X
   [6XReturns:[106X  [33X[0;10YThe submachine of [3Xm[103X on all recurrent states.[133X
   
   [33X[0;0YThis  command creates a new Mealy machine, with stateset the limit states of
@@ -907,7 +907,7 @@
   
   [1X5.2-27 NucleusMachine[101X
   
-  [29X[2XNucleusMachine[102X( [3Xm[103X ) [32X attribute
+  [33X[1;0Y[29X[2XNucleusMachine[102X( [3Xm[103X ) [32X attribute[133X
   [6XReturns:[106X  [33X[0;10YThe nucleus of [3Xm[103X.[133X
   
   [33X[0;0YThis  command  creates a new Mealy machine [10Xn[110X, with stateset the nucleus (see
@@ -944,7 +944,7 @@
   
   [1X5.2-28 GuessMealyElement[101X
   
-  [29X[2XGuessMealyElement[102X( [3Xp[103X, [3Xd[103X, [3Xn[103X ) [32X operation
+  [33X[1;0Y[29X[2XGuessMealyElement[102X( [3Xp[103X, [3Xd[103X, [3Xn[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YA Mealy element that probably has the same activity as [3Xp[103X.[133X
   
   [33X[0;0YThis  function  receives a permutation or transformation [3Xp[103X, a degree [3Xd[103X and a

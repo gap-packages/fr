@@ -19,6 +19,7 @@
 
 <div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap9.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap11.html">[Next Chapter]</a>&nbsp;  </div>
 
+<p id="mathjaxlink" class="pcenter"></p>
 <p><a id="X86D6616E868AF75C" name="X86D6616E868AF75C"></a></p>
 <div class="ChapSects"><a href="chap10.html#X86D6616E868AF75C">10 <span class="Heading">FR implementation details</span></a>
 <div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap10.html#X79719CD17A948933">10.1 <span class="Heading">The family of FR objects</span></a>
@@ -30,7 +31,7 @@
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X793E0E1283BE7C73">10.1-4 AsPermutation</a></span>
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X7B41902D87A48EDB">10.1-5 AsTransformation</a></span>
 </div></div>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap10.html#X82283B4D85CF3EC6">10.2 <span class="Heading">Filters for <code class="code">FRObject</code>s</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap10.html#X856A3AD87C93FC1F">10.2 <span class="Heading">Filters for <code class="code">FRObject</code>s</span></a>
 </span>
 <div class="ContSSBlock">
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X7CC0BFD67CE7060E">10.2-1 IsGroupFRMachine</a></span>
@@ -95,7 +96,7 @@
 
 <h5>10.1-1 FRMFamily</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FRMFamily</code>( <var class="Arg">obj</var> )</td><td class="tdright">( operation )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FRMFamily</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: the family of FR machines on alphabet <var class="Arg">obj</var>.</p>
 
 <p>The family of an FR object is the arity of the tree on which elements cat act; in other words, there is one family for each alphabet.</p>
@@ -104,7 +105,7 @@
 
 <h5>10.1-2 FREFamily</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FREFamily</code>( <var class="Arg">obj</var> )</td><td class="tdright">( operation )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FREFamily</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: the family of FR elements on alphabet <var class="Arg">obj</var>.</p>
 
 <p>The family of an FR object is the arity of the tree on which elements cat act; in other words, there is one family for each alphabet.</p>
@@ -115,10 +116,10 @@
 
 <h5>10.1-3 AlphabetOfFRObject</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AlphabetOfFRObject</code>( <var class="Arg">obj</var> )</td><td class="tdright">( operation )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AlphabetOfFRAlgebra</code>( <var class="Arg">obj</var> )</td><td class="tdright">( operation )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AlphabetOfFRSemigroup</code>( <var class="Arg">obj</var> )</td><td class="tdright">( operation )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Alphabet</code>( <var class="Arg">obj</var> )</td><td class="tdright">( operation )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AlphabetOfFRObject</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AlphabetOfFRAlgebra</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AlphabetOfFRSemigroup</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Alphabet</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: the alphabet associated with <var class="Arg">obj</var>.</p>
 
 <p>This command applies to the family of any FR object, or to the object themselves. Alphabets are returned as lists, and in pratice are generally of the form <code class="code">[1..n]</code>.</p>
@@ -127,7 +128,7 @@
 
 <h5>10.1-4 AsPermutation</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AsPermutation</code>( <var class="Arg">o</var> )</td><td class="tdright">( method )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AsPermutation</code>( <var class="Arg">o</var> )</td><td class="tdright">(&nbsp;method&nbsp;)</td></tr></table></div>
 <p>This method takes as argument an FR object <var class="Arg">o</var>: machine, element, or group, and produces an equivalent object whose outputs are permutations. In particular, it converts Mealy machines from domain representation to int representation.</p>
 
 <p>If this is not possible, the method returns <code class="keyw">fail</code>.</p>
@@ -136,12 +137,12 @@
 
 <h5>10.1-5 AsTransformation</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AsTransformation</code>( <var class="Arg">o</var> )</td><td class="tdright">( method )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AsTransformation</code>( <var class="Arg">o</var> )</td><td class="tdright">(&nbsp;method&nbsp;)</td></tr></table></div>
 <p>This method takes as argument an FR object <var class="Arg">o</var>: machine, element, or group, and produces an equivalent object whose outputs are transformations. In particular, it converts Mealy machines from domain representation to int representation.</p>
 
 <p>Since transformations can never be inverted by <strong class="pkg">GAP</strong>, even when they are invertible, this function returns a monoid when applied to a full SC group.</p>
 
-<p><a id="X82283B4D85CF3EC6" name="X82283B4D85CF3EC6"></a></p>
+<p><a id="X856A3AD87C93FC1F" name="X856A3AD87C93FC1F"></a></p>
 
 <h4>10.2 <span class="Heading">Filters for <code class="code">FRObject</code>s</span></h4>
 
@@ -149,9 +150,9 @@
 
 <h5>10.2-1 IsGroupFRMachine</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsGroupFRMachine</code>( <var class="Arg">obj</var> )</td><td class="tdright">( property )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsMonoidFRMachine</code>( <var class="Arg">obj</var> )</td><td class="tdright">( property )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsSemigroupFRMachine</code>( <var class="Arg">obj</var> )</td><td class="tdright">( property )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsGroupFRMachine</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsMonoidFRMachine</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsSemigroupFRMachine</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">obj</var> is an FR machine whose stateset is a free group/monoid/semigroup.</p>
 
 <p>This function is the acceptor for those functionally recursive machines whose stateset (accessible via <code class="func">StateSet</code> (<a href="chap3.html#X8000470D7DA7FFBD"><span class="RefLink">3.4-1</span></a>)) is a free group, monoid or semigroup. The generating set of its stateset is accessible via <code class="func">GeneratorsOfFRMachine</code> (<a href="chap3.html#X7F77F5DD789FA2F4"><span class="RefLink">3.4-2</span></a>).</p>
@@ -160,7 +161,7 @@
 
 <h5>10.2-2 IsFRMachineStrRep</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFRMachineStrRep</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFRMachineStrRep</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">obj</var> is a standard (group,monoid,semigroup) FR machine.</p>
 
 <p>There is a free object <code class="code">free</code>, of rank <span class="SimpleMath">N</span>, a list <code class="code">transitions</code> of length <span class="SimpleMath">N</span>, each entry a list, indexed by the alphabet, of elements of <code class="code">free</code>, and a list <code class="code">output</code> of length <code class="code">N</code> of transformations or permutations of the alphabet.</p>
@@ -169,7 +170,7 @@
 
 <h5>10.2-3 IsMealyMachine</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsMealyMachine</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsMealyMachine</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">obj</var> is a Mealy machine.</p>
 
 <p>This function is the acceptor for the <em>Mealy machine</em> subcategory of <em>FR machine</em>s.</p>
@@ -178,7 +179,7 @@
 
 <h5>10.2-4 IsMealyElement</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsMealyElement</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsMealyElement</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">obj</var> is a Mealy element.</p>
 
 <p>This function is the acceptor for the <em>Mealy element</em> subcategory of <em>FR element</em>s.</p>
@@ -187,7 +188,7 @@
 
 <h5>10.2-5 IsMealyMachineIntRep</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsMealyMachineIntRep</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsMealyMachineIntRep</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">obj</var> is a Mealy machine in integer representation.</p>
 
 <p>A Mealy machine in <em>integer</em> representation has components <code class="code">nrstates</code>, <code class="code">transitions</code>, <code class="code">output</code> and optionally <code class="code">initial</code>.</p>
@@ -198,7 +199,7 @@
 
 <h5>10.2-6 IsMealyMachineDomainRep</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsMealyMachineDomainRep</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsMealyMachineDomainRep</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">obj</var> is a Mealy machine in domain representation.</p>
 
 <p>A Mealy machine in <em>domain</em> representation has components <code class="code">states</code>, <code class="code">transitions</code>, <code class="code">output</code> and optionally <code class="code">initial</code>.</p>
@@ -209,7 +210,7 @@
 
 <h5>10.2-7 IsVectorFRMachineRep</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsVectorFRMachineRep</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsVectorFRMachineRep</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">obj</var> is a vector machine</p>
 
 <p>A <em>vector machine</em> is a representation of a linear machine by a finite-dimensional vector space (implicit in the structure), a transition tensor (represented as a matrix of matrices), and an output vector (represented as a list).</p>
@@ -218,7 +219,7 @@
 
 <h5>10.2-8 IsAlgebraFRMachineRep</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsAlgebraFRMachineRep</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsAlgebraFRMachineRep</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">obj</var> is an algebra machine</p>
 
 <p>An <em>algebra machine</em> is a representation of a linear machine by a finitely generated free algebra, a tensor of transitions, indexed by generator index and two alphabet indices, and an output vector, indexed by a generator index.</p>
@@ -229,7 +230,7 @@
 
 <h5>10.2-9 IsLinearFRMachine</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsLinearFRMachine</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsLinearFRMachine</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">obj</var> is a linear machine.</p>
 
 <p>This function is the acceptor for the <em>linear machine</em> subcategory of <em>FR machine</em>s.</p>
@@ -238,7 +239,7 @@
 
 <h5>10.2-10 IsLinearFRElement</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsLinearFRElement</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsLinearFRElement</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">obj</var> is a linear element.</p>
 
 <p>This function is the acceptor for the <em>linear element</em> subcategory of <em>FR element</em>s.</p>
@@ -247,10 +248,10 @@
 
 <h5>10.2-11 IsFRElement</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFRElement</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsSemigroupFRElement</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsMonoidFRElement</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsGroupFRElement</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFRElement</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsSemigroupFRElement</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsMonoidFRElement</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsGroupFRElement</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">obj</var> is an FR element.</p>
 
 <p>This filter is the acceptor for the <em>functionally recursive element</em> category.</p>
@@ -263,11 +264,11 @@
 
 <h5>10.2-12 IsFRMealyElement</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFRMealyElement</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsSemigroupFRMealyElement</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsMonoidFRMealyElement</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsGroupFRMealyElement</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; UnderlyingMealyElement</code>( <var class="Arg">obj</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFRMealyElement</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsSemigroupFRMealyElement</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsMonoidFRMealyElement</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsGroupFRMealyElement</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; UnderlyingMealyElement</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">obj</var> is an FR element.</p>
 
 <p>This filter is the acceptor for the <em>functionally recursive element</em> category, with an additional Mealy element stored as attribute for faster calculations. It defines a subcategory of <code class="func">IsFRElement</code> (<a href="chap10.html#X7966F9B982B1DFE1"><span class="RefLink">10.2-11</span></a>). This additional Mealy element may be obtained as <code class="code">UnderlyingMealyElement(obj)</code>.</p>
@@ -278,7 +279,7 @@
 
 <h5>10.2-13 IsFRObject</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFRObject</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFRObject</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">obj</var> is an FR machine or element.</p>
 
 <p>This function is the acceptor for the most general FR category (which splits up as <code class="func">IsFRMachine</code> (<a href="chap10.html#X7C22A1A28058F754"><span class="RefLink">10.2-14</span></a>) and <code class="func">IsFRElement</code> (<a href="chap10.html#X7966F9B982B1DFE1"><span class="RefLink">10.2-11</span></a>)).</p>
@@ -289,7 +290,7 @@
 
 <h5>10.2-14 IsFRMachine</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFRMachine</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFRMachine</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">obj</var> is an FR machine.</p>
 
 <p>This function is the acceptor for the <em>functionally recursive machine</em> category. It splits up as <code class="func">IsGroupFRMachine</code> (<a href="chap10.html#X7CC0BFD67CE7060E"><span class="RefLink">10.2-1</span></a>), <code class="func">IsSemigroupFRMachine</code> (<a href="chap10.html#X7CC0BFD67CE7060E"><span class="RefLink">10.2-1</span></a>), <code class="func">IsMonoidFRMachine</code> (<a href="chap10.html#X7CC0BFD67CE7060E"><span class="RefLink">10.2-1</span></a>) and <code class="func">IsMealyMachine</code> (<a href="chap10.html#X79C2395A7D65214B"><span class="RefLink">10.2-3</span></a>)).</p>
@@ -300,7 +301,7 @@
 
 <h5>10.2-15 IsInvertible</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsInvertible</code>( <var class="Arg">m</var> )</td><td class="tdright">( property )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsInvertible</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">m</var> is an invertible FR machine.</p>
 
 <p>This function accepts invertible FR machines, i.e. machines <var class="Arg">m</var> such that <span class="SimpleMath">(m,q)</span> is an invertible transformation of the alphabet for all <span class="SimpleMath">q</span> in the stateset of <var class="Arg">m</var>.</p>
@@ -321,9 +322,9 @@ false
 
 <h5>10.2-16 IsFRGroup</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFRGroup</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFRMonoid</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFRSemigroup</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFRGroup</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFRMonoid</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFRSemigroup</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">obj</var> is a FR group/monoid/semigroup.</p>
 
 <p>These functions accept <em>self-similar groups/monoids/semigroups</em>, i.e. groups/monoids/semigroups whose elements are FR elements.</p>
@@ -332,8 +333,8 @@ false
 
 <h5>10.2-17 IsFRAlgebra</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFRAlgebra</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFRAlgebraWithOne</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFRAlgebra</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFRAlgebraWithOne</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">obj</var> is a FR algebra [with one].</p>
 
 <p>These functions accept <em>self-similar algebras [with one]</em>, i.e. algebras whose elements are linear FR elements.</p>
@@ -348,7 +349,7 @@ false
 
 <h5>10.3-1 FRMachineRWS</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FRMachineRWS</code>( <var class="Arg">m</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FRMachineRWS</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: A record containing a rewriting system for <var class="Arg">m</var>.</p>
 
 <p>Elements of an FR machine are compared using a rewriting system, which records all known relations among states of the machine.</p>
@@ -409,7 +410,7 @@ rec( rws := Knuth Bendix Rewriting System for Monoid( [ a^-1, a, b^-1, b
 
 <h5>10.3-5 OrbitSignalizer</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OrbitSignalizer</code>( <var class="Arg">g</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OrbitSignalizer</code>( <var class="Arg">g</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: The Orbit Signalizer of the group element <var class="Arg">g</var></p>
 
 <p>This attribute computes the orbit signalizer of an element. This is the set <span class="SimpleMath">OS(g) := {g^|Orb_g(v)|@v ∣ v ∈ X^*}</span> where <span class="SimpleMath">X</span> is the alphabet of the element <var class="Arg">g</var> and <span class="SimpleMath">Orb_g(v)</span> is the orbit of <span class="SimpleMath">v</span> under <span class="SimpleMath">⟨ g ⟩</span>.</p>
@@ -428,7 +429,7 @@ rec( rws := Knuth Bendix Rewriting System for Monoid( [ a^-1, a, b^-1, b
 
 <h5>10.3-6 FRConjugacyAlgorithm</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FRConjugacyAlgorithm</code>( <var class="Arg">G</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FRConjugacyAlgorithm</code>( <var class="Arg">G</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: A function which solves the conjugacy problem for <var class="Arg">G</var></p>
 
 <p>This attribute stores a function in three arguments which computes a representative conjugator if exists or fail otherwise.</p>
@@ -451,7 +452,7 @@ function( G, g, h ) ... end
 
 <h5>10.3-7 FRBranchGroupConjugacyData</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FRBranchGroupConjugacyData</code>( <var class="Arg">G</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FRBranchGroupConjugacyData</code>( <var class="Arg">G</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: The initial data for the branch algorithm for <var class="Arg">G</var></p>
 
 <p>This attribute records the data for the branch algorithm. The record has the following components:</p>
@@ -486,7 +487,7 @@ function( G, g, h ) ... end
 <h5>10.3-9 <span class="Heading">Images and preimages of some groups in
   f.p. and l.p. groups</span></h5>
 
-<p>Contracting, branched groups admit finite L-presentations (see <a href="chapBib.html#biBMR2009317">[Bar03b]</a>), that is, presentations by finitely many generators, relators and endomorphisms; the (usual) relators are the images of the given relators under iteration by all endomorphisms.</p>
+<p>Contracting, branched groups admit finite L-presentations (see <a href="chapBib.html#biBMR2009317">[Bar03a]</a>), that is, presentations by finitely many generators, relators and endomorphisms; the (usual) relators are the images of the given relators under iteration by all endomorphisms.</p>
 
 <p>Using the package <strong class="pkg">NQL</strong>, it is possible to construct infinite nilpotent quotients of self-similar groups, and perform fast computations in them.</p>
 

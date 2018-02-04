@@ -10,12 +10,12 @@
   
   [1X9.1-1 FullBinaryGroup[101X
   
-  [29X[2XFullBinaryGroup[102X[32X global variable
-  [29X[2XFiniteDepthBinaryGroup[102X( [3Xl[103X ) [32X function
-  [29X[2XFinitaryBinaryGroup[102X[32X global variable
-  [29X[2XBoundedBinaryGroup[102X[32X global variable
-  [29X[2XPolynomialGrowthBinaryGroup[102X[32X global variable
-  [29X[2XFiniteStateBinaryGroup[102X[32X global variable
+  [33X[1;0Y[29X[2XFullBinaryGroup[102X[32X global variable[133X
+  [33X[1;0Y[29X[2XFiniteDepthBinaryGroup[102X( [3Xl[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XFinitaryBinaryGroup[102X[32X global variable[133X
+  [33X[1;0Y[29X[2XBoundedBinaryGroup[102X[32X global variable[133X
+  [33X[1;0Y[29X[2XPolynomialGrowthBinaryGroup[102X[32X global variable[133X
+  [33X[1;0Y[29X[2XFiniteStateBinaryGroup[102X[32X global variable[133X
   
   [33X[0;0YThese   are  the  finitary,  bounded,  polynomial-growth,  finite-state,  or
   unrestricted  groups  acting  on  the  binary  tree.  They  are respectively
@@ -29,8 +29,8 @@
   
   [1X9.1-2 BinaryKneadingGroup[101X
   
-  [29X[2XBinaryKneadingGroup[102X( [3Xangle/ks[103X ) [32X function
-  [29X[2XBinaryKneadingMachine[102X( [3Xangle/ks[103X ) [32X function
+  [33X[1;0Y[29X[2XBinaryKneadingGroup[102X( [3Xangle/ks[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XBinaryKneadingMachine[102X( [3Xangle/ks[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10YThe  [machine  generating  the]  iterated  monodromy  group  of  a
             quadratic polynomial.[133X
   
@@ -78,11 +78,11 @@
   
   [1X9.1-3 BasilicaGroup[101X
   
-  [29X[2XBasilicaGroup[102X[32X global variable
+  [33X[1;0Y[29X[2XBasilicaGroup[102X[32X global variable[133X
   
   [33X[0;0YThe  [13XBasilica  group[113X. This is a shortcut for [10XBinaryKneadingGroup("1")[110X. It is
   the  first-discovered  amenable group that is not subexponentially amenable,
-  see [BV05] and [GŻ02a].[133X
+  see [BV05] and [G{\.Z}02].[133X
   
   [4X[32X  Example  [32X[104X
     [4X[25Xgap>[125X [27XIsBoundedFRSemigroup(BasilicaGroup);[127X[104X
@@ -97,7 +97,7 @@
   
   [1X9.1-4 FornaessSibonyGroup[101X
   
-  [29X[2XFornaessSibonyGroup[102X[32X global variable
+  [33X[1;0Y[29X[2XFornaessSibonyGroup[102X[32X global variable[133X
   
   [33X[0;0YThe  [13XFornaess-Sibony  group[113X.  This  group  was  studied  by  Nekrashevych in
   [Nek08b].  It  is  the  iterated monodromy group of the endomorphism of [22XCP^2[122X
@@ -117,9 +117,9 @@
   
   [1X9.1-5 AddingGroup[101X
   
-  [29X[2XAddingGroup[102X( [3Xn[103X ) [32X function
-  [29X[2XAddingMachine[102X( [3Xn[103X ) [32X function
-  [29X[2XAddingElement[102X( [3Xn[103X ) [32X function
+  [33X[1;0Y[29X[2XAddingGroup[102X( [3Xn[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XAddingMachine[102X( [3Xn[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XAddingElement[102X( [3Xn[103X ) [32X function[133X
   
   [33X[0;0YThe  second  function  constructs the adding machine on the alphabet [10X[1..n][110X.
   This machine has a trivial state 1, and a non-trivial state 2. It implements
@@ -153,17 +153,17 @@
   
   [1X9.1-6 BinaryAddingGroup[101X
   
-  [29X[2XBinaryAddingGroup[102X[32X global variable
-  [29X[2XBinaryAddingMachine[102X[32X global variable
-  [29X[2XBinaryAddingElement[102X[32X global variable
+  [33X[1;0Y[29X[2XBinaryAddingGroup[102X[32X global variable[133X
+  [33X[1;0Y[29X[2XBinaryAddingMachine[102X[32X global variable[133X
+  [33X[1;0Y[29X[2XBinaryAddingElement[102X[32X global variable[133X
   
   [33X[0;0YThese  are  respectively  the  same  as [10XAddingGroup(2)[110X, [10XAddingMachine(2)[110X and
   [10XAddingElement(2)[110X.[133X
   
   [1X9.1-7 MixerGroup[101X
   
-  [29X[2XMixerGroup[102X( [3XA[103X, [3XB[103X, [3Xf[103X[, [3Xg[103X] ) [32X function
-  [29X[2XMixerMachine[102X( [3XA[103X, [3XB[103X, [3Xf[103X[, [3Xg[103X] ) [32X function
+  [33X[1;0Y[29X[2XMixerGroup[102X( [3XA[103X, [3XB[103X, [3Xf[103X[, [3Xg[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XMixerMachine[102X( [3XA[103X, [3XB[103X, [3Xf[103X[, [3Xg[103X] ) [32X function[133X
   [6XReturns:[106X  [33X[0;10YA Mealy "mixer" machine/group.[133X
   
   [33X[0;0YThe  second function constructs a Mealy "mixer" machine [10Xm[110X. This is a machine
@@ -182,7 +182,8 @@
   [3XA[103X.  The transitions from [10Xb[110X are periodically given by [3Xf[103X, completed by trivial
   elements, and finally by [22Xb^g[122X; the output of [10Xb[110X is trivial.[133X
   
-  [33X[0;0YThis construction is described in more detail in [BŠ01] and [BGŠ03].[133X
+  [33X[0;0YThis  construction  is  described  in  more detail in [B{\v S}01] and [BG{\v
+  S}03].[133X
   
   [33X[0;0Y[10XCorrespondence(m)[110X is a list, with in first position the subset of the states
   that  correspond  to [3XA[103X, in second position the states that correspond to the
@@ -202,8 +203,8 @@
   
   [1X9.1-8 SunicGroup[101X
   
-  [29X[2XSunicGroup[102X( [3Xphi[103X ) [32X function
-  [29X[2XSunicMachine[102X( [3Xphi[103X ) [32X function
+  [33X[1;0Y[29X[2XSunicGroup[102X( [3Xphi[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XSunicMachine[102X( [3Xphi[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10YThe Sunic machine associated with the polynomial [3Xphi[103X.[133X
   
   [33X[0;0YA  "Sunic  machine"  is a special kind of [2XMixerMachine[102X ([14X9.1-7[114X), in which the
@@ -211,7 +212,7 @@
   [22Xϕ[122X  is  a  monic polynomial; there is a map [22Xf:B-> A[122X, given say by evaluation;
   and there is an endomorphism of [22Xg:B-> B[122X given by multiplication by [22Xϕ[122X.[133X
   
-  [33X[0;0YThese  groups  were  described  in  [Šun07]. In particular, the case [22Xq=2[122X and
+  [33X[0;0YThese groups were described in [{\v S}un07]. In particular, the case [22Xq=2[122X and
   [22Xϕ=x^2+x+1[122X gives the original [2XGrigorchukGroup[102X ([14X9.1-10[114X).[133X
   
   [4X[32X  Example  [32X[104X
@@ -224,8 +225,8 @@
   
   [1X9.1-9 GrigorchukMachines[101X
   
-  [29X[2XGrigorchukMachines[102X( [3Xomega[103X ) [32X function
-  [29X[2XGrigorchukGroups[102X( [3Xomega[103X ) [32X function
+  [33X[1;0Y[29X[2XGrigorchukMachines[102X( [3Xomega[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XGrigorchukGroups[102X( [3Xomega[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10YOne of the Grigorchuk groups.[133X
   
   [33X[0;0YThis function constructs the Grigorchuk machine or group associated with the
@@ -261,8 +262,8 @@
   
   [1X9.1-10 GrigorchukMachine[101X
   
-  [29X[2XGrigorchukMachine[102X[32X global variable
-  [29X[2XGrigorchukGroup[102X[32X global variable
+  [33X[1;0Y[29X[2XGrigorchukMachine[102X[32X global variable[133X
+  [33X[1;0Y[29X[2XGrigorchukGroup[102X[32X global variable[133X
   
   [33X[0;0YThis is Grigorchuk's first group, introduced in [Gri80]. It is a 4-generated
   infinite torsion group, and has intermediate word growth. It could have been
@@ -277,7 +278,7 @@
   
   [1X9.1-11 GrigorchukOverGroup[101X
   
-  [29X[2XGrigorchukOverGroup[102X[32X global variable
+  [33X[1;0Y[29X[2XGrigorchukOverGroup[102X[32X global variable[133X
   
   [33X[0;0YThis   is   a   group   strictly   containing   the  Grigorchuk  group  (see
   [2XGrigorchukGroup[102X  ([14X9.1-10[114X)). It also has intermediate growth (see [BG02], but
@@ -296,11 +297,11 @@
   
   [33X[0;0YThe    command   [10XEpimorphismFromFpGroup(GrigorchukOverGroup,n)[110X   will   will
   construct  an  approximating  presentation  for the Grigorchuk overgroup, as
-  proven in [Bar03b].[133X
+  proven in [Bar03a].[133X
   
   [1X9.1-12 GrigorchukTwistedTwin[101X
   
-  [29X[2XGrigorchukTwistedTwin[102X[32X global variable
+  [33X[1;0Y[29X[2XGrigorchukTwistedTwin[102X[32X global variable[133X
   
   [33X[0;0YThis   is   a   group  with  same  closure  as  the  Grigorchuk  group  (see
   [2XGrigorchukGroup[102X  ([14X9.1-10[114X)),  but  not  isomorphic  to it. It could have been
@@ -318,8 +319,8 @@
   
   [1X9.1-13 BrunnerSidkiVieiraGroup[101X
   
-  [29X[2XBrunnerSidkiVieiraGroup[102X[32X global variable
-  [29X[2XBrunnerSidkiVieiraMachine[102X[32X global variable
+  [33X[1;0Y[29X[2XBrunnerSidkiVieiraGroup[102X[32X global variable[133X
+  [33X[1;0Y[29X[2XBrunnerSidkiVieiraMachine[102X[32X global variable[133X
   
   [33X[0;0YThis machine is the sum of two adding machines, one in standard form and one
   conjugated  by the element [10Xd[110X described below. The group that it generates is
@@ -340,8 +341,8 @@
   
   [1X9.1-14 AleshinGroups[101X
   
-  [29X[2XAleshinGroups[102X( [3Xl[103X ) [32X function
-  [29X[2XAleshinMachines[102X( [3Xl[103X ) [32X function
+  [33X[1;0Y[29X[2XAleshinGroups[102X( [3Xl[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XAleshinMachines[102X( [3Xl[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10YThe Aleshin machine with [10XLength(l)[110X states.[133X
   
   [33X[0;0YThis  function constructs the bireversible machines introduced by Aleshin in
@@ -361,8 +362,8 @@
   
   [1X9.1-15 AleshinGroup[101X
   
-  [29X[2XAleshinGroup[102X[32X global variable
-  [29X[2XAleshinMachine[102X[32X global variable
+  [33X[1;0Y[29X[2XAleshinGroup[102X[32X global variable[133X
+  [33X[1;0Y[29X[2XAleshinMachine[102X[32X global variable[133X
   
   [33X[0;0YThis  is  the  first  example  of  non-abelian  free  group. It is the group
   generated by [10XAleshinMachine([(1,2),(1,2),()])[110X. It could have been defined as
@@ -371,8 +372,8 @@
   
   [1X9.1-16 BabyAleshinGroup[101X
   
-  [29X[2XBabyAleshinGroup[102X[32X global variable
-  [29X[2XBabyAleshinMachine[102X[32X global variable
+  [33X[1;0Y[29X[2XBabyAleshinGroup[102X[32X global variable[133X
+  [33X[1;0Y[29X[2XBabyAleshinMachine[102X[32X global variable[133X
   
   [33X[0;0YThere are only two connected, transitive bireversible machines on a 2-letter
   alphabet, with 3 generators: [10XAleshinMachine(3)[110X and the baby Aleshin machine.[133X
@@ -394,7 +395,7 @@
   
   [1X9.1-17 SidkiFreeGroup[101X
   
-  [29X[2XSidkiFreeGroup[102X[32X global variable
+  [33X[1;0Y[29X[2XSidkiFreeGroup[102X[32X global variable[133X
   
   [33X[0;0YThis  is  a  group  suggested  by  Sidki  as  an  example  of  a non-abelian
   state-closed  free  group.  Nothing is known about that group: whether it is
@@ -403,9 +404,9 @@
   
   [1X9.1-18 GuptaSidkiGroups[101X
   
-  [29X[2XGuptaSidkiGroups[102X( [3Xn[103X ) [32X function
-  [29X[2XGeneralizedGuptaSidkiGroups[102X( [3Xn[103X ) [32X function
-  [29X[2XGuptaSidkiMachines[102X( [3Xn[103X ) [32X function
+  [33X[1;0Y[29X[2XGuptaSidkiGroups[102X( [3Xn[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XGeneralizedGuptaSidkiGroups[102X( [3Xn[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XGuptaSidkiMachines[102X( [3Xn[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10YThe Gupta-Sidki group/machine on an [3Xn[103X-letter alphabet.[133X
   
   [33X[0;0YThis  function  constructs  the  machines  introduced  by Gupta and Sidki in
@@ -424,8 +425,8 @@
   
   [1X9.1-19 GuptaSidkiGroup[101X
   
-  [29X[2XGuptaSidkiGroup[102X[32X global variable
-  [29X[2XGuptaSidkiMachine[102X[32X global variable
+  [33X[1;0Y[29X[2XGuptaSidkiGroup[102X[32X global variable[133X
+  [33X[1;0Y[29X[2XGuptaSidkiMachine[102X[32X global variable[133X
   
   [33X[0;0YThis  is  an  infinite,  2-generated,  torsion  3-group.  It could have been
   defined  as [10XFRGroup("a=(1,2,3)","t=<a,a^-1,t>")[110X, but is rather defined using
@@ -433,14 +434,14 @@
   
   [1X9.1-20 NeumannGroup[101X
   
-  [29X[2XNeumannGroup[102X( [3XP[103X ) [32X function
-  [29X[2XNeumannMachine[102X( [3XP[103X ) [32X function
+  [33X[1;0Y[29X[2XNeumannGroup[102X( [3XP[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XNeumannMachine[102X( [3XP[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10YThe Neumann group/machine on the permutation group [3XP[103X.[133X
   
   [33X[0;0YThe  first  function  constructs  the  Neumann  group  associated  with  the
   permutation  group  [3XP[103X.  These  groups  were  first considered in [Neu86]. In
   particular,  [10XNeumannGroup(PSL(3,2))[110X  is  a  group of non-uniform exponential
-  growth     (see     [Bar03a]),     and    [10XNeumannGroup(Group((1,2,3)))[110X    is
+  growth     (see     [Bar03b]),     and    [10XNeumannGroup(Group((1,2,3)))[110X    is
   [2XFabrykowskiGuptaGroup[102X ([14X9.1-21[114X).[133X
   
   [33X[0;0YThe  second  function  constructs  the  Neumann  machine  associated  to the
@@ -452,8 +453,8 @@
   
   [1X9.1-21 FabrykowskiGuptaGroup[101X
   
-  [29X[2XFabrykowskiGuptaGroup[102X[32X global variable
-  [29X[2XFabrykowskiGuptaGroups[102X( [3Xp[103X ) [32X function
+  [33X[1;0Y[29X[2XFabrykowskiGuptaGroup[102X[32X global variable[133X
+  [33X[1;0Y[29X[2XFabrykowskiGuptaGroups[102X( [3Xp[103X ) [32X function[133X
   
   [33X[0;0YThis  is  an infinite, 2-generated group of intermediate word growth. It was
   studied   in   [FG85]   and   [FG91].   It   could   have  been  defined  as
@@ -466,7 +467,7 @@
   
   [1X9.1-22 ZugadiSpinalGroup[101X
   
-  [29X[2XZugadiSpinalGroup[102X[32X global variable
+  [33X[1;0Y[29X[2XZugadiSpinalGroup[102X[32X global variable[133X
   
   [33X[0;0YThis  is an infinite, 2-generated group, which was studied in [BG02]. It has
   a  torsion-free  subgroup  of  index  3,  and  is virtually branched but not
@@ -477,8 +478,8 @@
   
   [1X9.1-23 GammaPQMachine[101X
   
-  [29X[2XGammaPQMachine[102X( [3Xp[103X, [3Xq[103X ) [32X function
-  [29X[2XGammaPQGroup[102X( [3Xp[103X, [3Xq[103X ) [32X function
+  [33X[1;0Y[29X[2XGammaPQMachine[102X( [3Xp[103X, [3Xq[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XGammaPQGroup[102X( [3Xp[103X, [3Xq[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10YThe quaternion-based machine / SC group.[133X
   
   [33X[0;0YThe  first  function  constructs a bireversible (see [2XIsBireversible[102X ([14X5.2-7[114X))
@@ -506,7 +507,7 @@
   
   [1X9.1-24 RattaggiGroup[101X
   
-  [29X[2XRattaggiGroup[102X[32X global variable
+  [33X[1;0Y[29X[2XRattaggiGroup[102X[32X global variable[133X
   
   [33X[0;0YThis record contains interesting examples of VH groups, that were studied by
   Rattaggi   in   his   PhD   thesis  [Rat04].  His  Example  2.x  appears  as
@@ -516,48 +517,48 @@
   thesis.  RF  means  "residually  finite"; JI means "just infinite"; VS means
   "virtually simple".[133X
   
-        Example │ [22XP_h[122X │  [22XP_v[122X   │ Irred? │ Linear? │ RF? │ JI? │ VS?
-        ────────┼─────┼────────┼────────┼─────────┼─────┼─────┼─  
-            2.2 │ 2tr │  2tr   │   Y    │    N    │ N?  │  Y  │ Y? 
-           2.15 │     │        │        │         │     │     │    
-           2.18 │     │        │        │         │     │     │    
-           2.21 │     │        │        │         │     │     │    
-           2.26 │ 2tr │ q-prim │   Y    │    N    │  N  │  N  │  N 
-           2.30 │ 2tr │  2tr   │   Y    │    N    │  N  │  Y  │ Y? 
-           2.36 │     │        │        │         │     │     │    
-           2.39 │     │        │        │         │     │     │    
-           2.43 │ 2tr │  2tr   │   Y    │    N    │  N  │  Y  │  Y 
-           2.46 │     │        │        │         │     │     │    
-           2.48 │     │        │        │         │     │     │    
-           2.50 │     │        │        │         │     │     │    
-           2.52 │ tr  │  2tr   │   Y    │    N    │  N  │  N  │  N 
-           2.56 │     │        │        │         │     │     │    
-           2.58 │ 2tr │  prim  │   Y    │    N    │ N?  │  N  │  N 
-           2.70 │     │        │        │         │     │     │    
-        ────────┼─────┼────────┼────────┼─────────┼─────┼─────┼─  
-           3.26 │ 2tr │  2tr   │   Y    │    Y    │  Y  │  Y  │  N 
-           3.28 │     │        │        │         │     │     │    
-           3.31 │     │        │        │         │     │     │    
-           3.33 │     │        │        │         │     │     │    
-           3.36 │     │        │        │         │     │     │    
-           3.38 │     │        │        │         │     │     │    
-           3.40 │     │        │        │         │     │     │    
-           3.44 │     │        │        │         │     │     │    
-           3.46 │     │        │        │         │     │     │    
-           3.72 │     │        │        │         │     │     │    
+        Example │ [22XP_h[122X │  [22XP_v[122X   │ Irred? │ Linear? │ RF? │ JI? │ VS?   
+        ────────┼─────┼────────┼────────┼─────────┼─────┼─────┼────  
+            2.2 │ 2tr │  2tr   │   Y    │    N    │ N?  │  Y  │ Y?    
+           2.15 │     │        │        │         │     │     │       
+           2.18 │     │        │        │         │     │     │       
+           2.21 │     │        │        │         │     │     │       
+           2.26 │ 2tr │ q-prim │   Y    │    N    │  N  │  N  │  N    
+           2.30 │ 2tr │  2tr   │   Y    │    N    │  N  │  Y  │ Y?    
+           2.36 │     │        │        │         │     │     │       
+           2.39 │     │        │        │         │     │     │       
+           2.43 │ 2tr │  2tr   │   Y    │    N    │  N  │  Y  │  Y    
+           2.46 │     │        │        │         │     │     │       
+           2.48 │     │        │        │         │     │     │       
+           2.50 │     │        │        │         │     │     │       
+           2.52 │ tr  │  2tr   │   Y    │    N    │  N  │  N  │  N    
+           2.56 │     │        │        │         │     │     │       
+           2.58 │ 2tr │  prim  │   Y    │    N    │ N?  │  N  │  N    
+           2.70 │     │        │        │         │     │     │       
+        ────────┼─────┼────────┼────────┼─────────┼─────┼─────┼────  
+           3.26 │ 2tr │  2tr   │   Y    │    Y    │  Y  │  Y  │  N    
+           3.28 │     │        │        │         │     │     │       
+           3.31 │     │        │        │         │     │     │       
+           3.33 │     │        │        │         │     │     │       
+           3.36 │     │        │        │         │     │     │       
+           3.38 │     │        │        │         │     │     │       
+           3.40 │     │        │        │         │     │     │       
+           3.44 │     │        │        │         │     │     │       
+           3.46 │     │        │        │         │     │     │       
+           3.72 │     │        │        │         │     │     │       
   
   [1X9.1-25 HanoiGroup[101X
   
-  [29X[2XHanoiGroup[102X( [3Xn[103X ) [32X function
+  [33X[1;0Y[29X[2XHanoiGroup[102X( [3Xn[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10YThe Hanoi group on an [3Xn[103X pegs.[133X
   
   [33X[0;0YThis  function constructs the Hanoi group on [3Xn[103X pegs. Generators of the group
   correspond   to   moving   a  peg,  and  tree  vertices  correspond  to  peg
-  configurations. This group is studied in [GŠ06].[133X
+  configurations. This group is studied in [G{\v S}06].[133X
   
   [1X9.1-26 DahmaniGroup[101X
   
-  [29X[2XDahmaniGroup[102X[32X global variable
+  [33X[1;0Y[29X[2XDahmaniGroup[102X[32X global variable[133X
   
   [33X[0;0YThis  is an example of a non-contracting weakly branched group. It was first
   studied     in     [Dah05].     It    could    have    been    defined    as
@@ -573,7 +574,7 @@
   
   [1X9.1-27 MamaghaniGroup[101X
   
-  [29X[2XMamaghaniGroup[102X[32X global variable
+  [33X[1;0Y[29X[2XMamaghaniGroup[102X[32X global variable[133X
   
   [33X[0;0YThis  group  was  studied in [Mam03]. It is fractal, but not contracting. It
   could              have              been             defined             as
@@ -584,7 +585,7 @@
   
   [1X9.1-28 WeierstrassGroup[101X
   
-  [29X[2XWeierstrassGroup[102X[32X global variable
+  [33X[1;0Y[29X[2XWeierstrassGroup[102X[32X global variable[133X
   
   [33X[0;0YThis  is  the  iterated  monodromy  group  associated  with  the Weierstrass
   [22X℘[122X-function.[133X
@@ -606,7 +607,7 @@
   
   [1X9.1-29 StrichartzGroup[101X
   
-  [29X[2XStrichartzGroup[102X[32X global variable
+  [33X[1;0Y[29X[2XStrichartzGroup[102X[32X global variable[133X
   
   [33X[0;0YThis group generates the graph of the Strichartz hexacarpet.[133X
   
@@ -618,11 +619,11 @@
   [33X[0;0YConjecturally,  that graph's radius is [22X1/18(2^(n+1)(13+3n)+(-1)^n-9)[122X and its
   diameter is [22X1/9(2^(n-1)(31+12n)+2(-1)^(n-1)-18)[122X.[133X
   
-  [33X[0;0YSee [BKNPPT12] for details.[133X
+  [33X[0;0YSee [BKN+12] for details.[133X
   
   [1X9.1-30 FRAffineGroup[101X
   
-  [29X[2XFRAffineGroup[102X( [3Xd[103X, [3XR[103X, [3Xu[103X[, [3Xtransversal[103X] ) [32X operation
+  [33X[1;0Y[29X[2XFRAffineGroup[102X( [3Xd[103X, [3XR[103X, [3Xu[103X[, [3Xtransversal[103X] ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10YThe [3Xd[103X-dimensional affine group over [3XR[103X.[133X
   
   [33X[0;0YThis function constructs a new FR group [10XG[110X, which is finite-index subgroup of
@@ -689,9 +690,9 @@
   
   [1X9.1-31 CayleyGroup[101X
   
-  [29X[2XCayleyGroup[102X( [3XG[103X ) [32X function
-  [29X[2XCayleyMachine[102X( [3XG[103X ) [32X function
-  [29X[2XLamplighterGroup[102X( [3XIsFRGroup[103X, [3XG[103X ) [32X method
+  [33X[1;0Y[29X[2XCayleyGroup[102X( [3XG[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XCayleyMachine[102X( [3XG[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XLamplighterGroup[102X( [3XIsFRGroup[103X, [3XG[103X ) [32X method[133X
   [6XReturns:[106X  [33X[0;10YThe Cayley machine/group of the group [3XG[103X.[133X
   
   [33X[0;0YThe  [13XCayley  machine[113X  of  a  group [3XG[103X is a machine with alphabet and stateset
@@ -737,8 +738,8 @@
   
   [1X9.2-1 I2Machine[101X
   
-  [29X[2XI2Machine[102X[32X global variable
-  [29X[2XI2Monoid[102X[32X global variable
+  [33X[1;0Y[29X[2XI2Machine[102X[32X global variable[133X
+  [33X[1;0Y[29X[2XI2Monoid[102X[32X global variable[133X
   
   [33X[0;0YThe  Mealy  machine  [22XI_2[122X,  and  the  monoid  that  it generates. This is the
   smallest  Mealy machine generating a monoid of intermediate word growth; see
@@ -748,8 +749,8 @@
   
   [1X9.2-2 I4Machine[101X
   
-  [29X[2XI4Machine[102X[32X global variable
-  [29X[2XI4Monoid[102X[32X global variable
+  [33X[1;0Y[29X[2XI4Machine[102X[32X global variable[133X
+  [33X[1;0Y[29X[2XI4Monoid[102X[32X global variable[133X
   
   [33X[0;0YThe  Mealy machine generating [22XI_4[122X, and the monoid that it generates. This is
   a  very small Mealy machine generating a monoid of intermediate word growth;
@@ -762,7 +763,7 @@
   
   [1X9.3-1 PSZAlgebra[101X
   
-  [29X[2XPSZAlgebra[102X( [3Xk[103X[, [3Xm[103X] ) [32X function
+  [33X[1;0Y[29X[2XPSZAlgebra[102X( [3Xk[103X[, [3Xm[103X] ) [32X function[133X
   
   [33X[0;0YThis function creates an associative algebra [10XA[110X, over the field [3Xk[103X of positive
   characteristic,  generated by [3Xm[103X derivations [10Xd0,...,d(m-1),v[110X. If the argument
@@ -790,7 +791,7 @@
   
   [1X9.3-2 GrigorchukThinnedAlgebra[101X
   
-  [29X[2XGrigorchukThinnedAlgebra[102X( [3Xk[103X ) [32X function
+  [33X[1;0Y[29X[2XGrigorchukThinnedAlgebra[102X( [3Xk[103X ) [32X function[133X
   
   [33X[0;0YThis  function  creates  the  associative  envelope  [10XA[110X, over the field [3Xk[103X, of
   Grigorchuk's group [2XGrigorchukGroup[102X ([14X9.1-10[114X).[133X
@@ -821,7 +822,7 @@
   
   [1X9.3-3 GuptaSidkiThinnedAlgebra[101X
   
-  [29X[2XGuptaSidkiThinnedAlgebra[102X( [3Xk[103X ) [32X function
+  [33X[1;0Y[29X[2XGuptaSidkiThinnedAlgebra[102X( [3Xk[103X ) [32X function[133X
   
   [33X[0;0YThis  function  creates  the  associative  envelope  [10XA[110X, over the field [3Xk[103X, of
   Gupta-Sidki's group [2XGuptaSidkiGroup[102X ([14X9.1-19[114X).[133X
@@ -851,14 +852,14 @@
   
   [1X9.3-4 GrigorchukLieAlgebra[101X
   
-  [29X[2XGrigorchukLieAlgebra[102X( [3Xk[103X ) [32X function
-  [29X[2XGuptaSidkiLieAlgebra[102X( [3Xk[103X ) [32X function
+  [33X[1;0Y[29X[2XGrigorchukLieAlgebra[102X( [3Xk[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XGuptaSidkiLieAlgebra[102X( [3Xk[103X ) [32X function[133X
   
   [33X[0;0YTwo more examples of self-similar Lie algebras; see [Bar10].[133X
   
   [1X9.3-5 SidkiFreeAlgebra[101X
   
-  [29X[2XSidkiFreeAlgebra[102X( [3Xk[103X ) [32X function
+  [33X[1;0Y[29X[2XSidkiFreeAlgebra[102X( [3Xk[103X ) [32X function[133X
   
   [33X[0;0YThis  is  an  example  of  a  free  2-generated associative ring over the [22XZ[122X,
   defined  by  self-similar matrices. It is due to S. Sidki. The argument is a
@@ -883,7 +884,7 @@
   
   [1X9.3-6 SidkiMonomialAlgebra[101X
   
-  [29X[2XSidkiMonomialAlgebra[102X( [3Xk[103X ) [32X function
+  [33X[1;0Y[29X[2XSidkiMonomialAlgebra[102X( [3Xk[103X ) [32X function[133X
   
   [33X[0;0YThis  is  an  example  of  a  self-similar algebra that does not come from a
   semigroup;  it  is  due  to  S.  Sidki.  The argument is a field on which to
@@ -936,9 +937,10 @@
   denote the digit-sum of the integer [22Xn[122X. Then[133X
   
   
-        [33X[1;6Y[24X[33X[0;0Y\det(P(n))=\cases{ (-1)^{n/2} & if $n$ is even,\cr
-        (-1)^{(n-1)/2+ds((n-1)/2)} & if $n$ is odd.}[133X [124X[133X
+  [24X[33X[0;6Y\det(P(n))=\cases{      (-1)^{n/2}      &     if     $n$     is     even,\cr
+  (-1)^{(n-1)/2+ds((n-1)/2)} & if $n$ is odd.}[133X
   
+  [124X
   
   [33X[0;0YFor  the  proof,  note  that  [22XP[122X  is  a convergent infinite matrix; it may be
   presented  as a self-similar linear element by [10XFRAlgebra("P=[[P,P],[P,0]]")[110X.
@@ -959,8 +961,9 @@
   s)[122X. Then[133X
   
   
-        [33X[1;6Y[24X[33X[0;0Y\det(V(n))=\det(P(n))\prod_{k=1}^{n-1}(1-f(k)i),[133X [124X[133X
+  [24X[33X[0;6Y\det(V(n))=\det(P(n))\prod_{k=1}^{n-1}(1-f(k)i),[133X
   
+  [124X
   
   [33X[0;0Ywhere  [22Xf(k)[122X  is  the  regular paper-folding sequence defined by [22Xf(2^n)=1[122X and
   [22Xf(2^n+a)=-f(2^n-a)[122X for [22X1le a<2^n[122X.[133X
@@ -1001,8 +1004,9 @@
   coefficients [22XZ_s,t=β(s+t choose s)[122X. Then[133X
   
   
-        [33X[1;6Y[24X[33X[0;0Y\det(Z(n))=\prod_{k=1}^{n-1}g(k),[133X [124X[133X
+  [24X[33X[0;6Y\det(Z(n))=\prod_{k=1}^{n-1}g(k),[133X
   
+  [124X
   
   [33X[0;0Ywhere  [22Xg(∑  a_i2^i)=(-1)^a_03^#{i:a_i=a_i+1=1}-#{i:a_i≠  a_i+1=1}[122X  with  all
   [22Xa_i∈{0,1}[122X.[133X
@@ -1148,8 +1152,8 @@
   
   [1X9.5-1 VHStructure[101X
   
-  [29X[2XVHStructure[102X( [3Xg[103X ) [32X operation
-  [29X[2XIsVHGroup[102X( [3Xg[103X ) [32X filter
+  [33X[1;0Y[29X[2XVHStructure[102X( [3Xg[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XIsVHGroup[102X( [3Xg[103X ) [32X filter[133X
   [6XReturns:[106X  [33X[0;10YA VH-structure for the group [3Xg[103X.[133X
   
   [33X[0;0YA [13XVH-structure[113X on a group [3Xg[103X is a partition of the generators in two sets [22XV,H[122X
@@ -1164,8 +1168,8 @@
   
   [1X9.5-2 VerticalAction[101X
   
-  [29X[2XVerticalAction[102X( [3Xg[103X ) [32X attribute
-  [29X[2XHorizontalAction[102X( [3Xg[103X ) [32X attribute
+  [33X[1;0Y[29X[2XVerticalAction[102X( [3Xg[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XHorizontalAction[102X( [3Xg[103X ) [32X attribute[133X
   [6XReturns:[106X  [33X[0;10YA homomorphism to an FR group.[133X
   
   [33X[0;0YA  group  with  VH  structure admits a [13Xvertical action[113X of its subgroup [22X⟨ V⟩[122X;
@@ -1201,7 +1205,7 @@
   
   [1X9.5-3 VHGroup[101X
   
-  [29X[2XVHGroup[102X( [3Xl1[103X, [3Xl2[103X, [3X...[103X ) [32X function
+  [33X[1;0Y[29X[2XVHGroup[102X( [3Xl1[103X, [3Xl2[103X, [3X...[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10YA new VH group.[133X
   
   [33X[0;0YThis  function constructs the VH group specified by the squares [3Xl1, l2, ...[103X.
@@ -1226,7 +1230,7 @@
   
   [1X9.5-4 IsIrreducibleVHGroup[101X
   
-  [29X[2XIsIrreducibleVHGroup[102X( [3Xg[103X ) [32X property
+  [33X[1;0Y[29X[2XIsIrreducibleVHGroup[102X( [3Xg[103X ) [32X property[133X
   [6XReturns:[106X  [33X[0;10YWhether [3Xg[103X is an irreducible lattice.[133X
   
   [33X[0;0YA VH group is [13Xirreducible[113X if its projections on both trees is dense.[133X
@@ -1253,7 +1257,7 @@
   
   [1X9.5-5 MaximalSimpleSubgroup[101X
   
-  [29X[2XMaximalSimpleSubgroup[102X( [3Xg[103X ) [32X attribute
+  [33X[1;0Y[29X[2XMaximalSimpleSubgroup[102X( [3Xg[103X ) [32X attribute[133X
   [6XReturns:[106X  [33X[0;10YA maximal simple subgroup of [3Xg[103X, if possible.[133X
   
   [33X[0;0YA VH group is never simple, but in favourable cases it admits a finite-index
