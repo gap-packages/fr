@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/gap-packages/fr.svg?branch=master)](https://travis-ci.org/gap-packages/fr)
+[![Code Coverage](https://codecov.io/github/gap-packages/fr/coverage.svg?branch=master&token=)](https://codecov.io/gh/gap-packages/fr)
+
                              The FR package
 
 This is the README file for the GAP package "FR".
