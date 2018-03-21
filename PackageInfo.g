@@ -5,11 +5,11 @@
 SetPackageInfo( rec(
 PackageName := "FR",
 Subtitle := "Computations with functionally recursive groups",
-Version := "2.4.3",
-Date := "03/11/2017",
+Version := "2.4.4",
+Date := "17/11/2017",
 ## <#GAPDoc Label="Version">
-## <!ENTITY Version "2.4.3">
-## <!ENTITY Date "03/11/2017">
+## <!ENTITY Version "2.4.4">
+## <!ENTITY Date "17/11/2017">
 ## <#/GAPDoc>
 
 Persons := [
