@@ -6,10 +6,10 @@
                               [1XSelf-similar groups[101X
   
   
-                                 Version 2.4.3
+                                 Version 2.4.5
   
   
-                                   03/11/2017
+                                   21/03/2018
   
   
                                Laurent Bartholdi
