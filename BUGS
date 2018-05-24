@@ -1,3 +1,9 @@
+These bugs should be easily fixable:
+
+VertexTransformations	runs forever if the group is not finite state
+
+================================================================
+
 These bugs will not be fixed in the short term:
 
 IsFiniteState	never detects loops or patterns in the states, if not f.s.

@@ -219,6 +219,9 @@ DeclareAttribute("EpimorphismSchurCover@", IsGroup);
 ##     <Mark><C>point:=p</C></Mark> <Item> to compute the
 ##       growth of the orbit of <C>p</C> under <A>g</A>, rather than the growth
 ##       of <A>g</A>.</Item>
+##     <Mark><C>act:=function(point,g) ... end</C></Mark> <Item> to compute the
+##       action with a specific function, rather than the default
+##       <C>POW</C>.</Item>
 ##     <Mark><C>track:=true</C></Mark> <Item> to keep track of a word in the
 ##       generators that gives the element. This affects the "ball", "balls",
 ##       "sphere" and "spheres" commands, where the result returned is a
