@@ -699,7 +699,7 @@ PORTRAIT@ := function(g,n,act)
         return List(AlphabetOfFRObject(g),a->PORTRAIT@(State(g,a),n-1,act));
     fi;
 end;
-MAKE_READ_ONLY_GLOBAL("PORTRAIT@");
+MakeReadOnlyGlobal("PORTRAIT@");
 
 InstallMethod(Portrait, "(FR) for an FR element an a maximal level",
         [IsFRElement, IsInt],

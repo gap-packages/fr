@@ -443,7 +443,7 @@ ACTIVITYSPARSE@ := function(l,e,v,n,x,y)
         od; od;
     fi;
 end;
-MAKE_READ_ONLY_GLOBAL("ACTIVITYSPARSE@");
+MakeReadOnlyGlobal("ACTIVITYSPARSE@");
 
 InstallMethod(ActivitySparse, "(FR) for a vector element and a level",
         [IsLinearFRElement and IsVectorFRMachineRep, IsInt],
