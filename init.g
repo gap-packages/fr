@@ -43,8 +43,8 @@ ReadPackage("fr", "gap/cp.gd");
 if not @.nql then # shut up warnings in case LpGroups is not present
     Perform(["IsLpGroup","IsElementOfLpGroup","LPresentedGroup",
             "ElementOfLpGroup","SetEmbeddingOfAscendingSubgroup"], function(w)
-        BIND_GLOBAL(w, fail);
-        Add(POSTHOOK@fr,function() MAKE_READ_WRITE_GLOBAL(w); UNBIND_GLOBAL(w); end);
+        BindGlobal(w, fail);
+        Add(POSTHOOK@fr,function() MakeReadWriteGlobal(w); UnbindGlobal(w); end);
     end);
 fi;
 
