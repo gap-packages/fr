@@ -29,8 +29,8 @@ InstallMethod(AlphabetOfFRAlgebra, "(FR) for an FR algebra",
 
 #############################################################################
 ##
-#O SCAlgebra
-#O SCAlgebraWithOne
+#O AlgebraHomomorphismByFunction
+#O AlgebraWithOneHomomorphismByFunction
 ##
 InstallMethod(AlgebraHomomorphismByFunction, "(FR) for two algebras and a function",
         [IsAlgebra,IsAlgebra,IsFunction],
