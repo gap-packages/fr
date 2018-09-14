@@ -29,6 +29,18 @@ ReadPackage("fr", "gap/examples.gi");
 ReadPackage("fr", "gap/cp.gi");
 #############################################################################
 
+# added to fix problems with loops
+InstallMethod(\in,
+         "(FR) default method, checking for <g> being among the generators",
+          ReturnTrue,
+         [IsFRElement, IsFRSemigroup], 1000,
+   function ( g, G )
+     if   g = One(G)
+       or (IsFinite(GeneratorsOfGroup(G)) and g in GeneratorsOfGroup(G))
+     then return true;
+     else TryNextMethod(); fi;
+end );
+
 #############################################################################
 ##
 #X install shortcuts
