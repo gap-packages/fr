@@ -512,7 +512,7 @@ InstallMethod(Sphere, "(FR) for an object and a limit radius",
     return WordGrowth(x,rec(sphere:=n));
 end);
 
-InstallGlobalFunction(OrbitGrowth, "(FR) for an object and point or options",
+InstallGlobalFunction(OrbitGrowth,
         function(arg)
     if Length(arg)=2 then
         return WordGrowth(arg[1],rec(point:=arg[2]));

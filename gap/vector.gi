@@ -590,7 +590,7 @@ BindGlobal("GUESSMATRIX@", function(r,matlist,d)
     return VectorElement(r,trans,out,inp);
 end);
 
-InstallGlobalFunction(GuessVectorElement, "(FR) for a matrix[list], ring, degree",
+InstallGlobalFunction(GuessVectorElement,
         function(arg)
     local n, r, d, matlist, i;
     for i in arg do
