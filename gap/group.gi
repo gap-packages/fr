@@ -765,29 +765,29 @@ BindGlobal("RANDOMPOLYNOMIALGROWTH@", function(G)
     return F;
 end);
 
-InstallMethod(Random, "(FR) for a full SC Group",
-        [IsFRSemigroup and HasFullSCData],
-        function (G)
+InstallMethodWithRandomSource(Random, "for a random source and a full SC Group",
+        [IsRandomSource, IsFRSemigroup and HasFullSCData],
+        function (rs, G)
     local n, f;
     if DepthOfFRSemigroup(G)<infinity then
         return Minimized(RANDOMFINITARY@(G,DepthOfFRSemigroup(G)));
     elif IsFinitaryFRSemigroup(G) then
-        return Minimized(RANDOMFINITARY@(G,Random([0..5])));
+        return Minimized(RANDOMFINITARY@(G,Random(rs, 0, 5)));
     elif IsBoundedFRSemigroup(G) then
         return RANDOMBOUNDED@(G);
     elif IsPolynomialGrowthFRSemigroup(G) then
         return RANDOMPOLYNOMIALGROWTH@(G);
     elif IsFiniteStateFRSemigroup(G) then
-        n := Random([1..20]);
-        return MealyElement(List([1..n],s->List(AlphabetOfFRSemigroup(G),a->Random([1..n]))),List([1..n],s->Random(FullSCVertex(G))),1);
+        n := Random(rs, 1, 20);
+        return MealyElement(List([1..n],s->List(AlphabetOfFRSemigroup(G),a->Random(rs, 1, n))),List([1..n],s->Random(rs, FullSCVertex(G))),1);
     else
-        n := Random([1..5]);
+        n := Random(rs, 1, 5);
         if IsGroup(StateSet(Representative(G))) then
             f := FreeGroup(n);
         else
             f := FreeMonoid(n);
         fi;
-        return FRElement(f,List([1..n],s->List(AlphabetOfFRSemigroup(G),a->Random(f))),List([1..n],s->Random(FullSCVertex(G))),Random(f));
+        return FRElement(f,List([1..n],s->List(AlphabetOfFRSemigroup(G),a->Random(rs, f))),List([1..n],s->Random(rs, FullSCVertex(G))),Random(rs, f));
     fi;
 end);
 
