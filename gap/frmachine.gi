@@ -1106,7 +1106,7 @@ InstallMethod(FRMachineRWS, "(FR) for an FR machine",
     return rws;
 end);
 
-InstallGlobalFunction(NewFRMachineRWS, "(FR) will restart with fresh rules",
+InstallGlobalFunction(NewFRMachineRWS, # "(FR) will restart with fresh rules",
         function(M)
     local rws;
     rws := FRMachineRWS(M);

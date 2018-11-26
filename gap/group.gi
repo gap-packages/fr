@@ -636,7 +636,7 @@ BindGlobal("FULLGETDATA@", function(arglist,
     return G;
 end);
 
-InstallGlobalFunction(FullSCGroup, "(FR) full tree automorphism group",
+InstallGlobalFunction(FullSCGroup, # "(FR) full tree automorphism group",
         function(arg)
     local  G;
     G := FULLGETDATA@(arg,Group,IsGroup,IsFRGroup,GeneratorsOfGroup,AsGroupFRElement,
