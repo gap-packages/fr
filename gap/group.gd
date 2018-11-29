@@ -847,19 +847,21 @@ DeclareOperation("EpimorphismGermGroup",[IsFRGroup]);
 ## </ManSection>
 ##
 ## <ManSection>
-##   <Prop Name="IsLevelTransitive" Arg="g" Label="FR group"/>
+##   <Prop Name="IsLevelTransitiveFRGroup" Arg="g"/>
 ##   <Returns><K>true</K> if <A>g</A> is a level-transitive group.</Returns>
 ##   <Description>
 ##     This function returns <K>true</K> if <A>g</A> is a
 ##     <E>level-transitive</E> group, i.e. if the action of <A>g</A> is
 ##     transitive at every level of the tree on which it acts.
+##
+##     <P/> This function can be abbreviated as <C>IsLevelTransitive</C>.
 ## <Example><![CDATA[
 ## gap> Dinfinity := FRGroup("a=(1,2)","b=<a,b>");
 ## <self-similar group over [ 1 .. 2 ] with 2 generators>
 ## gap> AssignGeneratorVariables(Dinfinity);
 ## #I  Assigned the global variables [ a, b ]
-## gap> IsLevelTransitive(Group(a)); IsLevelTransitive(Group(b));
-##      IsLevelTransitive(Dinfinity);
+## gap> IsLevelTransitiveFRGroup(Group(a)); IsLevelTransitiveFRGroup(Group(b));
+##      IsLevelTransitiveFRGroup(Dinfinity);
 ## false
 ## false
 ## true
@@ -886,7 +888,7 @@ DeclareOperation("EpimorphismGermGroup",[IsFRGroup]);
 ##     in which two consecutive letters are not images of each other under
 ##     the involution. If no involution is defined, then all words are
 ##     considered reduced; the command then becomes synonymous to
-##     <Ref Prop="IsLevelTransitive" Label="FR group"/>.
+##     <Ref Prop="IsLevelTransitiveFRGroup"/>.
 ##
 ##     <P/> This notion is of fundamental importance for the study of
 ##     lattices in a product of trees; it implies under appropriate
@@ -894,7 +896,7 @@ DeclareOperation("EpimorphismGermGroup",[IsFRGroup]);
 ## <Example><![CDATA[
 ## gap> IsInfinitelyTransitive(BabyAleshinGroup);
 ## true
-## gap> IsLevelTransitive(BabyAleshinGroup);
+## gap> IsLevelTransitiveFRGroup(BabyAleshinGroup);
 ## true
 ## gap> s := DualMachine(BabyAleshinMachine);
 ## <Mealy machine on alphabet [ 1 .. 3 ] with 2 states>
@@ -904,7 +906,7 @@ DeclareOperation("EpimorphismGermGroup",[IsFRGroup]);
 ## <state-closed group over [ 1 .. 3 ] with 2 generators>
 ## gap> IsInfinitelyTransitive(g);
 ## true
-## gap> IsLevelTransitive(g);
+## gap> IsLevelTransitiveFRGroup(g);
 ## false
 ## ]]></Example>
 ##   </Description>
@@ -914,7 +916,7 @@ DeclareOperation("EpimorphismGermGroup",[IsFRGroup]);
 DeclareProperty("IsStateClosed", IsFRSemigroup);
 DeclareOperation("StateClosure", [IsFRSemigroup]);
 DeclareProperty("IsRecurrentFRSemigroup", IsFRSemigroup);
-DeclareProperty("IsLevelTransitive", IsFRSemigroup);
+DeclareProperty("IsLevelTransitiveFRGroup", IsFRSemigroup);
 DeclareProperty("IsInfinitelyTransitive", IsFRGroup);
 DeclareProperty("IsLevelTransitiveOnPatterns", IsFRGroup);
 #############################################################################

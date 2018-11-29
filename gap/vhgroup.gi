@@ -437,7 +437,7 @@ InstallMethod(IsInfinitelyTransitive, "(FR) for an FR group",
         return not IsSolvable(EDGESTABILIZER@(G));
     fi;
     if not HasAlphabetInvolution(M) then
-        return IsLevelTransitive(G);
+        return IsLevelTransitiveFRGroup(G);
     fi;
     # try to find an element fixing an infinite ray, and acting transitively on the sphere of radius 1 (except that ray's beginning)
     Info(InfoFR,3, "IsInfinitelyTransitive: looking for transitive element");

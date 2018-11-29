@@ -813,7 +813,7 @@ DeclareOperation("GuessMealyElement", [IsTransformation, IsPosInt, IsInt]);
 ## </ManSection>
 ##
 ## <ManSection>
-##   <Prop Name="IsLevelTransitive" Arg="e" Label="FR element"/>
+##   <Prop Name="IsLevelTransitiveFRElement" Arg="e"/>
 ##   <Returns><K>true</K> if <A>e</A> acts transitively on each level of the tree.</Returns>
 ##   <Description>
 ##     This function tests whether <A>e</A> acts transitively on each level
@@ -824,6 +824,8 @@ DeclareOperation("GuessMealyElement", [IsTransformation, IsPosInt, IsInt]);
 ##     element has infinite order: if <A>e</A> has a fixed vertex <M>v</M>
 ##     such that the <C>State(e,v)</C> is level-transitive, then <A>e</A>
 ##     has infinite order.
+##
+##     <P/> This function can be abbreviated as <C>IsLevelTransitive</C>.
 ## <Example><![CDATA[
 ## gap> m := AddingMachine(3);; Display(m);
 ##    |  1     2     3
@@ -832,9 +834,9 @@ DeclareOperation("GuessMealyElement", [IsTransformation, IsPosInt, IsInt]);
 ##  b | a,2   a,3   b,1
 ## ---+-----+-----+-----+
 ## Initial state:  b
-## gap> IsLevelTransitive(m);
+## gap> IsLevelTransitiveFRElement(m);
 ## true
-## gap> IsLevelTransitive(Product(UnderlyingFRMachine(GrigorchukOverGroup){[2..5]}));
+## gap> IsLevelTransitiveFRElement(Product(UnderlyingFRMachine(GrigorchukOverGroup){[2..5]}));
 ## true
 ## ]]></Example>
 ##   </Description>
@@ -844,7 +846,7 @@ DeclareOperation("GuessMealyElement", [IsTransformation, IsPosInt, IsInt]);
 DeclareOperation("Signatures", [IsFRElement]);
 DeclareAttribute("VertexTransformationsFRMachine", IsFRMachine);
 DeclareAttribute("VertexTransformationsFRElement", IsFRElement);
-DeclareProperty("IsLevelTransitive", IsFRElement);
+DeclareProperty("IsLevelTransitiveFRElement", IsFRElement);
 DeclareOperation("FixedRay",[IsFRElement]);
 #############################################################################
 

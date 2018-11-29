@@ -91,6 +91,11 @@ else
 fi;
 InstallMethod(Decomposition, [IsFRElement], DecompositionOfFRElement);
 
+DeclareAttribute("IsLevelTransitive", IsFRElement);
+DeclareAttribute("IsLevelTransitive", IsFRGroup);
+InstallMethod(IsLevelTransitive, [IsFRGroup], IsLevelTransitiveFRGroup);
+InstallMethod(IsLevelTransitive, [IsFRElement], IsLevelTransitiveFRElement);
+        
 while not IsEmpty(POSTHOOK@fr) do Remove(POSTHOOK@fr)(); od;
 Unbind(POSTHOOK@fr);
 

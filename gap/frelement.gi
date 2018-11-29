@@ -1195,7 +1195,7 @@ BindGlobal("ORDER@", function(e)
             local d, i;
             if KnowsDictionary(found,e) then
                 return false;
-            elif IsLevelTransitive(e) then
+            elif IsLevelTransitiveFRElement(e) then
                 return true;
             else
                 AddDictionary(found,e);
@@ -1255,11 +1255,11 @@ InstallMethod(Order, "(FR) for an FR element; not guaranteed to terminate",
 InstallMethod(Order, "(FR) for a Mealy element; not guaranteed to terminate",
         [IsMealyElement], ORDER@);
         
-InstallMethod(IsLevelTransitive, "(FR) for a group FR element",
+InstallMethod(IsLevelTransitiveFRElement, "(FR) for a group FR element",
         [IsGroupFRMealyElement],
-        E->IsLevelTransitive(UnderlyingMealyElement(E)));
+        E->IsLevelTransitiveFRElement(UnderlyingMealyElement(E)));
 
-InstallMethod(IsLevelTransitive, "(FR) for a group FR element",
+InstallMethod(IsLevelTransitiveFRElement, "(FR) for a group FR element",
         [IsGroupFRElement],
         function(E)
     local seen, d, c, w, x;

@@ -2509,7 +2509,7 @@ InstallMethod(VertexTransformationsFRElement, "(FR) for an FR element",
         [IsFRElement],
         E->VertexTransformationsFRMachine(UnderlyingFRMachine(E)));
 
-InstallMethod(IsLevelTransitive, "(FR) for an FR element",
+InstallMethod(IsLevelTransitiveFRElement, "(FR) for an FR element",
         [IsFRElement], 10, # easy
         function(E)
     if not IsAbelian(VertexTransformationsFRElement(E)) then
@@ -2519,7 +2519,7 @@ InstallMethod(IsLevelTransitive, "(FR) for an FR element",
     fi;
 end);
 
-InstallMethod(IsLevelTransitive, "(FR) for a Mealy element",
+InstallMethod(IsLevelTransitiveFRElement, "(FR) for a Mealy element",
         [IsMealyElement],
         function(E)
     local seen, d, c;

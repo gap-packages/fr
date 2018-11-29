@@ -644,7 +644,7 @@ InstallGlobalFunction(FullSCGroup, # "(FR) full tree automorphism group",
     if IsTrivial(G) or FullSCFilter(G)=IsFRObject then
         return G;
     elif DepthOfFRSemigroup(G)=infinity then
-        SetIsLevelTransitive(G,IsTransitive(FullSCVertex(G),AlphabetOfFRSemigroup(G)));
+        SetIsLevelTransitiveFRGroup(G,IsTransitive(FullSCVertex(G),AlphabetOfFRSemigroup(G)));
         SetIsFinitelyGeneratedGroup(G, false);
         SetCentre(G, TrivialSubgroup(G));
         SetIsSolvableGroup(G, false);
@@ -892,20 +892,23 @@ end);
 InstallMethod(IsSubset, "(FR) for an FR semigroup and a f.g. FR group",
         IsIdenticalObj,
         [IsFRSemigroup, IsFRGroup and IsFinitelyGeneratedGroup],
+        5, # little boost: avoid GAP methods that involve finiteness tests
         function (G, H)
     return IsSubset(G, GeneratorsOfGroup(H));
 end);
 
 InstallMethod(IsSubset, "(FR) for an FR semigroup and an FR monoid",
         IsIdenticalObj,
-        [IsFRSemigroup, IsFRMonoid],
+        [IsFRSemigroup, IsFRMonoid and IsFinitelyGeneratedMonoid],
+        5, # little boost: avoid GAP methods that involve finiteness tests
         function (G, H)
     return IsSubset(G, GeneratorsOfMonoid(H));
 end);
 
 InstallMethod(IsSubset, "(FR) for two FR semigroups",
         IsIdenticalObj,
-        [IsFRSemigroup, IsFRSemigroup],
+        [IsFRSemigroup, IsFRSemigroup], # missing IsFinitelyGeneratedSemigroup!
+        5, # little boost: avoid GAP methods that involve finiteness tests
         function (G, H)
     return IsSubset(G, GeneratorsOfSemigroup(H));
 end);
@@ -913,6 +916,7 @@ end);
 InstallMethod(\=, "(FR) for two FR semigroups",
         IsIdenticalObj,
         [IsFRSemigroup, IsFRSemigroup],
+        5, # little boost: avoid GAP methods that involve finiteness tests
         function (G, H)
     return IsSubset(G, H) and IsSubset(H, G);
 end);
@@ -922,6 +926,7 @@ end);
 InstallMethod(\=, "(FR) for two FR semigroups",
         IsIdenticalObj,
         [IsFRGroup, IsFRGroup],
+        5, # little boost: avoid GAP methods that involve finiteness tests
         function (G, H)
     return IsSubset(G, H) and IsSubset(H, G);
 end);
@@ -1077,7 +1082,7 @@ InstallMethod(IsFinite, "(FR) for an FR group",
         return b;
     fi;
     
-    if IsLevelTransitive(G) then
+    if IsLevelTransitiveFRGroup(G) then
         return false;
     fi;
     
@@ -1139,7 +1144,7 @@ InstallMethod(Size, "(FR) for an FR group",
             return SIZE@(G,false);
         fi;
     fi;
-    if IsLevelTransitive(G) then return infinity; fi;
+    if IsLevelTransitiveFRGroup(G) then return infinity; fi;
     #!!! try to find a subgroup that acts transitively on a subtree
     return SIZE@(G,true);
 end);
@@ -1307,7 +1312,7 @@ BindGlobal("VIEWFRGROUP@", function(G,gens,name)
     if HasIsRecurrentFRSemigroup(G) and IsRecurrentFRSemigroup(G) then
         Append(s,", recurrent");
     fi;
-    if HasIsLevelTransitive(G) and IsLevelTransitive(G) then
+    if HasIsLevelTransitiveFRGroup(G) and IsLevelTransitiveFRGroup(G) then
         Append(s,", level-transitive");
     fi;
     if HasIsContracting(G) and IsContracting(G) then
@@ -2336,7 +2341,7 @@ InstallMethod(IsomorphismMealySemigroup, "(FR) for a self-similar semigroup",
 #F  IsStateClosed
 #M  StateClosure
 #F  IsRecurrent
-#P  IsLevelTransitive
+#P  IsLevelTransitiveFRGroup
 ##
 InstallMethod(IsStateClosed, "(FR) for a self-similar group",
         [IsFRGroup and HasGeneratorsOfGroup],
@@ -2403,7 +2408,7 @@ InstallMethod(IsRecurrentFRSemigroup, "(FR) for a self-similar group",
     return ForAll(AlphabetOfFRSemigroup(G),i->IsSubgroup(StabilizerImage(G,i),G));
 end);
 
-InstallMethod(IsLevelTransitive, "(FR) for a self-similar group",
+InstallMethod(IsLevelTransitiveFRGroup, "(FR) for a self-similar group",
         [IsFRGroup],
         function(G)
     local level, size, iter;
@@ -2422,14 +2427,17 @@ InstallMethod(IsLevelTransitive, "(FR) for a self-similar group",
         if IsDoneIterator(iter) then # finite group
             return false;
         fi;
-        if IsLevelTransitive(NextIterator(iter)) then
+        if IsLevelTransitiveFRElement(NextIterator(iter)) then
             return true;
         fi;
         size := size+1;
-        if size > 2^level then
+        if size > Size(AlphabetOfFRSemigroup(G))^level then
             level := level+1;
             if not IsTransitive(PermGroup(G,level),[1..Size(AlphabetOfFRSemigroup(G))^level]) then
                 return false;
+            fi;
+            if IsSubgroup(StabilizerImage(G,ListWithIdenticalEntries(Representative(AlphabetOfFRSemigroup(G)),level)),G) then
+                return true;
             fi;
         fi;
     until false;

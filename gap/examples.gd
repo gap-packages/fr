@@ -49,7 +49,7 @@
 ## infinity
 ## gap> IsRecurrentFRSemigroup(G);
 ## true
-## gap> IsLevelTransitive(G);
+## gap> IsLevelTransitiveFRGroup(G);
 ## true
 ## ]]></Example>
 ##   </Description>
