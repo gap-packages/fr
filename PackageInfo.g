@@ -6,7 +6,8 @@ SetPackageInfo( rec(
 PackageName := "FR",
 Subtitle := "Computations with functionally recursive groups",
 Version := "2.4.6",
-Date := "03/11/2018",
+Date := "03/11/2018", # dd/mm/yyyy format
+License := "GPL-2.0-or-later",
 ## <#GAPDoc Label="Version">
 ## <!ENTITY Version "2.4.6">
 ## <!ENTITY Date "03/11/2018">
