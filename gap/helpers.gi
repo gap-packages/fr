@@ -129,7 +129,6 @@ BindGlobal("DOT2DISPLAY@", function(str,prog)
     local command;
     
     CHECKEXEC@(prog);
-    CHECKEXEC@("sh");
     CHECKEXEC@("psviewer",["display","-flatten","-"],["gv","-"],true);
     if ValueOption("usesvg")<>fail or EXEC@.psviewer=fail then
         CHECKEXEC@("svgviewer",["svg-view","--stdin"]);
@@ -473,7 +472,11 @@ InstallGlobalFunction(WordGrowth, function(arg)
         if IsString(draw) then
             AppendTo(draw,S);
         else
-            DOT2DISPLAY@(S, "neato");
+            if IsBound(JupyterRenderable) then
+                return EvalString("JupyterRenderable")(rec(("image/svg+xml") :=IO_PipeThrough("dot",["-Tsvg"],S)),rec());
+            else
+                DOT2DISPLAY@(S, "neato");
+            fi;
         fi;
     else
         return result; # by default, same as 'spheresizes'
@@ -483,7 +486,11 @@ end);
 InstallOtherMethod(Draw, "(FR) default",
         [IsObject],
         function(l)
-    WordGrowth(l,rec(draw:=true));
+    if IsBound(JupyterRenderable) then
+        return WordGrowth(l,rec(draw:=true));
+    else
+        WordGrowth(l,rec(draw:=true));
+    fi;
 end);
 
 InstallOtherMethod(Draw, "(FR) default, with filename",
@@ -497,7 +504,11 @@ InstallOtherMethod(Draw, "(FR) default, with options",
         function(l,options)
     options := ShallowCopy(options);
     options.draw := true;
-    WordGrowth(l,options);
+    if IsBound(JupyterRenderable) then # a hack
+        return WordGrowth(l,options);
+    else
+        WordGrowth(l,options);
+    fi;
 end);
 
 InstallMethod(Ball, "(FR) for an object and a limit radius",
@@ -799,7 +810,7 @@ BindGlobal("FINDMONOIDRELATIONS@", function(gens,n)
             od;
         fi;
     end;
-    result := [FreeMonoidNatHomByGeneratorsNC(free,Monoid(gens))];
+    result := [FreeMonoidNatHomByGeneratorsNC(free,MonoidByGenerators(gens))];
     for i in [1..n] do iterate(i,gens[1]^0,freegens[1]^0); od;
     return result;
 end);

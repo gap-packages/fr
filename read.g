@@ -41,6 +41,27 @@ InstallMethod(\in,
      else TryNextMethod(); fi;
 end );
 
+# added because ViewString cannot print ideals
+Perform([[LeftActingRingOfIdeal,"left",GeneratorsOfLeftIdeal],
+        [RightActingRingOfIdeal,"right",GeneratorsOfRightIdeal],
+        [RightActingRingOfIdeal,"two-sided",GeneratorsOfTwoSidedIdeal]],
+        function(data)
+    InstallMethod(ViewString,
+            [IsRing and Tester(data[1]) and Tester(data[3])],
+            function(I)
+        local s;
+        s := "\>\><"; Append(s,data[2]); Append(s," ideal in \>\>");
+        Append(s,ViewString(data[1](I)));
+        Append(s,"\<,\< \>\>(");
+        if HasDimension( I ) then
+            Append(s,"dimension "); Append(s,String(Dimension(I)));
+        else
+            Append(s,String(Length(data[3](I)))); Append(s," generators");
+        fi;
+        Append(s,"\<\<\<\<)>");
+        return s;
+    end);
+end);
 #############################################################################
 ##
 #X install shortcuts

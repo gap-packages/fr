@@ -1194,7 +1194,12 @@ BindGlobal("MM2DOT@", function(M)
 end);
 
 BindGlobal("DRAWMEALY@", function(M)
-    DOT2DISPLAY@(MM2DOT@(M),"dot");
+     # more a hack than a clean implementation...
+    if IsBound(JupyterRenderable) then
+        return EvalString("JupyterRenderable")(rec(("image/svg+xml") :=IO_PipeThrough("dot",["-Tsvg"],MM2DOT@(M))),rec());
+    else
+        DOT2DISPLAY@(MM2DOT@(M),"dot");
+    fi;
 end);
 
 InstallMethod(Draw, "(FR) draws a Mealy machine using graphviz",

@@ -1327,6 +1327,12 @@ InstallMethod(\*, "for a vector element and a scalar",
     return VECTORMINIMIZE@(FamilyObj(E),LeftActingDomain(E),
                    E!.transitions,E!.output*x,E!.input,1,false);
 end);
+
+InstallMethod(TensorProductOp, "for vector machines",
+        [IsList, IsLinearFRMachine and IsVectorFRMachineRep],
+        function(list,_)
+    Error("todo");
+end);
 ############################################################################
 
 ############################################################################

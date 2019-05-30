@@ -2248,6 +2248,8 @@ InstallGlobalFunction(GrigorchukThinnedAlgebra, function(k)
     if IsPosInt(k) then k := GF(k); fi;
 
     a := ThinnedAlgebraWithOne(k,GrigorchukGroup);
+    a!.GeneratorsOfLeftOperatorRingWithOne := Immutable(GeneratorsOfLeftOperatorRingWithOne(a){[1..4]}); # zap inverses
+    a!.AugmentationIdeal := TwoSidedIdealByGenerators(a,List(GeneratorsOfLeftOperatorRingWithOne(a),x->x-One(a)));
     SetDimension(a,infinity);
     if Characteristic(k)=2 then
         g := GeneratorsOfAlgebraWithOne(a);
