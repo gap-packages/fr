@@ -2534,12 +2534,12 @@ InstallMethod(DerivedSubgroup, "(FR) for an FR group -- add more generators",
     for i  in [ 2 .. Length( gens ) ]  do
         g := gens[i];
         for j  in [ 1 .. i - 1 ]  do
-            D := ClosureSubgroupNC( D, Comm( g, gens[j] ) );
+            D := ClosureSubgroupNC( D, Comm( g, gens[j] ) : noassert );
         od;
         h := g^-1;
         if h<>g then
             for j  in [ 1 .. i - 1 ]  do
-                D := ClosureSubgroupNC( D, Comm( g, gens[j] ) );
+                D := ClosureSubgroupNC( D, Comm( g, gens[j] ) : noassert );
             od;
         fi;
     od;
