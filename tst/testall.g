@@ -1,4 +1,4 @@
-LoadPackage("FR");
+# LoadPackage("FR");
 LoadAllPackages();
 SetInfoLevel(InfoFR,1);
 dirs := DirectoriesPackageLibrary("FR","tst");
