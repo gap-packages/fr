@@ -1,4 +1,5 @@
 LoadPackage("FR");
+LoadAllPackages();
 SetInfoLevel(InfoFR,1);
 dirs := DirectoriesPackageLibrary("FR","tst");
 PRINTWORDPOWERS := false;
