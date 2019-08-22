@@ -4,6 +4,7 @@
 ##
 #############################################################################
 gap> START_TEST("frcp");
+gap> SetAssertionLevel(1);;
 gap> n := InfoLevel(InfoFR);;
 gap> sc_grps := [];;
 gap> for alph in [[1,2],[1..3]] do
