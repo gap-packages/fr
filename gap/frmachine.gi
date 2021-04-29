@@ -22,6 +22,7 @@ InstallMethod(AlphabetOfFRObject, "(FR) for an FR object",
     local a;
     a := FamilyObj(M)!.alphabet;
     IsRange(a);
+    MakeImmutable(a);
     return a;
 end);
 
