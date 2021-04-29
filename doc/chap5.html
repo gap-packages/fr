@@ -49,7 +49,7 @@
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7ECE17387910C023">5.2-14 Signatures</a></span>
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X83DFDC3384EA4634">5.2-15 VertexTransformationsFRMachine</a></span>
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7E0CB3767CE08692">5.2-16 FixedRay</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X828C167B7D7691E9">5.2-17 IsLevelTransitive</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7A519D4C86CC4786">5.2-17 IsLevelTransitiveFRElement</a></span>
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X79EFE2C97D2CCEEC">5.2-18 AsMealyMachine</a></span>
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X80F9A18483F98442">5.2-19 AsMealyMachine</a></span>
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7FB3F0A2878DD2CF">5.2-20 AsMealyElement</a></span>
@@ -625,16 +625,18 @@ Group([ (2,3), (1,3), (1,2) ])
 fail
 </pre></div>
 
-<p><a id="X828C167B7D7691E9" name="X828C167B7D7691E9"></a></p>
+<p><a id="X7A519D4C86CC4786" name="X7A519D4C86CC4786"></a></p>
 
-<h5>5.2-17 IsLevelTransitive</h5>
+<h5>5.2-17 IsLevelTransitiveFRElement</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsLevelTransitive</code>( <var class="Arg">e</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsLevelTransitiveFRElement</code>( <var class="Arg">e</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">e</var> acts transitively on each level of the tree.</p>
 
 <p>This function tests whether <var class="Arg">e</var> acts transitively on each level of the tree. It is implemented only if <code class="code">VertexTransformationsFRElement(e)</code> is abelian.</p>
 
 <p>This function is used as a simple test to detect whether an element has infinite order: if <var class="Arg">e</var> has a fixed vertex <span class="SimpleMath">v</span> such that the <code class="code">State(e,v)</code> is level-transitive, then <var class="Arg">e</var> has infinite order.</p>
+
+<p>This function can be abbreviated as <code class="code">IsLevelTransitive</code>.</p>
 
 
 <div class="example"><pre>
@@ -645,9 +647,9 @@ fail
  b | a,2   a,3   b,1
 ---+-----+-----+-----+
 Initial state:  b
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsLevelTransitive(m);</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsLevelTransitiveFRElement(m);</span>
 true
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsLevelTransitive(Product(UnderlyingFRMachine(GrigorchukOverGroup){[2..5]}));</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsLevelTransitiveFRElement(Product(UnderlyingFRMachine(GrigorchukOverGroup){[2..5]}));</span>
 true
 </pre></div>
 

@@ -5,11 +5,12 @@
 SetPackageInfo( rec(
 PackageName := "FR",
 Subtitle := "Computations with functionally recursive groups",
-Version := "2.4.6",
-Date := "03/11/2018",
+Version := "2.4.7",
+Date := "29/04/2021", # dd/mm/yyyy format
+License := "GPL-2.0-or-later",
 ## <#GAPDoc Label="Version">
-## <!ENTITY Version "2.4.6">
-## <!ENTITY Date "03/11/2018">
+## <!ENTITY Version "2.4.7">
+## <!ENTITY Date "29/04/2021">
 ## <#/GAPDoc>
 
 Persons := [
@@ -40,7 +41,7 @@ SourceRepository := rec(
 ),
 IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
 PackageWWWHome  := Concatenation( "https://gap-packages.github.io/", LowercaseString(~.PackageName) ),
-README_URL      := Concatenation( ~.PackageWWWHome, "/README" ),
+README_URL      := Concatenation( ~.PackageWWWHome, "/README.md" ),
 PackageInfoURL  := Concatenation( ~.PackageWWWHome, "/PackageInfo.g" ),
 ArchiveURL      := Concatenation( ~.SourceRepository.URL,
                                  "/releases/download/v", ~.Version,

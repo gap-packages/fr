@@ -242,8 +242,8 @@
   [2XIsInvertible[102X 10.2-15 
   [2XIsIrreducibleVHGroup[102X 9.5-4 
   [2XIsJustInfinite[102X 7.3-7 
-  [2XIsLevelTransitive[102X, FR element 5.2-17 
-      FR group 7.2-12 
+  [2XIsLevelTransitiveFRElement[102X 5.2-17 
+  [2XIsLevelTransitiveFRGroup[102X 7.2-12 
   [2XIsLevelTransitiveOnPatterns[102X 7.2-13 
   [2XIsLinearFRElement[102X 10.2-10 
   [2XIsLinearFRMachine[102X 10.2-9 

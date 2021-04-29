@@ -614,9 +614,9 @@
     [4X[28Xfail[128X[104X
   [4X[32X[104X
   
-  [1X5.2-17 IsLevelTransitive[101X
+  [1X5.2-17 IsLevelTransitiveFRElement[101X
   
-  [33X[1;0Y[29X[2XIsLevelTransitive[102X( [3Xe[103X ) [32X property[133X
+  [33X[1;0Y[29X[2XIsLevelTransitiveFRElement[102X( [3Xe[103X ) [32X property[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3Xe[103X acts transitively on each level of the tree.[133X
   
   [33X[0;0YThis  function  tests whether [3Xe[103X acts transitively on each level of the tree.
@@ -626,6 +626,8 @@
   infinite  order:  if  [3Xe[103X  has  a  fixed  vertex [22Xv[122X such that the [10XState(e,v)[110X is
   level-transitive, then [3Xe[103X has infinite order.[133X
   
+  [33X[0;0YThis function can be abbreviated as [10XIsLevelTransitive[110X.[133X
+  
   [4X[32X  Example  [32X[104X
     [4X[25Xgap>[125X [27Xm := AddingMachine(3);; Display(m);[127X[104X
     [4X[28X   |  1     2     3[128X[104X
@@ -634,9 +636,9 @@
     [4X[28X b | a,2   a,3   b,1[128X[104X
     [4X[28X---+-----+-----+-----+[128X[104X
     [4X[28XInitial state:  b[128X[104X
-    [4X[25Xgap>[125X [27XIsLevelTransitive(m);[127X[104X
+    [4X[25Xgap>[125X [27XIsLevelTransitiveFRElement(m);[127X[104X
     [4X[28Xtrue[128X[104X
-    [4X[25Xgap>[125X [27XIsLevelTransitive(Product(UnderlyingFRMachine(GrigorchukOverGroup){[2..5]}));[127X[104X
+    [4X[25Xgap>[125X [27XIsLevelTransitiveFRElement(Product(UnderlyingFRMachine(GrigorchukOverGroup){[2..5]}));[127X[104X
     [4X[28Xtrue[128X[104X
   [4X[32X[104X
   

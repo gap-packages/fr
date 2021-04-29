@@ -68,9 +68,9 @@
   of a periodic list.[133X
   
   [33X[0;0YMost  of  the  methods  applied  for  lists  have  an obvious equivalent for
-  periodic  lists:  [2XList[102X  ([14XReference:  Lists[114X), [2XFiltered[102X ([14XReference: Filtered[114X),
-  [2XFirst[102X  ([14XReference:  First[114X),  [2XForAll[102X  ([14XReference: ForAll[114X), [2XForAny[102X ([14XReference:
-  ForAny[114X), [2XNumber[102X ([14XReference: Number[114X).[133X
+  periodic   lists:   [2XList[102X   ([14XReference:  list  element  operation[114X),  [2XFiltered[102X
+  ([14XReference: Filtered[114X), [2XFirst[102X ([14XReference: First[114X), [2XForAll[102X ([14XReference: ForAll[114X),
+  [2XForAny[102X ([14XReference: ForAny[114X), [2XNumber[102X ([14XReference: Number[114X).[133X
   
   [4X[32X  Example  [32X[104X
     [4X[25Xgap>[125X [27Xl := PeriodicList([1],[2,3,4]);[127X[104X

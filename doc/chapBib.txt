@@ -40,8 +40,8 @@
   groups  to fractal sets[117X, in Fractals in Graz 2001, Birkhäuser, Trends Math.,
   Basel (2003), 25--118.
   
-  [[20XBG{\v  S}03[120X] [16XBartholdi, L., Grigorchuk, R. I. and Šuniḱ, Z.[116X, [17XBranch groups[117X,
-  in Handbook of algebra, Vol. 3, North-Holland, Amsterdam (2003), 989--1112.
+  [[20XBG{Š}03[120X]  [16XBartholdi, L., Grigorchuk, R. I. and Šuniḱ, Z.[116X, [17XBranch groups[117X, in
+  Handbook of algebra, Vol. 3, North-Holland, Amsterdam (2003), 989--1112.
   
   [[20XBKN+12[120X]  [16XBegue, M., Kelleher, D. J., Nelson, A., Panzo, H., Pellico, R. and
   Teplyaev,  A.[116X,  [17XRandom  walks on barycentric subdivisions and the Strichartz
@@ -68,8 +68,8 @@
   [[20XBS62[120X]   [16XBaumslag,  G.  and  Solitar,  D.[116X,  [17XSome  two-generator  one-relator
   non-Hopfian groups[117X, [18XBull. Amer. Math. Soc.[118X, [19X68[119X (1962), 199--201.
   
-  [[20XB{\v  S}01[120X]  [16XBartholdi,  L. and Šuniḱ, Z.[116X, [17XOn the word and period growth of
-  some groups of tree automorphisms[117X, [18XComm. Algebra[118X, [19X29[119X, 11 (2001), 4923--4964.
+  [[20XB{Š}01[120X]  [16XBartholdi, L. and Šuniḱ, Z.[116X, [17XOn the word and period growth of some
+  groups of tree automorphisms[117X, [18XComm. Algebra[118X, [19X29[119X, 11 (2001), 4923--4964.
   
   [[20XBSV99[120X]  [16XBrunner,  A. M., Sidki, S. N. and Vieira, A. C.[116X, [17XA just nonsolvable
   torsion-free  group  defined  on the binary tree[117X, [18XJ. Algebra[118X, [19X211[119X, 1 (1999),
@@ -107,7 +107,7 @@
   [[20XGS83[120X]  [16XGupta,  N.  and  Sidki,  S. N.[116X, [17XOn the Burnside problem for periodic
   groups[117X, [18XMath. Z.[118X, [19X182[119X, 3 (1983), 385--388.
   
-  [[20XG{\v  S}06[120X] [16XGrigorchuk, R. I. and Šuniḱ, Z.[116X, [17XAsymptotic aspects of Schreier
+  [[20XG{Š}06[120X]  [16XGrigorchuk,  R.  I.  and Šuniḱ, Z.[116X, [17XAsymptotic aspects of Schreier
   graphs and Hanoi Towers groups[117X, [18XC. R. Math. Acad. Sci. Paris[118X, [19X342[119X, 8 (2006),
   545--550.
   
@@ -164,8 +164,8 @@
   generalizing  lamplighter  groups[117X,  [18XInternat.  J.  Algebra  Comput.[118X, [19X15[119X, 5-6
   (2005), 1213--1234.
   
-  [[20X{\v  S}un07[120X]  [16XŠunić,  Z.[116X,  [17XHausdorff  dimension in a family of self-similar
-  groups[117X, [18XGeom. Dedicata[118X, [19X124[119X (2007), 213--236.
+  [[20X{Š}un07[120X] [16XŠunić, Z.[116X, [17XHausdorff dimension in a family of self-similar groups[117X,
+  [18XGeom. Dedicata[118X, [19X124[119X (2007), 213--236.
   
   [[20XSVV06[120X] [16XSteinberg, B., Vorobets, M. and Vorobets, Y.[116X, [17XAutomata over a binary
   alphabet     generating     free     groups    of    even    rank[117X    (2006),

@@ -147,7 +147,7 @@
     [4X[28Xinfinity[128X[104X
     [4X[25Xgap>[125X [27XIsRecurrentFRSemigroup(G);[127X[104X
     [4X[28Xtrue[128X[104X
-    [4X[25Xgap>[125X [27XIsLevelTransitive(G);[127X[104X
+    [4X[25Xgap>[125X [27XIsLevelTransitiveFRGroup(G);[127X[104X
     [4X[28Xtrue[128X[104X
   [4X[32X[104X
   
@@ -182,8 +182,7 @@
   [3XA[103X.  The transitions from [10Xb[110X are periodically given by [3Xf[103X, completed by trivial
   elements, and finally by [22Xb^g[122X; the output of [10Xb[110X is trivial.[133X
   
-  [33X[0;0YThis  construction  is  described  in  more detail in [B{\v S}01] and [BG{\v
-  S}03].[133X
+  [33X[0;0YThis construction is described in more detail in [B{Š}01] and [BG{Š}03].[133X
   
   [33X[0;0Y[10XCorrespondence(m)[110X is a list, with in first position the subset of the states
   that  correspond  to [3XA[103X, in second position the states that correspond to the
@@ -212,7 +211,7 @@
   [22Xϕ[122X  is  a  monic polynomial; there is a map [22Xf:B-> A[122X, given say by evaluation;
   and there is an endomorphism of [22Xg:B-> B[122X given by multiplication by [22Xϕ[122X.[133X
   
-  [33X[0;0YThese groups were described in [{\v S}un07]. In particular, the case [22Xq=2[122X and
+  [33X[0;0YThese  groups  were  described in [{Š}un07]. In particular, the case [22Xq=2[122X and
   [22Xϕ=x^2+x+1[122X gives the original [2XGrigorchukGroup[102X ([14X9.1-10[114X).[133X
   
   [4X[32X  Example  [32X[104X
@@ -554,7 +553,7 @@
   
   [33X[0;0YThis  function constructs the Hanoi group on [3Xn[103X pegs. Generators of the group
   correspond   to   moving   a  peg,  and  tree  vertices  correspond  to  peg
-  configurations. This group is studied in [G{\v S}06].[133X
+  configurations. This group is studied in [G{Š}06].[133X
   
   [1X9.1-26 DahmaniGroup[101X
   

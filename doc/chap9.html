@@ -214,7 +214,7 @@ Initial state: b
 infinity
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsRecurrentFRSemigroup(G);</span>
 true
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsLevelTransitive(G);</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsLevelTransitiveFRGroup(G);</span>
 true
 </pre></div>
 
@@ -241,7 +241,7 @@ true
 
 <p>The transitions from <code class="code">a</code> are towards 1 and the outputs are the permutations in <var class="Arg">A</var>. The transitions from <code class="code">b</code> are periodically given by <var class="Arg">f</var>, completed by trivial elements, and finally by <span class="SimpleMath">b^g</span>; the output of <code class="code">b</code> is trivial.</p>
 
-<p>This construction is described in more detail in <a href="chapBib.html#biBMR1856923">[B{\v S}01]</a> and <a href="chapBib.html#biBMR2035113">[BG{\v S}03]</a>.</p>
+<p>This construction is described in more detail in <a href="chapBib.html#biBMR1856923">[B{Š}01]</a> and <a href="chapBib.html#biBMR2035113">[BG{Š}03]</a>.</p>
 
 <p><code class="code">Correspondence(m)</code> is a list, with in first position the subset of the states that correspond to <var class="Arg">A</var>, in second position the states that correspond to the first copy of <var class="Arg">B</var>, etc.</p>
 
@@ -266,7 +266,7 @@ true
 
 <p>A "Sunic machine" is a special kind of <code class="func">MixerMachine</code> (<a href="chap9.html#X78AFA63B86C94227"><span class="RefLink">9.1-7</span></a>), in which the group <span class="SimpleMath">A</span> is a finite field <span class="SimpleMath">GF(q)</span>, the group <span class="SimpleMath">B</span> is an extension <span class="SimpleMath">A[x]/(ϕ)</span>, where <span class="SimpleMath">ϕ</span> is a monic polynomial; there is a map <span class="SimpleMath">f:B-&gt; A</span>, given say by evaluation; and there is an endomorphism of <span class="SimpleMath">g:B-&gt; B</span> given by multiplication by <span class="SimpleMath">ϕ</span>.</p>
 
-<p>These groups were described in <a href="chapBib.html#biBMR2318546">[{\v S}un07]</a>. In particular, the case <span class="SimpleMath">q=2</span> and <span class="SimpleMath">ϕ=x^2+x+1</span> gives the original <code class="func">GrigorchukGroup</code> (<a href="chap9.html#X85BAE48780E665A4"><span class="RefLink">9.1-10</span></a>).</p>
+<p>These groups were described in <a href="chapBib.html#biBMR2318546">[{Š}un07]</a>. In particular, the case <span class="SimpleMath">q=2</span> and <span class="SimpleMath">ϕ=x^2+x+1</span> gives the original <code class="func">GrigorchukGroup</code> (<a href="chap9.html#X85BAE48780E665A4"><span class="RefLink">9.1-10</span></a>).</p>
 
 
 <div class="example"><pre>
@@ -788,7 +788,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; HanoiGroup</code>( <var class="Arg">n</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: The Hanoi group on an <var class="Arg">n</var> pegs.</p>
 
-<p>This function constructs the Hanoi group on <var class="Arg">n</var> pegs. Generators of the group correspond to moving a peg, and tree vertices correspond to peg configurations. This group is studied in <a href="chapBib.html#biBMR2217913">[G{\v S}06]</a>.</p>
+<p>This function constructs the Hanoi group on <var class="Arg">n</var> pegs. Generators of the group correspond to moving a peg, and tree vertices correspond to peg configurations. This group is studied in <a href="chapBib.html#biBMR2217913">[G{Š}06]</a>.</p>
 
 <p><a id="X7C7A0EEF7EFF8B99" name="X7C7A0EEF7EFF8B99"></a></p>
 
