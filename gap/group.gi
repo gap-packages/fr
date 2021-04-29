@@ -3337,7 +3337,7 @@ end);
 
 InstallMethod(AsLpGroup, "(FR) for FR groups with preimage data",
         [IsFRGroup and HasFRGroupPreImageData],
-        G->FRGroupPreImageData(G).F(-1));
+        G->FRGroupPreImageData(G)(-1).F);
 
 InstallMethod(IsomorphismFRGroup, "(FR) for a self-similar group with preimage data",
         [IsFRGroup and HasFRGroupPreImageData],

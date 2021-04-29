@@ -157,12 +157,12 @@ end);
 
 InstallGlobalFunction(WordGrowth, function(arg)
     local gpgens, gens, sphere, i, j, k, n, t, result, limit, keep, g, act,
-          point, draw, S, plotedge, plotvertex,
+          tile, point, draw, S, plotedge, plotvertex,
           trackgroup, trackgens, track, trackhom,
           group, options, optionnames;
     
     optionnames := ["track","limit","draw","point","ball","sphere","balls",
-                    "spheres","spheresizes","ballsizes","act"];
+                    "spheres","spheresizes","ballsizes","act","tile"];
     if Length(arg)=2 then
         group := arg[1];
         options := arg[2];
@@ -274,6 +274,11 @@ InstallGlobalFunction(WordGrowth, function(arg)
     else
         act := POW;
     fi;
+    if IsBound(options.tile) then
+        tile := options.tile;
+    else
+        tile := false;
+    fi;
     if draw<>fail then
         S := "digraph cayley {\n";
         plotedge := function(nsrc,src,ndst,dst,gen)
@@ -326,14 +331,20 @@ InstallGlobalFunction(WordGrowth, function(arg)
             fi;
         fi;
     else
-        sphere := List(sphere,g->act(point,g));
+        sphere := DifferenceLists(List(sphere,g->act(point,g)),[fail]);
         if track=fail then
-            sphere := [sphere,Difference(Set(gens,g->act(point,g)),sphere)];
+            sphere := [sphere,[]];
+            for i in gens do
+                j := act(point,i);
+                if j=fail then continue; fi;
+                if not j in sphere[1] then AddSet(sphere[2],j); fi;
+            od;
         else
             sphere := [sphere,[]];
             Add(track,[]);
             for i in [1..Length(gens)] do
                 j := act(point,gens[i]);
+                if j=fail then continue; fi;
                 if not (j in sphere[1] or j in sphere[2]) then
                     t := PositionSorted(sphere[2],j);
                     Add(sphere[2],j,t);
@@ -346,16 +357,15 @@ InstallGlobalFunction(WordGrowth, function(arg)
         if sphere[1]<>[] then
             for n in [1..Length(gens)] do
                 if point=fail then
-                    i := n;
+                    plotedge(0,1,1,n,gens[n]);
                 else
-                    i := Position(sphere[2],act(point,gens[n]));
-                fi;
-                if i=fail then
-                    if act(point,gens[n])=point then
+                    j := act(point,gens[n]);
+                    i := Position(sphere[2],j);
+                    if i<>fail then
+                        plotedge(0,1,1,i,gens[n]);
+                    elif j=point then
                         plotedge(0,1,0,1,gens[n]);
                     fi;
-                else
-                    plotedge(0,1,1,i,gens[n]);
                 fi;
             od;
         fi;
@@ -371,6 +381,7 @@ InstallGlobalFunction(WordGrowth, function(arg)
         if track<>fail then
             for i in [1..Length(gens)] do for j in [1..Length(sphere[n+1])] do
                 k := act(sphere[n+1][j],gens[i]);
+                if k=fail then continue; fi;
                 if (IsBound(gpgens) and
                     not (k in sphere[n] or k in sphere[n+1])) or
                    (not IsBound(gpgens) and not ForAny([1..n+1],i->k in sphere[i])) then
@@ -393,6 +404,7 @@ InstallGlobalFunction(WordGrowth, function(arg)
         else
             for i in gens do for j in [1..Length(sphere[n+1])] do
                 k := act(sphere[n+1][j],i);
+                if k=fail then continue; fi;
                 t := 1; while t <= Length(sphere) do
                     if IsBound(sphere[t]) and k in sphere[t] then break; fi;
                     t := t+1;
