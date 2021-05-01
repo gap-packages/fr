@@ -22,7 +22,6 @@ InstallMethod(AlphabetOfFRObject, "(FR) for an FR object",
     local a;
     a := FamilyObj(M)!.alphabet;
     IsRange(a);
-    MakeImmutable(a);
     return a;
 end);
 
@@ -44,6 +43,8 @@ InstallMethod(FRMFamily, "(FR) for an alphabet",
         i!.a2n := x->Position(Enumerator(d),x);
         i!.n2a := x->Enumerator(d)[x];
     fi;
+    ConvertToRangeRep(i!.alphabet);
+    MakeImmutable(i!.alphabet);
     Add(FR_FAMILIES,[d,i]);
     return i;
 end);
