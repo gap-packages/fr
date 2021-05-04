@@ -59,7 +59,6 @@ PackageDoc := rec(
   SixFile   := "doc/manual.six",
   LongTitle := "Functionally recursive and automata groups",
   ArchiveURLSubset := ["doc"],
-  Autoload  := true
 ),
 
 Dependencies := rec(
@@ -79,7 +78,6 @@ AvailabilityTest := ReturnTrue,
                     
 BannerString := Concatenation("Loading ", ~.PackageName, " ", String( ~.Version ), " ...\n"),
 
-Autoload := false,
 TestFile := "tst/testall.g",
 Keywords := ["functionally recursive group", "mealy machine", "automata group"]
 ));
