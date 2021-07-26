@@ -1942,15 +1942,16 @@ BindGlobal("STRING_ATOM2GAP@", function(s)
 end);
 BindGlobal("STRING_WORD2GAP@", function(gens,s_generator,data,w)
     local s, f, i;
-    s := "CallFuncList(function() local ";
+    s := "function(__the_argument__) local ";
     Append(s,gens[1]);
     for i in [2..Length(gens)] do Append(s,","); Append(s,gens[i]); od;
     Append(s,";");
     for i in [1..Length(gens)] do
-        Append(s,Concatenation(gens[i],":=",s_generator,"(",data.holdername,")[",String(i),"];"));
+        Append(s,Concatenation(gens[i],":=",s_generator,"(__the_argument__)[",String(i),"];"));
     od;
-    Append(s,"return "); Append(s,w); Append(s,";end,[])");
-    return STRING_ATOM2GAP@(s);
+    Append(s,"return "); Append(s,w); Append(s,";end");
+    f := EvalString(s);
+    return f(data.holder);
 end);
 BindGlobal("STRING_TRANSFORMATION2GAP@", function(t,data)
     local p;
@@ -1963,18 +1964,8 @@ BindGlobal("STRING_TRANSFORMATION2GAP@", function(t,data)
     data.degree := Maximum(data.degree,Length(p),MaximumList(p,0));
     return p;
 end);
-BindGlobal("RANDOMNAME@", function()
-    return List([1..10],i->Random("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
-end);
 BindGlobal("STRING_GROUP@", function(freecreator, s_generator, creator, args)
-    local temp, i, gens, states, action, mgens, data, Error, category, machine, group;
-    
-    Error := function(arg)
-        if IsBound(data) then
-            MakeReadWriteGlobal(data.holdername); Unbind(data.holdername);
-        fi;
-        CallFuncList(VALUE_GLOBAL("Error"),arg);
-    end;
+    local temp, i, gens, states, action, mgens, data, category, machine, group;
     
     if not IsString(args[Length(args)]) then
         category := Remove(args);
@@ -1995,9 +1986,7 @@ BindGlobal("STRING_GROUP@", function(freecreator, s_generator, creator, args)
     fi;
     states := [];
     action := [];
-    data := rec(degree := -1, holdername := RANDOMNAME@(),
-                holder := freecreator(gens));
-    BindGlobal(data.holdername, data.holder);
+    data := rec(degree := -1, holder := freecreator(gens));
 
     for temp in List(temp,x->x[2]) do
         temp := SplitString(temp,"<");
@@ -2069,7 +2058,6 @@ BindGlobal("STRING_GROUP@", function(freecreator, s_generator, creator, args)
     SetAlphabetOfFRSemigroup(group,AlphabetOfFRObject(machine));
     SetUnderlyingFRMachine(group,machine);
     SetIsStateClosed(group,true);
-    MakeReadWriteGlobal(data.holdername); UnbindGlobal(data.holdername);
     return group;
 end);
 

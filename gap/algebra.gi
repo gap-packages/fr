@@ -147,15 +147,8 @@ BindGlobal("TOTALDEGREE@", function(x)
 end);
 
 BindGlobal("STRINGSTOLMACHINE@", function(r,args,creator)
-    local temp, i, j, gens, transitions, output, data, Error;
+    local temp, i, j, gens, transitions, output, data;
 
-    Error := function(arg)
-        if IsBound(data) then
-            MakeReadWriteGlobal(data.holdername); Unbind(data.holdername);
-        fi;
-        CallFuncList(VALUE_GLOBAL("Error"),arg);
-    end;
-    
     if not IsRing(r) or not ForAll(args,IsString) then
         Error("<arg> should contain a ring and strings\n");
     fi;
@@ -167,13 +160,7 @@ BindGlobal("STRINGSTOLMACHINE@", function(r,args,creator)
     if Size(Set(gens)) <> Size(gens) then
         Error("all generators should have a distinct name\n");
     fi;
-    data := rec(holdername := RANDOMNAME@(),
-                holder := FreeAssociativeAlgebraWithOne(r,gens));
-    BindGlobal(data.holdername, data.holder);
-    Error := function(arg)
-        MakeReadWriteGlobal(data.holdername); Unbind(data.holdername);
-        CallFuncList(VALUE_GLOBAL("Error"),arg);
-    end;
+    data := rec(holder := FreeAssociativeAlgebraWithOne(r,gens));
 
     transitions := [];
     output := [];
@@ -204,7 +191,6 @@ BindGlobal("STRINGSTOLMACHINE@", function(r,args,creator)
         i := creator(r,List(GeneratorsOfFRMachine(i),x->FRElement(i,x)));
     fi;
     SetIsStateClosed(i,true);
-    MakeReadWriteGlobal(data.holdername); UnbindGlobal(data.holdername);
     return i;
 end);
 
