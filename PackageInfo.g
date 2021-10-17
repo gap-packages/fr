@@ -76,8 +76,6 @@ Dependencies := rec(
 
 AvailabilityTest := ReturnTrue,
                     
-BannerString := Concatenation("Loading ", ~.PackageName, " ", String( ~.Version ), " ...\n"),
-
 TestFile := "tst/testall.g",
 Keywords := ["functionally recursive group", "mealy machine", "automata group"]
 ));
