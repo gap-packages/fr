@@ -2,7 +2,6 @@
 ##
 #W linear-gbnp.gi                                           Laurent Bartholdi
 ##
-#H   @(#)$Id$
 ##
 #Y Copyright (C) 2007, Laurent Bartholdi
 ##

@@ -2,7 +2,6 @@
 ##
 #W examples.gd                                              Laurent Bartholdi
 ##
-#H   @(#)$Id$
 ##
 #Y Copyright (C) 2006, Laurent Bartholdi
 ##

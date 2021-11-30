@@ -2,7 +2,6 @@
 ##
 #W vector.gd                                                Laurent Bartholdi
 ##
-#H   @(#)$Id$
 ##
 #Y Copyright (C) 2007, Laurent Bartholdi
 ##
