@@ -2229,4 +2229,3 @@ InstallMethod(AreCohomologous, [IsList,IsList,IsGroup],
     return SolutionMatMod1(CoboundaryMatrix(Q),c1-c2)<>fail;
 end);
 
-#E helpers.gi . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here

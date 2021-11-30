@@ -23,4 +23,3 @@ test := function(s,t)
   CloseStream(r);
   return List(ee,x->PreImageElm(ff,x[2]));
 end;
-

@@ -211,5 +211,3 @@ Add(mealyel[8], List([1..2], i -> mealym[8][2][i]));
 # m9 : a non-Mealy SemigroupFRMachine
 
 Add(mealyel, []);
-
-#E mealyelements.g . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here

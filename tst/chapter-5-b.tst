@@ -445,4 +445,3 @@ gap> Info(InfoFR,1,"Not tested");
 gap> 
 gap> STOP_TEST( "chapter-5-b.tst", 5*10^8 );
 
-#E chapter-5-b.tst . . . . . . . . . . . . . . . . . . . . . . . . .ends here

@@ -208,4 +208,3 @@ DeclareOperation("Add",[IsFIFO,IsObject]);
 DeclareOperation("Append", [IsFIFO,IsObject]);
 #############################################################################
 
-#E perlist.gd . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here

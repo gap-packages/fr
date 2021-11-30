@@ -1281,4 +1281,3 @@ InstallMethod(IsLevelTransitiveFRElement, "(FR) for a group FR element",
 end);
 #############################################################################
 
-#E frelement.gi . . . . . . . . . . . . . . . . . . . . . . . . . . ends here

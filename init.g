@@ -47,7 +47,3 @@ if not @.nql then # shut up warnings in case LpGroups is not present
         Add(POSTHOOK@fr,function() MakeReadWriteGlobal(w); UnbindGlobal(w); end);
     end);
 fi;
-
-#############################################################################
-
-#E init.g . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here

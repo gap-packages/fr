@@ -944,4 +944,3 @@ DeclareAttribute("NucleusOfFRMachine", IsFRMachine);
 ## <#/GAPDoc>
 ##############################################################################
 
-#E frelement.gd . . . . . . . . . . . . . . . . . . . . . . . . . . ends here

@@ -128,5 +128,3 @@ else
     fi;
     Add(IO_PkgThingsToRead, ["fr","gap/pickle.g"]);
 fi;
-
-#E read.g . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here

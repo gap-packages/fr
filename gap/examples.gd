@@ -1156,4 +1156,3 @@ DeclareGlobalFunction("SidkiFreeAlgebra");
 DeclareGlobalFunction("SidkiMonomialAlgebra");
 #############################################################################
 
-#E examples.gd. . . . . . . . . . . . . . . . . . . . . . . . . . . ends here

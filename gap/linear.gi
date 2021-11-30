@@ -1378,4 +1378,3 @@ InstallMethod(IsFiniteDimensional, "(FR) for an algebra of linear elements",
 end);
 ############################################################################
 
-#E linear.gi . . . . . . . . . . . . . . . . . . . . . . . . . . . .ends here

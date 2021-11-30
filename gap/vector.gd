@@ -703,4 +703,3 @@ DeclareOperation("FRElement", [IsFRMachine,IsObject,IsOperation]);
 DeclareOperation("AlgebraElement", [IsFreeMagmaRing,IsTransitionTensor,IsVector,IsVector]);
 #############################################################################
 
-#E vector.gd . . . . . . . . . . . . . . . . . . . . . . . . . . . .ends here

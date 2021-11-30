@@ -1211,4 +1211,3 @@ DeclareOperation("LimitStates", [IsFRMachine]);
 DeclareAttribute("NucleusMachine", IsFRMachine);
 #############################################################################
 
-#E mealy.gd . . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here

@@ -303,4 +303,3 @@ DeclareOperation("AlgebraWithOneHomomorphismByFunction", [IsAlgebraWithOne,IsAlg
 DeclareOperation("EpimorphismMatrixQuotient", [IsFRAlgebra,IsInt]);
 #############################################################################
 
-#E algebra.gd . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here

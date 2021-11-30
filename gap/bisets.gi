@@ -245,4 +245,3 @@ InstallMethod(ViewString, "(FR) for a biset basis",
 end);
 INSTALLPRINTERS@(IsBisetBasis);
 
-#E bisets.gi. . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here

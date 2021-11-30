@@ -536,4 +536,3 @@ INSTALLPRINTERS@(IsFRAlgebra);
 INSTALLPRINTERS@(IsFRAlgebraWithOne);
 ############################################################################
 
-#E algebra.gi . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
