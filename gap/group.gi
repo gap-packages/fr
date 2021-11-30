@@ -1934,11 +1934,7 @@ InstallMethod(IsAmenableGroup, [IsFreeGroup],
 #F  FRMonoid
 ##
 BindGlobal("STRING_ATOM2GAP@", function(s)
-    local stream, result;
-    stream := InputTextString(Concatenation(s,";"));
-    result := READ_COMMAND_REAL(stream,false);
-    CloseStream(stream);
-    return result[2];
+    return EvalString(Concatenation(s,";;"));
 end);
 BindGlobal("STRING_WORD2GAP@", function(gens,s_generator,data,w)
     local s, f, i;
