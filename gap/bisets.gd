@@ -78,4 +78,3 @@ DeclareAttribute("FRMachineOfBiset", IsFRBiset);
 DeclareOperation("FRMachine", [IsFRBiset]);
 DeclareOperation("FRMachine", [IsFRBiset,IsLeftBisetBasis]);
 
-#E bisets.gd. . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here

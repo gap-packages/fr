@@ -1589,4 +1589,3 @@ true
 gap> 
 gap> STOP_TEST( "chapter-5-a.tst", 2*10^9 );
 
-#E chapter-5-a.tst . . . . . . . . . . . . . . . . . . . . . . . . .ends here

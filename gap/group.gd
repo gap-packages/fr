@@ -2156,4 +2156,3 @@ DeclareGlobalFunction("GammaPQGroup");
 DeclareGlobalVariable("RattaggiGroup");
 #############################################################################
 
-#E group.gd . . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here

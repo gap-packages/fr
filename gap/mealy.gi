@@ -2812,4 +2812,3 @@ InstallMethod(NucleusMachine, "(FR) for an FR machine",
 end);
 #############################################################################
 
-#E mealy.gi . . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here

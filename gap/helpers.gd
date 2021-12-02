@@ -789,4 +789,3 @@ DeclareHandlingByNiceBasis("IsLieFpElementSpace",
         "FR: for FP Lie algebras");
 #############################################################################
 
-#E helpers.gd . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here

@@ -2,7 +2,6 @@
 ##
 #W  mealymachines.g                FR Package               Laurent Bartholdi
 ##
-#H  @(#)$Id$
 ##
 #Y  Copyright (C) 2006,  Laurent Bartholdi
 ##
@@ -253,5 +252,3 @@ Add(mealym[8], m);
 Add(mealym, []);
 Add(transitionsm, []);
 Add(outputsm, []);
-
-#E mealymachines.g . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here

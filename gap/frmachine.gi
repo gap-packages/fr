@@ -1785,4 +1785,3 @@ InstallMethod(\^, "(FR) for a group FR machine and a mapping",
         CONJACTMACHINE@);
 ################################################################
 
-#E frmachine.gi . . . . . . . . . . . . . . . . . . . . . . . . . . ends here

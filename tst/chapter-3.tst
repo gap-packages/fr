@@ -1037,4 +1037,3 @@ true
 gap> 
 gap> STOP_TEST( "chapter-3.tst", 3*10^8 );
 
-#E chapter-3.tst . . . . . . . . . . . . . . . . . . . . . . . . . .ends here

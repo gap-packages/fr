@@ -666,4 +666,3 @@ true
 gap> 
 gap> STOP_TEST( "chapter-4.tst", 10^10 );
 
-#E chapter-4.tst . . . . . . . . . . . . . . . . . . . . . . . . . .ends here

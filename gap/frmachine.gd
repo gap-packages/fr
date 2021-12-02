@@ -1072,4 +1072,3 @@ DeclareOperation("Minimized", [IsFRMachine]);
 DeclareAttribute("Correspondence", IsFRMachine);
 #############################################################################
 
-#E frmachine.gd . . . . . . . . . . . . . . . . . . . . . . . . . . ends here

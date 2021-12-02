@@ -57,4 +57,3 @@ BindGlobal("ALGEBRAISZERO@", function(M,x)
     return true;
 end);
 
-#E linear-gbnp.gi . . . . . . . . . . . . . . . . . . . . . . . . . ends here
