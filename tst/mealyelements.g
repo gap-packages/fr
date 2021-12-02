@@ -2,7 +2,6 @@
 ##
 #W  mealyelements.g                FR Package               Laurent Bartholdi
 ##
-#H  @(#)$Id$
 ##
 #Y  Copyright (C) 2006,  Laurent Bartholdi
 ##

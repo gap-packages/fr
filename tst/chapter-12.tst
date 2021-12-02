@@ -2,7 +2,6 @@
 ##
 #W  chapter-12.tst                 FR Package               Laurent Bartholdi
 ##
-#H  @(#)$Id$
 ##
 #Y  Copyright (C) 2008,  Laurent Bartholdi
 ##
