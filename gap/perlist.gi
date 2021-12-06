@@ -627,9 +627,9 @@ InstallMethod(FirstOp, "for a periodic list",
         [IsPeriodicList,IsFunction],
         function(l,p)
     local x;
-    x := FirstOp(l![1],p);
+    x := First(l![1],p);
     if x=fail then
-        return FirstOp(l![2],p);
+        return First(l![2],p);
     else
         return x;
     fi;
