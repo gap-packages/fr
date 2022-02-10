@@ -866,13 +866,13 @@ InstallMethod(\+, "(FR) for two linear elements", IsIdenticalObj,
     return E+AsAlgebraElement(F);
 end);
 
-InstallMethod(AINV, "for a linear machine",
+InstallMethod(AdditiveInverseSameMutability, "for a linear machine",
         [IsLinearFRMachine and IsAlgebraFRMachineRep],
         function(M)
     return AlgebraMachineNC(FamilyObj(M),M!.free,M!.transitions,-M!.output);
 end);
 
-InstallMethod(AINV, "for a linear element",
+InstallMethod(AdditiveInverseSameMutability, "for a linear element",
         [IsLinearFRElement and IsFRElementStdRep],
         function(E)
     return ALGEBRAELEMENT@(FamilyObj(E),E![1],-E![2]);

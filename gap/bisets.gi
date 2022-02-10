@@ -107,29 +107,29 @@ InstallMethod(BisetElement, "(FR) for a homomorphism biset",
     return Objectify(type,elt);
 end);
 
-InstallMethod(EQ, "(FR) for two biset elements",
+InstallMethod(\=, "(FR) for two biset elements",
         [IsBisetElementByPair,IsBisetElementByPair],
         function(e,f)
     return e!.biset=f!.biset and e!.element=f!.element and e!.letter=f!.letter;
 end);
-InstallMethod(LT, "(FR) for two biset elements",
+InstallMethod(\<, "(FR) for two biset elements",
         [IsBisetElementByPair,IsBisetElementByPair],
         function(e,f)
     return e!.biset<f!.biset or (e!.biset=f!.biset and (e!.letter<f!.letter or (e!.letter=f!.letter and e!.element<f!.element)));
 end);
          
-InstallMethod(EQ, "(FR) for two biset elements",
+InstallMethod(\=, "(FR) for two biset elements",
         [IsBisetElementByElement,IsBisetElementByElement],
         function(e,f)
     return e!.biset=f!.biset and e!.element=f!.element;
 end);
-InstallMethod(LT, "(FR) for two biset elements",
+InstallMethod(\<, "(FR) for two biset elements",
         [IsBisetElementByElement,IsBisetElementByElement],
         function(e,f)
     return e!.biset<f!.biset or (e!.biset=f!.biset and e!.element<f!.element);
 end);
 
-InstallOtherMethod(PROD, "(FR) for a biset element and a semigroup element",
+InstallOtherMethod(\*, "(FR) for a biset element and a semigroup element",
         [IsBisetElementByPair,IsMultiplicativeElement],
         function(b,g)
     local biset, newelement;
@@ -143,7 +143,7 @@ InstallOtherMethod(PROD, "(FR) for a biset element and a semigroup element",
         TryNextMethod();
     fi;
 end);
-InstallOtherMethod(PROD, "(FR) for a semigroup element and a biset element",
+InstallOtherMethod(\*, "(FR) for a semigroup element and a biset element",
         [IsMultiplicativeElement,IsBisetElementByPair],
         function(g,b)
     if not g in RightActingDomain(b!.biset) then TryNextMethod(); fi;

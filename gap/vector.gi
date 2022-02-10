@@ -1235,13 +1235,13 @@ InstallMethod(\+, "for a vector element and a scalar",
     return E+x*One(E);
 end);
 
-InstallMethod(AINV, "for a vector machine",
+InstallMethod(AdditiveInverseSameMutability, "for a vector machine",
         [IsLinearFRMachine and IsVectorFRMachineRep],
         function(M)
     return VectorMachineNC(FamilyObj(M),M!.transitions,-M!.output);
 end);
 
-InstallMethod(AINV, "for a vector element",
+InstallMethod(AdditiveInverseSameMutability, "for a vector element",
         [IsLinearFRElement and IsVectorFRMachineRep],
         function(E)
     return VectorElementNC(FamilyObj(E),E!.transitions,-E!.output,E!.input);
