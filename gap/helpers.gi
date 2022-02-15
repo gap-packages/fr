@@ -270,9 +270,9 @@ InstallGlobalFunction(WordGrowth, function(arg)
     if IsBound(options.act) then
         act := options.act;
     elif point=fail then
-        act := PROD;
+        act := OnRight;
     else
-        act := POW;
+        act := OnPoints;
     fi;
     if IsBound(options.tile) then
         tile := options.tile;
@@ -1409,7 +1409,7 @@ InstallMethod(DegreeOfDirichletSeries, [IsDirichletSeries],
     return 0;
 end);
 
-InstallMethod(SUM, [IsDirichletSeries,IsDirichletSeries],
+InstallMethod(\+, [IsDirichletSeries,IsDirichletSeries],
         function(s1,s2)
     local i, p, maxdeg, coeff, val;
     
@@ -1429,7 +1429,7 @@ InstallMethod(SUM, [IsDirichletSeries,IsDirichletSeries],
     return NEWDIRICHLETSERIES@(coeff,val,maxdeg);
 end);
 
-InstallMethod(AINV, [IsDirichletSeries],
+InstallMethod(AdditiveInverseSameMutability, [IsDirichletSeries],
         function(s)
     return NEWDIRICHLETSERIES@(s![1],-s![2],s![3]);
 end);
@@ -1439,22 +1439,22 @@ InstallMethod(Zero, [IsDirichletSeries],
     return NEWDIRICHLETSERIES@([],[],s![3]);
 end);
 
-InstallMethod(ONE, [IsDirichletSeries],
+InstallMethod(OneMutable, [IsDirichletSeries],
         function(s)
     return NEWDIRICHLETSERIES@([1],[1],s![3]);
 end);
 
-InstallMethod(PROD, [IsDirichletSeries,IsScalar],
+InstallMethod(\*, [IsDirichletSeries,IsScalar],
         function(s,x)
     return NEWDIRICHLETSERIES@(s![1],s![2]*x,s![3]);
 end);
 
-InstallMethod(PROD, [IsScalar,IsDirichletSeries],
+InstallMethod(\*, [IsScalar,IsDirichletSeries],
         function(x,s)
     return NEWDIRICHLETSERIES@(s![1],x*s![2],s![3]);
 end);
 
-InstallMethod(PROD, [IsDirichletSeries,IsDirichletSeries],
+InstallMethod(\*, [IsDirichletSeries,IsDirichletSeries],
         function(s1,s2)
     local coeff, val, i, j, degree, p, maxdeg;
     
@@ -1478,7 +1478,7 @@ InstallMethod(PROD, [IsDirichletSeries,IsDirichletSeries],
     return NEWDIRICHLETSERIES@(coeff,val,maxdeg);
 end);
 
-InstallMethod(EQ, [IsDirichletSeries,IsDirichletSeries],
+InstallMethod(\=, [IsDirichletSeries,IsDirichletSeries],
         function(s1,s2)
     local i1, i2;
     if s1![3]<>s2![3] then return false; fi;
@@ -1499,7 +1499,7 @@ InstallMethod(EQ, [IsDirichletSeries,IsDirichletSeries],
     return true;
 end);
 
-InstallMethod(LT, [IsDirichletSeries,IsDirichletSeries],
+InstallMethod(\<, [IsDirichletSeries,IsDirichletSeries],
         function(s1,s2)
     local i1, i2;
     if s1![3]<s2![3] then return true; fi;
@@ -1741,7 +1741,7 @@ InstallMethod(LT, "(FR) for FP Lie algebra elements",
     return false;
 end);
 
-InstallMethod(SUM, "(FR) for FP Lie algebra elements",
+InstallMethod(\+, "(FR) for FP Lie algebra elements",
         IsIdenticalObj,
         [IsLieObject and IsLieFpElementRep,IsLieObject and IsLieFpElementRep],
         function(X,Y)
@@ -1759,7 +1759,7 @@ InstallMethod(SUM, "(FR) for FP Lie algebra elements",
     return LIEELEMENT@(X![1],m);
 end);
 
-InstallMethod(DIFF, "(FR) for FP Lie algebra elements",
+InstallMethod(\-, "(FR) for FP Lie algebra elements",
         IsIdenticalObj,
         [IsLieObject and IsLieFpElementRep,IsLieObject and IsLieFpElementRep],
         function(X,Y)
@@ -1777,7 +1777,7 @@ InstallMethod(DIFF, "(FR) for FP Lie algebra elements",
     return LIEELEMENT@(X![1],m);
 end);
 
-InstallMethod(AINV, "(FR) for an FP Lie algebra element",
+InstallMethod(AdditiveInverseSameMutability, "(FR) for an FP Lie algebra element",
         [IsLieObject and IsLieFpElementRep],
         function(X)
     local m, n;
@@ -1788,7 +1788,7 @@ InstallMethod(AINV, "(FR) for an FP Lie algebra element",
     return LIEELEMENT@(X![1],m);
 end);
 
-InstallMethod(PROD, "(FR) for FP Lie algebra elements",
+InstallMethod(\*, "(FR) for FP Lie algebra elements",
         IsIdenticalObj,
         [IsLieObject and IsLieFpElementRep,IsLieObject and IsLieFpElementRep],
         function(X,Y)
@@ -1822,13 +1822,13 @@ InstallMethod(PROD, "(FR) for FP Lie algebra elements",
     return LIEELEMENT@(X![1],m);
 end);
 
-InstallMethod(PROD, "(FR) for a scalar and an FP Lie algebra element",
+InstallMethod(\*, "(FR) for a scalar and an FP Lie algebra element",
         [IsScalar,IsLieObject and IsLieFpElementRep],
         function(X,Y)
     return LIEELEMENT@(Y![1],X*Y![2]);
 end);
 
-InstallMethod(PROD, "(FR) for an FP Lie algebra element and a scalar",
+InstallMethod(\*, "(FR) for an FP Lie algebra element and a scalar",
         [IsLieObject and IsLieFpElementRep,IsScalar],
         function(X,Y)
     return LIEELEMENT@(X![1],X![2]*Y);
@@ -1863,7 +1863,7 @@ BindGlobal("PTHPOWER@", function(X,A,p,s)
     return m;
 end);
 
-InstallMethod(POW, "(FR) for an FR Lie algebra element and a p-power",
+InstallMethod(\^, "(FR) for an FR Lie algebra element and a p-power",
         [IsLieObject and IsLieFpElementRep,IsPosInt],
         function(X,Y)
     local p, n;
