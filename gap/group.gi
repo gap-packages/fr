@@ -1934,10 +1934,13 @@ InstallMethod(IsAmenableGroup, [IsFreeGroup],
 ##
 BindGlobal("STRING_ATOM2GAP@", function(s)
     local stream, result;
-    stream := InputTextString(Concatenation(s,";"));
-    result := READ_COMMAND_REAL(stream,false);
+    stream := "return ";
+    Append(stream,s);
+    Append(stream,";");
+    stream := InputTextString(stream);
+    result := ReadAsFunction(stream)();
     CloseStream(stream);
-    return result[2];
+    return result;
 end);
 BindGlobal("STRING_WORD2GAP@", function(gens,s_generator,data,w)
     local s, f, i;
@@ -2435,7 +2438,7 @@ InstallMethod(IsLevelTransitiveFRGroup, "(FR) for a self-similar group",
             if not IsTransitive(PermGroup(G,level),[1..Size(AlphabetOfFRSemigroup(G))^level]) then
                 return false;
             fi;
-            if IsSubgroup(StabilizerImage(G,ListWithIdenticalEntries(Representative(AlphabetOfFRSemigroup(G)),level)),G) then
+            if IsSubgroup(StabilizerImage(G,ListWithIdenticalEntries(level,Representative(AlphabetOfFRSemigroup(G)))),G) then
                 return true;
             fi;
         fi;
