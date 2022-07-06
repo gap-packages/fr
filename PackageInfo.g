@@ -54,7 +54,7 @@ AbstractHTML := "The <span class=\"pkgname\">fr</span> package allows \
 
 PackageDoc := rec(
   BookName  := "fr",
-  HTMLStart := "doc/chap0.html",
+  HTMLStart := "doc/chap0_mj.html",
   PDFFile   := "doc/manual.pdf",
   SixFile   := "doc/manual.six",
   LongTitle := "Functionally recursive and automata groups",
