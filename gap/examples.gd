@@ -68,9 +68,6 @@
 DeclareAttribute("AddingMachine",IsPosInt);
 DeclareAttribute("AddingElement",IsPosInt);
 DeclareGlobalFunction("AddingGroup");
-DeclareGlobalVariable("BinaryAddingMachine");
-DeclareGlobalVariable("BinaryAddingElement");
-DeclareGlobalVariable("BinaryAddingGroup");
 #############################################################################
 
 #############################################################################
@@ -107,11 +104,6 @@ DeclareGlobalVariable("BinaryAddingGroup");
 ## <#/GAPDoc>
 ##
 DeclareGlobalFunction("FiniteDepthBinaryGroup");
-DeclareGlobalVariable("FinitaryBinaryGroup");
-DeclareGlobalVariable("BoundedBinaryGroup");
-DeclareGlobalVariable("PolynomialGrowthBinaryGroup");
-DeclareGlobalVariable("FiniteStateBinaryGroup");
-DeclareGlobalVariable("FullBinaryGroup");
 #############################################################################
 
 #############################################################################
@@ -289,10 +281,6 @@ DeclareGlobalFunction("MixerGroup");
 ##
 DeclareGlobalFunction("GrigorchukMachines");
 DeclareGlobalFunction("GrigorchukGroups");
-DeclareGlobalVariable("GrigorchukMachine");
-DeclareGlobalVariable("GrigorchukGroup");
-DeclareGlobalVariable("GrigorchukOverGroup");
-DeclareGlobalVariable("GrigorchukTwistedTwin");
 #############################################################################
 
 #############################################################################
@@ -416,11 +404,6 @@ DeclareGlobalFunction("SunicGroup");
 ##
 DeclareGlobalFunction("AleshinMachines");
 DeclareGlobalFunction("AleshinGroups");
-DeclareGlobalVariable("AleshinMachine");
-DeclareGlobalVariable("AleshinGroup");
-DeclareGlobalVariable("BabyAleshinMachine");
-DeclareGlobalVariable("BabyAleshinGroup");
-DeclareGlobalVariable("SidkiFreeGroup");
 #############################################################################
 
 #############################################################################
@@ -454,8 +437,6 @@ DeclareGlobalVariable("SidkiFreeGroup");
 ## </ManSection>
 ## <#/GAPDoc>
 ##
-DeclareGlobalVariable("BrunnerSidkiVieiraMachine");
-DeclareGlobalVariable("BrunnerSidkiVieiraGroup");
 #############################################################################
 
 #############################################################################
@@ -560,13 +541,9 @@ DeclareGlobalVariable("BrunnerSidkiVieiraGroup");
 DeclareGlobalFunction("GuptaSidkiMachines");
 DeclareGlobalFunction("GuptaSidkiGroups");
 DeclareGlobalFunction("GeneralizedGuptaSidkiGroups");
-DeclareGlobalVariable("GuptaSidkiMachine");
-DeclareGlobalVariable("GuptaSidkiGroup");
 DeclareGlobalFunction("NeumannMachine");
 DeclareGlobalFunction("NeumannGroup");
-DeclareGlobalVariable("FabrykowskiGuptaGroup");
 DeclareGlobalFunction("FabrykowskiGuptaGroups");
-DeclareGlobalVariable("ZugadiSpinalGroup");
 #############################################################################
 
 #############################################################################
@@ -672,10 +649,6 @@ DeclareGlobalVariable("ZugadiSpinalGroup");
 ## <#/GAPDoc>
 ##
 DeclareGlobalFunction("HanoiGroup");
-DeclareGlobalVariable("DahmaniGroup");
-DeclareGlobalVariable("MamaghaniGroup");
-DeclareGlobalVariable("WeierstrassGroup");
-DeclareGlobalVariable("StrichartzGroup");
 #############################################################################
 
 #############################################################################
@@ -927,8 +900,6 @@ DeclareConstructor("LamplighterGroup",[IsFRGroup,IsGroup]);
 DeclareAttribute("KneadingSequence",IsFRGroup);
 DeclareGlobalFunction("BinaryKneadingMachine");
 DeclareGlobalFunction("BinaryKneadingGroup");
-DeclareGlobalVariable("BasilicaGroup");
-DeclareGlobalVariable("FornaessSibonyGroup");
 #############################################################################
 
 #############################################################################
@@ -968,10 +939,6 @@ DeclareGlobalVariable("FornaessSibonyGroup");
 ## </ManSection>
 ## <#/GAPDoc>
 ##
-DeclareGlobalVariable("I2Machine");
-DeclareGlobalVariable("I2Monoid");
-DeclareGlobalVariable("I4Machine");
-DeclareGlobalVariable("I4Monoid");
 #############################################################################
 
 #############################################################################
