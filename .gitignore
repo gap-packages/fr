@@ -4,6 +4,7 @@ frbib.xml.bib
 .DS_Store
 doc/chap*txt
 doc/chap*html
+doc/chooser.html
 doc/*.aux
 doc/*.pnr
 doc/*.tex
@@ -16,6 +17,8 @@ doc/*.ilg
 doc/*.ind
 doc/*.out
 doc/*.toc
+doc/*.js
+doc/*.css
 doc/manual.pdf
 doc/manual.six
 doc/manual.lab
