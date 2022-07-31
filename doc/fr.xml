@@ -18,7 +18,7 @@
   <Author>Laurent Bartholdi
 	  <Email><Alt Only="HTML">laurent dot bartholdi at gmail dot com</Alt>
 		 <Alt Not="HTML">laurent.bartholdi@gmail.com</Alt></Email>
-	  <Homepage>http://www.uni-math.gwdg.de/laurent/</Homepage>
+	  <Homepage>https://www.math.uni-sb.de/ag/bartholdi/</Homepage>
   </Author>
   <Date>&Date;</Date>
   <Address>
@@ -31,12 +31,12 @@
   <Alt Only="HTML">
   <P/>
   The computer algebra system &GAP; is available at
-  <URL>http://gap-system.org</URL>.
+  <URL>https://www.gap-system.org</URL>.
   <P/>
   This documentation for <Package>FR</Package> is available at
-  <URL>http://www.gap-system.org/Manuals/pkg/fr-&Version;/doc/manual.pdf</URL> in PDF
+  <URL>https://www.gap-system.org/Manuals/pkg/fr-&Version;/doc/manual.pdf</URL> in PDF
   format, and may be accessed online at
-  <URL>http://gap-packages.github.io/fr/</URL>.
+  <URL>https://gap-packages.github.io/fr/</URL>.
   <P/>
   The latest release of the package may be downloaded as
   <URL>https://github.com/gap-packages/fr/archive/&Version;.tar.gz</URL> (tar, gzipped) and <URL>https://github.com/gap-packages/fr/archive/&Version;.zip</URL> (zip). The latest repository version (possibly unstable) may be downloaded as <URL>https://github.com/gap-packages/fr/tarball/master</URL> (tar, gzipped),
@@ -103,7 +103,7 @@ General Public License for more details.
 
 <P/> You should have received a copy of the GNU General Public
 License along with this program, in the file COPYING.  If not, see
-<URL>http://www.gnu.org/licenses/</URL>.
+<URL>https://www.gnu.org/licenses/</URL>.
 
 </Chapter>
 

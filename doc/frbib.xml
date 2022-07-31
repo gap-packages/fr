@@ -720,7 +720,7 @@
   <mrnumber>MR2318547 (2008i:20030)</mrnumber>
   <mrclass>20E05 (20E08)</mrclass>
   <mrreviewer>Daniel P. Groves</mrreviewer>
-  <url>http://dx.doi.org/10.1007/s10711-006-9060-5</url>
+  <url>https://doi.org/10.1007/s10711-006-9060-5</url>
   <other type="coden">GEMDAT</other>
   <other type="doi">10.1007/s10711-006-9060-5</other>
   <other type="fjournal">Geometriae Dedicata</other>
@@ -1120,7 +1120,7 @@
   <mrnumber>2121737 (2005k:52022)</mrnumber>
   <mrclass>52B10</mrclass>
   <mrreviewer>Ivan Soprunov</mrreviewer>
-  <url>http://dx.doi.org/10.1007/s00209-004-0713-5</url>
+  <url>https://doi.org/10.1007/s00209-004-0713-5</url>
   <other type="coden">MAZEAX</other>
   <other type="doi">10.1007/s00209-004-0713-5</other>
   <other type="fjournal">Mathematische Zeitschrift</other>
@@ -1145,7 +1145,7 @@
   <mrnumber>3054572</mrnumber>
   <mrclass>20E08 (20F10)</mrclass>
   <mrreviewer>Fran{\c{c}}ois Dahmani</mrreviewer>
-  <url>http://dx.doi.org/10.4171/GGD/184</url>
+  <url>https://doi.org/10.4171/GGD/184</url>
   <other type="doi">10.4171/GGD/184</other>
   <other type="fjournal">Groups, Geometry, and Dynamics</other>
 </article></entry>
