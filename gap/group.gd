@@ -304,7 +304,7 @@ DeclareOperation("VirtualEndomorphism",[IsFRGroup,IsObject]);
 ## </ManSection>
 ## <#/GAPDoc>
 ##
-DeclareGlobalVariable("SEARCH@");
+BindGlobal("SEARCH@", rec(depth := 6, volume := 5000));
 #############################################################################
 
 #############################################################################
@@ -2152,6 +2152,5 @@ DeclareAttribute("MaximalSimpleSubgroup",IsGroup);
 ##
 DeclareGlobalFunction("GammaPQMachine");
 DeclareGlobalFunction("GammaPQGroup");
-DeclareGlobalVariable("RattaggiGroup");
 #############################################################################
 

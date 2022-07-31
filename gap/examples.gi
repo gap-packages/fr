@@ -189,13 +189,13 @@ InstallGlobalFunction(AddingGroup, function(n)
     return G;
 end);
 
-InstallValue(BinaryAddingMachine,AddingMachine(2));
+BindGlobal("BinaryAddingMachine",AddingMachine(2));
 BinaryAddingMachine!.Name := "BinaryAddingMachine";
 
-InstallValue(BinaryAddingElement,AddingElement(2));
+BindGlobal("BinaryAddingElement",AddingElement(2));
 BinaryAddingElement!.Name := "BinaryAddingElement";
 
-InstallValue(BinaryAddingGroup,AddingGroup(2));
+BindGlobal("BinaryAddingGroup",AddingGroup(2));
 BinaryAddingGroup!.Name := "BinaryAddingGroup";
 #############################################################################
 
@@ -210,16 +210,16 @@ BinaryAddingGroup!.Name := "BinaryAddingGroup";
 ##
 InstallGlobalFunction(FiniteDepthBinaryGroup, l->FullSCGroup([1..2],l));
 
-InstallValue(FinitaryBinaryGroup,FullSCGroup([1..2],IsFinitaryFRSemigroup));
+BindGlobal("FinitaryBinaryGroup",FullSCGroup([1..2],IsFinitaryFRSemigroup));
 
-InstallValue(BoundedBinaryGroup,FullSCGroup([1..2],IsBoundedFRSemigroup));
+BindGlobal("BoundedBinaryGroup",FullSCGroup([1..2],IsBoundedFRSemigroup));
 
-InstallValue(PolynomialGrowthBinaryGroup,
+BindGlobal("PolynomialGrowthBinaryGroup",
         FullSCGroup([1..2],IsPolynomialGrowthFRSemigroup));
 
-InstallValue(FiniteStateBinaryGroup,FullSCGroup([1..2],IsFiniteStateFRSemigroup));
+BindGlobal("FiniteStateBinaryGroup",FullSCGroup([1..2],IsFiniteStateFRSemigroup));
 
-InstallValue(FullBinaryGroup,FullSCGroup([1..2]));
+BindGlobal("FullBinaryGroup",FullSCGroup([1..2]));
 #############################################################################
 
 #############################################################################
@@ -321,9 +321,9 @@ InstallGlobalFunction(GrigorchukGroups,
     return a;
 end);
 
-InstallValue(GrigorchukMachine,
+BindGlobal("GrigorchukMachine",
         MealyMachine([[5,5],[1,3],[1,4],[5,2],[5,5]],[[2,1],[1,2],[1,2],[1,2],[1,2]]));
-InstallValue(GrigorchukGroup,SCGroup(GrigorchukMachine));
+BindGlobal("GrigorchukGroup",SCGroup(GrigorchukMachine));
 SetName(GrigorchukGroup,"GrigorchukGroup");
 
 SETGENERATORNAMES@(GrigorchukGroup,["a","b","c","d"]);
@@ -453,7 +453,7 @@ SetFRGroupPreImageData(GrigorchukGroup, function(depth)
                reduce:=reduce);
 end);
 
-InstallValue(GrigorchukOverGroup, MixerGroup(Group((1,2)),Group((1,2)),
+BindGlobal("GrigorchukOverGroup", MixerGroup(Group((1,2)),Group((1,2)),
         [[IdentityMapping(Group((1,2)))],[],[]]));
 SetName(GrigorchukOverGroup,"GrigorchukOverGroup");
 SETGENERATORNAMES@(GrigorchukOverGroup,["a","bb","cc","dd"]);
@@ -540,7 +540,7 @@ SetFRGroupPreImageData(GrigorchukOverGroup, function(depth)
                reduce:=reduce);
 end);
 
-InstallValue(GrigorchukTwistedTwin, SCGroup(MealyMachine(
+BindGlobal("GrigorchukTwistedTwin", SCGroup(MealyMachine(
         [[5,5],[3,1],[1,4],[5,2],[5,5]],
         [(1,2),(),(),(),()])));
 SETGENERATORNAMES@(GrigorchukTwistedTwin,["a","x","y","z"]);
@@ -685,19 +685,19 @@ InstallGlobalFunction(AleshinGroups,
     return g;
 end);
 
-InstallValue(AleshinMachine, AleshinMachines(3));
-InstallValue(AleshinGroup, SCGroup(AleshinMachine)); # the main example
+BindGlobal("AleshinMachine", AleshinMachines(3));
+BindGlobal("AleshinGroup", SCGroup(AleshinMachine)); # the main example
 AleshinGroup!.Name := "AleshinGroup";
 SETGENERATORNAMES@(AleshinGroup,["a","b","c"]);
 
-InstallValue(BabyAleshinMachine,
+BindGlobal("BabyAleshinMachine",
         MealyMachine([[2,3],[3,2],[1,1]],[(),(),(1,2)]));
 
-InstallValue(BabyAleshinGroup, SCGroup(BabyAleshinMachine));
+BindGlobal("BabyAleshinGroup", SCGroup(BabyAleshinMachine));
 SetName(BabyAleshinGroup,"BabyAleshinGroup");
 SETGENERATORNAMES@(BabyAleshinGroup,["a","b","c"]);
 
-InstallValue(SidkiFreeGroup, FRGroup("a=<a^2,a^t>","t=<,t>(1,2)"));
+BindGlobal("SidkiFreeGroup", FRGroup("a=<a^2,a^t>","t=<,t>(1,2)"));
 SetName(SidkiFreeGroup,"SidkiFreeGroup");
 # F := FreeGroup("a","t");
 # a := F.1; t := F.2;
@@ -730,10 +730,10 @@ SetName(SidkiFreeGroup,"SidkiFreeGroup");
 #E BrunnerSidkiVieiraMachine
 #E BrunnerSidkiVieiraGroup
 ##
-InstallValue(BrunnerSidkiVieiraMachine,
+BindGlobal("BrunnerSidkiVieiraMachine",
             MealyMachine([[5,1],[5,3],[2,5],[4,5],[5,5]],[(1,2),(1,2),(1,2),(1,2),()]));
 
-InstallValue(BrunnerSidkiVieiraGroup, SCGroup(BrunnerSidkiVieiraMachine));
+BindGlobal("BrunnerSidkiVieiraGroup", SCGroup(BrunnerSidkiVieiraMachine));
 SetName(BrunnerSidkiVieiraGroup,"BrunnerSidkiVieiraGroup");
 SETGENERATORNAMES@(BrunnerSidkiVieiraGroup,["tau","mu"]);
 SetFRGroupPreImageData(BrunnerSidkiVieiraGroup, function(depth)
@@ -997,9 +997,9 @@ InstallGlobalFunction(GeneralizedGuptaSidkiGroups, function(p)
     return G;
 end);
 
-InstallValue(GuptaSidkiMachine, GuptaSidkiMachines(3));
+BindGlobal("GuptaSidkiMachine", GuptaSidkiMachines(3));
 
-InstallValue(GuptaSidkiGroup, GeneralizedGuptaSidkiGroups(3));
+BindGlobal("GuptaSidkiGroup", GeneralizedGuptaSidkiGroups(3));
 GuptaSidkiGroup!.Name := "GuptaSidkiGroup";
 
 # automorphisms:
@@ -1135,10 +1135,10 @@ InstallGlobalFunction(FabrykowskiGuptaGroups, function(p)
     return G;
 end);
 
-InstallValue(FabrykowskiGuptaGroup, FabrykowskiGuptaGroups(3));
+BindGlobal("FabrykowskiGuptaGroup", FabrykowskiGuptaGroups(3));
 FabrykowskiGuptaGroup!.Name := "FabrykowskiGuptaGroup";
 
-InstallValue(ZugadiSpinalGroup, MixerGroup(Group((1,2,3)),Group((1,2,3)),
+BindGlobal("ZugadiSpinalGroup", MixerGroup(Group((1,2,3)),Group((1,2,3)),
         [[IdentityMapping(Group((1,2,3))),IdentityMapping(Group((1,2,3)))]]));
 SetName(ZugadiSpinalGroup,"ZugadiSpinalGroup");
 SETGENERATORNAMES@(ZugadiSpinalGroup,["a","s"]);
@@ -1208,19 +1208,19 @@ InstallGlobalFunction(HanoiGroup, function(k)
     return G;
 end);
 
-InstallValue(DahmaniGroup,
+BindGlobal("DahmaniGroup",
         SCGroup(MealyMachine([[3,1],[2,1],[2,3]],[(1,2),(1,2),()])));
 SetName(DahmaniGroup,"DahmaniGroup");
 
-InstallValue(MamaghaniGroup,
+BindGlobal("MamaghaniGroup",
         SCGroup(FRMachine(["a","b","c"],[[[],[2]],[[1],[3]],[[1],[-1]]],[(1,2),(),(1,2)])));
 SetName(MamaghaniGroup,"MamaghaniGroup");
 
-InstallValue(WeierstrassGroup,
+BindGlobal("WeierstrassGroup",
         SCGroup(MealyMachine([[1,1,1,1],[1,1,1,1],[1,1,1,1],[1,1,1,1],[5,2,3,4]],[(),(1,2)(3,4),(1,3)(2,4),(1,4)(2,3),()])));
 SetName(WeierstrassGroup,"WeierstrassGroup");
 
-InstallValue(StrichartzGroup,
+BindGlobal("StrichartzGroup",
         FRGroup("a=<b,b,c,c,a,a>","b=(1,2)(3,4)(5,6)","c=(1,6)(2,3)(4,5)"));
 SetName(StrichartzGroup,"StrichartzGroup");
 #############################################################################
@@ -2112,14 +2112,14 @@ InstallGlobalFunction(BinaryKneadingGroup, function(arg)
     return t[2];
 end);
 
-InstallValue(BasilicaGroup, BinaryKneadingGroup("1"));
+BindGlobal("BasilicaGroup", BinaryKneadingGroup("1"));
 BasilicaGroup!.Name := "BasilicaGroup";
 SETGENERATORNAMES@(BasilicaGroup,["a","b"]);
 SetName(GeneratorsOfSemigroup(BasilicaGroup)[4],"a^-1");
 SetName(GeneratorsOfSemigroup(BasilicaGroup)[5],"b^-1");
 SetName(NucleusOfFRSemigroup(BasilicaGroup)[4],"a"); #???
 
-InstallValue(FornaessSibonyGroup, FRGroup("alpha=(1,2)(3,4)",
+BindGlobal("FornaessSibonyGroup", FRGroup("alpha=(1,2)(3,4)",
         "beta=<alpha,gamma,alpha,gamma>","gamma=<beta,,,beta>","a=(1,3)(2,4)",
         "b=<alpha*a,alpha*a,c,c>","c=<beta*b,beta*b,b,b>":IsMealyElement));
 #############################################################################
@@ -2131,15 +2131,15 @@ InstallValue(FornaessSibonyGroup, FRGroup("alpha=(1,2)(3,4)",
 #E I4Machine
 #E I4Monoid
 ##
-InstallValue(I2Machine,MealyMachine([[1,1],[2,1]],[(1,2),[2,2]]));
+BindGlobal("I2Machine",MealyMachine([[1,1],[2,1]],[(1,2),[2,2]]));
 
-InstallValue(I2Monoid,SCMonoid(I2Machine));
+BindGlobal("I2Monoid",SCMonoid(I2Machine));
 SetName(I2Monoid,"I2");
 SETGENERATORNAMES@(I2Monoid,["f0","f1"]);
 
-InstallValue(I4Machine,MealyMachine([[3,3],[1,2],[3,3]],[(1,2),[1,1],()]));
+BindGlobal("I4Machine",MealyMachine([[3,3],[1,2],[3,3]],[(1,2),[1,1],()]));
 
-InstallValue(I4Monoid,SCMonoid(I4Machine));
+BindGlobal("I4Monoid",SCMonoid(I4Machine));
 SetName(I4Monoid,"I4");
 SETGENERATORNAMES@(I4Monoid,["s","f"]);
 #############################################################################

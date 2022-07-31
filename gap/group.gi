@@ -15,8 +15,6 @@
 ##
 #O SEARCH@
 ##
-InstallValue(SEARCH@, rec(depth := 6, volume := 5000));
-
 SEARCH@.DEPTH := function()
     local v;
     v := ValueOption("FRdepth");
