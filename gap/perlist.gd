@@ -152,7 +152,7 @@ DeclareCategory("IsPeriodicList",IsList);
 BindGlobal("PeriodicListsFamily",
         NewFamily("PeriodicListsFamily",IsPeriodicList));
 BindGlobal("TYPE_LIST_PERIODIC",
-        NewType(PeriodicListsFamily,IsPeriodicList));
+        NewType(PeriodicListsFamily,IsPeriodicList and IsPositionalObjectRep));
 DeclareOperation("PeriodicList",[IsList]);
 DeclareOperation("PeriodicList",[IsList,IsList]);
 DeclareOperation("PeriodicList", [IsList, IsPosInt]);
