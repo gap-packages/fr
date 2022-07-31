@@ -6,10 +6,10 @@
                               [1XSelf-similar groups[101X
   
   
-                                 Version 2.4.8
+                                 Version 2.4.9
   
   
-                                   15/02/2022
+                                   31/07/2022
   
   
                                Laurent Bartholdi
@@ -23,7 +23,7 @@
   
   Laurent Bartholdi
       Email:    [7Xmailto:laurent.bartholdi@gmail.com[107X
-      Homepage: [7Xhttp://www.uni-math.gwdg.de/laurent/[107X
+      Homepage: [7Xhttps://www.math.uni-sb.de/ag/bartholdi/[107X
   
   
   Address: [33X[0;9YMathematisches Institut[133X

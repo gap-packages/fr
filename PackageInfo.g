@@ -5,12 +5,12 @@
 SetPackageInfo( rec(
 PackageName := "FR",
 Subtitle := "Computations with functionally recursive groups",
-Version := "2.4.8",
-Date := "15/02/2022", # dd/mm/yyyy format
+Version := "2.4.9",
+Date := "31/07/2022", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
 ## <#GAPDoc Label="Version">
-## <!ENTITY Version "2.4.8">
-## <!ENTITY Date "15/02/2022">
+## <!ENTITY Version "2.4.9">
+## <!ENTITY Date "31/07/2022">
 ## <#/GAPDoc>
 
 Persons := [
@@ -20,7 +20,7 @@ Persons := [
     IsAuthor      := true,
     IsMaintainer  := true,
     Email         := "laurent.bartholdi@gmail.com",
-    WWWHome       := "http://www.uni-math.gwdg.de/laurent",
+    WWWHome       := "https://www.math.uni-sb.de/ag/bartholdi/",
     PostalAddress := Concatenation( [
                        "Mathematisches Institut\n",
                        "Bunsenstraße 3-5\n",
@@ -54,7 +54,7 @@ AbstractHTML := "The <span class=\"pkgname\">fr</span> package allows \
 
 PackageDoc := rec(
   BookName  := "fr",
-  HTMLStart := "doc/chap0.html",
+  HTMLStart := "doc/chap0_mj.html",
   PDFFile   := "doc/manual.pdf",
   SixFile   := "doc/manual.six",
   LongTitle := "Functionally recursive and automata groups",
