@@ -8,10 +8,6 @@ Subtitle := "Computations with functionally recursive groups",
 Version := "2.4.9",
 Date := "31/07/2022", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
-## <#GAPDoc Label="Version">
-## <!ENTITY Version "2.4.9">
-## <!ENTITY Date "31/07/2022">
-## <#/GAPDoc>
 
 Persons := [
   rec(
@@ -79,5 +75,14 @@ AvailabilityTest := ReturnTrue,
 BannerString := Concatenation("Loading ", ~.PackageName, " ", String( ~.Version ), " ...\n"),
 
 TestFile := "tst/testall.g",
-Keywords := ["functionally recursive group", "mealy machine", "automata group"]
+Keywords := ["functionally recursive group", "mealy machine", "automata group"],
+
+AutoDoc := rec(
+    entities := rec(
+        Version := ~.Version,
+        Date := ~.Date,
+    ),
+    TitlePage := false,
+),
+
 ));
