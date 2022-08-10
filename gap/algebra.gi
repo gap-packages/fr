@@ -171,7 +171,7 @@ BindGlobal("STRINGSTOLMACHINE@", function(r,args,creator)
         else
             Add(output,One(r));
         fi;
-        temp := STRING_WORD2GAP@(gens,"GeneratorsOfAlgebraWithOne",data,temp[1])*One(data.holder);
+        temp := STRING_WORD2GAP@(gens,GeneratorsOfAlgebraWithOne(data.holder),temp[1])*One(data.holder);
         if not IsMatrix(temp) then
             Error("<arg> should have the form a=[[...]...]\n");
         fi;

@@ -1940,18 +1940,30 @@ BindGlobal("STRING_ATOM2GAP@", function(s)
     CloseStream(stream);
     return result;
 end);
-BindGlobal("STRING_WORD2GAP@", function(gens,s_generator,data,w)
-    local s, f, i;
-    s := "function(__the_argument__) local ";
+# gens: list of strings corresponding to generator names
+# imgs: a list of the same length as imgs
+# w: a string containing an expression in terms of the generators names in `gens`
+BindGlobal("STRING_WORD2GAP@", function(gens,imgs,w)
+    local s, f, i, argname;
+    # generate an identifier that is definitely not in gens by making it
+    # longer than any element of gens
+    argname := ListWithIdenticalEntries(Maximum(List(gens, Length))+1, '_');
+    # generate GAP code for a unary function, with one local variable for each
+    # generator
+    s := Concatenation("function(",argname,") local ");
     Append(s,gens[1]);
     for i in [2..Length(gens)] do Append(s,","); Append(s,gens[i]); od;
     Append(s,";");
+    # add code which assigns to each generator the "appropriate" value
     for i in [1..Length(gens)] do
-        Append(s,Concatenation(gens[i],":=",s_generator,"(__the_argument__)[",String(i),"];"));
+        Append(s,Concatenation(gens[i],":=",argname,"[",String(i),"];"));
     od;
+    # finally evaluate the word "w" and return the result
     Append(s,"return "); Append(s,w); Append(s,";end");
+    # let GAP parse the above function...
     f := EvalString(s);
-    return f(data.holder);
+    # ... and evaluate it at the given input
+    return f(imgs);
 end);
 BindGlobal("STRING_TRANSFORMATION2GAP@", function(t,data)
     local p;
@@ -2002,7 +2014,7 @@ BindGlobal("STRING_GROUP@", function(freecreator, s_generator, creator, args)
             else
                 Add(action,STRING_TRANSFORMATION2GAP@(temp[2],data));
             fi;
-            temp := STRING_WORD2GAP@(gens,s_generator,data,Concatenation("[",temp[1],"]"));
+            temp := STRING_WORD2GAP@(gens,s_generator(data.holder),Concatenation("[",temp[1],"]"));
             for i in [1..Length(temp)] do
                 if not IsBound(temp[i]) or temp[i]=1 then
                     if IsMagmaWithOne(data.holder) then
@@ -2063,17 +2075,17 @@ end);
 
 InstallGlobalFunction(FRGroup,
         function(arg)
-    return STRING_GROUP@(FreeGroup, "GeneratorsOfGroup", Group, arg);
+    return STRING_GROUP@(FreeGroup, GeneratorsOfGroup, Group, arg);
 end);
 
 InstallGlobalFunction(FRMonoid,
         function(arg)
-    return STRING_GROUP@(FreeMonoid, "GeneratorsOfMonoid", Monoid, arg);
+    return STRING_GROUP@(FreeMonoid, GeneratorsOfMonoid, Monoid, arg);
 end);
 
 InstallGlobalFunction(FRSemigroup,
         function(arg)
-    return STRING_GROUP@(FreeSemigroup, "GeneratorsOfSemigroup", Semigroup, arg);
+    return STRING_GROUP@(FreeSemigroup, GeneratorsOfSemigroup, Semigroup, arg);
 end);
 
 InstallGlobalFunction(NewSemigroupFRMachine,
