@@ -39,7 +39,8 @@
   <URL>https://gap-packages.github.io/fr/</URL>.
   <P/>
   The latest release of the package may be downloaded as
-  <URL>https://github.com/gap-packages/fr/archive/&Version;.tar.gz</URL> (tar, gzipped) and <URL>https://github.com/gap-packages/fr/archive/&Version;.zip</URL> (zip). The latest repository version (possibly unstable) may be downloaded as <URL>https://github.com/gap-packages/fr/tarball/master</URL> (tar, gzipped),
+  <URL>https://github.com/gap-packages/fr/archive/&Version;.tar.gz</URL> (tar, gzipped).
+  The latest repository version (possibly unstable) may be downloaded as <URL>https://github.com/gap-packages/fr/tarball/master</URL> (tar, gzipped),
   <URL>https://github.com/gap-packages/fr.git</URL> (git repository), or
   explored at <URL>https://github.com/gap-packages/fr/tree/master/</URL>.
   </Alt>
