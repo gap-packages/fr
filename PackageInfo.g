@@ -5,8 +5,8 @@
 SetPackageInfo( rec(
 PackageName := "FR",
 Subtitle := "Computations with functionally recursive groups",
-Version := "2.4.9",
-Date := "31/07/2022", # dd/mm/yyyy format
+Version := "2.4.10",
+Date := "10/08/2022", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
 
 Persons := [
@@ -18,12 +18,11 @@ Persons := [
     Email         := "laurent.bartholdi@gmail.com",
     WWWHome       := "https://www.math.uni-sb.de/ag/bartholdi/",
     PostalAddress := Concatenation( [
-                       "Mathematisches Institut\n",
-                       "Bunsenstraße 3-5\n",
-                       "D-37073 Göttingen\n",
+                       "FR Mathematik+Informatik\n",
+                       "D-66123 Saarbrücken\n",
                        "Germany" ] ),
-    Place         := "Göttingen",
-    Institution   := "Georg-August Universität zu Göttingen"
+    Place         := "Saarbrücken",
+    Institution   := "Saarland University"
   )
 ],
 
