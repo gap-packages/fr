@@ -19,6 +19,7 @@ doc/*.out
 doc/*.toc
 doc/*.js
 doc/*.css
+doc/_*.xml
 doc/manual.pdf
 doc/manual.six
 doc/manual.lab

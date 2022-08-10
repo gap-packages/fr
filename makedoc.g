@@ -1,5 +1,5 @@
-if fail = LoadPackage("AutoDoc", ">= 2019.04.10") then
-    Error("AutoDoc 2019.04.10 or newer is required");
+if fail = LoadPackage("AutoDoc", ">= 2022.07.10") then
+    Error("AutoDoc 2022.07.10 or newer is required");
 fi;
 AutoDoc(rec(
     gapdoc := rec(
