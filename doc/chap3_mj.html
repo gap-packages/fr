@@ -5,6 +5,9 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 <title>GAP (FR) - Chapter 3: Functionally recursive machines</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <meta name="generator" content="GAPDoc2HTML" />
@@ -15,81 +18,81 @@
 <body class="chap3"  onload="jscontent()">
 
 
-<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chapBib_mj.html">Bib</a>  <a href="chapInd_mj.html">Ind</a>  </div>
 
-<div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap2.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap4.html">[Next Chapter]</a>&nbsp;  </div>
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap2_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap4_mj.html">[Next Chapter]</a>&nbsp;  </div>
 
-<p id="mathjaxlink" class="pcenter"><a href="chap3_mj.html">[MathJax on]</a></p>
+<p id="mathjaxlink" class="pcenter"><a href="chap3.html">[MathJax off]</a></p>
 <p><a id="X7D65CA8B876E514C" name="X7D65CA8B876E514C"></a></p>
-<div class="ChapSects"><a href="chap3.html#X7D65CA8B876E514C">3 <span class="Heading">Functionally recursive machines</span></a>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3.html#X7D52F7ED83E2D153">3.1 <span class="Heading">Types of machines</span></a>
+<div class="ChapSects"><a href="chap3_mj.html#X7D65CA8B876E514C">3 <span class="Heading">Functionally recursive machines</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3_mj.html#X7D52F7ED83E2D153">3.1 <span class="Heading">Types of machines</span></a>
 </span>
 </div>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3.html#X7EB36FBB78F4F26A">3.2 <span class="Heading">Products of machines</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3_mj.html#X7EB36FBB78F4F26A">3.2 <span class="Heading">Products of machines</span></a>
 </span>
 </div>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3.html#X828640667D2E5280">3.3 <span class="Heading">Creators for <code class="code">FRMachine</code>s</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3_mj.html#X828640667D2E5280">3.3 <span class="Heading">Creators for <code class="code">FRMachine</code>s</span></a>
 </span>
 <div class="ContSSBlock">
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X80D310EF7FD5EA44">3.3-1 FRMachineNC</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X808F3BD97EDA8CE8">3.3-2 FRMachine</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7C383F4383D22BFC">3.3-3 UnderlyingFRMachine</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7BF186227C0ABE8D">3.3-4 AsGroupFRMachine</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X78130FC97C58AFC4">3.3-5 AsGroupFRMachine</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X80D310EF7FD5EA44">3.3-1 FRMachineNC</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X808F3BD97EDA8CE8">3.3-2 FRMachine</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7C383F4383D22BFC">3.3-3 UnderlyingFRMachine</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7BF186227C0ABE8D">3.3-4 AsGroupFRMachine</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X78130FC97C58AFC4">3.3-5 AsGroupFRMachine</a></span>
 </div></div>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3.html#X8753FA157B2AD6DC">3.4 <span class="Heading">Attributes for <code class="code">FRMachine</code>s</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3_mj.html#X8753FA157B2AD6DC">3.4 <span class="Heading">Attributes for <code class="code">FRMachine</code>s</span></a>
 </span>
 <div class="ContSSBlock">
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X8000470D7DA7FFBD">3.4-1 StateSet</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7F77F5DD789FA2F4">3.4-2 GeneratorsOfFRMachine</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7DBC41D4808979BC">3.4-3 Output</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7AEE87BC8393FA54">3.4-4 Transition</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X82B3A8AB80B5E181">3.4-5 Transitions</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7D95D1498586E5D0">3.4-6 WreathRecursion</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X8000470D7DA7FFBD">3.4-1 StateSet</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7F77F5DD789FA2F4">3.4-2 GeneratorsOfFRMachine</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7DBC41D4808979BC">3.4-3 Output</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7AEE87BC8393FA54">3.4-4 Transition</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X82B3A8AB80B5E181">3.4-5 Transitions</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7D95D1498586E5D0">3.4-6 WreathRecursion</a></span>
 </div></div>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3.html#X8158A8307CA98A3D">3.5 <span class="Heading">Operations for <code class="code">FRMachine</code>s</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3_mj.html#X8158A8307CA98A3D">3.5 <span class="Heading">Operations for <code class="code">FRMachine</code>s</span></a>
 </span>
 <div class="ContSSBlock">
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X8289C2F77D67EDC3">3.5-1 StructuralGroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7F2703417F270341"><code>3.5-2 \+</code></a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7857704878577048"><code>3.5-3 \*</code></a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7C0677148107F7FE">3.5-4 TensorSumOp</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X8077C8A47E22FCB5">3.5-5 TensorProductOp</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7D248C737D29A7CC">3.5-6 DirectSumOp</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X81456F10820CAC87">3.5-7 DirectProductOp</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7A0858097AA3FBDA">3.5-8 TreeWreathProduct</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X811B5BF17A3FE577">3.5-9 SubFRMachine</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X814F53B97C3F43F5">3.5-10 ChangeFRMachineBasis</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X81B382BD81B2BD34">3.5-11 Minimized</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7C107A42815F91DA">3.5-12 Correspondence</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X8289C2F77D67EDC3">3.5-1 StructuralGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7F2703417F270341"><code>3.5-2 \+</code></a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7857704878577048"><code>3.5-3 \*</code></a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7C0677148107F7FE">3.5-4 TensorSumOp</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X8077C8A47E22FCB5">3.5-5 TensorProductOp</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7D248C737D29A7CC">3.5-6 DirectSumOp</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X81456F10820CAC87">3.5-7 DirectProductOp</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7A0858097AA3FBDA">3.5-8 TreeWreathProduct</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X811B5BF17A3FE577">3.5-9 SubFRMachine</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X814F53B97C3F43F5">3.5-10 ChangeFRMachineBasis</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X81B382BD81B2BD34">3.5-11 Minimized</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7C107A42815F91DA">3.5-12 Correspondence</a></span>
 </div></div>
 </div>
 
 <h3>3 <span class="Heading">Functionally recursive machines</span></h3>
 
-<p>At the core of this package are <em>functionally recursive machines</em>. The internals of specific machines will be described later, but each machine <span class="SimpleMath">M</span> has an associated <em>alphabet</em> <span class="SimpleMath">X</span>, a <em>set of states</em> <span class="SimpleMath">Q</span>, and a <em>transition function</em> <span class="SimpleMath">ϕ:Q × X -&gt; X × Q</span>. An <em>element</em>, as we will see in Section <a href="chap4.html#X863D82207A1320F1"><span class="RefLink">4</span></a>, is given by a machine and an initial state <span class="SimpleMath">q∈ Q</span>.</p>
+<p>At the core of this package are <em>functionally recursive machines</em>. The internals of specific machines will be described later, but each machine <span class="SimpleMath">\(M\)</span> has an associated <em>alphabet</em> <span class="SimpleMath">\(X\)</span>, a <em>set of states</em> <span class="SimpleMath">\(Q\)</span>, and a <em>transition function</em> <span class="SimpleMath">\(\phi:Q \times X \to X \times Q\)</span>. An <em>element</em>, as we will see in Section <a href="chap4_mj.html#X863D82207A1320F1"><span class="RefLink">4</span></a>, is given by a machine and an initial state <span class="SimpleMath">\(q\in Q\)</span>.</p>
 
-<p>The element <span class="SimpleMath">(M,q)</span> defines a transformation on the set <span class="SimpleMath">X^*</span> of strings (finite or infinite) over the alphabet <span class="SimpleMath">X</span>, as follows: the empty string is always fixed. Given a string <span class="SimpleMath">x_1x_2... x_n</span> with <span class="SimpleMath">nge0</span>, compute <span class="SimpleMath">ϕ(q,x_1)=(y_1,r)</span>; then compute the action of <span class="SimpleMath">(M,r)</span> on the string <span class="SimpleMath">x_2... x_n</span>, and call the result <span class="SimpleMath">y_2... y_n</span>. Then the action of <span class="SimpleMath">(M,q)</span> on <span class="SimpleMath">x_1x_2... x_n</span> yields <span class="SimpleMath">y_1y_2... y_n</span>.</p>
+<p>The element <span class="SimpleMath">\((M,q)\)</span> defines a transformation on the set <span class="SimpleMath">\(X^*\)</span> of strings (finite or infinite) over the alphabet <span class="SimpleMath">\(X\)</span>, as follows: the empty string is always fixed. Given a string <span class="SimpleMath">\(x_1x_2\ldots x_n\)</span> with <span class="SimpleMath">\(n\ge0\)</span>, compute <span class="SimpleMath">\(\phi(q,x_1)=(y_1,r)\)</span>; then compute the action of <span class="SimpleMath">\((M,r)\)</span> on the string <span class="SimpleMath">\(x_2\ldots x_n\)</span>, and call the result <span class="SimpleMath">\(y_2\ldots y_n\)</span>. Then the action of <span class="SimpleMath">\((M,q)\)</span> on <span class="SimpleMath">\(x_1x_2\ldots x_n\)</span> yields <span class="SimpleMath">\(y_1y_2\ldots y_n\)</span>.</p>
 
-<p>This can be understood more formally as follows. The transition function <span class="SimpleMath">ϕ</span> induces a map <span class="SimpleMath">ϕ^n:Q× X^n -&gt; X^n × Q</span>, defined by successively applying <span class="SimpleMath">ϕ</span> to move the <span class="SimpleMath">Q</span> from the left to the right. Similarly, <span class="SimpleMath">ϕ</span> can be extended to a map <span class="SimpleMath">Q^m× X^n -&gt; X^n × Q^m</span>.</p>
+<p>This can be understood more formally as follows. The transition function <span class="SimpleMath">\(\phi\)</span> induces a map <span class="SimpleMath">\(\phi^n:Q\times X^n \to X^n \times Q\)</span>, defined by successively applying <span class="SimpleMath">\(\phi\)</span> to move the <span class="SimpleMath">\(Q\)</span> from the left to the right. Similarly, <span class="SimpleMath">\(\phi\)</span> can be extended to a map <span class="SimpleMath">\(Q^m\times X^n \to X^n \times Q^m\)</span>.</p>
 
-<p>We see that the action on finite strings preserves their length, and also preserves prefixes: if <span class="SimpleMath">(M,q)</span> maps <span class="SimpleMath">x_1... x_n</span> to <span class="SimpleMath">y_1... y_m</span>, then necessarily <span class="SimpleMath">m=n</span>; and if <span class="SimpleMath">k&lt;n</span> then <span class="SimpleMath">T</span> maps <span class="SimpleMath">x_1... x_k</span> to <span class="SimpleMath">y_1... y_k</span>.</p>
+<p>We see that the action on finite strings preserves their length, and also preserves prefixes: if <span class="SimpleMath">\((M,q)\)</span> maps <span class="SimpleMath">\(x_1\ldots x_n\)</span> to <span class="SimpleMath">\(y_1\ldots y_m\)</span>, then necessarily <span class="SimpleMath">\(m=n\)</span>; and if <span class="SimpleMath">\(k&lt;n\)</span> then <span class="SimpleMath">\(T\)</span> maps <span class="SimpleMath">\(x_1\ldots x_k\)</span> to <span class="SimpleMath">\(y_1\ldots y_k\)</span>.</p>
 
-<p>The strings over the alphabet <span class="SimpleMath">X</span> can be naturally organised into a rooted tree. The root represents the empty string, and the strings <span class="SimpleMath">x_1... x_n</span> and <span class="SimpleMath">x_1... x_n+1</span> are connected by an edge, for all <span class="SimpleMath">x_i∈ X</span>.</p>
+<p>The strings over the alphabet <span class="SimpleMath">\(X\)</span> can be naturally organised into a rooted tree. The root represents the empty string, and the strings <span class="SimpleMath">\(x_1\ldots x_n\)</span> and <span class="SimpleMath">\(x_1\ldots x_{n+1}\)</span> are connected by an edge, for all <span class="SimpleMath">\(x_i\in X\)</span>.</p>
 
 <p><a id="X7D52F7ED83E2D153" name="X7D52F7ED83E2D153"></a></p>
 
 <h4>3.1 <span class="Heading">Types of machines</span></h4>
 
-<p>Machines must be accessible to computation; therefore it is reasonable to assume that their alphabet <span class="SimpleMath">X</span> is finite.</p>
+<p>Machines must be accessible to computation; therefore it is reasonable to assume that their alphabet <span class="SimpleMath">\(X\)</span> is finite.</p>
 
-<p>If the stateset <span class="SimpleMath">Q</span> is also finite, the machine is called a <em>Mealy machine</em>, and its transition function <span class="SimpleMath">ϕ</span> can be stored as a table.</p>
+<p>If the stateset <span class="SimpleMath">\(Q\)</span> is also finite, the machine is called a <em>Mealy machine</em>, and its transition function <span class="SimpleMath">\(\phi\)</span> can be stored as a table.</p>
 
-<p>More general machines are obtained if one allows the stateset <span class="SimpleMath">Q</span> to be a free group/semigroup/monoid generated by a finite set <span class="SimpleMath">S</span>, and the transition function <span class="SimpleMath">ϕ</span> to be specified on <span class="SimpleMath">S× X</span>. Its values are then extended naturally by composition.</p>
+<p>More general machines are obtained if one allows the stateset <span class="SimpleMath">\(Q\)</span> to be a free group/semigroup/monoid generated by a finite set <span class="SimpleMath">\(S\)</span>, and the transition function <span class="SimpleMath">\(\phi\)</span> to be specified on <span class="SimpleMath">\(S\times X\)</span>. Its values are then extended naturally by composition.</p>
 
-<p>Machines store their transitions (second coordinate of <span class="SimpleMath">ϕ</span>), and their output, (first coordinate of <span class="SimpleMath">ϕ</span>) in a matrix indexed by state and letter. In particular, <code class="code">PermList(output[state])</code> gives the action on the first level.</p>
+<p>Machines store their transitions (second coordinate of <span class="SimpleMath">\(\phi\)</span>), and their output, (first coordinate of <span class="SimpleMath">\(\phi\)</span>) in a matrix indexed by state and letter. In particular, <code class="code">PermList(output[state])</code> gives the action on the first level.</p>
 
-<p>Because of the way <strong class="pkg">GAP</strong> handles permutations and transformations, a permutation is never equal to a transformation, even though both can answer <code class="keyw">true</code> to <span class="SimpleMath">IsOne</span>. Therefore, <strong class="pkg">FR</strong> stores the output as a list, which can be then accessed (e.g. in commands such as <code class="code">ActivityPerm</code> and <code class="code">ActivityTransformation</code> either as a permutation or as a transformation. The command <code class="code">Activity</code> itself will return a permutation if possible, and otherwise a transformation.</p>
+<p>Because of the way <strong class="pkg">GAP</strong> handles permutations and transformations, a permutation is never equal to a transformation, even though both can answer <code class="keyw">true</code> to <span class="SimpleMath">\(IsOne\)</span>. Therefore, <strong class="pkg">FR</strong> stores the output as a list, which can be then accessed (e.g. in commands such as <code class="code">ActivityPerm</code> and <code class="code">ActivityTransformation</code> either as a permutation or as a transformation. The command <code class="code">Activity</code> itself will return a permutation if possible, and otherwise a transformation.</p>
 
 <p><a id="X7EB36FBB78F4F26A" name="X7EB36FBB78F4F26A"></a></p>
 
@@ -473,7 +476,7 @@ a*b
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; StructuralSemigroup</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: A finitely presented group/monoid/semigroup capturing the structure of <var class="Arg">m</var>.</p>
 
-<p>This function returns a finitely presented group/monoid/semigroup, with generators the union of the <code class="func">AlphabetOfFRObject</code> (<a href="chap10.html#X7BC9CD3685C26823"><span class="RefLink">10.1-3</span></a>) and <code class="func">GeneratorsOfFRMachine</code> (<a href="chap3.html#X7F77F5DD789FA2F4"><span class="RefLink">3.4-2</span></a>) of <var class="Arg">m</var>, and relations all <span class="SimpleMath">qa'=aq'</span> whenever <span class="SimpleMath">ϕ(q,a)=(a',q')</span>.</p>
+<p>This function returns a finitely presented group/monoid/semigroup, with generators the union of the <code class="func">AlphabetOfFRObject</code> (<a href="chap10_mj.html#X7BC9CD3685C26823"><span class="RefLink">10.1-3</span></a>) and <code class="func">GeneratorsOfFRMachine</code> (<a href="chap3_mj.html#X7F77F5DD789FA2F4"><span class="RefLink">3.4-2</span></a>) of <var class="Arg">m</var>, and relations all <span class="SimpleMath">\(qa'=aq'\)</span> whenever <span class="SimpleMath">\(\phi(q,a)=(a',q')\)</span>.</p>
 
 
 <div class="example"><pre>
@@ -498,13 +501,13 @@ a*b
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; \+</code>( <var class="Arg">m1</var>, <var class="Arg">m2</var> )</td><td class="tdright">(&nbsp;method&nbsp;)</td></tr></table></div>
 <p>Returns: A new FR machine, in the same family as its arguments.</p>
 
-<p>This function returns a new FR machine <code class="code">r</code>, with stateset generated by the union of the statesets of its arguments. The arguments <var class="Arg">m1</var> and <var class="Arg">m2</var> must operate on the same alphabet. If the stateset of <var class="Arg">m1</var> is free on <span class="SimpleMath">n_1</span> letters and the stateset of <var class="Arg">m2</var> is free on <span class="SimpleMath">n_2</span> letters, then the stateset of their sum is free on <span class="SimpleMath">n_1+n_2</span> letters, with the first <span class="SimpleMath">n_1</span> identified with <var class="Arg">m1</var>'s states and the next <span class="SimpleMath">n_2</span> with <var class="Arg">m2</var>'s.</p>
+<p>This function returns a new FR machine <code class="code">r</code>, with stateset generated by the union of the statesets of its arguments. The arguments <var class="Arg">m1</var> and <var class="Arg">m2</var> must operate on the same alphabet. If the stateset of <var class="Arg">m1</var> is free on <span class="SimpleMath">\(n_1\)</span> letters and the stateset of <var class="Arg">m2</var> is free on <span class="SimpleMath">\(n_2\)</span> letters, then the stateset of their sum is free on <span class="SimpleMath">\(n_1+n_2\)</span> letters, with the first <span class="SimpleMath">\(n_1\)</span> identified with <var class="Arg">m1</var>'s states and the next <span class="SimpleMath">\(n_2\)</span> with <var class="Arg">m2</var>'s.</p>
 
 <p>The transition and output functions are naturally extended to the sum.</p>
 
 <p>The arguments may be free group, semigroup or monoid machines. The sum is in the weakest containing category: it is a group machine if both arguments are group machines; a monoid if both are either group of monoid machines; and a semigroup machine otherwise.</p>
 
-<p>The maps from the stateset of <var class="Arg">m1</var> and <var class="Arg">m2</var> to the stateset of <code class="code">r</code> can be recovered as <code class="code">Correspondence(r)[1]</code> and <code class="code">Correspondence(r)[2]</code>; see <code class="func">Correspondence</code> (<a href="chap3.html#X7C107A42815F91DA"><span class="RefLink">3.5-12</span></a>).</p>
+<p>The maps from the stateset of <var class="Arg">m1</var> and <var class="Arg">m2</var> to the stateset of <code class="code">r</code> can be recovered as <code class="code">Correspondence(r)[1]</code> and <code class="code">Correspondence(r)[2]</code>; see <code class="func">Correspondence</code> (<a href="chap3_mj.html#X7C107A42815F91DA"><span class="RefLink">3.5-12</span></a>).</p>
 
 
 <div class="example"><pre>
@@ -531,7 +534,7 @@ f11
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; \*</code>( <var class="Arg">machine1</var>, <var class="Arg">machine2</var> )</td><td class="tdright">(&nbsp;method&nbsp;)</td></tr></table></div>
 <p>Returns: A new FR machine, in the same family as its arguments.</p>
 
-<p>The product of two FR machines coincides with their sum, since the natural free object mapping to the product of the statesets is generated by the union of the statesets. See therefore <code class="func">\+</code> (<a href="chap3.html#X7F2703417F270341"><span class="RefLink">3.5-2</span></a>).</p>
+<p>The product of two FR machines coincides with their sum, since the natural free object mapping to the product of the statesets is generated by the union of the statesets. See therefore <code class="func">\+</code> (<a href="chap3_mj.html#X7F2703417F270341"><span class="RefLink">3.5-2</span></a>).</p>
 
 <p><a id="X7C0677148107F7FE" name="X7C0677148107F7FE"></a></p>
 
@@ -638,13 +641,13 @@ AddingMachine(2)xAddingMachine(3)
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TreeWreathProduct</code>( <var class="Arg">m</var>, <var class="Arg">n</var>, <var class="Arg">x0</var>, <var class="Arg">y0</var> )</td><td class="tdright">(&nbsp;method&nbsp;)</td></tr></table></div>
 <p>Returns: A new FR machine on the cartesian product of the arguments' alphabets.</p>
 
-<p>The <em>tree-wreath product</em> of two FR machines is a machine acting on the product of its arguments' alphabets <span class="SimpleMath">X,Y</span>, in such a way that many images of the first machine's states under conjugation by the second commute.</p>
+<p>The <em>tree-wreath product</em> of two FR machines is a machine acting on the product of its arguments' alphabets <span class="SimpleMath">\(X,Y\)</span>, in such a way that many images of the first machine's states under conjugation by the second commute.</p>
 
-<p>It is introduced (in lesser generality, and with small variations) in <a href="chapBib.html#biBMR2197828">[Sid05]</a>, and may be described as follows: one takes two copies of the stateset of <var class="Arg">m</var>, one copy of the stateset of <var class="Arg">n</var>, and, if necessary, an extra identity state.</p>
+<p>It is introduced (in lesser generality, and with small variations) in <a href="chapBib_mj.html#biBMR2197828">[Sid05]</a>, and may be described as follows: one takes two copies of the stateset of <var class="Arg">m</var>, one copy of the stateset of <var class="Arg">n</var>, and, if necessary, an extra identity state.</p>
 
-<p>The first copy of <var class="Arg">m</var> fixes the alphabet <span class="SimpleMath">X× Y</span>; its state <span class="SimpleMath">tilde s</span> has transitions to the identity except <span class="SimpleMath">tilde s</span> at <span class="SimpleMath">(x0,y0)</span> and <span class="SimpleMath">s</span> at <span class="SimpleMath">(*,y0)</span> for any other <span class="SimpleMath">*</span>. The second copy of <var class="Arg">m</var> is also trivial except that, on input <span class="SimpleMath">(x,y0)</span>, its state <span class="SimpleMath">s</span> goes to state <span class="SimpleMath">s'</span> with output <span class="SimpleMath">(x',y0)</span> whenever <span class="SimpleMath">s</span> originally went, on input <span class="SimpleMath">x</span>, to state <span class="SimpleMath">s'</span> with output <span class="SimpleMath">x'</span>. This copy of <var class="Arg">m</var> therefore acts only in the <span class="SimpleMath">X</span> direction, on the subtree <span class="SimpleMath">(X×{y0})^∞</span>, on subtrees below vertices of the form <span class="SimpleMath">(x0,y0)^t(x,y0)</span>.</p>
+<p>The first copy of <var class="Arg">m</var> fixes the alphabet <span class="SimpleMath">\(X\times Y\)</span>; its state <span class="SimpleMath">\(\tilde s\)</span> has transitions to the identity except <span class="SimpleMath">\(\tilde s\)</span> at <span class="SimpleMath">\((x0,y0)\)</span> and <span class="SimpleMath">\(s\)</span> at <span class="SimpleMath">\((*,y0)\)</span> for any other <span class="SimpleMath">\(*\)</span>. The second copy of <var class="Arg">m</var> is also trivial except that, on input <span class="SimpleMath">\((x,y0)\)</span>, its state <span class="SimpleMath">\(s\)</span> goes to state <span class="SimpleMath">\(s'\)</span> with output <span class="SimpleMath">\((x',y0)\)</span> whenever <span class="SimpleMath">\(s\)</span> originally went, on input <span class="SimpleMath">\(x\)</span>, to state <span class="SimpleMath">\(s'\)</span> with output <span class="SimpleMath">\(x'\)</span>. This copy of <var class="Arg">m</var> therefore acts only in the <span class="SimpleMath">\(X\)</span> direction, on the subtree <span class="SimpleMath">\((X\times\{y0\})^\infty\)</span>, on subtrees below vertices of the form <span class="SimpleMath">\((x0,y0)^t(x,y0)\)</span>.</p>
 
-<p>A state <span class="SimpleMath">t</span> in the copy of <var class="Arg">n</var> maps the input <span class="SimpleMath">(x,y)</span> to <span class="SimpleMath">(x,y')</span> and proceeds to state <span class="SimpleMath">t'</span> if <span class="SimpleMath">y=y0</span>, and to the identity state otherwise, when on input <span class="SimpleMath">y</span> the original machine mapped state <span class="SimpleMath">t</span> to output <span class="SimpleMath">t'</span> and output <span class="SimpleMath">y'</span>.</p>
+<p>A state <span class="SimpleMath">\(t\)</span> in the copy of <var class="Arg">n</var> maps the input <span class="SimpleMath">\((x,y)\)</span> to <span class="SimpleMath">\((x,y')\)</span> and proceeds to state <span class="SimpleMath">\(t'\)</span> if <span class="SimpleMath">\(y=y0\)</span>, and to the identity state otherwise, when on input <span class="SimpleMath">\(y\)</span> the original machine mapped state <span class="SimpleMath">\(t\)</span> to output <span class="SimpleMath">\(t'\)</span> and output <span class="SimpleMath">\(y'\)</span>.</p>
 
 
 <div class="example"><pre>
@@ -695,7 +698,7 @@ AddingMachine(2)~AddingMachine(3)
 
 <p>The new machine has the following transitions: if alphabet letter <code class="code">a</code> is mapped to <code class="code">b</code> by state <code class="code">s</code> in <var class="Arg">m</var>, leading to state <code class="code">t</code>, then, in the new machine, the input letter <code class="code">a^p</code> is mapped to <code class="code">b^p</code> by state <code class="code">s</code>, leading to state <code class="code">l[a]^-1*t*l[b]</code>.</p>
 
-<p>The group generated by the new machine is isomorphic to the group generated by <var class="Arg">m</var>. This command amounts to a change of basis of the associated bimodule (see <a href="chapBib.html#biBMR2162164">[Nek05, Section 2.2]</a>). It amounts to conjugation by the automorphism <code class="code">c=FRElement("c",[l[1]*c,...,l[n]*c],[()],1)</code>.</p>
+<p>The group generated by the new machine is isomorphic to the group generated by <var class="Arg">m</var>. This command amounts to a change of basis of the associated bimodule (see <a href="chapBib_mj.html#biBMR2162164">[Nek05, Section 2.2]</a>). It amounts to conjugation by the automorphism <code class="code">c=FRElement("c",[l[1]*c,...,l[n]*c],[()],1)</code>.</p>
 
 <p>If the second argument is absent, this command attempts to choose a list that makes many entries of the recursion trivial.</p>
 
@@ -724,7 +727,7 @@ AddingMachine(2)~AddingMachine(3)
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Minimized</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: A minimized machine equivalent to <var class="Arg">m</var>.</p>
 
-<p>This function attempts to construct a machine equivalent to <var class="Arg">m</var>, but with a stateset of smaller rank. Identical generators are collapsed to a single generator of the stateset; if <var class="Arg">m</var> is a group or monoid machine then trivial generators are removed; if <var class="Arg">m</var> is a group machine then mutually inverse generators are grouped. This function sets as <code class="code">Correspondence(result)</code> a mapping between the stateset of <var class="Arg">m</var> and the stateset of the result; see <code class="func">Correspondence</code> (<a href="chap3.html#X7C107A42815F91DA"><span class="RefLink">3.5-12</span></a>).</p>
+<p>This function attempts to construct a machine equivalent to <var class="Arg">m</var>, but with a stateset of smaller rank. Identical generators are collapsed to a single generator of the stateset; if <var class="Arg">m</var> is a group or monoid machine then trivial generators are removed; if <var class="Arg">m</var> is a group machine then mutually inverse generators are grouped. This function sets as <code class="code">Correspondence(result)</code> a mapping between the stateset of <var class="Arg">m</var> and the stateset of the result; see <code class="func">Correspondence</code> (<a href="chap3_mj.html#X7C107A42815F91DA"><span class="RefLink">3.5-12</span></a>).</p>
 
 
 <div class="example"><pre>
@@ -745,19 +748,19 @@ AddingMachine(2)~AddingMachine(3)
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Correspondence</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: A mapping between statesets of FR machines.</p>
 
-<p>If a machine <var class="Arg">m</var> was created as a minimized group/monoid/semigroup machine, then <code class="code">Correspondence(m)</code> is a mapping between the stateset of the original machine and the stateset of <var class="Arg">m</var>. See <code class="func">Minimized</code> (<a href="chap3.html#X81B382BD81B2BD34"><span class="RefLink">3.5-11</span></a>) for an example.</p>
+<p>If a machine <var class="Arg">m</var> was created as a minimized group/monoid/semigroup machine, then <code class="code">Correspondence(m)</code> is a mapping between the stateset of the original machine and the stateset of <var class="Arg">m</var>. See <code class="func">Minimized</code> (<a href="chap3_mj.html#X81B382BD81B2BD34"><span class="RefLink">3.5-11</span></a>) for an example.</p>
 
-<p>If <var class="Arg">m</var> was created as a minimized Mealy machine, then <code class="code">Correspondence(m)</code> is a list identifying, for each state of the original machine, a state of the new machine. If the original state is inaccessible, the corresponding list entry is unbound. See <code class="func">Minimized</code> (<a href="chap5.html#X8395542D846FA2B9"><span class="RefLink">5.2-2</span></a>) for an example.</p>
+<p>If <var class="Arg">m</var> was created as a minimized Mealy machine, then <code class="code">Correspondence(m)</code> is a list identifying, for each state of the original machine, a state of the new machine. If the original state is inaccessible, the corresponding list entry is unbound. See <code class="func">Minimized</code> (<a href="chap5_mj.html#X8395542D846FA2B9"><span class="RefLink">5.2-2</span></a>) for an example.</p>
 
-<p>If <var class="Arg">m</var> was created using <code class="func">AsGroupFRMachine</code> (<a href="chap3.html#X7BF186227C0ABE8D"><span class="RefLink">3.3-4</span></a>), <code class="func">AsMonoidFRMachine</code> (<a href="chap3.html#X7BF186227C0ABE8D"><span class="RefLink">3.3-4</span></a>), <code class="func">AsSemigroupFRMachine</code> (<a href="chap3.html#X7BF186227C0ABE8D"><span class="RefLink">3.3-4</span></a>), or <code class="func">AsMealyMachine</code> (<a href="chap5.html#X79EFE2C97D2CCEEC"><span class="RefLink">5.2-18</span></a>), then <code class="code">Correspondence(m)</code> is a list or a homomorphism identifying for each generator of the original machine a generator, or word in the generators, of the new machine. It is a list if either the original or the final machine is a Mealy machine, and a homomorphism in other cases.</p>
+<p>If <var class="Arg">m</var> was created using <code class="func">AsGroupFRMachine</code> (<a href="chap3_mj.html#X7BF186227C0ABE8D"><span class="RefLink">3.3-4</span></a>), <code class="func">AsMonoidFRMachine</code> (<a href="chap3_mj.html#X7BF186227C0ABE8D"><span class="RefLink">3.3-4</span></a>), <code class="func">AsSemigroupFRMachine</code> (<a href="chap3_mj.html#X7BF186227C0ABE8D"><span class="RefLink">3.3-4</span></a>), or <code class="func">AsMealyMachine</code> (<a href="chap5_mj.html#X79EFE2C97D2CCEEC"><span class="RefLink">5.2-18</span></a>), then <code class="code">Correspondence(m)</code> is a list or a homomorphism identifying for each generator of the original machine a generator, or word in the generators, of the new machine. It is a list if either the original or the final machine is a Mealy machine, and a homomorphism in other cases.</p>
 
-<p>If <var class="Arg">m</var> was created as a sum of two machines, then <var class="Arg">m</var> has a mapping <code class="code">Correspondence(m)[i]</code> between the stateset of machine <code class="code">i=1,2</code> and its own stateset. See <code class="func">\+</code> (<a href="chap3.html#X7F2703417F270341"><span class="RefLink">3.5-2</span></a>) for an example.</p>
-
-
-<div class="chlinkprevnextbot">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap2.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap4.html">[Next Chapter]</a>&nbsp;  </div>
+<p>If <var class="Arg">m</var> was created as a sum of two machines, then <var class="Arg">m</var> has a mapping <code class="code">Correspondence(m)[i]</code> between the stateset of machine <code class="code">i=1,2</code> and its own stateset. See <code class="func">\+</code> (<a href="chap3_mj.html#X7F2703417F270341"><span class="RefLink">3.5-2</span></a>) for an example.</p>
 
 
-<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap2_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap4_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chapBib_mj.html">Bib</a>  <a href="chapInd_mj.html">Ind</a>  </div>
 
 <hr />
 <p class="foot">generated by <a href="http://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>

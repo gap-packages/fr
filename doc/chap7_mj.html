@@ -5,6 +5,9 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 <title>GAP (FR) - Chapter 7: Self-similar groups, monoids and semigroups</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <meta name="generator" content="GAPDoc2HTML" />
@@ -15,73 +18,73 @@
 <body class="chap7"  onload="jscontent()">
 
 
-<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chapBib_mj.html">Bib</a>  <a href="chapInd_mj.html">Ind</a>  </div>
 
-<div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap6.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap8.html">[Next Chapter]</a>&nbsp;  </div>
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap6_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap8_mj.html">[Next Chapter]</a>&nbsp;  </div>
 
-<p id="mathjaxlink" class="pcenter"><a href="chap7_mj.html">[MathJax on]</a></p>
+<p id="mathjaxlink" class="pcenter"><a href="chap7.html">[MathJax off]</a></p>
 <p><a id="X86C0E6F083DCCDC8" name="X86C0E6F083DCCDC8"></a></p>
-<div class="ChapSects"><a href="chap7.html#X86C0E6F083DCCDC8">7 <span class="Heading">Self-similar groups, monoids and semigroups</span></a>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap7.html#X80A26BAA7B53C1BD">7.1 <span class="Heading">Creators for FR semigroups</span></a>
+<div class="ChapSects"><a href="chap7_mj.html#X86C0E6F083DCCDC8">7 <span class="Heading">Self-similar groups, monoids and semigroups</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap7_mj.html#X80A26BAA7B53C1BD">7.1 <span class="Heading">Creators for FR semigroups</span></a>
 </span>
 <div class="ContSSBlock">
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7AE8F92383272329">7.1-1 FRGroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7D4A6996874A3DF3">7.1-2 NewSemigroupFRMachine</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X853E3F0680C76F56">7.1-3 SCGroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7F15D57A7959FEF6">7.1-4 Correspondence</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7D0B8334786E2802">7.1-5 FullSCGroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7DB92C34827D513F">7.1-6 FRMachineFRGroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7BF4AC9F830A8E1A">7.1-7 IsomorphismFRGroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7DE1CAE981F2825B">7.1-8 IsomorphismMealyGroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7BB8DDEA83946C73">7.1-9 FRGroupByVirtualEndomorphism</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X79D75A7D80DD9AD1">7.1-10 TreeWreathProduct</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X85840A047C04BFC6">7.1-11 WeaklyBranchedEmbedding</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7AE8F92383272329">7.1-1 FRGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7D4A6996874A3DF3">7.1-2 NewSemigroupFRMachine</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X853E3F0680C76F56">7.1-3 SCGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7F15D57A7959FEF6">7.1-4 Correspondence</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7D0B8334786E2802">7.1-5 FullSCGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7DB92C34827D513F">7.1-6 FRMachineFRGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7BF4AC9F830A8E1A">7.1-7 IsomorphismFRGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7DE1CAE981F2825B">7.1-8 IsomorphismMealyGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7BB8DDEA83946C73">7.1-9 FRGroupByVirtualEndomorphism</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X79D75A7D80DD9AD1">7.1-10 TreeWreathProduct</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X85840A047C04BFC6">7.1-11 WeaklyBranchedEmbedding</a></span>
 </div></div>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap7.html#X84E20571841DE1E4">7.2 <span class="Heading">Operations for FR semigroups</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap7_mj.html#X84E20571841DE1E4">7.2 <span class="Heading">Operations for FR semigroups</span></a>
 </span>
 <div class="ContSSBlock">
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7C6D7BA0818A3A3D">7.2-1 PermGroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X8620BEAF7957FA4D">7.2-2 PcGroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X83834FF77F972912">7.2-3 TransformationMonoid</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X8768C22D859BE75F">7.2-4 TransformationSemigroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7BDC634086437315">7.2-5 EpimorphismGermGroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X812242E584462766">7.2-6 GermData</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X87378D53791D0B70">7.2-7 StabilizerImage</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7B4CD9CA872BA368">7.2-8 LevelStabilizer</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7C5002E683A044C1">7.2-9 IsStateClosed</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X79246DB482BEAF2D">7.2-10 StateClosure</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7E2F34417EBB7673">7.2-11 IsRecurrentFRSemigroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X825688FD7CE96479">7.2-12 IsLevelTransitiveFRGroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7D95219481AEDD20">7.2-13 IsInfinitelyTransitive</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7A6CB30181662C77">7.2-14 IsFinitaryFRSemigroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X791BCD9D782C6237">7.2-15 Degree</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7FA67E4387C91BD8">7.2-16 HasOpenSetConditionFRSemigroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7D870F9E82ACB54C">7.2-17 HasCongruenceProperty</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7EAB4B5B843C0EC5">7.2-18 IsContracting</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7CA062A67C1554BB">7.2-19 NucleusOfFRSemigroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X8443D711796F06E4">7.2-20 NucleusMachine</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X824A9E177F5A9753">7.2-21 AdjacencyBasesWithOne</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7A874A107D4944E1">7.2-22 BranchingSubgroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X78ADACCD8586D3C7">7.2-23 FindBranchingSubgroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X832D98E47ACA099C">7.2-24 IsBranched</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7A905CE87B49213F">7.2-25 IsBranchingSubgroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X8404ECA782F2521A">7.2-26 BranchStructure</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X8749E0797A99F531">7.2-27 TopVertexTransformations</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7C56C90086070A2E">7.2-28 VertexTransformations</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7DF2D9838625CDED">7.2-29 VirtualEndomorphism</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7C81CB1C7F0D7A90">7.2-30 EpimorphismFromFpGroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X8740656382656D63">7.2-31 IsomorphismSubgroupFpGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7C6D7BA0818A3A3D">7.2-1 PermGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X8620BEAF7957FA4D">7.2-2 PcGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X83834FF77F972912">7.2-3 TransformationMonoid</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X8768C22D859BE75F">7.2-4 TransformationSemigroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7BDC634086437315">7.2-5 EpimorphismGermGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X812242E584462766">7.2-6 GermData</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X87378D53791D0B70">7.2-7 StabilizerImage</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7B4CD9CA872BA368">7.2-8 LevelStabilizer</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7C5002E683A044C1">7.2-9 IsStateClosed</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X79246DB482BEAF2D">7.2-10 StateClosure</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7E2F34417EBB7673">7.2-11 IsRecurrentFRSemigroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X825688FD7CE96479">7.2-12 IsLevelTransitiveFRGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7D95219481AEDD20">7.2-13 IsInfinitelyTransitive</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7A6CB30181662C77">7.2-14 IsFinitaryFRSemigroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X791BCD9D782C6237">7.2-15 Degree</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7FA67E4387C91BD8">7.2-16 HasOpenSetConditionFRSemigroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7D870F9E82ACB54C">7.2-17 HasCongruenceProperty</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7EAB4B5B843C0EC5">7.2-18 IsContracting</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7CA062A67C1554BB">7.2-19 NucleusOfFRSemigroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X8443D711796F06E4">7.2-20 NucleusMachine</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X824A9E177F5A9753">7.2-21 AdjacencyBasesWithOne</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7A874A107D4944E1">7.2-22 BranchingSubgroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X78ADACCD8586D3C7">7.2-23 FindBranchingSubgroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X832D98E47ACA099C">7.2-24 IsBranched</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7A905CE87B49213F">7.2-25 IsBranchingSubgroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X8404ECA782F2521A">7.2-26 BranchStructure</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X8749E0797A99F531">7.2-27 TopVertexTransformations</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7C56C90086070A2E">7.2-28 VertexTransformations</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7DF2D9838625CDED">7.2-29 VirtualEndomorphism</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7C81CB1C7F0D7A90">7.2-30 EpimorphismFromFpGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X8740656382656D63">7.2-31 IsomorphismSubgroupFpGroup</a></span>
 </div></div>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap7.html#X7E8485A081EBB3AA">7.3 <span class="Heading">Properties for infinite groups</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap7_mj.html#X7E8485A081EBB3AA">7.3 <span class="Heading">Properties for infinite groups</span></a>
 </span>
 <div class="ContSSBlock">
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X840ED7D279ECAB7F">7.3-1 IsTorsionGroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7914F2D68077F503">7.3-2 IsTorsionFreeGroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X87E93FFC820ED40E">7.3-3 IsAmenableGroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X873C0A7C8422C0C9">7.3-4 IsVirtuallySimpleGroup</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X79A3A0CF82B6F089">7.3-5 IsResiduallyFinite</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X86E1182E7EEFAADB">7.3-6 IsSQUniversal</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7FDAEAFF78A5E7D2">7.3-7 IsJustInfinite</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X840ED7D279ECAB7F">7.3-1 IsTorsionGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7914F2D68077F503">7.3-2 IsTorsionFreeGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X87E93FFC820ED40E">7.3-3 IsAmenableGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X873C0A7C8422C0C9">7.3-4 IsVirtuallySimpleGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X79A3A0CF82B6F089">7.3-5 IsResiduallyFinite</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X86E1182E7EEFAADB">7.3-6 IsSQUniversal</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7_mj.html#X7FDAEAFF78A5E7D2">7.3-7 IsJustInfinite</a></span>
 </div></div>
 </div>
 
@@ -176,7 +179,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NewGroupFRMachine</code>( <var class="Arg">...</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: A new FR machine, based on string descriptions.</p>
 
-<p>This command constructs a new FR machine, in a format similar to <code class="func">FRGroup</code> (<a href="chap7.html#X7AE8F92383272329"><span class="RefLink">7.1-1</span></a>); namely, the arguments are strings of the form "gen=&lt;word-1,...,word-d&gt;perm"; each <code class="code">word-i</code> is a word in the generators; and <code class="code">perm</code> is a transformation, either written in disjoint cycle or in images notation.</p>
+<p>This command constructs a new FR machine, in a format similar to <code class="func">FRGroup</code> (<a href="chap7_mj.html#X7AE8F92383272329"><span class="RefLink">7.1-1</span></a>); namely, the arguments are strings of the form "gen=&lt;word-1,...,word-d&gt;perm"; each <code class="code">word-i</code> is a word in the generators; and <code class="code">perm</code> is a transformation, either written in disjoint cycle or in images notation.</p>
 
 <p>Except in the semigroup case, <code class="code">word-i</code> is allowed to be the empty string; and the "&lt;...&gt;" may be skipped altogether. In the group or IMG case, each <code class="code">word-i</code> may also contain inverses.</p>
 
@@ -201,7 +204,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SCSemigroupNC</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: The state-closed group/monoid/semigroup generated by the machine <var class="Arg">m</var>.</p>
 
-<p>This function constructs a new FR group/monoid/semigroup <code class="code">g</code>, generated by all the states of the FR machine <var class="Arg">m</var>. There is a bijective correspondence between <code class="code">GeneratorsOfFRMachine(m)</code> and the generators of <code class="code">g</code>, which is accessible via <code class="code">Correspondence(g)</code> (See <code class="func">Correspondence</code> (<a href="chap7.html#X7F15D57A7959FEF6"><span class="RefLink">7.1-4</span></a>)); it is a homomorphism from the stateset of <var class="Arg">m</var> to <code class="code">g</code>, or a list indicating for each state of <var class="Arg">m</var> a corresponding generator index in the generators of <code class="code">g</code> (with negatives for inverses, and 0 for identity).</p>
+<p>This function constructs a new FR group/monoid/semigroup <code class="code">g</code>, generated by all the states of the FR machine <var class="Arg">m</var>. There is a bijective correspondence between <code class="code">GeneratorsOfFRMachine(m)</code> and the generators of <code class="code">g</code>, which is accessible via <code class="code">Correspondence(g)</code> (See <code class="func">Correspondence</code> (<a href="chap7_mj.html#X7F15D57A7959FEF6"><span class="RefLink">7.1-4</span></a>)); it is a homomorphism from the stateset of <var class="Arg">m</var> to <code class="code">g</code>, or a list indicating for each state of <var class="Arg">m</var> a corresponding generator index in the generators of <code class="code">g</code> (with negatives for inverses, and 0 for identity).</p>
 
 <p>In the non-<code class="code">NC</code> forms, redundant (equal, trivial or mutually inverse) states are removed from the generating set of <code class="code">g</code>.</p>
 
@@ -259,9 +262,9 @@ true
 
 <p>If <code class="code">m</code> is a group/monoid/semigroup/algebra FR machine, then <code class="code">Correspondence(g)</code> is a homomorphism from the stateset of <code class="code">m</code> to <var class="Arg">g</var>.</p>
 
-<p>If <code class="code">m</code> is a Mealy or vector machine, then <code class="code">Correspondence(g)</code> is a list, with in position <span class="SimpleMath">i</span> the index in the generating set of <var class="Arg">g</var> of state number <span class="SimpleMath">i</span>. This index is 0 if there is no corresponding generator because the state is trivial, and is negative if there is no corresponding generator because the inverse of state number <span class="SimpleMath">i</span> is a generator.</p>
+<p>If <code class="code">m</code> is a Mealy or vector machine, then <code class="code">Correspondence(g)</code> is a list, with in position <span class="SimpleMath">\(i\)</span> the index in the generating set of <var class="Arg">g</var> of state number <span class="SimpleMath">\(i\)</span>. This index is 0 if there is no corresponding generator because the state is trivial, and is negative if there is no corresponding generator because the inverse of state number <span class="SimpleMath">\(i\)</span> is a generator.</p>
 
-<p>See <code class="func">SCGroupNC</code> (<a href="chap7.html#X853E3F0680C76F56"><span class="RefLink">7.1-3</span></a>), <code class="func">SCGroup</code> (<a href="chap7.html#X853E3F0680C76F56"><span class="RefLink">7.1-3</span></a>), <code class="func">SCMonoidNC</code> (<a href="chap7.html#X853E3F0680C76F56"><span class="RefLink">7.1-3</span></a>), <code class="func">SCMonoid</code> (<a href="chap7.html#X853E3F0680C76F56"><span class="RefLink">7.1-3</span></a>), <code class="func">SCSemigroupNC</code> (<a href="chap7.html#X853E3F0680C76F56"><span class="RefLink">7.1-3</span></a>), <code class="func">SCSemigroup</code> (<a href="chap7.html#X853E3F0680C76F56"><span class="RefLink">7.1-3</span></a>), <code class="func">SCAlgebraNC</code> (<a href="chap8.html#X844B890F7BF56236"><span class="RefLink">8.1-2</span></a>), <code class="func">SCAlgebra</code> (<a href="chap8.html#X844B890F7BF56236"><span class="RefLink">8.1-2</span></a>), <code class="func">SCAlgebraWithOneNC</code> (<a href="chap8.html#X844B890F7BF56236"><span class="RefLink">8.1-2</span></a>), and <code class="func">SCAlgebraWithOne</code> (<a href="chap8.html#X844B890F7BF56236"><span class="RefLink">8.1-2</span></a>) for examples.</p>
+<p>See <code class="func">SCGroupNC</code> (<a href="chap7_mj.html#X853E3F0680C76F56"><span class="RefLink">7.1-3</span></a>), <code class="func">SCGroup</code> (<a href="chap7_mj.html#X853E3F0680C76F56"><span class="RefLink">7.1-3</span></a>), <code class="func">SCMonoidNC</code> (<a href="chap7_mj.html#X853E3F0680C76F56"><span class="RefLink">7.1-3</span></a>), <code class="func">SCMonoid</code> (<a href="chap7_mj.html#X853E3F0680C76F56"><span class="RefLink">7.1-3</span></a>), <code class="func">SCSemigroupNC</code> (<a href="chap7_mj.html#X853E3F0680C76F56"><span class="RefLink">7.1-3</span></a>), <code class="func">SCSemigroup</code> (<a href="chap7_mj.html#X853E3F0680C76F56"><span class="RefLink">7.1-3</span></a>), <code class="func">SCAlgebraNC</code> (<a href="chap8_mj.html#X844B890F7BF56236"><span class="RefLink">8.1-2</span></a>), <code class="func">SCAlgebra</code> (<a href="chap8_mj.html#X844B890F7BF56236"><span class="RefLink">8.1-2</span></a>), <code class="func">SCAlgebraWithOneNC</code> (<a href="chap8_mj.html#X844B890F7BF56236"><span class="RefLink">8.1-2</span></a>), and <code class="func">SCAlgebraWithOne</code> (<a href="chap8_mj.html#X844B890F7BF56236"><span class="RefLink">8.1-2</span></a>) for examples.</p>
 
 <p><a id="X7D0B8334786E2802" name="X7D0B8334786E2802"></a></p>
 
@@ -274,7 +277,7 @@ true
 
 <p>This function constructs a new FR group, monoid or semigroup, which contains all transformations with given properties of the tree with given alphabet.</p>
 
-<p>The arguments can be, in any order: a semigroup, specifying which vertex actions are allowed; a set or domain, specifying the alphabet of the tree; an integer, specifying the maximal depth of elements; and a filter among <code class="func">IsFinitaryFRElement</code> (<a href="chap5.html#X793C427084F830CE"><span class="RefLink">5.2-10</span></a>), <code class="func">IsBoundedFRElement</code> (<a href="chap5.html#X82F4410E85C54C7E"><span class="RefLink">5.2-12</span></a>), <code class="func">IsPolynomialGrowthFRElement</code> (<a href="chap5.html#X81D4A3F27C5FAD96"><span class="RefLink">5.2-13</span></a>) and <code class="func">IsFiniteStateFRElement</code> (<a href="chap4.html#X7C4076707CBBE945"><span class="RefLink">4.2-12</span></a>).</p>
+<p>The arguments can be, in any order: a semigroup, specifying which vertex actions are allowed; a set or domain, specifying the alphabet of the tree; an integer, specifying the maximal depth of elements; and a filter among <code class="func">IsFinitaryFRElement</code> (<a href="chap5_mj.html#X793C427084F830CE"><span class="RefLink">5.2-10</span></a>), <code class="func">IsBoundedFRElement</code> (<a href="chap5_mj.html#X82F4410E85C54C7E"><span class="RefLink">5.2-12</span></a>), <code class="func">IsPolynomialGrowthFRElement</code> (<a href="chap5_mj.html#X81D4A3F27C5FAD96"><span class="RefLink">5.2-13</span></a>) and <code class="func">IsFiniteStateFRElement</code> (<a href="chap4_mj.html#X7C4076707CBBE945"><span class="RefLink">4.2-12</span></a>).</p>
 
 <p>This object serves as a container for all FR elements with alphabet <var class="Arg">a</var>. Random elements can be drawn from it; they are Mealy elements with a random number of states, and with the required properties.</p>
 
@@ -487,7 +490,7 @@ Initial state: a
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FRGroupByVirtualEndomorphism</code>( <var class="Arg">hom</var>[, <var class="Arg">transversal</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: A new self-similar group.</p>
 
-<p>This function constructs a new FR group <code class="code">P</code>, generated by group FR elements. Its first argument is a virtual endomorphism of a group <code class="code">G</code>, i.e. a homomorphism from a subgroup <code class="code">H</code> to <code class="code">G</code>. The constructed FR group acts on a tree with alphabet a transversal of <code class="code">H</code> in <code class="code">G</code> (represented as <code class="code">[1..d]</code>), and is a homomorphic image of <code class="code">G</code>. The stabilizer of the first-level vertex corresponding to the trivial coset is the image of <code class="code">H</code>. This function is loosely speaking an inverse of <code class="func">VirtualEndomorphism</code> (<a href="chap7.html#X7DF2D9838625CDED"><span class="RefLink">7.2-29</span></a>).</p>
+<p>This function constructs a new FR group <code class="code">P</code>, generated by group FR elements. Its first argument is a virtual endomorphism of a group <code class="code">G</code>, i.e. a homomorphism from a subgroup <code class="code">H</code> to <code class="code">G</code>. The constructed FR group acts on a tree with alphabet a transversal of <code class="code">H</code> in <code class="code">G</code> (represented as <code class="code">[1..d]</code>), and is a homomorphic image of <code class="code">G</code>. The stabilizer of the first-level vertex corresponding to the trivial coset is the image of <code class="code">H</code>. This function is loosely speaking an inverse of <code class="func">VirtualEndomorphism</code> (<a href="chap7_mj.html#X7DF2D9838625CDED"><span class="RefLink">7.2-29</span></a>).</p>
 
 <p>The optional second argument is a transversal of <code class="code">H</code> in <code class="code">G</code>, either of type <code class="code">IsRightTransversal</code> or a list.</p>
 
@@ -542,7 +545,7 @@ Initial state: a
 
 <p>More formally, assume without loss of generality that all generators of <var class="Arg">g</var> are states of a machine <code class="code">m</code>, and that all generators of <var class="Arg">h</var> are states of a machine <code class="code">n</code>. Then the tree-wreath product is generated by the images of generators of <var class="Arg">g,h</var> in <code class="code">TreeWreathProduct(m,n,x0,y0)</code>.</p>
 
-<p>For the operation on FR machines see <code class="func">TreeWreathProduct</code> (<a href="chap3.html#X7A0858097AA3FBDA"><span class="RefLink">3.5-8</span></a>)). It is described (with small variations, and in lesser generality) in <a href="chapBib.html#biBMR2197828">[Sid05]</a>. For example, in</p>
+<p>For the operation on FR machines see <code class="func">TreeWreathProduct</code> (<a href="chap3_mj.html#X7A0858097AA3FBDA"><span class="RefLink">3.5-8</span></a>)). It is described (with small variations, and in lesser generality) in <a href="chapBib_mj.html#biBMR2197828">[Sid05]</a>. For example, in</p>
 
 
 <div class="example"><pre>
@@ -558,7 +561,7 @@ infinity
 true
 </pre></div>
 
-<p>the group <code class="code">w</code> is the wreath product <span class="SimpleMath">Z≀ Z</span>.</p>
+<p>the group <code class="code">w</code> is the wreath product <span class="SimpleMath">\(Z\wr Z\)</span>.</p>
 
 <p><a id="X85840A047C04BFC6" name="X85840A047C04BFC6"></a></p>
 
@@ -567,9 +570,9 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; WeaklyBranchedEmbedding</code>( <var class="Arg">g</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: A embedding of <var class="Arg">g</var> in a weakly branched group.</p>
 
-<p>This function constructs a new FR group, on alphabet the square of the alphabet of <var class="Arg">g</var>. It is generated by the canonical copy of <var class="Arg">g</var> and by the tree-wreath product of <var class="Arg">g</var> with an adding machine on the same alphabet as <var class="Arg">g</var> (see <code class="func">TreeWreathProduct</code> (<a href="chap7.html#X79D75A7D80DD9AD1"><span class="RefLink">7.1-10</span></a>)). The function returns a group homomorphism into this new FR group.</p>
+<p>This function constructs a new FR group, on alphabet the square of the alphabet of <var class="Arg">g</var>. It is generated by the canonical copy of <var class="Arg">g</var> and by the tree-wreath product of <var class="Arg">g</var> with an adding machine on the same alphabet as <var class="Arg">g</var> (see <code class="func">TreeWreathProduct</code> (<a href="chap7_mj.html#X79D75A7D80DD9AD1"><span class="RefLink">7.1-10</span></a>)). The function returns a group homomorphism into this new FR group.</p>
 
-<p>The main result of <a href="chapBib.html#biBMR1995624">[SW03]</a> is that the resulting group <span class="SimpleMath">h</span> is weakly branched. More precisely, <span class="SimpleMath">h'</span> contains <span class="SimpleMath">|X|^2</span> copies of itself. <code class="code"> gap&gt; f := WeaklyBranchedEmbedding(BabyAleshinGroup);; gap&gt; Range(f); &lt;recursive group over [ 1 .. 4 ] with 8 generators&gt; </code> constructs a finitely generated branched group containing a free subgroup.</p>
+<p>The main result of <a href="chapBib_mj.html#biBMR1995624">[SW03]</a> is that the resulting group <span class="SimpleMath">\(h\)</span> is weakly branched. More precisely, <span class="SimpleMath">\(h'\)</span> contains <span class="SimpleMath">\(|X|^2\)</span> copies of itself. <code class="code"> gap&gt; f := WeaklyBranchedEmbedding(BabyAleshinGroup);; gap&gt; Range(f); &lt;recursive group over [ 1 .. 4 ] with 8 generators&gt; </code> constructs a finitely generated branched group containing a free subgroup.</p>
 
 <p><a id="X84E20571841DE1E4" name="X84E20571841DE1E4"></a></p>
 
@@ -583,7 +586,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EpimorphismPermGroup</code>( <var class="Arg">g</var>, <var class="Arg">l</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: [An epimorphism to] the permutation group of <var class="Arg">g</var>'s action on level <var class="Arg">l</var>.</p>
 
-<p>The first function returns a permutation group on <span class="SimpleMath">d^l</span> points, where <span class="SimpleMath">d</span> is the size of <var class="Arg">g</var>'s alphabet. It has as many generators as <var class="Arg">g</var>, and represents the action of <var class="Arg">g</var> on the <var class="Arg">l</var>th layer of the tree.</p>
+<p>The first function returns a permutation group on <span class="SimpleMath">\(d^l\)</span> points, where <span class="SimpleMath">\(d\)</span> is the size of <var class="Arg">g</var>'s alphabet. It has as many generators as <var class="Arg">g</var>, and represents the action of <var class="Arg">g</var> on the <var class="Arg">l</var>th layer of the tree.</p>
 
 <p>The second function returns a homomorphism from <var class="Arg">g</var> to this permutation group.</p>
 
@@ -657,7 +660,7 @@ infinity
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EpimorphismTransformationMonoid</code>( <var class="Arg">g</var>, <var class="Arg">l</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: [An epimorphism to] the transformation monoid of <var class="Arg">g</var>'s action on level <var class="Arg">l</var>.</p>
 
-<p>The first function returns a transformation monoid on <span class="SimpleMath">d^l</span> points, where <span class="SimpleMath">d</span> is the size of <var class="Arg">g</var>'s alphabet. It has as many generators as <var class="Arg">g</var>, and represents the action of <var class="Arg">g</var> on the <var class="Arg">l</var>th layer of the tree.</p>
+<p>The first function returns a transformation monoid on <span class="SimpleMath">\(d^l\)</span> points, where <span class="SimpleMath">\(d\)</span> is the size of <var class="Arg">g</var>'s alphabet. It has as many generators as <var class="Arg">g</var>, and represents the action of <var class="Arg">g</var> on the <var class="Arg">l</var>th layer of the tree.</p>
 
 <p>The second function returns a homomorphism from <var class="Arg">g</var> to this transformation monoid.</p>
 
@@ -690,7 +693,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EpimorphismTransformationSemigroup</code>( <var class="Arg">g</var>, <var class="Arg">l</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: [An epimorphism to] the transformation semigroup of <var class="Arg">g</var>'s action on level <var class="Arg">l</var>.</p>
 
-<p>The first function returns a transformation semigroup on <span class="SimpleMath">d^l</span> points, where <span class="SimpleMath">d</span> is the size of <var class="Arg">g</var>'s alphabet. It has as many generators as <var class="Arg">g</var>, and represents the action of <var class="Arg">g</var> on the <var class="Arg">l</var>th layer of the tree.</p>
+<p>The first function returns a transformation semigroup on <span class="SimpleMath">\(d^l\)</span> points, where <span class="SimpleMath">\(d\)</span> is the size of <var class="Arg">g</var>'s alphabet. It has as many generators as <var class="Arg">g</var>, and represents the action of <var class="Arg">g</var> on the <var class="Arg">l</var>th layer of the tree.</p>
 
 <p>The second function returns a homomorphism from <var class="Arg">g</var> to this transformation semigroup.</p>
 
@@ -722,13 +725,13 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EpimorphismGermGroup</code>( <var class="Arg">g</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: A homomorphism to a polycyclic group.</p>
 
-<p>This function returns an epimorphism to a polycyclic group, encoding the action on the first <var class="Arg">l</var> levels of the tree and on the germs below. If <var class="Arg">l</var> is omitted, it is assumed to be <span class="SimpleMath">0</span>.</p>
+<p>This function returns an epimorphism to a polycyclic group, encoding the action on the first <var class="Arg">l</var> levels of the tree and on the germs below. If <var class="Arg">l</var> is omitted, it is assumed to be <span class="SimpleMath">\(0\)</span>.</p>
 
 <p>Since the elements of <var class="Arg">g</var> are finite automata, they map periodic sequences to periodic sequences. The action on the periods, and in the immediate vicinity of them, is called the <em>germ action</em> of <var class="Arg">g</var>. This function returns the natural homomorphism from <var class="Arg">g</var> to the wreath product of this germ group with the quotient of <var class="Arg">g</var> acting on the <var class="Arg">l</var>th layer of the tree.</p>
 
 <p>The germ group, by default, is abelian. If it is finite, this function returns a homomorphism to a Pc group; otherwise, a homomorphism to a polycyclic group.</p>
 
-<p>The <code class="func">GrigorchukTwistedTwin</code> (<a href="chap9.html#X7E765AF77AAC21A6"><span class="RefLink">9.1-12</span></a>) is, for now, the only example with a hand-coded, non-abelian germ group.</p>
+<p>The <code class="func">GrigorchukTwistedTwin</code> (<a href="chap9_mj.html#X7E765AF77AAC21A6"><span class="RefLink">9.1-12</span></a>) is, for now, the only example with a hand-coded, non-abelian germ group.</p>
 
 
 <div class="example"><pre>
@@ -754,7 +757,7 @@ Pcp-group with orders [ 2, 0, 0, 0 ]
 
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GermData</code>( <var class="Arg">group</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GermValue</code>( <var class="Arg">element</var>, <var class="Arg">data</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
-<p>The first command computes some data useful to determine the germ value of a group element; the second command computes these germ values. For more information on germs, see <code class="func">Germs</code> (<a href="chap5.html#X81592E3D79745A40"><span class="RefLink">5.2-24</span></a>).</p>
+<p>The first command computes some data useful to determine the germ value of a group element; the second command computes these germ values. For more information on germs, see <code class="func">Germs</code> (<a href="chap5_mj.html#X81592E3D79745A40"><span class="RefLink">5.2-24</span></a>).</p>
 
 
 <div class="example"><pre>
@@ -776,7 +779,7 @@ rec( endo := [ f1, f2 ] -&gt; [ f1*f2, f1 ], group := &lt;pc group of size 4 wit
 
 <p>This function constructs a new FR group, consisting of all states at vertex <var class="Arg">v</var> (which can be an integer or a list) of the stabilizer of <var class="Arg">v</var> in <var class="Arg">g</var>.</p>
 
-<p>The result is <var class="Arg">g</var> itself precisely if <var class="Arg">g</var> is recurrent (see <code class="func">IsRecurrentFRSemigroup</code> (<a href="chap7.html#X7E2F34417EBB7673"><span class="RefLink">7.2-11</span></a>)).</p>
+<p>The result is <var class="Arg">g</var> itself precisely if <var class="Arg">g</var> is recurrent (see <code class="func">IsRecurrentFRSemigroup</code> (<a href="chap7_mj.html#X7E2F34417EBB7673"><span class="RefLink">7.2-11</span></a>)).</p>
 
 
 <div class="example"><pre>
@@ -822,7 +825,7 @@ true
 
 <p>This function tests whether <var class="Arg">g</var> is a <em>state-closed</em> group, i.e. a group such that all states of all elements of <var class="Arg">g</var> belong to <var class="Arg">g</var>.</p>
 
-<p>The smallest state-closed group containing <var class="Arg">g</var> is computed with <code class="func">StateClosure</code> (<a href="chap7.html#X79246DB482BEAF2D"><span class="RefLink">7.2-10</span></a>).</p>
+<p>The smallest state-closed group containing <var class="Arg">g</var> is computed with <code class="func">StateClosure</code> (<a href="chap7_mj.html#X79246DB482BEAF2D"><span class="RefLink">7.2-10</span></a>).</p>
 
 
 <div class="example"><pre>
@@ -845,7 +848,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; StateClosure</code>( <var class="Arg">g</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: The smallest state-closed group containing <var class="Arg">g</var>.</p>
 
-<p>This function computes the smallest group containing all states of all elements of <var class="Arg">g</var>, i.e. the smallest group containing <var class="Arg">g</var> and for which <code class="func">IsStateClosed</code> (<a href="chap7.html#X7C5002E683A044C1"><span class="RefLink">7.2-9</span></a>) returns <code class="keyw">true</code>.</p>
+<p>This function computes the smallest group containing all states of all elements of <var class="Arg">g</var>, i.e. the smallest group containing <var class="Arg">g</var> and for which <code class="func">IsStateClosed</code> (<a href="chap7_mj.html#X7C5002E683A044C1"><span class="RefLink">7.2-9</span></a>) returns <code class="keyw">true</code>.</p>
 
 
 <div class="example"><pre>
@@ -912,9 +915,9 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsLevelTransitiveOnPatterns</code>( <var class="Arg">g</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">g</var> is infinitely transitive.</p>
 
-<p>This function returns <code class="keyw">true</code> if <var class="Arg">g</var> is an <em>infinitely transitive</em> group. This means that <var class="Arg">g</var> is the state-closed group of a bireversible Mealy machine (see <code class="func">IsBireversible</code> (<a href="chap5.html#X80D2545D7D0990A2"><span class="RefLink">5.2-7</span></a>)), and that the action of the set of reduced words of any given length over the alphabet (where "reduced" means no successive letters related by the involution) is transitive.</p>
+<p>This function returns <code class="keyw">true</code> if <var class="Arg">g</var> is an <em>infinitely transitive</em> group. This means that <var class="Arg">g</var> is the state-closed group of a bireversible Mealy machine (see <code class="func">IsBireversible</code> (<a href="chap5_mj.html#X80D2545D7D0990A2"><span class="RefLink">5.2-7</span></a>)), and that the action of the set of reduced words of any given length over the alphabet (where "reduced" means no successive letters related by the involution) is transitive.</p>
 
-<p>Reduced words are defined as follows: if the underlying Mealy machine of <var class="Arg">g</var> has an involution on its alphabet (see <code class="func">AlphabetInvolution</code> (<a href="chap5.html#X7CCB79B981912CCC"><span class="RefLink">5.2-6</span></a>)), then reduced words are words in which two consecutive letters are not images of each other under the involution. If no involution is defined, then all words are considered reduced; the command then becomes synonymous to <code class="func">IsLevelTransitiveFRGroup</code> (<a href="chap7.html#X825688FD7CE96479"><span class="RefLink">7.2-12</span></a>).</p>
+<p>Reduced words are defined as follows: if the underlying Mealy machine of <var class="Arg">g</var> has an involution on its alphabet (see <code class="func">AlphabetInvolution</code> (<a href="chap5_mj.html#X7CCB79B981912CCC"><span class="RefLink">5.2-6</span></a>)), then reduced words are words in which two consecutive letters are not images of each other under the involution. If no involution is defined, then all words are considered reduced; the command then becomes synonymous to <code class="func">IsLevelTransitiveFRGroup</code> (<a href="chap7_mj.html#X825688FD7CE96479"><span class="RefLink">7.2-12</span></a>).</p>
 
 <p>This notion is of fundamental importance for the study of lattices in a product of trees; it implies under appropriate circumstances that the dual group is free.</p>
 
@@ -947,7 +950,7 @@ false
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFiniteStateFRSemigroup</code>( <var class="Arg">g</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if all elements of <var class="Arg">g</var> have the required property.</p>
 
-<p>This function returns <code class="keyw">true</code> if all elements of <var class="Arg">g</var> have the required property, as FR elements; see <code class="func">IsFinitaryFRElement</code> (<a href="chap5.html#X793C427084F830CE"><span class="RefLink">5.2-10</span></a>), <code class="func">IsWeaklyFinitaryFRElement</code> (<a href="chap5.html#X7A87ED9D789245E4"><span class="RefLink">5.2-23</span></a>), <code class="func">IsBoundedFRElement</code> (<a href="chap5.html#X82F4410E85C54C7E"><span class="RefLink">5.2-12</span></a>), <code class="func">IsPolynomialGrowthFRElement</code> (<a href="chap5.html#X81D4A3F27C5FAD96"><span class="RefLink">5.2-13</span></a>) and <code class="func">IsFiniteStateFRElement</code> (<a href="chap4.html#X7C4076707CBBE945"><span class="RefLink">4.2-12</span></a>).</p>
+<p>This function returns <code class="keyw">true</code> if all elements of <var class="Arg">g</var> have the required property, as FR elements; see <code class="func">IsFinitaryFRElement</code> (<a href="chap5_mj.html#X793C427084F830CE"><span class="RefLink">5.2-10</span></a>), <code class="func">IsWeaklyFinitaryFRElement</code> (<a href="chap5_mj.html#X7A87ED9D789245E4"><span class="RefLink">5.2-23</span></a>), <code class="func">IsBoundedFRElement</code> (<a href="chap5_mj.html#X82F4410E85C54C7E"><span class="RefLink">5.2-12</span></a>), <code class="func">IsPolynomialGrowthFRElement</code> (<a href="chap5_mj.html#X81D4A3F27C5FAD96"><span class="RefLink">5.2-13</span></a>) and <code class="func">IsFiniteStateFRElement</code> (<a href="chap4_mj.html#X7C4076707CBBE945"><span class="RefLink">4.2-12</span></a>).</p>
 
 
 <div class="example"><pre>
@@ -974,7 +977,7 @@ false
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DepthOfFRSemigroup</code>( <var class="Arg">g</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: The maximal degree/depth of elements of <var class="Arg">g</var>.</p>
 
-<p>This function returns the maximal degree/depth of elements of <var class="Arg">g</var>; see <code class="func">Degree</code> (<a href="chap5.html#X84BE780A81CAC69C"><span class="RefLink">5.2-9</span></a>) and <code class="func">Depth</code> (<a href="chap5.html#X7E5E8B2C79688DC0"><span class="RefLink">5.2-11</span></a>).</p>
+<p>This function returns the maximal degree/depth of elements of <var class="Arg">g</var>; see <code class="func">Degree</code> (<a href="chap5_mj.html#X84BE780A81CAC69C"><span class="RefLink">5.2-9</span></a>) and <code class="func">Depth</code> (<a href="chap5_mj.html#X7E5E8B2C79688DC0"><span class="RefLink">5.2-11</span></a>).</p>
 
 
 <div class="example"><pre>
@@ -997,7 +1000,7 @@ infinity
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; HasOpenSetConditionFRSemigroup</code>( <var class="Arg">g</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">g</var> has the open set condition.</p>
 
-<p>This function returns <code class="keyw">true</code> if all elements of <var class="Arg">g</var> have the <em>open set condition</em>, see <code class="func">HasOpenSetConditionFRElement</code> (<a href="chap5.html#X7F76AF2D7C0279F9"><span class="RefLink">5.2-25</span></a>).</p>
+<p>This function returns <code class="keyw">true</code> if all elements of <var class="Arg">g</var> have the <em>open set condition</em>, see <code class="func">HasOpenSetConditionFRElement</code> (<a href="chap5_mj.html#X7F76AF2D7C0279F9"><span class="RefLink">5.2-25</span></a>).</p>
 
 
 <div class="example"><pre>
@@ -1014,7 +1017,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; HasCongruenceProperty</code>( <var class="Arg">G</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">G</var> has the congruence property.</p>
 
-<p>This function returns <code class="keyw">true</code> if the transformation (semi)group <var class="Arg">G</var> has the <em>congruence property</em>, namely if every homomorphism <span class="SimpleMath">G-&gt; Q</span> to a finite quotient factors as <span class="SimpleMath">G-&gt; H-&gt; Q</span> via an action of <span class="SimpleMath">G</span> on a finite set.</p>
+<p>This function returns <code class="keyw">true</code> if the transformation (semi)group <var class="Arg">G</var> has the <em>congruence property</em>, namely if every homomorphism <span class="SimpleMath">\(G\to Q\)</span> to a finite quotient factors as <span class="SimpleMath">\(G\to H\to Q\)</span> via an action of <span class="SimpleMath">\(G\)</span> on a finite set.</p>
 
 <p>This command is not guaranteed to terminate.</p>
 
@@ -1033,9 +1036,9 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsContracting</code>( <var class="Arg">g</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">g</var> is a contracting semigroup.</p>
 
-<p>This function returns <code class="keyw">true</code> if <var class="Arg">g</var> is a <em>contracting</em> semigroup, i.e. if there exists a finite subset <code class="code">N</code> of <var class="Arg">g</var> such that the <code class="func">LimitStates</code> (<a href="chap4.html#X8303B36C83371FB3"><span class="RefLink">4.2-11</span></a>) of every element of <var class="Arg">g</var> belong to <code class="code">N</code>.</p>
+<p>This function returns <code class="keyw">true</code> if <var class="Arg">g</var> is a <em>contracting</em> semigroup, i.e. if there exists a finite subset <code class="code">N</code> of <var class="Arg">g</var> such that the <code class="func">LimitStates</code> (<a href="chap4_mj.html#X8303B36C83371FB3"><span class="RefLink">4.2-11</span></a>) of every element of <var class="Arg">g</var> belong to <code class="code">N</code>.</p>
 
-<p>The minimal such <code class="code">N</code> can be computed with <code class="func">NucleusOfFRSemigroup</code> (<a href="chap7.html#X7CA062A67C1554BB"><span class="RefLink">7.2-19</span></a>).</p>
+<p>The minimal such <code class="code">N</code> can be computed with <code class="func">NucleusOfFRSemigroup</code> (<a href="chap7_mj.html#X7CA062A67C1554BB"><span class="RefLink">7.2-19</span></a>).</p>
 
 
 <div class="example"><pre>
@@ -1053,7 +1056,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Nucleus</code>( <var class="Arg">g</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: The nucleus of the contracting semigroup <var class="Arg">g</var>.</p>
 
-<p>This function returns the <em>nucleus</em> of the contracting semigroup <var class="Arg">g</var>, i.e. the smallest subset <code class="code">N</code> of <var class="Arg">g</var> such that the <code class="func">LimitStates</code> (<a href="chap4.html#X8303B36C83371FB3"><span class="RefLink">4.2-11</span></a>) of every element of <var class="Arg">g</var> belong to <code class="code">N</code>.</p>
+<p>This function returns the <em>nucleus</em> of the contracting semigroup <var class="Arg">g</var>, i.e. the smallest subset <code class="code">N</code> of <var class="Arg">g</var> such that the <code class="func">LimitStates</code> (<a href="chap4_mj.html#X8303B36C83371FB3"><span class="RefLink">4.2-11</span></a>) of every element of <var class="Arg">g</var> belong to <code class="code">N</code>.</p>
 
 <p>This function returns <code class="keyw">fail</code> if no such <code class="code">N</code> exists. Usually, it loops forever without being able to decide whether <code class="code">N</code> is finite or infinite. It succeeds precisely when <code class="code">IsContracting(g)</code> succeeds.</p>
 
@@ -1072,7 +1075,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NucleusMachine</code>( <var class="Arg">g</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: The nucleus machine of the contracting semigroup <var class="Arg">g</var>.</p>
 
-<p>This function returns the <em>nucleus</em> of the contracting semigroup <var class="Arg">g</var>, see <code class="func">NucleusOfFRSemigroup</code> (<a href="chap7.html#X7CA062A67C1554BB"><span class="RefLink">7.2-19</span></a>), in the form of a Mealy machine.</p>
+<p>This function returns the <em>nucleus</em> of the contracting semigroup <var class="Arg">g</var>, see <code class="func">NucleusOfFRSemigroup</code> (<a href="chap7_mj.html#X7CA062A67C1554BB"><span class="RefLink">7.2-19</span></a>), in the form of a Mealy machine.</p>
 
 <p>Since all states of the nucleus are elements of the nucleus, the transition and output function may be restricted to the nucleus, defining a Mealy machine. Finitely generated recurrent groups are generated by their nucleus machine.</p>
 
@@ -1109,7 +1112,7 @@ true
 
 <p>The second function then computes the poset of intersections of these bases, and returns it as a binary relation.</p>
 
-<p>For more details on these concepts, see <a href="chapBib.html#biB0810.4936">[Nek08a]</a>.</p>
+<p>For more details on these concepts, see <a href="chapBib_mj.html#biB0810.4936">[Nek08a]</a>.</p>
 
 
 <div class="example"><pre>
@@ -1144,9 +1147,9 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BranchingSubgroup</code>( <var class="Arg">g</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: A branching subgroup of <var class="Arg">g</var>.</p>
 
-<p>This function searches for a subgroup <span class="SimpleMath">k</span> of <var class="Arg">g</var>, such that <span class="SimpleMath">k</span> contains <span class="SimpleMath">k × ⋯ × k</span>.</p>
+<p>This function searches for a subgroup <span class="SimpleMath">\(k\)</span> of <var class="Arg">g</var>, such that <span class="SimpleMath">\(k\)</span> contains <span class="SimpleMath">\(k \times \cdots \times k\)</span>.</p>
 
-<p>It searches for elements in larger and larger balls in <var class="Arg">g</var>, calling <code class="func">FindBranchingSubgroup</code> (<a href="chap7.html#X78ADACCD8586D3C7"><span class="RefLink">7.2-23</span></a>).</p>
+<p>It searches for elements in larger and larger balls in <var class="Arg">g</var>, calling <code class="func">FindBranchingSubgroup</code> (<a href="chap7_mj.html#X78ADACCD8586D3C7"><span class="RefLink">7.2-23</span></a>).</p>
 
 
 <div class="example"><pre>
@@ -1167,9 +1170,9 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FindBranchingSubgroup</code>( <var class="Arg">g</var>, <var class="Arg">l</var>, <var class="Arg">r</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: A branching subgroup of <var class="Arg">g</var>.</p>
 
-<p>This function searches for a subgroup <span class="SimpleMath">k</span> of <var class="Arg">g</var>, such that <span class="SimpleMath">k</span> contains <span class="SimpleMath">k × ⋯ × k</span>.</p>
+<p>This function searches for a subgroup <span class="SimpleMath">\(k\)</span> of <var class="Arg">g</var>, such that <span class="SimpleMath">\(k\)</span> contains <span class="SimpleMath">\(k \times \cdots \times k\)</span>.</p>
 
-<p>The second argument <var class="Arg">l</var> specifies the level at which branching must occur; i.e. asks to search for a subgroup <span class="SimpleMath">k</span> such that <var class="Arg">g</var> contains <span class="SimpleMath">k^d^l</span> where <span class="SimpleMath">d</span> is the size of the alphabet. If <code class="code">l=infinity</code>, the resulting <span class="SimpleMath">k</span> will be a regularly branched subgroup.</p>
+<p>The second argument <var class="Arg">l</var> specifies the level at which branching must occur; i.e. asks to search for a subgroup <span class="SimpleMath">\(k\)</span> such that <var class="Arg">g</var> contains <span class="SimpleMath">\(k^{d^l}\)</span> where <span class="SimpleMath">\(d\)</span> is the size of the alphabet. If <code class="code">l=infinity</code>, the resulting <span class="SimpleMath">\(k\)</span> will be a regularly branched subgroup.</p>
 
 <p>The third argument <var class="Arg">r</var> specifies the radius to explore in <var class="Arg">g</var> and all branching subgroups at levels smaller than <var class="Arg">l</var> for elements with all level-1 states trivial except one.</p>
 
@@ -1196,7 +1199,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsBranched</code>( <var class="Arg">g</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">g</var> has a finite-index branching subgroup.</p>
 
-<p>This function returns <code class="keyw">true</code> if <var class="Arg">g</var> has a finite-index subgroup <span class="SimpleMath">k</span>, such that <span class="SimpleMath">k</span> contains <span class="SimpleMath">k × ⋯ × k</span>.</p>
+<p>This function returns <code class="keyw">true</code> if <var class="Arg">g</var> has a finite-index subgroup <span class="SimpleMath">\(k\)</span>, such that <span class="SimpleMath">\(k\)</span> contains <span class="SimpleMath">\(k \times \cdots \times k\)</span>.</p>
 
 
 <div class="example"><pre>
@@ -1218,7 +1221,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsBranchingSubgroup</code>( <var class="Arg">k</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">k</var> is a branching subgroup.</p>
 
-<p>This function returns <code class="keyw">true</code> if <var class="Arg">k</var> contains <span class="SimpleMath">k × ⋯ × k</span>.</p>
+<p>This function returns <code class="keyw">true</code> if <var class="Arg">k</var> contains <span class="SimpleMath">\(k \times \cdots \times k\)</span>.</p>
 
 
 <div class="example"><pre>
@@ -1294,7 +1297,7 @@ Group([ (), (1,2,3), (1,3,2) ])
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VirtualEndomorphism</code>( <var class="Arg">g/m</var>, <var class="Arg">v</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: The virtual endomorphism at vertex <var class="Arg">v</var>.</p>
 
-<p>This function returns the homomorphism from <code class="code">Stabilizer(g,v)</code> to <var class="Arg">g</var>, defined by computing the state at <var class="Arg">v</var>. It is loosely speaking an inverse of <code class="func">FRGroupByVirtualEndomorphism</code> (<a href="chap7.html#X7BB8DDEA83946C73"><span class="RefLink">7.1-9</span></a>).</p>
+<p>This function returns the homomorphism from <code class="code">Stabilizer(g,v)</code> to <var class="Arg">g</var>, defined by computing the state at <var class="Arg">v</var>. It is loosely speaking an inverse of <code class="func">FRGroupByVirtualEndomorphism</code> (<a href="chap7_mj.html#X7BB8DDEA83946C73"><span class="RefLink">7.1-9</span></a>).</p>
 
 <p>The first argument <var class="Arg">m</var> may also be an FR machine.</p>
 
@@ -1321,11 +1324,11 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EpimorphismFromFpGroup</code>( <var class="Arg">g</var>, <var class="Arg">l</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: An epimorphism from a finitely presented group to <var class="Arg">g</var>.</p>
 
-<p>For some examples of self-similar groups, a recursive presentation of the group is coded into <strong class="pkg">FR</strong>, and an approximate presentation is returned by this command, together with a map onto the group <var class="Arg">g</var>. The argument <var class="Arg">l</var> roughly means the number of iterates of an endomorphism were applied to a finite set of relators. An isomorphic group would be obtained by setting <code class="code">l=infinity</code>; for that purpose, see <code class="func">IsomorphismSubgroupFpGroup</code> (<a href="chap7.html#X8740656382656D63"><span class="RefLink">7.2-31</span></a>).</p>
+<p>For some examples of self-similar groups, a recursive presentation of the group is coded into <strong class="pkg">FR</strong>, and an approximate presentation is returned by this command, together with a map onto the group <var class="Arg">g</var>. The argument <var class="Arg">l</var> roughly means the number of iterates of an endomorphism were applied to a finite set of relators. An isomorphic group would be obtained by setting <code class="code">l=infinity</code>; for that purpose, see <code class="func">IsomorphismSubgroupFpGroup</code> (<a href="chap7_mj.html#X8740656382656D63"><span class="RefLink">7.2-31</span></a>).</p>
 
 <p>Preimages can be computed, with <code class="code">PreImagesRepresentative</code>. They are usually reasonably short words, though by no means guaranteed to be of minimal length.</p>
 
-<p>Currently this command is implemented through an ad hoc method for <code class="func">BinaryKneadingGroup</code> (<a href="chap9.html#X813F53C57F41F5F5"><span class="RefLink">9.1-2</span></a>), <code class="func">GrigorchukGroup</code> (<a href="chap9.html#X85BAE48780E665A4"><span class="RefLink">9.1-10</span></a>) and <code class="func">GrigorchukOverGroup</code> (<a href="chap9.html#X800640597E9C707D"><span class="RefLink">9.1-11</span></a>).</p>
+<p>Currently this command is implemented through an ad hoc method for <code class="func">BinaryKneadingGroup</code> (<a href="chap9_mj.html#X813F53C57F41F5F5"><span class="RefLink">9.1-2</span></a>), <code class="func">GrigorchukGroup</code> (<a href="chap9_mj.html#X85BAE48780E665A4"><span class="RefLink">9.1-10</span></a>) and <code class="func">GrigorchukOverGroup</code> (<a href="chap9_mj.html#X800640597E9C707D"><span class="RefLink">9.1-11</span></a>).</p>
 
 
 <div class="example"><pre>
@@ -1354,11 +1357,11 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AsLpGroup</code>( <var class="Arg">g</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: An isomorphism to a subgroup of a finitely presented group, or an L-presented group.</p>
 
-<p>For some examples of self-similar groups, a recursive presentation of the group is coded into <strong class="pkg">FR</strong>, and is returned by this command. The group <var class="Arg">g</var> itself sits as a subgroup of a finitely presented group. To obtain a finitely presented group approximating <var class="Arg">g</var>, see <code class="func">EpimorphismFromFpGroup</code> (<a href="chap7.html#X7C81CB1C7F0D7A90"><span class="RefLink">7.2-30</span></a>). PreImages can also be computed; it is usually better to use <code class="code">PreImageElm</code>, since the word problem may not be solvable by <strong class="pkg">GAP</strong> in the f.p. group.</p>
+<p>For some examples of self-similar groups, a recursive presentation of the group is coded into <strong class="pkg">FR</strong>, and is returned by this command. The group <var class="Arg">g</var> itself sits as a subgroup of a finitely presented group. To obtain a finitely presented group approximating <var class="Arg">g</var>, see <code class="func">EpimorphismFromFpGroup</code> (<a href="chap7_mj.html#X7C81CB1C7F0D7A90"><span class="RefLink">7.2-30</span></a>). PreImages can also be computed; it is usually better to use <code class="code">PreImageElm</code>, since the word problem may not be solvable by <strong class="pkg">GAP</strong> in the f.p. group.</p>
 
-<p>Currently this command is implemented through an ad hoc method for <code class="func">BinaryKneadingGroup</code> (<a href="chap9.html#X813F53C57F41F5F5"><span class="RefLink">9.1-2</span></a>), <code class="func">GrigorchukGroup</code> (<a href="chap9.html#X85BAE48780E665A4"><span class="RefLink">9.1-10</span></a>), <code class="func">GrigorchukOverGroup</code> (<a href="chap9.html#X800640597E9C707D"><span class="RefLink">9.1-11</span></a>), generalized <code class="func">GuptaSidkiGroups</code> (<a href="chap9.html#X82D3CB6A7C189C78"><span class="RefLink">9.1-18</span></a>) and generalized <code class="func">FabrykowskiGuptaGroups</code> (<a href="chap9.html#X878D1C7080EA9797"><span class="RefLink">9.1-21</span></a>).</p>
+<p>Currently this command is implemented through an ad hoc method for <code class="func">BinaryKneadingGroup</code> (<a href="chap9_mj.html#X813F53C57F41F5F5"><span class="RefLink">9.1-2</span></a>), <code class="func">GrigorchukGroup</code> (<a href="chap9_mj.html#X85BAE48780E665A4"><span class="RefLink">9.1-10</span></a>), <code class="func">GrigorchukOverGroup</code> (<a href="chap9_mj.html#X800640597E9C707D"><span class="RefLink">9.1-11</span></a>), generalized <code class="func">GuptaSidkiGroups</code> (<a href="chap9_mj.html#X82D3CB6A7C189C78"><span class="RefLink">9.1-18</span></a>) and generalized <code class="func">FabrykowskiGuptaGroups</code> (<a href="chap9_mj.html#X878D1C7080EA9797"><span class="RefLink">9.1-21</span></a>).</p>
 
-<p>The second form returns an isomorphism to an L-presented group (see <a href="chapBib.html#biBMR2009317">[Bar03a]</a> and <a href="chapBib.html#biBMR2483125">[BEH08]</a>. It requires the package <strong class="pkg">NQL</strong>.</p>
+<p>The second form returns an isomorphism to an L-presented group (see <a href="chapBib_mj.html#biBMR2009317">[Bar03a]</a> and <a href="chapBib_mj.html#biBMR2483125">[BEH08]</a>. It requires the package <strong class="pkg">NQL</strong>.</p>
 
 
 <div class="example"><pre>
@@ -1434,7 +1437,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsAmenableGroup</code>( <var class="Arg">g</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">g</var> is an amenable group.</p>
 
-<p>Amenable groups, introduced by von Neumann <a href="chapBib.html#biBvneumann">[vN29]</a>, are those groups that admit a finitely additive, translation-invariant measure.</p>
+<p>Amenable groups, introduced by von Neumann <a href="chapBib_mj.html#biBvneumann">[vN29]</a>, are those groups that admit a finitely additive, translation-invariant measure.</p>
 
 
 <div class="example"><pre>
@@ -1454,9 +1457,9 @@ true
 
 <p>This function attempts to prove that the VH group <var class="Arg">g</var> admits a finite-index simple subgroup.</p>
 
-<p>It is based on the following test: let <code class="code">D</code> be a direction (vertical or horizontal) such that the corresponding action is infinitely transitive (see <code class="func">IsInfinitelyTransitive</code> (<a href="chap7.html#X7D95219481AEDD20"><span class="RefLink">7.2-13</span></a>)). If the corresponding subgroup of <var class="Arg">g</var> contains a non-trivial element <span class="SimpleMath">λ</span> that acts trivially in the corresponding action, then every normal subgroup contains <span class="SimpleMath">λ</span>. It then remains to check that the normal closure of <span class="SimpleMath">λ</span> has finite index. This element <span class="SimpleMath">λ</span> is then stored as the attribute <code class="code">LambdaElementVHGroup(g)</code>.</p>
+<p>It is based on the following test: let <code class="code">D</code> be a direction (vertical or horizontal) such that the corresponding action is infinitely transitive (see <code class="func">IsInfinitelyTransitive</code> (<a href="chap7_mj.html#X7D95219481AEDD20"><span class="RefLink">7.2-13</span></a>)). If the corresponding subgroup of <var class="Arg">g</var> contains a non-trivial element <span class="SimpleMath">\(\lambda\)</span> that acts trivially in the corresponding action, then every normal subgroup contains <span class="SimpleMath">\(\lambda\)</span>. It then remains to check that the normal closure of <span class="SimpleMath">\(\lambda\)</span> has finite index. This element <span class="SimpleMath">\(\lambda\)</span> is then stored as the attribute <code class="code">LambdaElementVHGroup(g)</code>.</p>
 
-<p>The current implementation is based on results in <a href="chapBib.html#biBMR1839488">[BM00a]</a> and <a href="chapBib.html#biBMR1839489">[BM00b]</a>, and does not work for the Rattaggi examples (see <code class="func">RattaggiGroup</code> (<a href="chap9.html#X80B617717C2887D4"><span class="RefLink">9.1-24</span></a>)).</p>
+<p>The current implementation is based on results in <a href="chapBib_mj.html#biBMR1839488">[BM00a]</a> and <a href="chapBib_mj.html#biBMR1839489">[BM00b]</a>, and does not work for the Rattaggi examples (see <code class="func">RattaggiGroup</code> (<a href="chap9_mj.html#X80B617717C2887D4"><span class="RefLink">9.1-24</span></a>)).</p>
 
 <p><a id="X79A3A0CF82B6F089" name="X79A3A0CF82B6F089"></a></p>
 
@@ -1465,7 +1468,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsResiduallyFinite</code>( <var class="Arg">obj</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">obj</var> is residually finite.</p>
 
-<p>An object is <em>residually finite</em> if it can be approximated arbitrarily well by finite quotients; i.e. if for every <span class="SimpleMath">g≠ h∈ X</span> there exists a finite quotient <span class="SimpleMath">π:X-&gt; Q</span> such that <span class="SimpleMath">g^π≠ h^π</span>.</p>
+<p>An object is <em>residually finite</em> if it can be approximated arbitrarily well by finite quotients; i.e. if for every <span class="SimpleMath">\(g\neq h\in X\)</span> there exists a finite quotient <span class="SimpleMath">\(\pi:X\to Q\)</span> such that <span class="SimpleMath">\(g^\pi\neq h^\pi\)</span>.</p>
 
 
 <div class="example"><pre>
@@ -1511,10 +1514,10 @@ true
 </pre></div>
 
 
-<div class="chlinkprevnextbot">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap6.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap8.html">[Next Chapter]</a>&nbsp;  </div>
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap6_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap8_mj.html">[Next Chapter]</a>&nbsp;  </div>
 
 
-<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chapBib_mj.html">Bib</a>  <a href="chapInd_mj.html">Ind</a>  </div>
 
 <hr />
 <p class="foot">generated by <a href="http://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>

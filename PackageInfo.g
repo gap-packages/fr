@@ -5,13 +5,9 @@
 SetPackageInfo( rec(
 PackageName := "FR",
 Subtitle := "Computations with functionally recursive groups",
-Version := "2.4.9",
-Date := "31/07/2022", # dd/mm/yyyy format
+Version := "2.4.10",
+Date := "10/08/2022", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
-## <#GAPDoc Label="Version">
-## <!ENTITY Version "2.4.9">
-## <!ENTITY Date "31/07/2022">
-## <#/GAPDoc>
 
 Persons := [
   rec(
@@ -22,12 +18,11 @@ Persons := [
     Email         := "laurent.bartholdi@gmail.com",
     WWWHome       := "https://www.math.uni-sb.de/ag/bartholdi/",
     PostalAddress := Concatenation( [
-                       "Mathematisches Institut\n",
-                       "Bunsenstraße 3-5\n",
-                       "D-37073 Göttingen\n",
+                       "FR Mathematik+Informatik\n",
+                       "D-66123 Saarbrücken\n",
                        "Germany" ] ),
-    Place         := "Göttingen",
-    Institution   := "Georg-August Universität zu Göttingen"
+    Place         := "Saarbrücken",
+    Institution   := "Saarland University"
   )
 ],
 
@@ -54,7 +49,7 @@ AbstractHTML := "The <span class=\"pkgname\">fr</span> package allows \
 
 PackageDoc := rec(
   BookName  := "fr",
-  HTMLStart := "doc/chap0.html",
+  HTMLStart := "doc/chap0_mj.html",
   PDFFile   := "doc/manual.pdf",
   SixFile   := "doc/manual.six",
   LongTitle := "Functionally recursive and automata groups",
@@ -79,5 +74,15 @@ AvailabilityTest := ReturnTrue,
 BannerString := Concatenation("Loading ", ~.PackageName, " ", String( ~.Version ), " ...\n"),
 
 TestFile := "tst/testall.g",
-Keywords := ["functionally recursive group", "mealy machine", "automata group"]
+Keywords := ["functionally recursive group", "mealy machine", "automata group"],
+
+AutoDoc := rec(
+    entities := rec(
+        Version := ~.Version,
+        Date := ~.Date,
+    ),
+    MainPage := false,
+    TitlePage := false,
+),
+
 ));

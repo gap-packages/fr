@@ -5,6 +5,9 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 <title>GAP (FR) - Chapter 5: Mealy machines and elements</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <meta name="generator" content="GAPDoc2HTML" />
@@ -15,52 +18,52 @@
 <body class="chap5"  onload="jscontent()">
 
 
-<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chapBib_mj.html">Bib</a>  <a href="chapInd_mj.html">Ind</a>  </div>
 
-<div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap4.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap6.html">[Next Chapter]</a>&nbsp;  </div>
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap4_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap6_mj.html">[Next Chapter]</a>&nbsp;  </div>
 
-<p id="mathjaxlink" class="pcenter"><a href="chap5_mj.html">[MathJax on]</a></p>
+<p id="mathjaxlink" class="pcenter"><a href="chap5.html">[MathJax off]</a></p>
 <p><a id="X7C77EBC17DEF4CF6" name="X7C77EBC17DEF4CF6"></a></p>
-<div class="ChapSects"><a href="chap5.html#X7C77EBC17DEF4CF6">5 <span class="Heading">Mealy machines and elements</span></a>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap5.html#X846B89F686B50AE1">5.1 <span class="Heading">Creators for <code class="code">MealyMachine</code>s and <code class="code">MealyElement</code>s</span></a>
+<div class="ChapSects"><a href="chap5_mj.html#X7C77EBC17DEF4CF6">5 <span class="Heading">Mealy machines and elements</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap5_mj.html#X846B89F686B50AE1">5.1 <span class="Heading">Creators for <code class="code">MealyMachine</code>s and <code class="code">MealyElement</code>s</span></a>
 </span>
 <div class="ContSSBlock">
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7EF3E00080624B70">5.1-1 MealyMachine</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X875B8FED7FD20FA1">5.1-2 MealyMachine</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X8578657C7F4B6254">5.1-3 MealyMachineNC</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X83BBE01884D6E315">5.1-4 AllMealyMachines</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X7EF3E00080624B70">5.1-1 MealyMachine</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X875B8FED7FD20FA1">5.1-2 MealyMachine</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X8578657C7F4B6254">5.1-3 MealyMachineNC</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X83BBE01884D6E315">5.1-4 AllMealyMachines</a></span>
 </div></div>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap5.html#X7F673D877B205708">5.2 <span class="Heading">Operations and Attributes for <code class="code">MealyMachine</code>s and <code class="code">MealyElement</code>s</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap5_mj.html#X7F673D877B205708">5.2 <span class="Heading">Operations and Attributes for <code class="code">MealyMachine</code>s and <code class="code">MealyElement</code>s</span></a>
 </span>
 <div class="ContSSBlock">
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7DF9F3AD86602DFC">5.2-1 Draw</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X8395542D846FA2B9">5.2-2 Minimized</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X809F069B798ED985">5.2-3 DualMachine</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7D5D480C782FCC0B">5.2-4 IsReversible</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X8310A1C08158793C">5.2-5 IsMinimized</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7CCB79B981912CCC">5.2-6 AlphabetInvolution</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X80D2545D7D0990A2">5.2-7 IsBireversible</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X83364DAB825D7A0D">5.2-8 StateGrowth</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X84BE780A81CAC69C">5.2-9 Degree</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X793C427084F830CE">5.2-10 IsFinitaryFRElement</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7E5E8B2C79688DC0">5.2-11 Depth</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X82F4410E85C54C7E">5.2-12 IsBoundedFRElement</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X81D4A3F27C5FAD96">5.2-13 IsPolynomialGrowthFRElement</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7ECE17387910C023">5.2-14 Signatures</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X83DFDC3384EA4634">5.2-15 VertexTransformationsFRMachine</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7E0CB3767CE08692">5.2-16 FixedRay</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7A519D4C86CC4786">5.2-17 IsLevelTransitiveFRElement</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X79EFE2C97D2CCEEC">5.2-18 AsMealyMachine</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X80F9A18483F98442">5.2-19 AsMealyMachine</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7FB3F0A2878DD2CF">5.2-20 AsMealyElement</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7FBBBD9A839011C8">5.2-21 AsIntMealyMachine</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X8191456B7E586785">5.2-22 TopElement</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7A87ED9D789245E4">5.2-23 ConfinalityClasses</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X81592E3D79745A40">5.2-24 Germs</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7F76AF2D7C0279F9">5.2-25 HasOpenSetConditionFRElement</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X795017598575FCA3">5.2-26 LimitFRMachine</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7F8163B5816969C8">5.2-27 NucleusMachine</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7B29565784A591EC">5.2-28 GuessMealyElement</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X7DF9F3AD86602DFC">5.2-1 Draw</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X8395542D846FA2B9">5.2-2 Minimized</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X809F069B798ED985">5.2-3 DualMachine</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X7D5D480C782FCC0B">5.2-4 IsReversible</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X8310A1C08158793C">5.2-5 IsMinimized</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X7CCB79B981912CCC">5.2-6 AlphabetInvolution</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X80D2545D7D0990A2">5.2-7 IsBireversible</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X83364DAB825D7A0D">5.2-8 StateGrowth</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X84BE780A81CAC69C">5.2-9 Degree</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X793C427084F830CE">5.2-10 IsFinitaryFRElement</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X7E5E8B2C79688DC0">5.2-11 Depth</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X82F4410E85C54C7E">5.2-12 IsBoundedFRElement</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X81D4A3F27C5FAD96">5.2-13 IsPolynomialGrowthFRElement</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X7ECE17387910C023">5.2-14 Signatures</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X83DFDC3384EA4634">5.2-15 VertexTransformationsFRMachine</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X7E0CB3767CE08692">5.2-16 FixedRay</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X7A519D4C86CC4786">5.2-17 IsLevelTransitiveFRElement</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X79EFE2C97D2CCEEC">5.2-18 AsMealyMachine</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X80F9A18483F98442">5.2-19 AsMealyMachine</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X7FB3F0A2878DD2CF">5.2-20 AsMealyElement</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X7FBBBD9A839011C8">5.2-21 AsIntMealyMachine</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X8191456B7E586785">5.2-22 TopElement</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X7A87ED9D789245E4">5.2-23 ConfinalityClasses</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X81592E3D79745A40">5.2-24 Germs</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X7F76AF2D7C0279F9">5.2-25 HasOpenSetConditionFRElement</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X795017598575FCA3">5.2-26 LimitFRMachine</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X7F8163B5816969C8">5.2-27 NucleusMachine</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X7B29565784A591EC">5.2-28 GuessMealyElement</a></span>
 </div></div>
 </div>
 
@@ -68,17 +71,17 @@
 
 <p><em>Mealy machines</em> form a special class of FR machines. They have as stateset a finite set, as opposed to a free group/monoid/semigroup. All commands available for FR machines are also available for Mealy machines, but the latter have added functionality.</p>
 
-<p>There are currently two types of Mealy machines; one has as stateset an interval of integers of the form <code class="code">[1..m]</code> and as alphabet a set of integers; the other has an arbitrary domain as stateset and alphabet. Almost no functionality is implemented for the latter type, but there is a function converting it to the former type (see <code class="func">AsMealyMachine</code> (<a href="chap5.html#X79EFE2C97D2CCEEC"><span class="RefLink">5.2-18</span></a>)).</p>
+<p>There are currently two types of Mealy machines; one has as stateset an interval of integers of the form <code class="code">[1..m]</code> and as alphabet a set of integers; the other has an arbitrary domain as stateset and alphabet. Almost no functionality is implemented for the latter type, but there is a function converting it to the former type (see <code class="func">AsMealyMachine</code> (<a href="chap5_mj.html#X79EFE2C97D2CCEEC"><span class="RefLink">5.2-18</span></a>)).</p>
 
-<p>The internal representation of a Mealy machine of the first kind is quite different from that of FR machines. The alphabet is assumed to be an interval <code class="code">[1..n]</code>, and the stateset is assumed to be an interval <code class="code">[1..m]</code>. The transitions are stored as a <span class="SimpleMath">m × n</span> matrix, and the outputs are stored in a list of length <span class="SimpleMath">m</span>, consisting of permutations or transformations.</p>
+<p>The internal representation of a Mealy machine of the first kind is quite different from that of FR machines. The alphabet is assumed to be an interval <code class="code">[1..n]</code>, and the stateset is assumed to be an interval <code class="code">[1..m]</code>. The transitions are stored as a <span class="SimpleMath">\(m \times n\)</span> matrix, and the outputs are stored in a list of length <span class="SimpleMath">\(m\)</span>, consisting of permutations or transformations.</p>
 
-<p>Mealy machines have additional properties, in particular they can act on periodic sequences (see <code class="func">PeriodicList</code> (<a href="chap11.html#X7B401DFE817D3927"><span class="RefLink">11.2-2</span></a>)). For example, the periodic sequence <code class="code">PeriodicList([1],[1,2])</code> describes the infinite ray <code class="code">[1,1,2,1,2,..]</code> in the tree. In principle, Mealy machines could act on sequences accepted by an automaton, although this is not yet implemented.</p>
+<p>Mealy machines have additional properties, in particular they can act on periodic sequences (see <code class="func">PeriodicList</code> (<a href="chap11_mj.html#X7B401DFE817D3927"><span class="RefLink">11.2-2</span></a>)). For example, the periodic sequence <code class="code">PeriodicList([1],[1,2])</code> describes the infinite ray <code class="code">[1,1,2,1,2,..]</code> in the tree. In principle, Mealy machines could act on sequences accepted by an automaton, although this is not yet implemented.</p>
 
 <p>Mealy elements are Mealy machines with an initial state. For efficiency reasons, Mealy elements are always minimized, and their states are ordered in a canonical top-down, left-to-right order of traversal of the tree. In particular, their initial state is always 1. In this implementation, multiplication of Mealy elements is slower than multiplication of group FR elements, while comparison of Mealy elements is faster than comparison of group FR elements. In practise, it is better to work with Mealy elements as often as possible.</p>
 
-<p>Products of Mealy machines behave in the same way as products of general FR machines, see <a href="chap3.html#X7EB36FBB78F4F26A"><span class="RefLink">3.2</span></a>. The only difference is that now the sum and products of statesets are distinct; the sum of statesets being their disjoint union, and their product being their cartesian product.</p>
+<p>Products of Mealy machines behave in the same way as products of general FR machines, see <a href="chap3_mj.html#X7EB36FBB78F4F26A"><span class="RefLink">3.2</span></a>. The only difference is that now the sum and products of statesets are distinct; the sum of statesets being their disjoint union, and their product being their cartesian product.</p>
 
-<p>Sometimes one would like to know how a Mealy element was obtained as a word in Mealy elements. This is possible within the representation <code class="func">IsFRMealyElement</code> (<a href="chap10.html#X847A4BBE82C736B6"><span class="RefLink">10.2-12</span></a>), which combines the representations <code class="func">IsMealyElement</code> (<a href="chap10.html#X7C86614187606A4C"><span class="RefLink">10.2-4</span></a>) and <code class="func">IsFRElement</code> (<a href="chap10.html#X7966F9B982B1DFE1"><span class="RefLink">10.2-11</span></a>). On top of usual FR elements, they have an attribute <code class="code">UnderlyingMealyMachine</code>, which is used for faster comparison of elements, and computation of the action.</p>
+<p>Sometimes one would like to know how a Mealy element was obtained as a word in Mealy elements. This is possible within the representation <code class="func">IsFRMealyElement</code> (<a href="chap10_mj.html#X847A4BBE82C736B6"><span class="RefLink">10.2-12</span></a>), which combines the representations <code class="func">IsMealyElement</code> (<a href="chap10_mj.html#X7C86614187606A4C"><span class="RefLink">10.2-4</span></a>) and <code class="func">IsFRElement</code> (<a href="chap10_mj.html#X7966F9B982B1DFE1"><span class="RefLink">10.2-11</span></a>). On top of usual FR elements, they have an attribute <code class="code">UnderlyingMealyMachine</code>, which is used for faster comparison of elements, and computation of the action.</p>
 
 <p>Therefore, if <code class="code">L</code> is a list of FR elements, the call <code class="code">List(L,UnderlyingElement);;</code> will set these attributes, and all calculations made with elements of <code class="code">L</code> will use and propagate the attributes. FR-Mealy elements are displayed in the form <code class="code">&lt;d|w|n&gt;</code>, where <code class="code">d</code> is the degree of the alphabet, <code class="code">w</code> is a word in the stateset, and <code class="code">n</code> is the number of states of the underlying Mealy element.</p>
 
@@ -218,15 +221,15 @@ true
 
 <p>This function constructs all Mealy machines with alphabet <code class="code">[1..m]</code>, stateset <code class="code">[1..n]</code> and specified properties.</p>
 
-<p>These properties are specified as additional arguments. They can include <code class="func">IsInvertible</code> (<a href="chap10.html#X83AEFB8184F4B023"><span class="RefLink">10.2-15</span></a>), <code class="func">IsReversible</code> (<a href="chap5.html#X7D5D480C782FCC0B"><span class="RefLink">5.2-4</span></a>), <code class="func">IsBireversible</code> (<a href="chap5.html#X80D2545D7D0990A2"><span class="RefLink">5.2-7</span></a>), and <code class="func">IsMinimized</code> (<a href="chap5.html#X8310A1C08158793C"><span class="RefLink">5.2-5</span></a>) to specify that the machines should have that property.</p>
+<p>These properties are specified as additional arguments. They can include <code class="func">IsInvertible</code> (<a href="chap10_mj.html#X83AEFB8184F4B023"><span class="RefLink">10.2-15</span></a>), <code class="func">IsReversible</code> (<a href="chap5_mj.html#X7D5D480C782FCC0B"><span class="RefLink">5.2-4</span></a>), <code class="func">IsBireversible</code> (<a href="chap5_mj.html#X80D2545D7D0990A2"><span class="RefLink">5.2-7</span></a>), and <code class="func">IsMinimized</code> (<a href="chap5_mj.html#X8310A1C08158793C"><span class="RefLink">5.2-5</span></a>) to specify that the machines should have that property.</p>
 
-<p>A group/monoid/semigroup <code class="code">p</code> may also be passed as argument; this specifies the allowable vertex transformations of the machines. The property <code class="code">IsTransitive</code> requires that the state-closed group/monoid/semigroup of the machine act transitively on its alphabet, and <code class="code">IsSurjective</code> requires that its <code class="func">VertexTransformationsFRMachine</code> (<a href="chap5.html#X83DFDC3384EA4634"><span class="RefLink">5.2-15</span></a>) be precisely equal to <code class="code">p</code>.</p>
+<p>A group/monoid/semigroup <code class="code">p</code> may also be passed as argument; this specifies the allowable vertex transformations of the machines. The property <code class="code">IsTransitive</code> requires that the state-closed group/monoid/semigroup of the machine act transitively on its alphabet, and <code class="code">IsSurjective</code> requires that its <code class="func">VertexTransformationsFRMachine</code> (<a href="chap5_mj.html#X83DFDC3384EA4634"><span class="RefLink">5.2-15</span></a>) be precisely equal to <code class="code">p</code>.</p>
 
 <p>The argument <code class="code">EquivalenceClasses</code> returns one isomorphism class of Mealy machine, under the permutations of the stateset and alphabet.</p>
 
 <p>The argument <code class="code">InverseClasses</code> returns one isomorphism class of Mealy machine under inversion of the stateset.</p>
 
-<p>The following example constructs the two Mealy machines <code class="func">AleshinMachine</code> (<a href="chap9.html#X7C286D3A84790ECE"><span class="RefLink">9.1-15</span></a>) and <code class="func">BabyAleshinMachine</code> (<a href="chap9.html#X7E024B4D7BA411B1"><span class="RefLink">9.1-16</span></a>):</p>
+<p>The following example constructs the two Mealy machines <code class="func">AleshinMachine</code> (<a href="chap9_mj.html#X7C286D3A84790ECE"><span class="RefLink">9.1-15</span></a>) and <code class="func">BabyAleshinMachine</code> (<a href="chap9_mj.html#X7E024B4D7BA411B1"><span class="RefLink">9.1-16</span></a>):</p>
 
 
 <div class="example"><pre>
@@ -266,9 +269,9 @@ true
 
 <p>It is assumed, but not checked, that <strong class="pkg">graphviz</strong> and <strong class="pkg">display</strong>/<strong class="pkg">rsvg-view</strong> are properly installed on the system. The option <code class="keyw">usesvg</code> requests the use of <strong class="pkg">rsvg-view</strong>; by default, <strong class="pkg">display</strong> is used.</p>
 
-<p>A circle is displayed for every state of <var class="Arg">m</var>, and there is an edge for every transition in <var class="Arg">m</var>. It has label of the form <span class="SimpleMath">x/y</span>, where <span class="SimpleMath">x</span> is the input symbol and <span class="SimpleMath">y</span> is the corresponding output. Edges are coloured according to the input symbol, in the order "red", "blue", "green", "gray", "yellow", "cyan", "orange", "purple". If <var class="Arg">m</var> has an initial state, it is indicated as a doubly circled state.</p>
+<p>A circle is displayed for every state of <var class="Arg">m</var>, and there is an edge for every transition in <var class="Arg">m</var>. It has label of the form <span class="SimpleMath">\(x/y\)</span>, where <span class="SimpleMath">\(x\)</span> is the input symbol and <span class="SimpleMath">\(y\)</span> is the corresponding output. Edges are coloured according to the input symbol, in the order "red", "blue", "green", "gray", "yellow", "cyan", "orange", "purple". If <var class="Arg">m</var> has an initial state, it is indicated as a doubly circled state.</p>
 
-<p>If <var class="Arg">m</var> is a FR machine, <code class="code">Draw</code> first attempts to convert it to a Mealy machine (see <code class="func">AsMealyMachine</code> (<a href="chap5.html#X79EFE2C97D2CCEEC"><span class="RefLink">5.2-18</span></a>)).</p>
+<p>If <var class="Arg">m</var> is a FR machine, <code class="code">Draw</code> first attempts to convert it to a Mealy machine (see <code class="func">AsMealyMachine</code> (<a href="chap5_mj.html#X79EFE2C97D2CCEEC"><span class="RefLink">5.2-18</span></a>)).</p>
 
 <p>The optional value "detach" detaches the drawing subprocess after it is started, in the syntax <code class="code">Draw(M:detach)</code>.</p>
 
@@ -287,7 +290,7 @@ true
 
 <p>If <var class="Arg">m</var> is initial, the minimized automaton is such that its states are numbered first by distance to the initial state, and then lexicographically by input letter. (in particular, the initial state is 1). This makes comparison of minimized automata efficient.</p>
 
-<p>Furthermore, <code class="code">Correspondence(r)</code> is a list describing, for each (accessible) state of <var class="Arg">m</var>, its corresponding state in <code class="code">r</code>; see <code class="func">Correspondence</code> (<a href="chap3.html#X7C107A42815F91DA"><span class="RefLink">3.5-12</span></a>).</p>
+<p>Furthermore, <code class="code">Correspondence(r)</code> is a list describing, for each (accessible) state of <var class="Arg">m</var>, its corresponding state in <code class="code">r</code>; see <code class="func">Correspondence</code> (<a href="chap3_mj.html#X7C107A42815F91DA"><span class="RefLink">3.5-12</span></a>).</p>
 
 
 <div class="example"><pre>
@@ -338,7 +341,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsReversible</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">m</var> is a reversible Mealy machine.</p>
 
-<p>This function tests whether <var class="Arg">m</var> is <em>reversible</em>, i.e. whether the <code class="func">DualMachine</code> (<a href="chap5.html#X809F069B798ED985"><span class="RefLink">5.2-3</span></a>) of <var class="Arg">m</var> is invertible. See <a href="chapBib.html#biBMR1841119">[MNS00]</a> for more details.</p>
+<p>This function tests whether <var class="Arg">m</var> is <em>reversible</em>, i.e. whether the <code class="func">DualMachine</code> (<a href="chap5_mj.html#X809F069B798ED985"><span class="RefLink">5.2-3</span></a>) of <var class="Arg">m</var> is invertible. See <a href="chapBib_mj.html#biBMR1841119">[MNS00]</a> for more details.</p>
 
 
 <div class="example"><pre>
@@ -378,7 +381,7 @@ false
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AlphabetInvolution</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: A list giving, for each alphabet letter, its inverse.</p>
 
-<p>If <var class="Arg">m</var> is a bireversible machine, it may happen that the stateset of the dual of <var class="Arg">m</var> (see <code class="func">DualMachine</code> (<a href="chap5.html#X809F069B798ED985"><span class="RefLink">5.2-3</span></a>)) is closed under taking inverses. If this happens, then this list records the mapping from an alphabet letter of <var class="Arg">m</var> to its inverse.</p>
+<p>If <var class="Arg">m</var> is a bireversible machine, it may happen that the stateset of the dual of <var class="Arg">m</var> (see <code class="func">DualMachine</code> (<a href="chap5_mj.html#X809F069B798ED985"><span class="RefLink">5.2-3</span></a>)) is closed under taking inverses. If this happens, then this list records the mapping from an alphabet letter of <var class="Arg">m</var> to its inverse.</p>
 
 
 <div class="example"><pre>
@@ -396,7 +399,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsBireversible</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">m</var> is a bireversible Mealy machine.</p>
 
-<p>This function tests whether <var class="Arg">m</var> is <em>bireversible</em>, i.e. whether all eight machines obtained from <var class="Arg">m</var> using <code class="func">DualMachine</code> (<a href="chap5.html#X809F069B798ED985"><span class="RefLink">5.2-3</span></a>) and <code class="code">Inverse</code> are well-defined. See <a href="chapBib.html#biBMR1841119">[MNS00]</a> for more details.</p>
+<p>This function tests whether <var class="Arg">m</var> is <em>bireversible</em>, i.e. whether all eight machines obtained from <var class="Arg">m</var> using <code class="func">DualMachine</code> (<a href="chap5_mj.html#X809F069B798ED985"><span class="RefLink">5.2-3</span></a>) and <code class="code">Inverse</code> are well-defined. See <a href="chapBib_mj.html#biBMR1841119">[MNS00]</a> for more details.</p>
 
 
 <div class="example"><pre>
@@ -413,7 +416,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; StateGrowth</code>( <var class="Arg">m</var>[, <var class="Arg">x</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: The state growth of the Mealy machine or element <var class="Arg">m</var>.</p>
 
-<p>This function computes, as a rational function, the power series in <var class="Arg">x</var> whose coefficient of degree <span class="SimpleMath">n</span> is the number of non-trivial states at level <span class="SimpleMath">n</span> of the tree.</p>
+<p>This function computes, as a rational function, the power series in <var class="Arg">x</var> whose coefficient of degree <span class="SimpleMath">\(n\)</span> is the number of non-trivial states at level <span class="SimpleMath">\(n\)</span> of the tree.</p>
 
 <p>If <var class="Arg">x</var> is absent, it is assumed to be <code class="code">Indeterminate(Rationals)</code>.</p>
 
@@ -438,9 +441,9 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DegreeOfFRElement</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: The growth degree of the Mealy machine or element <var class="Arg">m</var>.</p>
 
-<p>This function computes the order of the pole at <span class="SimpleMath">x=1</span> of <code class="code">StateGrowth(m,x)</code>, in case its denominator is a product of cyclotomics; and returns <code class="keyw">infinity</code> otherwise.</p>
+<p>This function computes the order of the pole at <span class="SimpleMath">\(x=1\)</span> of <code class="code">StateGrowth(m,x)</code>, in case its denominator is a product of cyclotomics; and returns <code class="keyw">infinity</code> otherwise.</p>
 
-<p>This attribute of Mealy machines was studied inter alia in <a href="chapBib.html#biBMR1774362">[Sid00]</a>.</p>
+<p>This attribute of Mealy machines was studied inter alia in <a href="chapBib_mj.html#biBMR1774362">[Sid00]</a>.</p>
 
 
 <div class="example"><pre>
@@ -464,7 +467,7 @@ infinity
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFinitaryFRMachine</code>( <var class="Arg">e</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">e</var> is a finitary element.</p>
 
-<p>This function tests whether <var class="Arg">e</var> is a finitary element. These are by definition the elements of growth degree at most <span class="SimpleMath">0</span>.</p>
+<p>This function tests whether <var class="Arg">e</var> is a finitary element. These are by definition the elements of growth degree at most <span class="SimpleMath">\(0\)</span>.</p>
 
 <p>When applied to a Mealy machine, it returns <code class="keyw">true</code> if all states of <var class="Arg">e</var> are finitary.</p>
 
@@ -493,7 +496,7 @@ false
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DepthOfFRElement</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: The depth of the finitary Mealy machine or element <var class="Arg">m</var>.</p>
 
-<p>This function computes the maximal level at which the <var class="Arg">m</var> has an non-trivial state. In particular the identity has depth 0, and FR elements acting only at the root vertex have depth 1. The value <code class="keyw">infinity</code> is returned if <var class="Arg">m</var> is not finitary (see <code class="func">IsFinitaryFRElement</code> (<a href="chap5.html#X793C427084F830CE"><span class="RefLink">5.2-10</span></a>)).</p>
+<p>This function computes the maximal level at which the <var class="Arg">m</var> has an non-trivial state. In particular the identity has depth 0, and FR elements acting only at the root vertex have depth 1. The value <code class="keyw">infinity</code> is returned if <var class="Arg">m</var> is not finitary (see <code class="func">IsFinitaryFRElement</code> (<a href="chap5_mj.html#X793C427084F830CE"><span class="RefLink">5.2-10</span></a>)).</p>
 
 
 <div class="example"><pre>
@@ -513,7 +516,7 @@ infinity
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsBoundedFRMachine</code>( <var class="Arg">e</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> if <var class="Arg">e</var> is a finitary element.</p>
 
-<p>This function tests whether <var class="Arg">e</var> is a bounded element. These are by definition the elements of growth degree at most <span class="SimpleMath">1</span>.</p>
+<p>This function tests whether <var class="Arg">e</var> is a bounded element. These are by definition the elements of growth degree at most <span class="SimpleMath">\(1\)</span>.</p>
 
 <p>When applied to a Mealy machine, it returns <code class="keyw">true</code> if all states of <var class="Arg">e</var> are bounded.</p>
 
@@ -568,7 +571,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Signatures</code>( <var class="Arg">e</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: A list describing the product of the activities on each level.</p>
 
-<p>This function computes the product of the activities of <var class="Arg">e</var> on each level, and returns a periodic list describing it (see <code class="func">PeriodicList</code> (<a href="chap11.html#X7B401DFE817D3927"><span class="RefLink">11.2-2</span></a>)).</p>
+<p>This function computes the product of the activities of <var class="Arg">e</var> on each level, and returns a periodic list describing it (see <code class="func">PeriodicList</code> (<a href="chap11_mj.html#X7B401DFE817D3927"><span class="RefLink">11.2-2</span></a>)).</p>
 
 <p>The entries <code class="code">pi</code> are permutations, and their values are meaningful only when projected in the abelianization of <code class="code">VertexTransformationsFRElement(e)</code>.</p>
 
@@ -611,7 +614,7 @@ Group([ (2,3), (1,3), (1,2) ])
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FixedRay</code>( <var class="Arg">e</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: The lexicographically first ray fixed by <var class="Arg">e</var>.</p>
 
-<p>This function computes the lexicographically first infinite sequence that is fixed by the FR element <var class="Arg">e</var>, and returns it as a periodic list (see <code class="func">PeriodicList</code> (<a href="chap11.html#X7B401DFE817D3927"><span class="RefLink">11.2-2</span></a>)). It returns <code class="keyw">fail</code> if no such ray exists.</p>
+<p>This function computes the lexicographically first infinite sequence that is fixed by the FR element <var class="Arg">e</var>, and returns it as a periodic list (see <code class="func">PeriodicList</code> (<a href="chap11_mj.html#X7B401DFE817D3927"><span class="RefLink">11.2-2</span></a>)). It returns <code class="keyw">fail</code> if no such ray exists.</p>
 
 
 <div class="example"><pre>
@@ -634,7 +637,7 @@ fail
 
 <p>This function tests whether <var class="Arg">e</var> acts transitively on each level of the tree. It is implemented only if <code class="code">VertexTransformationsFRElement(e)</code> is abelian.</p>
 
-<p>This function is used as a simple test to detect whether an element has infinite order: if <var class="Arg">e</var> has a fixed vertex <span class="SimpleMath">v</span> such that the <code class="code">State(e,v)</code> is level-transitive, then <var class="Arg">e</var> has infinite order.</p>
+<p>This function is used as a simple test to detect whether an element has infinite order: if <var class="Arg">e</var> has a fixed vertex <span class="SimpleMath">\(v\)</span> such that the <code class="code">State(e,v)</code> is level-transitive, then <var class="Arg">e</var> has infinite order.</p>
 
 <p>This function can be abbreviated as <code class="code">IsLevelTransitive</code>.</p>
 
@@ -660,7 +663,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AsMealyMachine</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: A Mealy machine isomorphic to <var class="Arg">m</var>.</p>
 
-<p>This function constructs a Mealy machine <code class="code">r</code>, which is as close as possible to the FR machine <var class="Arg">m</var>. Furthermore, <code class="code">Correspondence(r)</code> is a list identifying, for every generator of the stateset of <var class="Arg">m</var>, a corresponding state in the new Mealy machine; see <code class="func">Correspondence</code> (<a href="chap3.html#X7C107A42815F91DA"><span class="RefLink">3.5-12</span></a>).</p>
+<p>This function constructs a Mealy machine <code class="code">r</code>, which is as close as possible to the FR machine <var class="Arg">m</var>. Furthermore, <code class="code">Correspondence(r)</code> is a list identifying, for every generator of the stateset of <var class="Arg">m</var>, a corresponding state in the new Mealy machine; see <code class="func">Correspondence</code> (<a href="chap3_mj.html#X7C107A42815F91DA"><span class="RefLink">3.5-12</span></a>).</p>
 
 <p><var class="Arg">m</var> may be a group/monoid/semigroup FR machine, or a Mealy machine; in which case the result is returned unchanged.</p>
 
@@ -811,7 +814,7 @@ false
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsWeaklyFinitaryFRElement</code>( <var class="Arg">e</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: A list describing the non-trivial confinality classes of <var class="Arg">e</var>.</p>
 
-<p>If <var class="Arg">e</var> is a bounded element (see <code class="func">IsBoundedFRElement</code> (<a href="chap5.html#X82F4410E85C54C7E"><span class="RefLink">5.2-12</span></a>)), there are finitely many infinite sequences that have confinality class larger that one; i.e. ultimately periodic sequences that are mapped by <var class="Arg">e</var> to a sequence with different period. This function returns a list of equivalence classes of periodic lists, see <code class="func">PeriodicList</code> (<a href="chap11.html#X7B401DFE817D3927"><span class="RefLink">11.2-2</span></a>), which are related under <var class="Arg">e</var>.</p>
+<p>If <var class="Arg">e</var> is a bounded element (see <code class="func">IsBoundedFRElement</code> (<a href="chap5_mj.html#X82F4410E85C54C7E"><span class="RefLink">5.2-12</span></a>)), there are finitely many infinite sequences that have confinality class larger that one; i.e. ultimately periodic sequences that are mapped by <var class="Arg">e</var> to a sequence with different period. This function returns a list of equivalence classes of periodic lists, see <code class="func">PeriodicList</code> (<a href="chap11_mj.html#X7B401DFE817D3927"><span class="RefLink">11.2-2</span></a>), which are related under <var class="Arg">e</var>.</p>
 
 <p>By definition, an element is <em>weakly finitary</em> if it has no non-singleton confinality classes.</p>
 
@@ -838,7 +841,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NormOfBoundedFRElement</code>( <var class="Arg">e</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: The germs of the bounded element <var class="Arg">e</var>.</p>
 
-<p>The <em>germs</em> of a bounded element are the finitely many ultimately periodic sequences on which the state of <var class="Arg">e</var> does not vanish. This function returns the germs of <var class="Arg">e</var>, as a list of pairs; the first entry is a ray described as a periodic sequence of integers (see <code class="func">PeriodicList</code> (<a href="chap11.html#X7B401DFE817D3927"><span class="RefLink">11.2-2</span></a>)), and the second entry is the periodic sequence of states that appear along that ray.</p>
+<p>The <em>germs</em> of a bounded element are the finitely many ultimately periodic sequences on which the state of <var class="Arg">e</var> does not vanish. This function returns the germs of <var class="Arg">e</var>, as a list of pairs; the first entry is a ray described as a periodic sequence of integers (see <code class="func">PeriodicList</code> (<a href="chap11_mj.html#X7B401DFE817D3927"><span class="RefLink">11.2-2</span></a>)), and the second entry is the periodic sequence of states that appear along that ray.</p>
 
 <p>The <em>norm</em> of a bounded element is the length of its list of germs.</p>
 
@@ -919,9 +922,9 @@ false
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NucleusMachine</code>( <var class="Arg">m</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
 <p>Returns: The nucleus of <var class="Arg">m</var>.</p>
 
-<p>This command creates a new Mealy machine <code class="code">n</code>, with stateset the nucleus (see <code class="func">NucleusOfFRMachine</code> (<a href="chap4.html#X829A87E087F15194"><span class="RefLink">4.2-13</span></a>)) of <var class="Arg">m</var>.</p>
+<p>This command creates a new Mealy machine <code class="code">n</code>, with stateset the nucleus (see <code class="func">NucleusOfFRMachine</code> (<a href="chap4_mj.html#X829A87E087F15194"><span class="RefLink">4.2-13</span></a>)) of <var class="Arg">m</var>.</p>
 
-<p>This nucleus machine is characterized as the smallest machine <code class="code">n</code> such that <code class="code">Minimized(LimitFRMachine(m*n))</code> is isomorphic to <code class="code">n</code>. It is also isomorphic to the <code class="func">NucleusMachine</code> (<a href="chap7.html#X8443D711796F06E4"><span class="RefLink">7.2-20</span></a>) of the state closure of the <code class="func">SCSemigroup</code> (<a href="chap7.html#X853E3F0680C76F56"><span class="RefLink">7.1-3</span></a>) of <var class="Arg">m</var>.</p>
+<p>This nucleus machine is characterized as the smallest machine <code class="code">n</code> such that <code class="code">Minimized(LimitFRMachine(m*n))</code> is isomorphic to <code class="code">n</code>. It is also isomorphic to the <code class="func">NucleusMachine</code> (<a href="chap7_mj.html#X8443D711796F06E4"><span class="RefLink">7.2-20</span></a>) of the state closure of the <code class="func">SCSemigroup</code> (<a href="chap7_mj.html#X853E3F0680C76F56"><span class="RefLink">7.1-3</span></a>) of <var class="Arg">m</var>.</p>
 
 <p>Note that the ordering of the states in the resulting machine is not necessarily the same as in <var class="Arg">m</var>; however, if <var class="Arg">m</var> and <code class="code">n</code> are isomorphic, then this command returns <var class="Arg">m</var>.</p>
 
@@ -972,10 +975,10 @@ true
 </pre></div>
 
 
-<div class="chlinkprevnextbot">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap4.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap6.html">[Next Chapter]</a>&nbsp;  </div>
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap4_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap6_mj.html">[Next Chapter]</a>&nbsp;  </div>
 
 
-<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chapBib_mj.html">Bib</a>  <a href="chapInd_mj.html">Ind</a>  </div>
 
 <hr />
 <p class="foot">generated by <a href="http://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
