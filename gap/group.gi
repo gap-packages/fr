@@ -610,6 +610,7 @@ BindGlobal("FULLGETDATA@", function(arglist,
         if depth<infinity and cat=Group then
             SetBranchingSubgroup(G,TrivialSubgroup(G));
             x := EpimorphismPermGroup(G,depth);
+            SetIsInjective( x, true );
             SetIsHandledByNiceMonomorphism(G,true);
             SetNiceMonomorphism(G,x);
         else
