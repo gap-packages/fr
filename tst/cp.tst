@@ -73,7 +73,7 @@ true
 gap> SetFRBranchGroupConjugacyData(GuptaSidkiGroup,
 >  rec(initial_conj_dic:=NewDictionary([One(GuptaSidkiGroup),One(GuptaSidkiGroup)],true),
 >     Branchstructure:=BranchStructure(GuptaSidkiGroup),
->     RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentative(~.Branchstructure.quo,x)))
+>     RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentativeNC(~.Branchstructure.quo,x)))
 >  );
 gap> CallFuncList(function(a,t) 
 >             local G,D,g,h;

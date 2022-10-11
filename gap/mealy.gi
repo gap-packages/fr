@@ -2322,7 +2322,7 @@ BindGlobal("DEPTH_MEALYME@", function(M)
     d := List(StateSet(M),s->0);
     todo := [one];
     for i in todo do
-        for j in PreImages(fM,i) do if j <> one then
+        for j in PreImagesNC(fM,i) do if j <> one then
             if d[j]<=d[i] then
                 d[j] := d[i]+1;
                 Add(todo,j);

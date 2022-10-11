@@ -1012,7 +1012,7 @@ InstallMethod(FRMachineRWS, "(FR) for an FR machine",
                    letterrep := w->LetterRepAssocWord(UnderlyingElement(w^iso)),
                    letterunrep := w->Product(mgens{w},One(M!.free)));
         gens := List(GeneratorsOfMonoid(Range(iso)),
-                     w->FRElement(M,PreImagesRepresentative(iso,w)));
+                     w->FRElement(M,PreImagesRepresentativeNC(iso,w)));
         inverse := List(gens,w->rws.letterrep(InitialState(w)^-1)[1]);
         rws.cyclicallyreduce := function(w)
             local i, j;
@@ -1637,14 +1637,14 @@ InstallMethod(SubFRMachine, "(FR) for a machine and a homomorphism",
     out := [];
     for i in GeneratorsOfGroup(Source(f)) do
         x := pi(i^f);
-        x[1] := List(x[1],g->PreImagesRepresentative(f,g));
+        x[1] := List(x[1],g->PreImagesRepresentativeNC(f,g));
         if fail in x[1] then return fail; fi;
         Add(trans,x[1]);
         Add(out,x[2]);
     od;
     x := FRMachineNC(FamilyObj(M),Source(f),trans,out);
     if HasAddingElement(M) then
-        i := PreImagesRepresentative(f,InitialState(AddingElement(M)));
+        i := PreImagesRepresentativeNC(f,InitialState(AddingElement(M)));
         if i<>fail then
             SetAddingElement(x,FRElement(x,i));
         fi;

@@ -10,6 +10,15 @@
 ##
 #############################################################################
 
+#I introducing globally the NC versions of PreImages...  
+if not IsBound( PreImagesNC ) then 
+    BindGlobal( "PreImagesNC", PreImages ); 
+fi; 
+if not IsBound( PreImagesRepresentativeNC ) then 
+    BindGlobal( "PreImagesRepresentativeNC", PreImagesRepresentative ); 
+fi; 
+
+#############################################################################
 POSTHOOK@fr := []; # to be processed at the end
 
 BindGlobal("@", rec()); # a record to store locals in the package

@@ -734,7 +734,7 @@ InstallMethod(FRBranchGroupConjugacyData,
 	 	Info(InfoFR, 1, "Init FRBranchGroupConjugacyData");
 		init := rec(initial_conj_dic:=NewDictionary([One(G),One(G)],true),
 								Branchstructure:=BranchStructure(G),
-								RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentative(~.Branchstructure.quo,x)));
+								RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentativeNC(~.Branchstructure.quo,x)));
 		N := TORSIONNUCLEUS@(G);
 		if N = fail then return fail;fi;
 		SEARCH@.INIT(G);
@@ -922,7 +922,7 @@ InstallMethod(IsConjugate,
 #SetFRBranchGroupConjugacyData(GrigorchukGroup,
 #	 rec(	initial_conj_dic:=NewDictionary([One(GrigorchukGroup),One(GrigorchukGroup)],true),
 #				Branchstructure:=BranchStructure(GrigorchukGroup),
-#				RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentative(~.Branchstructure.quo,x)))
+#				RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentativeNC(~.Branchstructure.quo,x)))
 #	 );
 #CallFuncList(function(a,b,c,d) 
 #							local G,D,g,h;
@@ -945,7 +945,7 @@ InstallMethod(IsConjugate,
 #SetFRBranchGroupConjugacyData(GuptaSidkiGroup,
 #	 rec(	initial_conj_dic:=NewDictionary([One(GuptaSidkiGroup),One(GuptaSidkiGroup)],true),
 #				Branchstructure:=BranchStructure(GuptaSidkiGroup),
-#				RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentative(~.Branchstructure.quo,x)))
+#				RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentativeNC(~.Branchstructure.quo,x)))
 #	 );
 #CallFuncList(function(a,t) 
 #							local G,D,g,h;
@@ -985,8 +985,8 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 	fi;	
 ############       (Local) GLOBALS           #####################
 	f := EpimorphismFromFreeGroup(G);
-	gw:=PreImagesRepresentative(f,g);
-	hw:=PreImagesRepresentative(f,h);
+	gw:=PreImagesRepresentativeNC(f,g);
+	hw:=PreImagesRepresentativeNC(f,h);
 	
 	Gen := GeneratorsOfGroup(G);
 	a:= Position(Gen,MealyElement([[4,2],[4,3],[5,1],[5,5],[5,5]],[(),(),(),(1,2),()],4));	
@@ -1284,7 +1284,7 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 			return [];
 		fi;
 		#L_gen := [[b],[a,b,a],[b,a,d,a,b,a,d,a],[a,b,a,d,a,b,a,d]];
-		g1_modL:=L_Decomp(PreImagesRepresentative(f,State(g,1))); 
+		g1_modL:=L_Decomp(PreImagesRepresentativeNC(f,State(g,1))); 
 		l:=g1_modL[2];
 		g1_modL:=LetterRepAssocWord(g1_modL[1]);
 		#See Lemma lem:conjugators_of_a for Details
@@ -1430,8 +1430,8 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 		else
 		#-#-#-#-#-#-#-#-#-   |g| > 1, act(g) = (1,2)    -#-#-#-#-#
 			#Test for Conjugator with trivial Activity
-			g1 := Compute_K_rep(PreImagesRepresentative(f,State(g,x_1)^-1));
-			h1 := Compute_K_rep(PreImagesRepresentative(f,State(h,x_1)));
+			g1 := Compute_K_rep(PreImagesRepresentativeNC(f,State(g,x_1)^-1));
+			h1 := Compute_K_rep(PreImagesRepresentativeNC(f,State(h,x_1)));
 			L1 := conjugators_grig_rek(State(g,x_1)*State(g,x_2),State(h,x_1)*State(h,x_2));
 			res_Con := [];
 			if Size(L1) > 0 then
@@ -1448,7 +1448,7 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 				od;
 			fi;
 			#Test for Conjugator with non-trivial Activity
-			h1 := Compute_K_rep(PreImagesRepresentative(f,State(h,x_2)));
+			h1 := Compute_K_rep(PreImagesRepresentativeNC(f,State(h,x_2)));
 			L1 := conjugators_grig_rek(State(g,x_1)*State(g,x_2),State(h,x_2)*State(h,x_1));
 			if Size(L1) = 0 then
 				return res_Con;

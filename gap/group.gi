@@ -198,13 +198,13 @@ SEARCH@.CONJUGATE_COSET := function(G,c,x,y)
     K := BranchingSubgroup(G);
     K_pi := Image(G!.FRData.pi,K);
     if IsOne(x) and IsOne(y) then
-    	return PreImagesRepresentative(B.quo,c);
+    	return PreImagesRepresentativeNC(B.quo,c);
     fi;
     r := RepresentativeAction(Range(G!.FRData.pi),x^G!.FRData.pi,y^G!.FRData.pi);
     if r = fail then
     	return false;
     fi;
-    if not PreImagesRepresentative(B.quo,c)^G!.FRData.pi in Union(List(K_pi,z->RightCoset(Centralizer(Range(G!.FRData.pi),x^G!.FRData.pi),r*z))) then
+    if not PreImagesRepresentativeNC(B.quo,c)^G!.FRData.pi in Union(List(K_pi,z->RightCoset(Centralizer(Range(G!.FRData.pi),x^G!.FRData.pi),r*z))) then
         return false;
     else
         for s in G!.FRData.sphere do
@@ -1280,7 +1280,7 @@ InstallMethod(Enumerator, "(FR) for an FR semigroup",
                    G := G));
 end);
 
-InstallMethod(PreImagesRepresentative, "(FR) for a map to an FR group",
+InstallMethod(PreImagesRepresentativeNC, "(FR) for a map to an FR group",
         [IsGroupGeneralMappingByImages, IsMultiplicativeElementWithInverse],
         function(f,y)
     local iter, x;
@@ -2139,14 +2139,14 @@ InstallMethod(FRGroupByVirtualEndomorphism, "(FR) for a virtual endomorphism and
                 else
                     i := First([1..Length(T)],i->y*T[i] in Source(phi));
                 fi;
-                Add(t,PreImagesRepresentative(pi,(y/T[i])^phi));
+                Add(t,PreImagesRepresentativeNC(pi,(y/T[i])^phi));
                 Add(o,i);
             od;
             Add(trans,t);
             Add(out,o);
         od;
         M := FRMachineNC(FRMFamily([1..Index(G,Source(phi))]),F,trans,out);
-        F := Group(List(GeneratorsOfGroup(G),g->FRElement(M,PreImagesRepresentative(pi,g))));
+        F := Group(List(GeneratorsOfGroup(G),g->FRElement(M,PreImagesRepresentativeNC(pi,g))));
         SetCorrespondence(F,GroupHomomorphismByImagesNC(G,F,
                 GeneratorsOfGroup(G),GeneratorsOfGroup(F)));
         return F;
