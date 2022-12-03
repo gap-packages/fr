@@ -35,16 +35,14 @@ InstallMethod(AlgebraHomomorphismByFunction, "(FR) for two algebras and a functi
         [IsAlgebra,IsAlgebra,IsFunction],
         function(S,R,f)
     return Objectify(TypeOfDefaultGeneralMapping(S,R,
-                   IsSPGeneralMapping and IsAlgebraGeneralMapping
-                   and IsMappingByFunctionRep), rec(fun:=f));
+	IsSPMappingByFunctionRep and IsAlgebraHomomorphism), rec(fun:=f));
 end);
 
 InstallMethod(AlgebraWithOneHomomorphismByFunction, "(FR) for two algebras and a function",
         [IsAlgebraWithOne,IsAlgebraWithOne,IsFunction],
         function(S,R,f)
     return Objectify(TypeOfDefaultGeneralMapping(S,R,
-                   IsSPGeneralMapping and IsAlgebraWithOneGeneralMapping
-                   and IsMappingByFunctionRep), rec(fun:=f));
+	IsSPMappingByFunctionRep and IsAlgebraWithOneHomomorphism), rec(fun:=f));
 end);
 #############################################################################
 

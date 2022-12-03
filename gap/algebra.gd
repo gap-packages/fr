@@ -297,8 +297,13 @@ DeclareProperty("IsHomogeneousElement", IsLinearFRElement);
 ## <#/GAPDoc>
 ##
 DeclareOperation("MatrixQuotient", [IsFRAlgebra,IsInt]);
-DeclareOperation("AlgebraHomomorphismByFunction", [IsAlgebra,IsAlgebra,IsFunction]);
-DeclareOperation("AlgebraWithOneHomomorphismByFunction", [IsAlgebraWithOne,IsAlgebraWithOne,IsFunction]);
+# remove this "not IsBound(...)" hack as soon as the declarations have been moved to the main GAP library
+if not IsBound(AlgebraHomomorphismByFunction) then
+    DeclareOperation("AlgebraHomomorphismByFunction", [IsAlgebra,IsAlgebra,IsFunction]);
+fi;
+if not IsBound(AlgebraWithOneHomomorphismByFunction) then
+    DeclareOperation("AlgebraWithOneHomomorphismByFunction", [IsAlgebraWithOne,IsAlgebraWithOne,IsFunction]);
+fi;
 DeclareOperation("EpimorphismMatrixQuotient", [IsFRAlgebra,IsInt]);
 #############################################################################
 
