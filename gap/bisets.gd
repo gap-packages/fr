@@ -37,8 +37,8 @@ DeclareRepresentation("IsFRBisetByHomomorphismRep", IsFRBiset and IsAttributeSto
 DeclareCategory("IsBisetElement",
         IsObject);
 
-DeclareRepresentation("IsBisetElementByPair", IsBisetElement, []);
-DeclareRepresentation("IsBisetElementByElement", IsBisetElement, []);
+DeclareRepresentation("IsBisetElementByPair", IsBisetElement and IsComponentObjectRep, []);
+DeclareRepresentation("IsBisetElementByElement", IsBisetElement and IsComponentObjectRep, []);
 
 BindGlobal("FRBISET_FAMILY",
         NewFamily("FRBisetsFamily",IsObject));
