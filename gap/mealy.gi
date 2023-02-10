@@ -1195,8 +1195,8 @@ end);
 
 BindGlobal("DRAWMEALY@", function(M)
      # more a hack than a clean implementation...
-    if IsBound(JupyterRenderable) then
-        return EvalString("JupyterRenderable")(rec(("image/svg+xml") :=IO_PipeThrough("dot",["-Tsvg"],MM2DOT@(M))),rec());
+    if IsBoundGlobal("JupyterRenderable") then
+        return ValueGlobal("JupyterRenderable")(rec(("image/svg+xml") :=IO_PipeThrough("dot",["-Tsvg"],MM2DOT@(M))),rec());
     else
         DOT2DISPLAY@(MM2DOT@(M),"dot");
     fi;
