@@ -209,7 +209,7 @@ InstallGlobalFunction(WordGrowth, function(arg)
                 trackgroup := FreeGroup(Length(GeneratorsOfGroup(g)));
             fi;
             trackgens := GroupHomomorphismByImages(trackgroup,g,GeneratorsOfGroup(trackgroup),GeneratorsOfGroup(g));
-            trackgens := List(gens,x->PreImagesRepresentative(trackgens,x));
+            trackgens := List(gens,x->PreImagesRepresentativeNC(trackgens,x));
             trackhom := GroupHomomorphismByImagesNC(trackgroup,g,GeneratorsOfGroup(trackgroup),GeneratorsOfGroup(g));
         elif IsMonoid(g) and not IsList(group) then
             if IsList(options.track) then
@@ -1075,7 +1075,7 @@ InstallGlobalFunction(CharneyBraidFpGroup, function(n)
     f := GroupHomomorphismByImages(B,SymmetricGroup(n),Bg,Sg);
     Sg := [];
     for i in SymmetricGroup(n) do if i<>() then
-        Add(Sg,PreImagesRepresentative(f,i));
+        Add(Sg,PreImagesRepresentativeNC(f,i));
     fi; od;
     return FpGroupPresentation(PresentationSubgroupMtc(B,Subgroup(B,Sg)));
 end);
@@ -1582,7 +1582,7 @@ BindGlobal("LIECOMPUTEBASIS@", function(A,d)
         Add(A!.basis[d],LIEELEMENT@(A,l));
     od;
     A!.transversal[d] := List(A!.pcp(Range(A!.hom[d])),
-                              x->PreImagesRepresentative(A!.hom[d],x));
+                              x->PreImagesRepresentativeNC(A!.hom[d],x));
 end);
 
 BindGlobal("JENNINGSSERIES@", function(G,p,d)
@@ -2159,7 +2159,7 @@ end);
 InstallMethod(ProjectiveQuotient, [IsProjectiveRepresentation,IsGroupHomomorphism],
         function(rep, epi)
     return ProjectiveRepresentationByFunction(Image(epi),Range(rep),
-                   x->CanonicalRightCosetElement(Kernel(epi),PreImagesRepresentative(epi,x))^rep);
+                   x->CanonicalRightCosetElement(Kernel(epi),PreImagesRepresentativeNC(epi,x))^rep);
 end);
         
 InstallMethod(CoboundaryMatrix, [IsGroup], function(G)

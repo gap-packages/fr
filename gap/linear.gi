@@ -1307,7 +1307,7 @@ end,
     od;
     info.hom := NaturalHomomorphismBySubspace(space,Subspace(space,kernel));
     info.basis := List(Basis(Range(info.hom)),
-                  v->PreImagesRepresentative(info.hom,v));
+                  v->PreImagesRepresentativeNC(info.hom,v));
     for i in info.where do
         i[3] := info.basis*i[3];
     od;
@@ -1346,7 +1346,7 @@ end,
         if v=[] then return Zero(V); else return fail; fi;
     fi;
     if v in Range(info.hom) then
-        return PreImagesRepresentative(info.hom,v)*info.gens;
+        return PreImagesRepresentativeNC(info.hom,v)*info.gens;
     else
         return fail;
     fi;

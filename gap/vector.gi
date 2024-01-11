@@ -169,7 +169,7 @@ BindGlobal("VECTORMINIMIZE@", function(fam,r,transitions,output,input,mode,docor
             ConvertToMatrixRep(f);
             f := NaturalHomomorphismBySubspace(W,Subspace(W,NullspaceMat(TransposedMat(f))));
             B := Basis(Range(f));
-            W := List(B,x->PreImagesRepresentative(f,x));
+            W := List(B,x->PreImagesRepresentativeNC(f,x));
             ConvertToMatrixRep(W);
             if input <> fail then
                 input := COEFF@(B,input^f);

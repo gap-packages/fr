@@ -1775,7 +1775,7 @@ DeclareAttribute("BranchStructure", IsFRGroup, "mutable");
 ##     group would be obtained by setting <C>l=infinity</C>; for that purpose,
 ##     see <Ref Oper="IsomorphismSubgroupFpGroup"/>.
 ##
-##     <P/> Preimages can be computed, with <C>PreImagesRepresentative</C>.
+##     <P/> Preimages can be computed, with <C>PreImagesRepresentativeNC</C>.
 ##     They are usually reasonably short words, though by no means guaranteed
 ##     to be of minimal length.
 ##
@@ -1792,7 +1792,7 @@ DeclareAttribute("BranchStructure", IsFRGroup, "mutable");
 ##     c*a*b*a^-1*c^-1*a*b*a^-1*c*a*b, a*d*a*c*a*c*a*d*a*c*a*c*a*d*a*c*a*c*a*d*a*c*a*c,
 ##   a^-1*c*a*c*a^-1*c*a*b*a^-1*c*a*b*a^-1*c*a*c*a^-1*c*a*b*a^-1*c*a*b*a^-1*c*a*c*a^
 ##     -1*c*a*b*a^-1*c*a*b*a^-1*c*a*c*a^-1*c*a*b*a^-1*c*a*b ]
-## gap> PreImagesRepresentative(f,Comm(GrigorchukGroup.1,GrigorchukGroup.2));
+## gap> PreImagesRepresentativeNC(f,Comm(GrigorchukGroup.1,GrigorchukGroup.2));
 ## a*c*a*d*a*d*a*c
 ## gap> Source(f).4^f=GrigorchukGroup.4;
 ## true
