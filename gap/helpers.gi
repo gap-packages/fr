@@ -484,8 +484,8 @@ InstallGlobalFunction(WordGrowth, function(arg)
         if IsString(draw) then
             AppendTo(draw,S);
         else
-            if IsBound(JupyterRenderable) then
-                return EvalString("JupyterRenderable")(rec(("image/svg+xml") :=IO_PipeThrough("dot",["-Tsvg"],S)),rec());
+            if IsBoundGlobal("JupyterRenderable") then
+                return ValueGlobal("JupyterRenderable")(rec(("image/svg+xml") :=IO_PipeThrough("dot",["-Tsvg"],S)),rec());
             else
                 DOT2DISPLAY@(S, "neato");
             fi;
@@ -498,7 +498,7 @@ end);
 InstallOtherMethod(Draw, "(FR) default",
         [IsObject],
         function(l)
-    if IsBound(JupyterRenderable) then
+    if IsBoundGlobal("JupyterRenderable") then
         return WordGrowth(l,rec(draw:=true));
     else
         WordGrowth(l,rec(draw:=true));
@@ -516,7 +516,7 @@ InstallOtherMethod(Draw, "(FR) default, with options",
         function(l,options)
     options := ShallowCopy(options);
     options.draw := true;
-    if IsBound(JupyterRenderable) then # a hack
+    if IsBoundGlobal("JupyterRenderable") then # a hack
         return WordGrowth(l,options);
     else
         WordGrowth(l,options);
