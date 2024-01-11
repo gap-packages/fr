@@ -1371,7 +1371,7 @@ gap> Info(InfoFR,1,"4.2.4 Activity");
 #I  4.2.4 Activity
 gap> 
 gap> for i in [1,2,3,4,5, 7,8 ] do
->   Print(ForAll(mealyel[i]{[1,2,  5]}, el_list -> List(el_list, g -> ListPerm(Activity(g, 1), Size(AlphabetOfFRObject(g)))) = outputsm[i]), "\n");
+>   Print(ForAll(mealyel[i]{[1,2,  5]}, el_list -> List(el_list, g -> ANY2OUT@FR(Activity(g, 1), Size(AlphabetOfFRObject(g)))) = outputsm[i]), "\n");
 > od;
 true
 true
