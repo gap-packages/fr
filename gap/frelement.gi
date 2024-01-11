@@ -680,7 +680,7 @@ InstallMethod(ActivityInt, "(FR) for an FR machine and a state",
         function(E,l)
     local p, n, i, delta, x;
     n := Size(AlphabetOfFRObject(E));
-    p := ListPerm(Activity(E,l),n^l);
+    p := ANY2OUT@(Activity(E,l),n^l);
     if p=fail then return fail; fi;
     x := List([1..n^l],i->SEQ2INT@(Reversed(INT2SEQ@(i,l,n)),l,n));
     delta := Position(x,p[1])-1;
