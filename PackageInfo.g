@@ -5,8 +5,8 @@
 SetPackageInfo( rec(
 PackageName := "FR",
 Subtitle := "Computations with functionally recursive groups",
-Version := "2.4.12",
-Date := "03/12/2022", # dd/mm/yyyy format
+Version := "2.4.13",
+Date := "11/01/2024", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
 
 Persons := [

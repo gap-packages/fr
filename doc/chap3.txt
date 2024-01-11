@@ -9,10 +9,9 @@
   
   [33X[0;0YThe element [22X(M,q)[122X defines a transformation on the set [22XX^*[122X of strings (finite
   or  infinite)  over  the  alphabet [22XX[122X, as follows: the empty string is always
-  fixed.  Given  a  string  [22Xx_1x_2... x_n[122X with [22Xnge0[122X, compute [22Xϕ(q,x_1)=(y_1,r)[122X;
-  then  compute  the  action  of  [22X(M,r)[122X on the string [22Xx_2... x_n[122X, and call the
-  result  [22Xy_2...  y_n[122X.  Then  the  action  of  [22X(M,q)[122X  on  [22Xx_1x_2... x_n[122X yields
-  [22Xy_1y_2... y_n[122X.[133X
+  fixed. Given a string [22Xx_1x_2... x_n[122X with [22Xn≥0[122X, compute [22Xϕ(q,x_1)=(y_1,r)[122X; then
+  compute  the  action  of [22X(M,r)[122X on the string [22Xx_2... x_n[122X, and call the result
+  [22Xy_2... y_n[122X. Then the action of [22X(M,q)[122X on [22Xx_1x_2... x_n[122X yields [22Xy_1y_2... y_n[122X.[133X
   
   [33X[0;0YThis  can  be understood more formally as follows. The transition function [22Xϕ[122X
   induces  a  map [22Xϕ^n:Q× X^n -> X^n × Q[122X, defined by successively applying [22Xϕ[122X to

@@ -33,8 +33,8 @@
   
   [1X11.2-1 PeriodicListsFamily[101X
   
-  [33X[1;0Y[29X[2XPeriodicListsFamily[102X[32X family[133X
-  [33X[1;0Y[29X[2XIsPeriodicList[102X[32X filter[133X
+  [33X[1;0Y[29X[2XPeriodicListsFamily[102X [32X family[133X
+  [33X[1;0Y[29X[2XIsPeriodicList[102X [32X filter[133X
   
   [33X[0;0YThe family, respectively filter, of [2XPeriodicList[102X ([14X11.2-2[114X)s.[133X
   
@@ -68,7 +68,7 @@
   of a periodic list.[133X
   
   [33X[0;0YMost  of  the  methods  applied  for  lists  have  an obvious equivalent for
-  periodic   lists:   [2XList[102X   ([14XReference:  list  element  operation[114X),  [2XFiltered[102X
+  periodic  lists:  [2XList[102X  ([14XReference:  list and non-list difference[114X), [2XFiltered[102X
   ([14XReference: Filtered[114X), [2XFirst[102X ([14XReference: First[114X), [2XForAll[102X ([14XReference: ForAll[114X),
   [2XForAny[102X ([14XReference: ForAny[114X), [2XNumber[102X ([14XReference: Number[114X).[133X
   
@@ -406,7 +406,7 @@
   [33X[1;0Y[29X[2XDirichletSeries[102X( [3Xseries[103X, [3Xmaxdeg[103X ) [32X operation[133X
   
   [33X[0;0YCreates  a  new  Dirichlet series, namely, a formal power series of the form
-  [22Xf(s)=∑_nge1  a(n)  n^-s[122X.  Such  series  have  a maximal degree, which may be
+  [22Xf(s)=∑_n≥1  a(n)  n^-s[122X.  Such  series  have  a  maximal degree, which may be
   [9Xinfinity[109X, and may be added or multiplied as polynomials.[133X
   
   [1X11.6-2 DegreeDirichletSeries[101X
@@ -575,7 +575,7 @@
   
   [1X11.8-9 IsFIFO[101X
   
-  [33X[1;0Y[29X[2XIsFIFO[102X[32X filter[133X
+  [33X[1;0Y[29X[2XIsFIFO[102X [32X filter[133X
   [33X[1;0Y[29X[2XNewFIFO[102X( [[3Xl[103X] ) [32X operation[133X
   [33X[1;0Y[29X[2XAdd[102X( [3Xf[103X, [3Xi[103X ) [32X operation[133X
   [33X[1;0Y[29X[2XAppend[102X( [3Xf[103X, [3Xl[103X ) [32X operation[133X
@@ -660,7 +660,7 @@
   
   [1X11.8-13 IsFpLieAlgebra[101X
   
-  [33X[1;0Y[29X[2XIsFpLieAlgebra[102X[32X filter[133X
+  [33X[1;0Y[29X[2XIsFpLieAlgebra[102X [32X filter[133X
   
   [33X[0;0YThe  category  of  Lie algebras coming from a finitely presented group. They
   appear  as  the  [2XJenningsLieAlgebra[102X  ([14XReference:  JenningsLieAlgebra[114X)  of  a
@@ -728,7 +728,7 @@
   
   [1X11.9-1 InfoFR[101X
   
-  [33X[1;0Y[29X[2XInfoFR[102X[32X info class[133X
+  [33X[1;0Y[29X[2XInfoFR[102X [32X info class[133X
   
   [33X[0;0YThis    is    an    [9XInfo[109X   class   for   the   package   [5XFR[105X.   The   command
   [10XSetInfoLevel(InfoFR,1);[110X  switches on the printing of some information during
@@ -745,7 +745,7 @@
   
   [1X11.9-2 SEARCH@[101X
   
-  [33X[1;0Y[29X[2XSEARCH@[102X[32X global variable[133X
+  [33X[1;0Y[29X[2XSEARCH@[102X [32X global variable[133X
   
   [33X[0;0YThis  variable  controls  the  search mechanism in FR groups. It is a record
   with in particular entries [10Xradius[110X and [10Xdepth[110X.[133X

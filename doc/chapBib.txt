@@ -19,12 +19,12 @@
   [18XIsrael J. Math.[118X, [19X154[119X (2006), 93--139.
   
   [[20XBar10[120X]     [16XBartholdi,     L.[116X,    [17XSelf-similar    Lie    algebras[117X    (2010),
-  ((arXiv:math/1003.1125)).
+  (arXiv:math/1003.1125).
   
   [[20XBBSZ13[120X]  [16XBondarenko,  I. V., Bondarenko, N. V., Sidki, S. N. and Zapata, F.
   R.[116X,  [17XOn  the  conjugacy  problem  for  finite-state automorphisms of regular
-  rooted  trees[117X,  [18XGroups Geom. Dyn.[118X, [19X7[119X, 2 (2013), 323--355, ((With an appendix
-  by Rapha{\"e}l M. Jungers)).
+  rooted trees[117X, [18XGroups Geom. Dyn.[118X, [19X7[119X, 2 (2013), 323--355, (With an appendix by
+  Rapha{\"e}l M. Jungers).
   
   [[20XBEH08[120X]  [16XBartholdi,  L.,  Eick,  B.  and  Hartung,  R.[116X, [17XA nilpotent quotient
   algorithm  for  certain  infinitely  presented  groups and its applications[117X,
@@ -113,9 +113,9 @@
   
   [[20XG{\.Z}02[120X]  [16XGrigorchuk,  R.  I. and Żuk, A.[116X, [17XOn a torsion-free weakly branch
   group  defined by a three state automaton[117X, [18XInternat. J. Algebra Comput.[118X, [19X12[119X,
-  1-2   (2002),   223--246,   ((International   Conference  on  Geometric  and
+  1-2   (2002),   223--246,   (International   Conference   on  Geometric  and
   Combinatorial  Methods  in  Group  Theory and Semigroup Theory (Lincoln, NE,
-  2000))).
+  2000)).
   
   [[20XLys85[120X]  [16XLysënok,  I.  G.[116X,  [17XA  set  of defining relations for the Grigorchuk
   group[117X, [18XMat. Zametki[118X, [19X38[119X, 4 (1985), 503--516, 634.
@@ -132,10 +132,10 @@
   xii+231 pages.
   
   [[20XNek08a[120X]  [16XNekrashevych,  V.[116X,  [17XCombinatorial  models  of  expanding dynamical
-  systems[117X (2008), ((arXiv:math.GR/0810.4936)).
+  systems[117X (2008), (arXiv:math.GR/0810.4936).
   
   [[20XNek08b[120X]  [16XNekrashevych,  V.[116X,  [17XThe  Julia  set  of  a  post-critically finite
-  endomorphism of PC^2[117X (2008), ((arXiv:math.GR/0811.2777)).
+  endomorphism of PC^2[117X (2008), (arXiv:math.GR/0811.2777).
   
   [[20XNeu86[120X]  [16XNeumann,  P.  M.[116X, [17XSome questions of Edjvet and Pride about infinite
   groups[117X, [18XIllinois J. Math.[118X, [19X30[119X, 2 (1986), 301--316.
@@ -155,7 +155,7 @@
   
   [[20XSid00[120X]  [16XSidki,  S.  N.[116X,  [17XAutomorphisms of one-rooted trees: growth, circuit
   structure,  and  acyclicity[117X,  [18XJ.  Math.  Sci.  (New  York)[118X,  [19X100[119X,  1 (2000),
-  1925--1943, ((Algebra, 12)).
+  1925--1943, (Algebra, 12).
   
   [[20XSid05[120X]  [16XSidki,  S.  N.[116X,  [17XTree-wreathing  applied to generation of groups by
   finite automata[117X, [18XInternat. J. Algebra Comput.[118X, [19X15[119X, 5-6 (2005), 1205--1212.
@@ -169,7 +169,7 @@
   
   [[20XSVV06[120X] [16XSteinberg, B., Vorobets, M. and Vorobets, Y.[116X, [17XAutomata over a binary
   alphabet     generating     free     groups    of    even    rank[117X    (2006),
-  ((arXiv:math.GR/0610033)).
+  (arXiv:math.GR/0610033).
   
   [[20XSW03[120X]  [16XSidki,  S.  N.  and  Wilson, J. S.[116X, [17XFree subgroups of branch groups[117X,
   [18XArch. Math. (Basel)[118X, [19X80[119X, 5 (2003), 458--463.
@@ -178,10 +178,10 @@
   [18XJ. Eur. Math. Soc. (JEMS)[118X, [19X10[119X, 2 (2008), 391--398.
   
   [[20XvN29[120X]  [16Xvon Neumann, J.[116X, [17XZur allgemeinen Theorie des Masses[117X, [18XFund. Math.[118X, [19X13[119X
-  (1929), 73--116 and 333, (((= Collected works, vol. I, pages 599--643))).
+  (1929), 73--116 and 333, ((= Collected works, vol. I, pages 599--643)).
   
   [[20XVV06[120X]  [16XVorobets,  M.  and  Vorobets,  Y.[116X,  [17XOn  a  series of finite automata
-  defining free transformation groups[117X (2006), ((arXiv:math.GR/0604328)).
+  defining free transformation groups[117X (2006), (arXiv:math.GR/0604328).
   
   [[20XVV07[120X]  [16XVorobets,  M.  and  Vorobets, Y.[116X, [17XOn a free group of transformations
   defined by an automaton[117X, [18XGeom. Dedicata[118X, [19X124[119X (2007), 237--249.
