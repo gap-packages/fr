@@ -1,5 +1,6 @@
 name: FR
-version: 2.4.13
+version: "2.4.13"
+license: "GPL-2.0-or-later"
 date: 2024-01-11
 description: |
     Computations with functionally recursive groups
@@ -31,7 +32,7 @@ needed-pkgs:
 suggested-pkgs:
     - name: "GBNP"
       version: ">=0.9"
-      url: "http://mathdox.org/products/gbnp/"
+      url: "https://gap-packages.github.io/gbnp/"
     - name: "NQ"
       version: ">=2.4"
       url: "https://gap-packages.github.io/nq/"
@@ -53,3 +54,31 @@ abstract: |
 status: deposited
 doc-html: doc/chap0_mj.html
 doc-pdf: doc/manual.pdf
+keywords: |
+    functionally recursive group, mealy machine, automata group.
+citeas: |
+    <p class='BibEntry'>
+    [<span class='BibKey'>Bar24</span>]   <b class='BibAuthor'>Bartholdi, L.</b>,
+     <i class='BibTitle'>FR, Computations with functionally recursive groups,
+             Version 2.4.13</i>
+     (<span class='BibYear'>2024</span>)<br />
+    (<span class='BibNote'>GAP package</span>),
+    <span class='BibHowpublished'><a href="https://gap-packages.github.io/fr">https://gap-packages.github.io/fr</a></span>.
+    </p>
+    
+
+bibtex: |
+    @misc{ FR2.4.13,
+      author =           {Bartholdi, L.},
+      title =            {{FR}, Computations with functionally recursive groups,
+                          {V}ersion 2.4.13},
+      month =            {Jan},
+      year =             {2024},
+      note =             {GAP package},
+      howpublished =     {\href              {https://gap-packages.github.io/fr}
+                          {\texttt{https://gap-packages.github.io/fr}}},
+      keywords =         {functionally  recursive group; mealy machine; automata
+                          group},
+      printedkey =       {Bar24}
+    }
+
