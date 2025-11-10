@@ -9,6 +9,7 @@
   <title>A free group of finite automata</title>
   <journal>Vestnik Moskov. Univ. Ser. I Mat. Mekh.</journal>
   <year>1983</year>
+  <volume>4</volume>
   <number>4</number>
   <pages>12-14</pages>
   <issn>0201-7385</issn>
@@ -577,6 +578,7 @@
   <title>Commensurators of groups and reversible automata</title>
   <journal>Dopov. Nats. Akad. Nauk Ukr. Mat. Prirodozn. Tekh. Nauki</journal>
   <year>2000</year>
+  <volume>12</volume>
   <number>12</number>
   <pages>36--39</pages>
   <issn>1025-6415</issn>
@@ -763,8 +765,8 @@
   <title>Groups acting on trees: from local to global structure</title>
   <journal>Inst. Hautes Études Sci. Publ. Math.</journal>
   <year>2000</year>
-  <number>92</number>
-  <pages>113--150 (2001)</pages>
+  <volume>92</volume>
+  <pages>113--150</pages>
   <issn>0073-8301</issn>
   <mrnumber>MR1839488 (2002i:20041)</mrnumber>
   <mrclass>20E08</mrclass>
@@ -782,8 +784,8 @@
   <title>Lattices in product of trees</title>
   <journal>Inst. Hautes Études Sci. Publ. Math.</journal>
   <year>2000</year>
-  <number>92</number>
-  <pages>151--194 (2001)</pages>
+  <volume>92</volume>
+  <pages>151--194</pages>
   <issn>0073-8301</issn>
   <mrnumber>MR1839489 (2002i:20042)</mrnumber>
   <mrclass>20E08 (22E40)</mrclass>

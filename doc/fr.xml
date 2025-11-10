@@ -464,7 +464,7 @@ into a rooted tree. The root represents the empty string, and the
 strings <M>x_1\ldots x_n</M> and <M>x_1\ldots x_{n+1}</M> are connected
 by an edge, for all <M>x_i\in X</M>.
 
-<Section Label="frmachine-types"><Heading>Types of machines</Heading>
+<Section Label="frmachineTypes"><Heading>Types of machines</Heading>
 Machines must be accessible to computation; therefore it is reasonable
 to assume that their alphabet <M>X</M> is finite.
 
@@ -493,7 +493,7 @@ either as a permutation or as a transformation. The command <C>Activity</C> itse
 will return a permutation if possible, and otherwise a transformation.
 </Section>
 
-<Section Label="frmachine-products"><Heading>Products of machines</Heading>
+<Section Label="frmachineProducts"><Heading>Products of machines</Heading>
 
 Machines can be combined in different manners. If two machines act on
 the same alphabet, then their <E>sum</E> and <E>product</E> are
@@ -630,7 +630,7 @@ elements. In practise, it is better to work with Mealy elements as
 often as possible.
 
 <P/> Products of Mealy machines behave in the same way as products of
-general FR machines, see <Ref Label="frmachine-products"/>. The only
+general FR machines, see <Ref Label="frmachineProducts"/>. The only
 difference is that now the sum and products of statesets are distinct;
 the sum of statesets being their disjoint union, and their product
 being their cartesian product.
