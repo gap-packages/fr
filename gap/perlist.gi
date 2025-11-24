@@ -11,7 +11,7 @@
 ##
 #############################################################################
 ##
-BindGlobal("EXTENDPERIODICLIST@", function(l,i)
+Fr.EXTENDPERIODICLIST := ( function(l,i)
     local x;
     if l![2]=[] then return fail; fi;
     while Length(l![1])<i-Length(l![2]) do
@@ -123,8 +123,8 @@ InstallMethod(String, "for a periodic list",
         [IsPeriodicList],
         function(l)
     local s;
-    s := CONCAT@("PeriodicList(",l![1]);
-    if l![2]<>[] then APPEND@(s,",",l![2]); fi;
+    s := Fr.CONCAT("PeriodicList(",l![1]);
+    if l![2]<>[] then Fr.APPEND(s,",",l![2]); fi;
     Append(s,")");
     return s;
 end);
@@ -149,7 +149,7 @@ InstallMethod(ViewString, "for a periodic list",
     fi;
 end);
 
-INSTALLPRINTERS@(IsPeriodicList);
+Fr.INSTALLPRINTERS(IsPeriodicList);
 
 InstallMethod(ViewObj, "for a periodic list",
         [IsPeriodicList],
@@ -253,7 +253,7 @@ InstallMethod(ShallowCopy, "for a periodic list",
 InstallOtherMethod(\[\]\:\=, "for a periodic list, a position and an object",
         [IsPeriodicList,IsPosInt,IsObject],
         function(l,i,x)
-    EXTENDPERIODICLIST@(l,i);
+    Fr.EXTENDPERIODICLIST(l,i);
     l![1][i] := x;
 end);
 
@@ -262,7 +262,7 @@ InstallOtherMethod(\{\}\:\=, "for a periodic list, positions and objects",
         function(l,p,x)
     local i;
     for i in [1..Length(p)] do
-        EXTENDPERIODICLIST@(l,p[i]);
+        Fr.EXTENDPERIODICLIST(l,p[i]);
         l![1][p[i]] := x[i];
     od;
 end);
@@ -280,7 +280,7 @@ end);
 InstallOtherMethod(UNB_LIST, "for a periodic list and position",
         [IsPeriodicList, IsPosInt],
         function(l,i)
-    EXTENDPERIODICLIST@(l,i+1);
+    Fr.EXTENDPERIODICLIST(l,i+1);
     UNB_LIST(l![1],i);
 end);
 
@@ -297,7 +297,7 @@ end);
 InstallOtherMethod(Add, "for a periodic list, an element and a position",
         [IsPeriodicList, IsObject, IsPosInt],
         function(l,x,i)
-    EXTENDPERIODICLIST@(l,i-1);
+    Fr.EXTENDPERIODICLIST(l,i-1);
     Add(l![1],x,i);
 end);
 
@@ -314,7 +314,7 @@ end);
 InstallOtherMethod(Remove, "for a periodic list and a position",
         [IsPeriodicList, IsPosInt],
         function(l,i)
-    EXTENDPERIODICLIST@(l,i);
+    Fr.EXTENDPERIODICLIST(l,i);
     return Remove(l![1],i);
 end);
 
@@ -566,7 +566,7 @@ end);
 InstallMethod(Permuted, "for a periodic list",
         [IsPeriodicList,IsPerm],
         function(l,p)
-    EXTENDPERIODICLIST@(l,LargestMovedPoint(p));
+    Fr.EXTENDPERIODICLIST(l,LargestMovedPoint(p));
     return PeriodicList(Permuted(l![1],p),l![2]);
 end);
 
@@ -737,9 +737,9 @@ InstallMethod(String, "(FR) for a FIFO",
 
 InstallMethod(ViewString, "(FR) for a FIFO",
         [IsFIFO],
-        f->CONCAT@("<FIFO iterator of size ",Length(f),">"));
+        f->Fr.CONCAT("<FIFO iterator of size ",Length(f),">"));
 
-INSTALLPRINTERS@(IsFIFO);
+Fr.INSTALLPRINTERS(IsFIFO);
 
 InstallMethod(Length, "(FR) for a FIFO",
         [IsFIFO],
@@ -841,7 +841,7 @@ InstallOtherMethod(PositionProperty, "(FR) for a FIFO and a function",
         function(iter,f)
     return PositionProperty(iter,f,0);
 end);
-  
+
 InstallMethod(ForAllOp, "for a FIFO",
         [IsFIFO,IsFunction],
         function(l,p)

@@ -25,7 +25,7 @@ InstallMethod(AlphabetOfFRObject, "(FR) for an FR object",
     return a;
 end);
 
-INSTALLPRINTERS@(IsFRObject);
+Fr.INSTALLPRINTERS(IsFRObject);
 
 InstallMethod(FRMFamily, "(FR) for an alphabet",
         [IsListOrCollection],
@@ -101,7 +101,7 @@ InstallOtherMethod(FRMachineNC, "(FR) for a family, a free monoid, a list of tra
     return M;
 end);
 
-BindGlobal("COPYFRMACHINE@", function(m)
+Fr.COPYFRMACHINE := ( function(m)
     return Objectify(NewType(FamilyObj(m), First([IsGroupFRMachine,IsMonoidFRMachine,IsSemigroupFRMachine],p->Tester(p)(m) and p(m)) and IsFRMachineStdRep),
                    rec(free := m!.free,
                        pack := m!.pack,
@@ -109,7 +109,7 @@ BindGlobal("COPYFRMACHINE@", function(m)
                        output := m!.output));
 end);
 
-BindGlobal("ANY2OUT@", function(x,n)
+Fr.ANY2OUT := ( function(x,n)
     if IsList(x) then
         return x;
     elif IsTransformation(x) then
@@ -119,7 +119,7 @@ BindGlobal("ANY2OUT@", function(x,n)
     fi;
 end);
 
-BindGlobal("CHECKLENGTHSCONTENTS@", function(t, transitions, output)
+Fr.CHECKLENGTHSCONTENTS := ( function(t, transitions, output)
     # check validity of arguments;
     # unpack FR elements contained in the transitions;
     # set t.F
@@ -168,7 +168,7 @@ BindGlobal("CHECKLENGTHSCONTENTS@", function(t, transitions, output)
     # clean up t.output, set t.invertible
     t.invertible := true;
     for i in [1..Length(t.output)] do
-        t.output[i] := ANY2OUT@(t.output[i],Length(t.F!.alphabet));
+        t.output[i] := Fr.ANY2OUT(t.output[i],Length(t.F!.alphabet));
         if Set(t.output[i])<>t.F!.alphabet then
             t.invertible := false;
         fi;
@@ -186,7 +186,7 @@ InstallMethod(FRMachine, "(FR) for a list of transitions and a list of outputs",
         function(transitions, output)
     local G, elG, t;
     t := rec();
-    CHECKLENGTHSCONTENTS@(t, transitions, output);
+    Fr.CHECKLENGTHSCONTENTS(t, transitions, output);
     if t.invertible then
         G := FreeGroup(Length(t.transitions));
     else
@@ -204,7 +204,7 @@ InstallMethod(FRMachine, "(FR) for a list of names, a list of transitions and a 
     if not ForAll(names,IsString) then
         Error("<names> should be a list of strings, and not ", names,"\n");
     fi;
-    CHECKLENGTHSCONTENTS@(t, transitions, output);
+    Fr.CHECKLENGTHSCONTENTS(t, transitions, output);
     if Length(names)>Length(t.transitions) then
         Error("Too many names supplied to FRMachine()\n");
     elif Length(names)<Length(t.transitions) then
@@ -226,7 +226,7 @@ InstallMethod(FRMachine, "(FR) for a free [semi]group, a list of transitions and
         function(free,transitions,output)
     local t, elfree, r, i;
     t := rec();
-    CHECKLENGTHSCONTENTS@(t, transitions, output);
+    Fr.CHECKLENGTHSCONTENTS(t, transitions, output);
     if IsGroup(free) and not t.invertible then
         Error("Outputs must be invertible in group FR machine: ",t.output);
     fi;
@@ -271,16 +271,16 @@ InstallMethod(StateSet, "(FR) for an FR machine",
 InstallMethod(ViewString, "(FR) for an FR machine",
         [IsFRMachine and IsFRMachineStdRep],
         function(M)
-    return CONCAT@("<FR machine with alphabet ", AlphabetOfFRObject(M), " on ", StateSet(M), ">");
+    return Fr.CONCAT("<FR machine with alphabet ", AlphabetOfFRObject(M), " on ", StateSet(M), ">");
 end);
 
 InstallMethod(String, "(FR) for an FR machine",
         [IsFRMachine and IsFRMachineStdRep],
         function(M)
-    return CONCAT@("FRMachine(...,",M!.output,")");
+    return Fr.CONCAT("FRMachine(...,",M!.output,")");
 end);
 
-BindGlobal("DISPLAYFRMACHINE@", function(M)
+Fr.DISPLAYFRMACHINE := ( function(M)
     local a, i, j, g, alen, slen, glen, ablank, sblank, gblank, arule, grule, srule, StringId, s;
     a := AlphabetOfFRObject(M);
     g := GeneratorsOfFRMachine(M);
@@ -313,30 +313,30 @@ BindGlobal("DISPLAYFRMACHINE@", function(M)
     elif IsMonoidFRMachine(M) then
         s := " M";
     else s := " S"; fi;
-    APPEND@(s,gblank{[3..glen]}," |");
-    for i in [1..Length(a)] do APPEND@(s,sblank[i],String(a[i],-alen)," "); od;
-    APPEND@(s,"\n");
-    APPEND@(s,grule,"-+");
-    for i in [1..Length(a)] do APPEND@(s,srule[i],arule,"+"); od;
-    APPEND@(s,"\n");
+    Fr.APPEND(s,gblank{[3..glen]}," |");
+    for i in [1..Length(a)] do Fr.APPEND(s,sblank[i],String(a[i],-alen)," "); od;
+    Fr.APPEND(s,"\n");
+    Fr.APPEND(s,grule,"-+");
+    for i in [1..Length(a)] do Fr.APPEND(s,srule[i],arule,"+"); od;
+    Fr.APPEND(s,"\n");
     for i in [1..Length(g)] do
-        APPEND@(s,StringId(g[i],glen)," |");
+        Fr.APPEND(s,StringId(g[i],glen)," |");
         for j in [1..Length(a)] do
-            APPEND@(s,StringId(M!.transitions[i][j],slen[j]),",",String(M!.output[i][j],-alen));
+            Fr.APPEND(s,StringId(M!.transitions[i][j],slen[j]),",",String(M!.output[i][j],-alen));
         od;
-        APPEND@(s,"\n");
+        Fr.APPEND(s,"\n");
     od;
-    APPEND@(s,grule,"-+");
-    for i in [1..Length(a)] do APPEND@(s,srule[i],arule,"+"); od;
-    APPEND@(s,"\n");
+    Fr.APPEND(s,grule,"-+");
+    for i in [1..Length(a)] do Fr.APPEND(s,srule[i],arule,"+"); od;
+    Fr.APPEND(s,"\n");
     return s;
 end);
 
 InstallMethod(DisplayString, "(FR) for an FR machine",
         [IsFRMachine and IsFRMachineStdRep],
-        DISPLAYFRMACHINE@);
+        Fr.DISPLAYFRMACHINE);
 
-INSTALLPRINTERS@(IsFRMachine);
+Fr.INSTALLPRINTERS(IsFRMachine);
 #############################################################################
 ##
 #M One(FRMachine)
@@ -361,22 +361,22 @@ InstallOtherMethod(ZeroOp, "(FR) for an FR machine",
 ##
 InstallTrueMethod(IsInvertible, IsGroupFRMachine);
 
-BindGlobal("ISINVERTIBLE@", function(l)
+Fr.ISINVERTIBLE := ( function(l)
     return Set(l)=[1..Length(l)];
 end);
 
-BindGlobal("INVERSE@", function(l) # inverse of transformation, given as list
+Fr.INVERSE := ( function(l) # inverse of transformation, given as list
     local r;
     r := [];
     r{l} := [1..Length(l)];
     return r;
 end);
 
-BindGlobal("ISONE@", function(l) # identity mapping, given as list
+Fr.ISONE := ( function(l) # identity mapping, given as list
     return l=[1..Length(l)];
 end);
 
-BindGlobal("PREIMAGE@", Position); # preimage of point under transformation
+Fr.PREIMAGE := ( Position); # preimage of point under transformation
 
 InstallMethod(InverseOp, "(FR) for a group FR machine",
         [IsGroupFRMachine],
@@ -384,7 +384,7 @@ InstallMethod(InverseOp, "(FR) for a group FR machine",
     local N;
     N := FRMachineNC(FamilyObj(M), M!.free,
                  List([1..Length(M!.transitions)], i->M!.transitions[i]{M!.output[i]}),
-                 List(M!.output, INVERSE@));
+                 List(M!.output, Fr.INVERSE));
     SetInverse(M,N);
     SetInverse(N,M);
     return N;
@@ -408,7 +408,7 @@ end);
 ##
 #M Products
 ##
-BindGlobal("SET_NAME@", function(args,sep,obj)
+Fr.SET_NAME := ( function(args,sep,obj)
     local i, s, n;
     for i in args do if not HasName(i) then return; fi; od;
     s := ShallowCopy(Name(args[1]));
@@ -416,7 +416,7 @@ BindGlobal("SET_NAME@", function(args,sep,obj)
     SetName(obj,s);
 end);
 
-BindGlobal("MAKENAMESUNIQUE@", function(sgen)
+Fr.MAKENAMESUNIQUE := ( function(sgen)
     local i, j, nonunique;
     nonunique := Set(Filtered(Collected(Concatenation(sgen)),x->x[2]>1),x->x[1]);
     RemoveSet(nonunique,"<identity ...>");
@@ -429,7 +429,7 @@ BindGlobal("MAKENAMESUNIQUE@", function(sgen)
     od;
 end);
 
-BindGlobal("LARGESTDENOMINATOR@", function(arg)
+Fr.LARGESTDENOMINATOR := ( function(arg)
     # returns homomorphisms from all its arguments' free stateset to
     # a free object of highest structure (group > monoid > semigroup).
     # the last entry in the returned list is a list of appropriate generators
@@ -444,7 +444,7 @@ BindGlobal("LARGESTDENOMINATOR@", function(arg)
     sgen := List(gen,x->List(x,String));
 
     if ForAll(states,IsGroup) then
-        MAKENAMESUNIQUE@(sgen);
+        Fr.MAKENAMESUNIQUE(sgen);
         f := FreeGroup(Concatenation(sgen));
         c := [];
         shift := 0;
@@ -463,7 +463,7 @@ BindGlobal("LARGESTDENOMINATOR@", function(arg)
                 c[i] := c[i]*MappingByFunction(Range(c[i]),FreeMonoidOfFpMonoid(Range(c[i])),UnderlyingElement);
             fi;
         od;
-        MAKENAMESUNIQUE@(sgen);
+        Fr.MAKENAMESUNIQUE(sgen);
         f := FreeMonoid(Concatenation(sgen));
         shift := 0;
         for i in [1..d] do
@@ -487,7 +487,7 @@ BindGlobal("LARGESTDENOMINATOR@", function(arg)
                 c[i] := NaturalHomomorphismByGenerators(states[i],c[i])*iso*MappingByFunction(Range(iso),FreeSemigroupOfFpSemigroup(Range(iso)),UnderlyingElement);
             fi;
         od;
-        MAKENAMESUNIQUE@(sgen);
+        Fr.MAKENAMESUNIQUE(sgen);
         f := FreeSemigroup(Concatenation(sgen));
         shift := 0;
         for i in [1..d] do
@@ -500,10 +500,10 @@ BindGlobal("LARGESTDENOMINATOR@", function(arg)
     return c;
 end);
 
-BindGlobal("FRMSUM@", function(arg)
+Fr.FRMSUM := ( function(arg)
     local c, gen, trans, out, i, j, sum;
 
-    c := CallFuncList(LARGESTDENOMINATOR@,arg);
+    c := CallFuncList(Fr.LARGESTDENOMINATOR,arg);
     gen := Remove(c);
 
     trans := [];
@@ -516,13 +516,13 @@ BindGlobal("FRMSUM@", function(arg)
     od;
     sum := FRMachineNC(FamilyObj(arg[1]),Range(c[1]),trans,out);
     SetCorrespondence(sum,c);
-    SET_NAME@(arg,"+",sum);
+    Fr.SET_NAME(arg,"+",sum);
     return sum;
 end);
 
-BindGlobal("FRMMINSUM@", function(left,right)
+Fr.FRMMINSUM := ( function(left,right)
     local sum, r;
-    sum := FRMSUM@(left,right);
+    sum := Fr.FRMSUM(left,right);
     r := Minimized(sum);
     r!.Correspondence := List(Correspondence(sum),x->x*Correspondence(r));
     return r;
@@ -531,12 +531,12 @@ end);
 InstallMethod(\+, "(FR) for two FR machines",
         IsIdenticalObj,
         [IsFRMachine and IsFRMachineStdRep, IsFRMachine and IsFRMachineStdRep],
-        FRMSUM@);
+        Fr.FRMSUM);
 
 InstallMethod(\*, "(FR) for two FR machines",
         IsIdenticalObj,
         [IsFRMachine and IsFRMachineStdRep, IsFRMachine and IsFRMachineStdRep],
-        FRMSUM@);
+        Fr.FRMSUM);
 
 InstallMethod(TensorSumOp, "(FR) for two FR machines",
         [IsList, IsFRMachine and IsFRMachineStdRep],
@@ -564,7 +564,7 @@ InstallMethod(TensorSumOp, "(FR) for two FR machines",
         Add(out,o);
     od;
     x := FRMachineNC(FRMFamily([1..d]),N!.free,trans,out);
-    SET_NAME@(M,"(+)",x);
+    Fr.SET_NAME(M,"(+)",x);
     return x;
 end);
 
@@ -598,7 +598,7 @@ InstallMethod(TensorProductOp, "(FR) for two FR machines",
         Add(out,o);
     od;
     x := FRMachineNC(FRMFamily([1..Length(alphabet)]),N!.free,trans,out);
-    SET_NAME@(M,"(*)",x);
+    Fr.SET_NAME(M,"(*)",x);
     return x;
 end);
 
@@ -607,7 +607,7 @@ InstallMethod(DirectSumOp, "(FR) for two FR machines",
         function(M, N)
     local c, gen, trans, out, t, o, i, j, d, alph, shift, sum;
 
-    c := CallFuncList(LARGESTDENOMINATOR@,M);
+    c := CallFuncList(Fr.LARGESTDENOMINATOR,M);
     gen := Remove(c);
 
     d := 0;
@@ -632,7 +632,7 @@ InstallMethod(DirectSumOp, "(FR) for two FR machines",
     od;
     sum := FRMachineNC(FRMFamily([1..d]),Range(c[1]),trans,out);
     SetCorrespondence(sum,c);
-    SET_NAME@(M,"#",sum);
+    Fr.SET_NAME(M,"#",sum);
     return sum;
 end);
 
@@ -641,7 +641,7 @@ InstallMethod(DirectProductOp, "(FR) for two FR machines",
         function(M, N)
     local c, gen, trans, out, t, o, i, j, a, b, product, alphabet;
 
-    c := CallFuncList(LARGESTDENOMINATOR@,M);
+    c := CallFuncList(Fr.LARGESTDENOMINATOR,M);
     gen := Remove(c);
 
     alphabet := Cartesian(List(M,AlphabetOfFRObject));
@@ -664,7 +664,7 @@ InstallMethod(DirectProductOp, "(FR) for two FR machines",
     od;
     product := FRMachineNC(FRMFamily([1..Length(alphabet)]),Range(c[1]),trans,out);
     SetCorrespondence(product,c);
-    SET_NAME@(M,"x",product);
+    Fr.SET_NAME(M,"x",product);
     return product;
 end);
 
@@ -678,7 +678,7 @@ InstallMethod(TreeWreathProduct, "for two FR machines",
     while not [x0,y0] in alphabet do
         Error("(x0,y0) must be in the product of the machines' alphabets");
     od;
-    c := LARGESTDENOMINATOR@(g,h,g,Zero(g));
+    c := Fr.LARGESTDENOMINATOR(g,h,g,Zero(g));
     gen := Remove(c);
     if gen[4]=[] then
         one := One(Range(c[1]));
@@ -738,7 +738,7 @@ InstallMethod(TreeWreathProduct, "for two FR machines",
 
     m := Minimized(FRMachineNC(FRMFamily([1..Length(alphabet)]),Range(c[1]),trans,out));
     m!.Correspondence := List(c{[1..2]},x->x*Correspondence(m));
-    SET_NAME@([g,h],"~",m);
+    Fr.SET_NAME([g,h],"~",m);
     return m;
 end);
 #############################################################################
@@ -829,7 +829,7 @@ InstallMethod(Output, "(FR) for an FR machine and a state expressed as an intege
     elif i = 0 then
         return AlphabetOfFRObject(M);
     else
-        return INVERSE@(M!.output[-i]);
+        return Fr.INVERSE(M!.output[-i]);
     fi;
 end);
 
@@ -842,7 +842,7 @@ InstallMethod(Output, "(FR) for an FR machine and a state expressed as a word",
         if i > 0 then
             perm := M!.output[i]{perm};
         else
-            perm := INVERSE@(M!.output[-i]){perm};
+            perm := Fr.INVERSE(M!.output[-i]){perm};
         fi;
     od;
     return perm;
@@ -871,7 +871,7 @@ InstallMethod(Transition, "(FR) for an FR machine, a state expressed as an integ
     if i > 0 then
         return M!.transitions[i][p];
     else
-        return M!.transitions[-i][PREIMAGE@(M!.output[-i],p)];
+        return M!.transitions[-i][Fr.PREIMAGE(M!.output[-i],p)];
     fi;
 end);
 
@@ -881,11 +881,11 @@ InstallMethod(Transitions, "(FR) for an FR machine and a state expressed as an i
     if i > 0 then
         return M!.transitions[i];
     else
-        return M!.transitions[-i]{INVERSE@(M!.output[-i])};
+        return M!.transitions[-i]{Fr.INVERSE(M!.output[-i])};
     fi;
 end);
 
-BindGlobal("FRMTRANSITION@", function(M,l,p)
+Fr.FRMTRANSITION := ( function(M,l,p)
     local w, i;
     if IsMonoid(M!.free) then
         w := One(M!.free);
@@ -901,7 +901,7 @@ BindGlobal("FRMTRANSITION@", function(M,l,p)
             fi;
             p := M!.output[i][p];
         else
-            p := PREIMAGE@(M!.output[-i],p);
+            p := Fr.PREIMAGE(M!.output[-i],p);
             if w=fail then
                 w := M!.transitions[-i][p]^-1;
             else
@@ -914,12 +914,12 @@ end);
 
 InstallMethod(Transition, "(FR) for an FR machine, a state expressed as a list, and an input",
         [IsFRMachine and IsFRMachineStdRep, IsList, IsPosInt],
-        FRMTRANSITION@);
+        Fr.FRMTRANSITION);
 
 InstallMethod(Transition, "(FR) for an FR machine, a state expressed as a word, and an input",
         [IsFRMachine and IsFRMachineStdRep, IsAssocWord, IsPosInt],
         function(M, v, p)
-    return FRMTRANSITION@(M,LetterRepAssocWord(v),p);
+    return Fr.FRMTRANSITION(M,LetterRepAssocWord(v),p);
 end);
 
 InstallMethod(Transition, "(FR) for an FR machine, a state, and a list of letters",
@@ -972,7 +972,7 @@ InstallMethod(WreathRecursion, "(FR) for an FR machine",
                 fi;
                 perm := output[i]{perm};
             else
-                perm := INVERSE@(output[-i]){perm};
+                perm := Fr.INVERSE(output[-i]){perm};
                 if vector[1]=fail then
                     vector := List(transitions[-i]{perm},Inverse);
                 else
@@ -1292,9 +1292,9 @@ InstallMethod(AsGroupFRMachine, "(FR) for a group FR machine",
     return M;
 end);
 
-BindGlobal("ASGROUPFRMACHINE@", function(M)
+Fr.ASGROUPFRMACHINE := ( function(M)
     local f, N, h, s;
-    if not ForAll(M!.output,ISINVERTIBLE@) then return fail; fi;
+    if not ForAll(M!.output,Fr.ISINVERTIBLE) then return fail; fi;
     s := GeneratorsOfFRMachine(M);
     f := FreeGroup(Length(s));
     h := MagmaHomomorphismByImagesNC(M!.free,f,GeneratorsOfGroup(f));
@@ -1304,10 +1304,10 @@ BindGlobal("ASGROUPFRMACHINE@", function(M)
 end);
 InstallMethod(AsGroupFRMachine, "(FR) for a monoid FR machine",
         [IsMonoidFRMachine],
-        ASGROUPFRMACHINE@);
+        Fr.ASGROUPFRMACHINE);
 InstallMethod(AsGroupFRMachine, "(FR) for a semigroup FR machine",
         [IsSemigroupFRMachine],
-        ASGROUPFRMACHINE@);
+        Fr.ASGROUPFRMACHINE);
 
 InstallMethod(AsMonoidFRMachine, "(FR) for a group FR machine",
         [IsGroupFRMachine],
@@ -1328,7 +1328,7 @@ InstallMethod(AsMonoidFRMachine, "(FR) for a group FR machine",
     trans := List(M!.transitions,r->List(r,w->w^h));
     out := ShallowCopy(M!.output);
     for i in [1..Length(M!.transitions)] do
-        o := INVERSE@(M!.output[i]);
+        o := Fr.INVERSE(M!.output[i]);
         Add(trans,List(M!.transitions[i],w->(w^-1)^h){o});
         Add(out,o);
     od;
@@ -1380,7 +1380,7 @@ InstallMethod(AsSemigroupFRMachine, "(FR) for a group FR machine",
     trans := List(M!.transitions,r->List(r,w->w^h));
     out := ShallowCopy(M!.output);
     for i in [1..Length(M!.transitions)] do
-        o := INVERSE@(M!.output[i]);
+        o := Fr.INVERSE(M!.output[i]);
         Add(trans,List(M!.transitions[i],w->(w^-1)^h){o});
         Add(out,o);
     od;
@@ -1399,7 +1399,7 @@ InstallMethod(AsSemigroupFRMachine, "(FR) for a monoid FR machine",
     f := FreeSemigroup(Length(sM)+1);
     sN := GeneratorsOfSemigroup(f){[1..Length(sM)]};
     one := GeneratorsOfSemigroup(f)[Length(sM)+1];
-    h := MagmaHomomorphismByFunctionNC(M!.free,f,w->MAPPEDWORD@(w,sN,one));
+    h := MagmaHomomorphismByFunctionNC(M!.free,f,w->Fr.MAPPEDWORD(w,sN,one));
     trans := List(M!.transitions,r->List(r,w->w^h));
     out := ShallowCopy(M!.output);
     Add(trans,List(AlphabetOfFRObject(M),a->one));
@@ -1416,7 +1416,7 @@ InstallMethod(AsSemigroupFRMachine, "(FR) for a semigroup FR machine",
     return M;
 end);
 
-BindGlobal("HOM2MACHINE@", function(f,tester,g)
+Fr.HOM2MACHINE := ( function(f,tester,g)
     local s;
     s := Source(f);
     if not tester(s) or s<>Range(f) then
@@ -1424,25 +1424,25 @@ BindGlobal("HOM2MACHINE@", function(f,tester,g)
     fi;
     return FRMachineNC(FRMFamily([1]),s,List(g(s),x->[x^f]),List(g(s),x->[1]));
 end);
-    
+
 InstallMethod(AsGroupFRMachine, "(FR) for a group homomorphism",
         [IsGroupHomomorphism],
-        f->HOM2MACHINE@(f,IsFreeGroup,GeneratorsOfGroup));
+        f->Fr.HOM2MACHINE(f,IsFreeGroup,GeneratorsOfGroup));
 
 InstallMethod(AsMonoidFRMachine, "(FR) for a monoid homomorphism",
         [IsMagmaHomomorphism],
-        f->HOM2MACHINE@(f,IsFreeMonoid,GeneratorsOfMonoid));
+        f->Fr.HOM2MACHINE(f,IsFreeMonoid,GeneratorsOfMonoid));
 
 InstallMethod(AsSemigroupFRMachine, "(FR) for a semigroup homomorphism",
         [IsMagmaHomomorphism],
-        f->HOM2MACHINE@(f,IsFreeSemigroup,GeneratorsOfSemigroup));
+        f->Fr.HOM2MACHINE(f,IsFreeSemigroup,GeneratorsOfSemigroup));
 #############################################################################
 
 #############################################################################
 ##
 #M Minimized(FRMachine)
 ##
-BindGlobal("MINIMIZERWS_MAKERULES@", function(rws,p)
+Fr.MINIMIZERWS_MAKERULES := ( function(rws,p)
     # p is a tuple [generators,inverses,isone?,rules]
     # this command recomputes the rules
     local i, l;
@@ -1462,7 +1462,7 @@ BindGlobal("MINIMIZERWS_MAKERULES@", function(rws,p)
     fi;
 end);
 
-BindGlobal("MINIMIZERWS@", function(M)
+Fr.MINIMIZERWS := ( function(M)
     local rws, gens, h, i, j, si, p, part, newpart, changed;
 
     rws := NewFRMachineRWS(M);
@@ -1477,7 +1477,7 @@ BindGlobal("MINIMIZERWS@", function(M)
     gens := Filtered(gens,x->rws.letterrep(x)=rws.reduce(rws.letterrep(x)));
     i := List(gens,x->Output(M,x));
     si := Set(i);
-    part := List(si,x->[[],[],HasIsBuiltFromMonoid(rws.rws) and IsBuiltFromMonoid(rws.rws) and ISONE@(x)]);
+    part := List(si,x->[[],[],HasIsBuiltFromMonoid(rws.rws) and IsBuiltFromMonoid(rws.rws) and Fr.ISONE(x)]);
     for j in [1..Length(i)] do
         p := Position(si,i[j]);
         Add(part[p][1],rws.letterrep(gens[j])[1]);
@@ -1489,7 +1489,7 @@ BindGlobal("MINIMIZERWS@", function(M)
     od;
     for p in part do
         SortParallel(p[1],p[2]);
-        MINIMIZERWS_MAKERULES@(rws,p);
+        Fr.MINIMIZERWS_MAKERULES(rws,p);
     od;
 
     changed := true;
@@ -1509,7 +1509,7 @@ BindGlobal("MINIMIZERWS@", function(M)
                     Add(newpart[p][2],part[h][2][j]);
                 od;
                 for p in newpart do
-                    MINIMIZERWS_MAKERULES@(rws,p);
+                    Fr.MINIMIZERWS_MAKERULES(rws,p);
                 od;
                 Append(part,newpart);
                 part[h] := Remove(part);
@@ -1517,14 +1517,14 @@ BindGlobal("MINIMIZERWS@", function(M)
             elif part[h][3] and not ForAll(si[1],IsEmpty) then
                 changed := true;
                 part[h][3] := false;
-                MINIMIZERWS_MAKERULES@(rws,part[h]);
+                Fr.MINIMIZERWS_MAKERULES(rws,part[h]);
                 break;
             fi;
         od;
     od;
     for p in part do
         p[3] := p[3] and ForAll(p[1],x->ForAll(rws.pi([x])[1],x->rws.reduce(x)=[]));
-        MINIMIZERWS_MAKERULES@(rws,p);
+        Fr.MINIMIZERWS_MAKERULES(rws,p);
     od;
     rws.rws!.tzrules := Concatenation(rws.tzrules,Concatenation(List(part,p->p[4])));
     rws.modified := true;
@@ -1537,12 +1537,12 @@ InstallMethod(Minimized, "(FR) for a group/monoid/semigroup FR machine",
         [IsFRMachine and IsFRMachineStdRep],
         function(M)
     local rws, gens, gensimg, i, ri, red, free, freegens, one, out, trans, map;
-    rws := MINIMIZERWS@(M);
+    rws := Fr.MINIMIZERWS(M);
     gens := GeneratorsOfFRMachine(M);
     i := List(gens,rws.letterrep);
     red := Filtered(i,x->rws.reduce(x)=x);
     if i=red then
-        M := COPYFRMACHINE@(M);
+        M := Fr.COPYFRMACHINE(M);
         SetCorrespondence(M,IdentityMapping(M!.free));
         return M;
     fi;
@@ -1607,8 +1607,8 @@ InstallMethod(SubFRMachine, "(FR) for two group/monoid/semigroup FR machines",
     if (IsGroupFRMachine(N) and not IsGroupFRMachine(M)) or (IsMonoidFRMachine(N) and IsSemigroupFRMachine(M)) then
         return fail;
     fi;
-    S := FRMMINSUM@(N,M);
-    rws := MINIMIZERWS@(S);
+    S := Fr.FRMMINSUM(N,M);
+    rws := Fr.MINIMIZERWS(S);
     Mgens := GeneratorsOfSemigroup(M!.free);
     Ngens := GeneratorsOfFRMachine(N);
     Mletter := List(Mgens,x->rws.letterrep(x^Correspondence(S)[2]));
@@ -1655,7 +1655,7 @@ end);
 
 ################################################################
 # change basis of FR machine
-BindGlobal("CHANGEFRMACHINEBASIS@", function(M,l,p)
+Fr.CHANGEFRMACHINEBASIS := ( function(M,l,p)
     local trans, i, d, newM;
     d := Size(AlphabetOfFRObject(M));
     while Length(l)<>d or not ForAll(l,x->x in StateSet(M)) do
@@ -1676,21 +1676,21 @@ InstallMethod(ChangeFRMachineBasis, "(FR) for a group FR machine and a list",
         [IsGroupFRMachine, IsCollection],
         function(M,l)
     return ChangeFRMachineBasis(M,l,());
-end);	
+end);
 InstallMethod(ChangeFRMachineBasis, "(FR) for a group FR machine and a permutation",
         [IsGroupFRMachine, IsPerm],
         function(M,p)
     return ChangeFRMachineBasis(M,List(AlphabetOfFRObject(M),x->One(StateSet(M))),p);
-end);	
+end);
 InstallMethod(ChangeFRMachineBasis, "(FR) for a group FR machine, a list and a permutation",
         [IsGroupFRMachine, IsCollection, IsPerm],
-    CHANGEFRMACHINEBASIS@);
+    Fr.CHANGEFRMACHINEBASIS);
 
 InstallMethod(ChangeFRMachineBasis, "(FR) for an FR machine",
         [IsGroupFRMachine],
         function(M)
     local cycles, basis, s, t, u, v;
-    
+
     # gather all permutation cycles
     cycles := [];
     for s in GeneratorsOfFRMachine(M) do
@@ -1700,7 +1700,7 @@ InstallMethod(ChangeFRMachineBasis, "(FR) for an FR machine",
             fi;
         od;
     od;
-    
+
     basis := [];
     while cycles<>[] do
         # first cycle connected to the partial basis
@@ -1725,7 +1725,7 @@ InstallMethod(ChangeFRMachineBasis, "(FR) for an FR machine",
     return ChangeFRMachineBasis(M,basis,());
 end);
 
-BindGlobal("RIGHTACTMACHINE@", function(M,f)
+Fr.RIGHTACTMACHINE := ( function(M,f)
     local S;
     S := StateSet(M);
     if S<>Source(f) or S<>Range(f) then
@@ -1736,9 +1736,9 @@ end);
 
 InstallMethod(\*, "(FR) for an FR machine and a mapping",
         [IsFRMachine and IsFRMachineStdRep, IsMapping],
-        RIGHTACTMACHINE@);
+        Fr.RIGHTACTMACHINE);
 
-BindGlobal("LEFTACTMACHINE@", function(f,M)
+Fr.LEFTACTMACHINE := ( function(f,M)
     local S, trans, out, i, pi, x;
     S := StateSet(M);
     if S<>Source(f) or S<>Range(f) then
@@ -1747,7 +1747,7 @@ BindGlobal("LEFTACTMACHINE@", function(f,M)
     pi := WreathRecursion(M);
     trans := [];
     out := [];
-    
+
     for i in [1..Length(M!.output)] do
         x := pi(GeneratorsOfFRMachine(M)[i]^f);
         Add(trans,x[1]);
@@ -1758,9 +1758,9 @@ end);
 
 InstallMethod(\*, "(FR) for a mapping and an FR machine",
         [IsMapping, IsFRMachine and IsFRMachineStdRep],
-        LEFTACTMACHINE@);
+        Fr.LEFTACTMACHINE);
 
-BindGlobal("CONJACTMACHINE@", function(M,f)
+Fr.CONJACTMACHINE := ( function(M,f)
     local S, newS, trans, out, i, pi, x, finv;
     S := StateSet(M);
     if S<>Source(f) then
@@ -1782,6 +1782,6 @@ end);
 
 InstallMethod(\^, "(FR) for a group FR machine and a mapping",
         [IsFRMachine and IsFRMachineStdRep, IsMapping],
-        CONJACTMACHINE@);
+        Fr.CONJACTMACHINE);
 ################################################################
 
