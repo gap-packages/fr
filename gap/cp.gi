@@ -17,9 +17,9 @@
 #-- Example: L=[[A,B,X],[C,D],[c,d]], dep=[[1],[2,3]] results --
 #--   in [[A,C,c],[A,D,d],[B,C,c],[B,D,d],[X,C,c],[X,D,d]	   ---
 #--     The Lists, which are joined by the dependencies      ---
-#--            have to be of the same length	               ---	
+#--            have to be of the same length	               ---
 #---------------------------------------------------------------
-BindGlobal("DEP_CARTESIAN@", function(L,dep)
+Fr.DEP_CARTESIAN := ( function(L,dep)
 	local res_list, temp_cart, container, al, d, i ,j,a;
 	res_list := [];
 	temp_cart := [];
@@ -33,9 +33,9 @@ BindGlobal("DEP_CARTESIAN@", function(L,dep)
 				fi;
 			od;
 			if al <> [] then container[j]:=al; fi;
-		od; 
+		od;
 		Add(temp_cart,container);
-	od; 
+	od;
 	temp_cart := Cartesian(temp_cart);
 	for i in temp_cart do
 		container := [];
@@ -52,11 +52,11 @@ end);
 #------  Takes two FRElements and computes a list of    -------
 #------  conjugators of the action on the first level.  -------
 #--------------------------------------------------------------
-BindGlobal("LEVEL_PERM_CONJ@", function(arg)
+Fr.LEVEL_PERM_CONJ := ( function(arg)
 	local G, pi_x, pi_y, c;
 	if Length(arg) < 3 then
 		G:=SymmetricGroup(AlphabetOfFRObject(arg[1]));
-	else 
+	else
 		if not IsFRObject(arg[1]) or not IsFRObject(arg[2]) or not IsPermGroup(arg[3]) then
 			Error("Usage: FRelm, FRelm, [PermGroup]");
 		fi;
@@ -98,8 +98,8 @@ function(a)
 					Add(OS_new,new);
 				fi;
 			od;
-			
-		od; 
+
+		od;
 		Append(OS_list,OS_unvisited);
 		OS_unvisited := OS_new;
 	od;
@@ -114,21 +114,21 @@ end
 #`````````````````````                  `````````````````````````#
 #````````````````````````````````````````````````````````````````#
 ##################################################################
-BindGlobal("CONJUGATOR_GRAPH@", function(a,b)
+Fr.CONJUGATOR_GRAPH := ( function(a,b)
 	local Alph, Vertices, Edges, c, d, p, v_id, e_id, v, orbits, orb_repr, i, new_con_pair, new_v, w, change, found, e, all_found;
-	
+
 	Alph := AlphabetOfFRObject(a);
 	Vertices := [];
 	Edges := [];
 	#--------------------- Save some work, in easy cases--------
-	if Size(LEVEL_PERM_CONJ@(a,b))=0 then
+	if Size(Fr.LEVEL_PERM_CONJ(a,b))=0 then
 		return [[],[]];
 	fi;
 	#--------------------- Generate the Vertex list ------------
 	v_id := 1;
 	for c in OrbitSignalizer(a) do
 		for d in OrbitSignalizer(b) do
-			for p in LEVEL_PERM_CONJ@(c,d) do
+			for p in Fr.LEVEL_PERM_CONJ(c,d) do
 				Add(Vertices,rec(	id:= v_id,
 													conj_pair := [c,d],
 													action := p));
@@ -137,7 +137,7 @@ BindGlobal("CONJUGATOR_GRAPH@", function(a,b)
 		od;
 	od;
 	#Print("Vertexlist generated\n");
-	
+
 	#--------------------- Find the Edges  -------------------
 	e_id := 1;
 	for v in Vertices do
@@ -147,7 +147,7 @@ BindGlobal("CONJUGATOR_GRAPH@", function(a,b)
 		orb_repr := List(orbits,Minimum);
 		for i in [1..Length(orbits)] do
 			new_con_pair := [State(c^Length(orbits[i]),orb_repr[i]),State(d^Length(orbits[i]),orb_repr[i]^v.action)];
-			for p in LEVEL_PERM_CONJ@(new_con_pair[1],new_con_pair[2]) do
+			for p in Fr.LEVEL_PERM_CONJ(new_con_pair[1],new_con_pair[2]) do
 				new_v := 0;
 				for w in Vertices do
 					if w.conj_pair = new_con_pair and w.action = p then;
@@ -162,7 +162,7 @@ BindGlobal("CONJUGATOR_GRAPH@", function(a,b)
 													read := orb_repr[i],
 													write := orb_repr[i]^v.action,
 													id := e_id));
-					e_id := e_id +1;	
+					e_id := e_id +1;
 				else #This case should never happen...
 					Error("Error the element is not in the vertex set!\n");
 				fi;
@@ -170,7 +170,7 @@ BindGlobal("CONJUGATOR_GRAPH@", function(a,b)
 		od;
 	od;
 	#Print(Size(Edges)," Edges generated\n");
-	
+
 	#--------------------- Delete dead Vertices  -------------------
 	change:=true;
 	while change do
@@ -209,7 +209,7 @@ BindGlobal("CONJUGATOR_GRAPH@", function(a,b)
 	return [Vertices,Edges];
 end);
 
-BindGlobal("DRAW_GRAPH@",function(Vertices,Edges)
+Fr.DRAW_GRAPH := (function(Vertices,Edges)
 	local v,S,e;
 	for v in Vertices do
 		Print("ID: ",v.id," Name: (",v.conj_pair[1]![2],",",v.conj_pair[2]![2],")\n");
@@ -245,11 +245,11 @@ BindGlobal("DRAW_GRAPH@",function(Vertices,Edges)
 	od;
 	Append(S,"}");
 	Print(S);
-	DOT2DISPLAY@(S,"dot");
+	Fr.DOT2DISPLAY(S,"dot");
 end);
 ##################################################################
 #````````````````````````````````````````````````````````````````#
-#```````````````````  MEALY_FROM_STATES@  ```````````````````````#
+#```````````````````  Fr.MEALY_FROM_STATES  ```````````````````````#
 #````````````````                            ````````````````````#
 #`````````````````  Computes a mealy machine ````````````````````#
 #````````````````     with Statesset L and   ````````````````````#
@@ -257,7 +257,7 @@ end);
 #````````````````````````````````````````````````````````````````#
 ##################################################################
 #Computes a mealy machine with stateset L and given activity act.
-BindGlobal("MEALY_FROM_STATES@", function(L,act)
+Fr.MEALY_FROM_STATES := ( function(L,act)
 		local m,tran,out,i,j;
 		#Force L to contain elements and not lists of elements.
 		for i in [1..Size(L)] do
@@ -269,7 +269,7 @@ BindGlobal("MEALY_FROM_STATES@", function(L,act)
 		if IsPerm(act) then
 			act := List(AlphabetOfFRObject(L[1]),x->x^act);
 		fi;
-		
+
 		tran := [[]];
 		out := [act];
 		i := 1;
@@ -290,13 +290,13 @@ BindGlobal("MEALY_FROM_STATES@", function(L,act)
 #`````````````````````                  `````````````````````````#
 #````````````````````````````````````````````````````````````````#
 ##################################################################
-BindGlobal("CONJUGATORS_FINITE_STATE_WRAPPER@",function(start,CG)
+Fr.CONJUGATORS_FINITE_STATE_WRAPPER := (function(start,CG)
 	local v,AS,to_visit, Alph, new_v, i, found, e, Tran, Act, c,d, orbit;
 			#--------- Choose one subgraph, as automaton  ---------
 			AS := [start.id]; #Contains IDs of vertices, which build the subgraph
-			to_visit := [start.id]; 
+			to_visit := [start.id];
 			Alph := AlphabetOfFRObject(start.conj_pair[1]);
-			while Length(to_visit) > 0 do 
+			while Length(to_visit) > 0 do
 				new_v := [];
 				for i in to_visit do
 					v := CG[1][i];
@@ -305,7 +305,7 @@ BindGlobal("CONJUGATORS_FINITE_STATE_WRAPPER@",function(start,CG)
 						if e.from = v.id then
 							if e.read in found then
 								Unbind(CG[2][e.id]);
-							else 
+							else
 								Add(found,e.read);
 								if not e.to in AS then
 									Add(new_v,CG[1][e.to].id);
@@ -345,12 +345,12 @@ end);
 #`````````````````````                  `````````````````````````#
 #````````````````````````````````````````````````````````````````#
 ##################################################################
-BindGlobal("CONJUGATORS_FINITARY_WRAPPER@",function(v,Graph,Seen,Known_vertex_conjugator)
+Fr.CONJUGATORS_FINITARY_WRAPPER := (function(v,Graph,Seen,Known_vertex_conjugator)
 	local CONJUGATORS_FINITARY_REK;
 	CONJUGATORS_FINITARY_REK := function(v,Graph,Seen,Known_vertex_conjugator)
 		local Vertices,Edges,sons,starts,conj_cand,conjugators_found,son,x,NewSeen,a,b,e,son_conj,son_conjs,tempo_conj, htemp,tempoconj,err,Indices,diction,pos,real_conj,real_conjugators,i,j,ip,son_orbit_size,Alph,action,
 		w,Circle,Conjs,con;
-	
+
 		#Print("@Vertex ",v,"\n");
 		if IsBound(Known_vertex_conjugator[v]) then #Don't do the same work twice.
 			return Known_vertex_conjugator[v];
@@ -361,7 +361,7 @@ BindGlobal("CONJUGATORS_FINITARY_WRAPPER@",function(v,Graph,Seen,Known_vertex_co
 		b := Vertices[v].conj_pair[2];
 		Alph := AlphabetOfFRObject(a);
 		action := Vertices[v].action;
-	
+
 		if v in Seen then
 			Circle:=Seen{[Position(Seen,v)..Size(Seen)]}; #are all one then.
 			for w in Circle do
@@ -374,7 +374,7 @@ BindGlobal("CONJUGATORS_FINITARY_WRAPPER@",function(v,Graph,Seen,Known_vertex_co
 			od;
 			return [One(a)];
 		fi;
-	
+
 		sons := [];
 		for e in Edges do
 			if e.from = v then
@@ -387,7 +387,7 @@ BindGlobal("CONJUGATORS_FINITARY_WRAPPER@",function(v,Graph,Seen,Known_vertex_co
 			conj_cand[x] := [];
 		od;
 		conjugators_found := [];
-	
+
 		for son in sons do
 			NewSeen := ShallowCopy(Seen);
 			Add(NewSeen,v);
@@ -418,8 +418,8 @@ BindGlobal("CONJUGATORS_FINITARY_WRAPPER@",function(v,Graph,Seen,Known_vertex_co
 		od;
 		#Test if we have enough partial conjugators
 		if IsDenseList(conjugators_found) and Size(conjugators_found) = Size(Alph) then
-			#puzzle them together!	
-			Conjs := DEP_CARTESIAN@(conj_cand,Orbits(Group(a),Alph));
+			#puzzle them together!
+			Conjs := Fr.DEP_CARTESIAN(conj_cand,Orbits(Group(a),Alph));
 			for con in Conjs do
 				Add(real_conjugators,FRElement([con],[action],[1]));
 			od;
@@ -436,11 +436,11 @@ end);
 #`````````````````````                  `````````````````````````#
 #````````````````````````````````````````````````````````````````#
 ##################################################################
-BindGlobal("CONJUGATORS_BOUNDED_WRAPPER@",function(v,Graph,Seen,readwrite_path,Known_vertex_conjugator)
+Fr.CONJUGATORS_BOUNDED_WRAPPER := (function(v,Graph,Seen,readwrite_path,Known_vertex_conjugator)
 	local CONJUGATORS_BOUNDED_REK;
 	CONJUGATORS_BOUNDED_REK := function(v,Graph,Seen,readwrite_path,Known_vertex_conjugator)
 		local Vertices,Edges,sons,starts,conj_cand,conjugators_found,son,x,NewSeen,a,b,e,son_conj,son_conjs,tempo_conj, htemp,tempoconj,err,Indices,diction,pos,real_conj,real_conjugators,conj_cand_aux,i,j,ip,son_orbit_size,Alph,Alph_num,action, alph,beta,Conj_elm,read,write,orb_size,Conj_Tran,Conj_act,m,read_path,write_path,action_path,New_read_path, New_write_path,New_action_path,Conj_Tran_el,Conjs,circle_length,New_Seen,X,con, check_need ;
-	
+
 		#Print("@Vertex ",v,"\n");
 		if IsBound(Known_vertex_conjugator[v]) then #Don't do the same work twice.
 			return Known_vertex_conjugator[v];
@@ -482,8 +482,8 @@ BindGlobal("CONJUGATORS_BOUNDED_WRAPPER@",function(v,Graph,Seen,readwrite_path,K
 					x:= read;
 					#Get a representative for the orbits
 					X:=Difference(Alph,Orbit(Group(alph),x));
-					while Size(X)>0 do 
-						x := Minimum(X);				
+					while Size(X)>0 do
+						x := Minimum(X);
 						sons := [];
 						for e in Edges do
 							if e.from = v and e.read = x then
@@ -494,12 +494,12 @@ BindGlobal("CONJUGATORS_BOUNDED_WRAPPER@",function(v,Graph,Seen,readwrite_path,K
 						son_conjs:= [];
 						#Here there is already one circle, so the other states have to be finitary
 						for son in sons do
-								Conjs :=CONJUGATORS_FINITARY_WRAPPER@(son,Graph,New_Seen,Known_vertex_conjugator);
+								Conjs :=Fr.CONJUGATORS_FINITARY_WRAPPER(son,Graph,New_Seen,Known_vertex_conjugator);
 								Append(son_conjs,Conjs);
-						od;		
+						od;
 						for son_conj in son_conjs do
-							for j in [0..Size(Orbit(Group(alph),x))-1] do 
-								Add(Conj_elm[Position(Alph,x^(alph^j))],[(State(alph^j,x))^-1*son_conj*State(beta^j,x^action_path[i])]); 
+							for j in [0..Size(Orbit(Group(alph),x))-1] do
+								Add(Conj_elm[Position(Alph,x^(alph^j))],[(State(alph^j,x))^-1*son_conj*State(beta^j,x^action_path[i])]);
 							od;
 						od;
 						X:=Difference(X,Orbit(Group(alph),x)); #next orbit
@@ -515,7 +515,7 @@ BindGlobal("CONJUGATORS_BOUNDED_WRAPPER@",function(v,Graph,Seen,readwrite_path,K
 				for x in Alph_num do
 					Conj_elm[x] := Set(Conj_elm[x]);
 				od;
-				Conj_elm := DEP_CARTESIAN@(Conj_elm,Orbits(Group(alph),Alph)); #puzzle the conjugators together
+				Conj_elm := Fr.DEP_CARTESIAN(Conj_elm,Orbits(Group(alph),Alph)); #puzzle the conjugators together
 				Add(Conj_act,action_path[i]);
 				Add(Conj_Tran,Conj_elm);
 			od;
@@ -551,7 +551,7 @@ BindGlobal("CONJUGATORS_BOUNDED_WRAPPER@",function(v,Graph,Seen,readwrite_path,K
 			conj_cand[x] := [];
 		od;
 		conjugators_found := [];
-	
+
 		for son in sons do
 			NewSeen := ShallowCopy(Seen);
 			Add(NewSeen,v);
@@ -561,7 +561,7 @@ BindGlobal("CONJUGATORS_BOUNDED_WRAPPER@",function(v,Graph,Seen,readwrite_path,K
 			Add(New_write_path,son[2]^action);
 			New_action_path := ShallowCopy(action_path);
 			Add(New_action_path,action);
-				
+
 			son_conjs := CONJUGATORS_BOUNDED_REK(son[1],Graph,NewSeen,[New_read_path,New_write_path,New_action_path],Known_vertex_conjugator);
 			for son_conj in son_conjs do
 			son_orbit_size := Size(Orbit(Group(a),son[2]));
@@ -573,8 +573,8 @@ BindGlobal("CONJUGATORS_BOUNDED_WRAPPER@",function(v,Graph,Seen,readwrite_path,K
 		od;
 		#Test if we have enough partial conjugators
 		if IsDenseList(conjugators_found) and Size(conjugators_found) = Size(Alph) then
-			#puzzle them together!	
-			Conjs := DEP_CARTESIAN@(conj_cand,Orbits(Group(a),Alph));
+			#puzzle them together!
+			Conjs := Fr.DEP_CARTESIAN(conj_cand,Orbits(Group(a),Alph));
 			for con in Conjs do
 				Add(real_conjugators,FRElement([con],[action],[1]));
 			od;
@@ -593,16 +593,16 @@ end);
 InstallMethod(IsConjugate,
 	"For Aut, RAut, FAut, Poly-1, Poly0",
 	#The attribute FullSCVertex charakterizes all FullSCGroups
-	[ IsFRGroup and HasFullSCVertex,IsFRElement,IsFRElement], 
+	[ IsFRGroup and HasFullSCVertex,IsFRElement,IsFRElement],
   function(G,a,b)
   	local v, Graph, sons, starts;
   	if AlphabetOfFRSemigroup(G) <> AlphabetOfFRObject(a) or AlphabetOfFRSemigroup(G) <> AlphabetOfFRObject(b) then
   		return false;
   	fi;
   	if a = b then #Spare Computing Time in trivial case.
-  	 return true; 
-  	fi; 
-  	Graph := CONJUGATOR_GRAPH@(a,b);
+  	 return true;
+  	fi;
+  	Graph := Fr.CONJUGATOR_GRAPH(a,b);
   	if FullSCFilter(G) = IsFRElement or FullSCFilter(G) = IsFiniteStateFRElement then
 		#In this cases the conjugacy problems are equivalent,
 		#----------------------FiniteState-----------------;
@@ -622,13 +622,13 @@ InstallMethod(IsConjugate,
 				fi;
 			od;
 			for v in starts do;
-				if Size(CONJUGATORS_FINITARY_WRAPPER@(v,Graph,[],[]))>0 then
+				if Size(Fr.CONJUGATORS_FINITARY_WRAPPER(v,Graph,[],[]))>0 then
 					return true;
 				fi;
 			od;
-			return false;	
+			return false;
 		elif FullSCFilter(G) = IsBoundedFRElement then
-		#----------------------Bounded---------------------;		
+		#----------------------Bounded---------------------;
 			starts := [];
 			for v in Graph[1] do
 				if v.conj_pair = [a,b] then
@@ -636,13 +636,13 @@ InstallMethod(IsConjugate,
 				fi;
 			od;
 			for v in starts do
-				if Size(CONJUGATORS_BOUNDED_WRAPPER@(v,Graph,[],[[],[],[]],[]))>0 then
+				if Size(Fr.CONJUGATORS_BOUNDED_WRAPPER(v,Graph,[],[[],[],[]],[]))>0 then
 					return true;
 				fi;
 			od;
 			return false;
 		else
-		#----------------------Else------------------------;	
+		#----------------------Else------------------------;
 			TryNextMethod();
 		fi;
   end
@@ -651,16 +651,16 @@ InstallMethod(IsConjugate,
 InstallOtherMethod(RepresentativeActionOp,
 	"Computes a conjugator in the given FullSCGroup ",
 	#The attribute FullSCVertex charakterizes all FullSCGroups
-	[ IsFRGroup and HasFullSCVertex,IsFRElement,IsFRElement], 
+	[ IsFRGroup and HasFullSCVertex,IsFRElement,IsFRElement],
 	function(G,a,b)
   	local CG, v, start, Conjugators;
   	if AlphabetOfFRSemigroup(G) <> AlphabetOfFRObject(a) or AlphabetOfFRSemigroup(G) <> AlphabetOfFRObject(b) then
   		return fail;
   	fi;
   	if a=b then
-  	 return One(G); 
+  	 return One(G);
   	fi;
-  	CG := CONJUGATOR_GRAPH@(a,b);
+  	CG := Fr.CONJUGATOR_GRAPH(a,b);
   	if FullSCFilter(G) = IsFRElement or FullSCFilter(G) = IsFiniteStateFRElement then
 		#In this cases the conjugacy problems are equivalent,
 		#----------------------FiniteState-----------------;
@@ -674,7 +674,7 @@ InstallOtherMethod(RepresentativeActionOp,
 			if not IsBound(start) then
 				return fail;
 			fi;
-			return CONJUGATORS_FINITE_STATE_WRAPPER@(start,CG);
+			return Fr.CONJUGATORS_FINITE_STATE_WRAPPER(start,CG);
 		elif FullSCFilter(G) = IsFinitaryFRElement then
 		#----------------------Finitary--------------------;
 			start := [];
@@ -684,14 +684,14 @@ InstallOtherMethod(RepresentativeActionOp,
 				fi;
 			od;
 			for v in start do
-				Conjugators :=CONJUGATORS_FINITARY_WRAPPER@(v,CG,[],[]);
+				Conjugators :=Fr.CONJUGATORS_FINITARY_WRAPPER(v,CG,[],[]);
 				if Size(Conjugators)>0 then
 					return Conjugators[1];
 				fi;
 			od;
-			return fail;		
+			return fail;
 		elif FullSCFilter(G) = IsBoundedFRElement then
-		#----------------------Bounded---------------------;		
+		#----------------------Bounded---------------------;
 			start := [];
 			for v in CG[1] do
 				if v.conj_pair = [a,b] then
@@ -699,14 +699,14 @@ InstallOtherMethod(RepresentativeActionOp,
 				fi;
 			od;
 			for v in start do
-				Conjugators :=CONJUGATORS_BOUNDED_WRAPPER@(v,CG,[],[[],[],[]],[]);
+				Conjugators :=Fr.CONJUGATORS_BOUNDED_WRAPPER(v,CG,[],[[],[],[]],[]);
 				if Size(Conjugators)>0 then
 					return Conjugators[1];
 				fi;
 			od;
 			return fail;
 		else
-		#----------------------Else------------------------;	
+		#----------------------Else------------------------;
 			TryNextMethod();
 		fi;
   end);
@@ -717,34 +717,34 @@ InstallOtherMethod(RepresentativeActionOp,
 ###############  Algorithm for branch groups  ##################*
 ###############                               ##################*
 ################################################################*
-################################################################* 
+################################################################*
 #****************************************************************
 
 
 #---------------------------------------------------------------
 #------      InitConjugateForBranchGroups      -----------------
 #--   Sets the Precomputed initial data for the branch			 ---
-#--  Algorithm. Stores this data for later computations.     ---  	
+#--  Algorithm. Stores this data for later computations.     ---
 #---------------------------------------------------------------
 
 InstallMethod(FRBranchGroupConjugacyData,
-	[ IsFRGroup ],	
+	[ IsFRGroup ],
 	 function(G)
 	 	local init, N, g, h, b, CT, c, i;
 	 	Info(InfoFR, 1, "Init FRBranchGroupConjugacyData");
 		init := rec(initial_conj_dic:=NewDictionary([One(G),One(G)],true),
 								Branchstructure:=BranchStructure(G),
 								RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentativeNC(~.Branchstructure.quo,x)));
-		N := TORSIONNUCLEUS@(G);
+		N := Fr.TORSIONNUCLEUS(G);
 		if N = fail then return fail;fi;
-		SEARCH@.INIT(G);
+		Fr.SEARCH.INIT(G);
 		for g in N do
 			for h in N do
 				#Find one conjugator b
-				repeat 
-				 	b := SEARCH@.CONJUGATE(G,g,h);
-				 	while b=fail and SEARCH@.EXTEND(G)=fail do
-            SEARCH@.ERROR(G,"RepresentativeAction");
+				repeat
+				 	b := Fr.SEARCH.CONJUGATE(G,g,h);
+				 	while b=fail and Fr.SEARCH.EXTEND(G)=fail do
+            Fr.SEARCH.ERROR(G,"RepresentativeAction");
         	od;
         	Info(InfoFR, 3, "RepresentativeAction: searching at level ",G!.FRData.level," and in sphere of radius ",G!.FRData.radius);
         until b<>fail;
@@ -753,9 +753,9 @@ InstallMethod(FRBranchGroupConjugacyData,
 		    	i := 1;
 		    	for c in init.Branchstructure.group do
 		    		repeat
-        			b := SEARCH@.CONJUGATE_COSET(G,c,g,h);
-				    	while b=fail and SEARCH@.EXTEND(G)=fail do
-				        SEARCH@.ERROR(G,"RepresentativeAction");
+        			b := Fr.SEARCH.CONJUGATE_COSET(G,c,g,h);
+				    	while b=fail and Fr.SEARCH.EXTEND(G)=fail do
+				        Fr.SEARCH.ERROR(G,"RepresentativeAction");
 				    	od;
 				    until b<>fail;
 				    if b <> false then
@@ -776,8 +776,8 @@ InstallMethod(FRBranchGroupConjugacyData,
 #`````````````````````   Branch Worker  `````````````````````````#
 #`````````````````````                  `````````````````````````#
 #````````````````````````````````````````````````````````````````#
-##################################################################	
-BindGlobal("CONJUGATORS_BRANCH@",function(G,g,h)
+##################################################################
+Fr.CONJUGATORS_BRANCH := (function(G,g,h)
 	local CP_init, Start, B, BS, Con_dic, saved_quo, quo, Alph, Conjugators_branch_rek,l,k,rek_count;
 	CP_init := FRBranchGroupConjugacyData(G);
 	if CP_init = fail then
@@ -810,7 +810,7 @@ BindGlobal("CONJUGATORS_BRANCH@",function(G,g,h)
 		fi;
 		if not HasName(h) then
 			SetName(h,Concatenation("h_",String(rek_count)));
-		fi; 
+		fi;
 		rek_count := rek_count +1;
 		Info(InfoFR,3,"Computing g,h=",Name(g),",",Name(h),"");
 		if IsOne(g) or IsOne(h) then
@@ -830,7 +830,7 @@ BindGlobal("CONJUGATORS_BRANCH@",function(G,g,h)
 		orb_repr := List(orbits,Minimum);
 		CT := []; # Resulting Conjugator Tuple
 		Info(InfoFR,3,"Computing g,h=",Name(g),",",Name(h),"     Orbit: ",orbits);
-		for p in LEVEL_PERM_CONJ@(g,h,BS.top) do
+		for p in Fr.LEVEL_PERM_CONJ(g,h,BS.top) do
 			Info(InfoFR,3,"Computing g,h=",Name(g),",",Name(h),"     Try a conjugator with activity ",p);
 			L := [];
 			L_Pos := []; #Stores the position at which the conjugator tuples are defined.
@@ -850,27 +850,27 @@ BindGlobal("CONJUGATORS_BRANCH@",function(G,g,h)
 							L_PosC[k] := k;
 						fi;
 					od;
-					L[orb_repr[i]^(g^j)]:=LC ; 
-					L_Pos[orb_repr[i]^(g^j)]:=L_PosC;	
+					L[orb_repr[i]^(g^j)]:=LC ;
+					L_Pos[orb_repr[i]^(g^j)]:=L_PosC;
 				od;
 				Add(dep,orbits[i]);
-			od; 
+			od;
 			if Size(L)>0 then
-				Con := DEP_CARTESIAN@(L,dep);
-				Pos_Con := DEP_CARTESIAN@(L_Pos,dep);
+				Con := Fr.DEP_CARTESIAN(L,dep);
+				Pos_Con := Fr.DEP_CARTESIAN(L_Pos,dep);
 				for i in [1..Size(Con)] do #Now possable Conjugators.
 					c:= Product([1..Size(Pos_Con[i])],x->(quo(Con[i][x][1])*B[Pos_Con[i][x]]*quo(Con[i][x][3]))^Embedding(BS.wreath,x));
-					c:= (c*p^Embedding(BS.wreath,Size(Alph)+1))^BS.epi;;	
+					c:= (c*p^Embedding(BS.wreath,Size(Alph)+1))^BS.epi;;
 					if c <> fail then #Con is a valid element with representative c;
 						Info(InfoFR,3,"Computing g,h=",Name(g),",",Name(h),"     Conjugator found. Add to conjugator tuple ");
-						CT[Position(B,c)] := MEALY_FROM_STATES@(Con[i],p);
+						CT[Position(B,c)] := Fr.MEALY_FROM_STATES(Con[i],p);
 						#CT[Position(B,c)] := FRElement([Con[i]],[p],[1]);
 					fi;
-				od;	
+				od;
 			fi;
 		od;
 		AddDictionary(Con_dic,[g,h],CT); #Save work in case is it again asked for a CT for (g,h).
-		return CT;				
+		return CT;
 	end;
 	return Conjugators_branch_rek(g,h);
 end);
@@ -883,12 +883,12 @@ end);
 ##################################################################
 InstallOtherMethod(RepresentativeActionOp,
 	"Computes a conjugator in the given Branch group ",
-	[ IsBranched and IsFinitelyGeneratedGroup,IsFRElement,IsFRElement,IsFunction], 
+	[ IsBranched and IsFinitelyGeneratedGroup,IsFRElement,IsFRElement,IsFunction],
 	function(G,g,h,f)
 		local con;
 		if f <> OnPoints then TryNextMethod(); fi;
 		Info(InfoFR,2,"Try method for branch groups.");
-		con := CONJUGATORS_BRANCH@(G,g,h);
+		con := Fr.CONJUGATORS_BRANCH(G,g,h);
 		if con <> fail then
 			if Size(con)>0 then
 				return Representative(con);
@@ -900,11 +900,11 @@ InstallOtherMethod(RepresentativeActionOp,
 		end);
 InstallMethod(IsConjugate,
 	"For Branch Groups",
-	[ IsBranched and IsFinitelyGeneratedGroup,IsFRElement,IsFRElement], 
+	[ IsBranched and IsFinitelyGeneratedGroup,IsFRElement,IsFRElement],
   function(G,g,h)
   	local con;
 		Info(InfoFR,2,"Try method for branch groups.");
-  	con := CONJUGATORS_BRANCH@(G,g,h);
+  	con := Fr.CONJUGATORS_BRANCH(G,g,h);
 		if con <> fail then
 			if Size(con)>0 then
 				return true;
@@ -913,7 +913,7 @@ InstallMethod(IsConjugate,
 		fi;
 		Info(InfoFR,2,"Doesn't work. Try next...");
 		TryNextMethod();
-		end);	
+		end);
 
 
 #############################Example##############################
@@ -924,7 +924,7 @@ InstallMethod(IsConjugate,
 #				Branchstructure:=BranchStructure(GrigorchukGroup),
 #				RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentativeNC(~.Branchstructure.quo,x)))
 #	 );
-#CallFuncList(function(a,b,c,d) 
+#CallFuncList(function(a,b,c,d)
 #							local G,D,g,h;
 #							G:= GrigorchukGroup;
 #							D:= FRBranchGroupConjugacyData(G).initial_conj_dic;
@@ -941,13 +941,13 @@ InstallMethod(IsConjugate,
 #							AddDictionary(D,[d,d],[One(G),,,a*d*a*d,b,,,b*a*d*a*d,c,,,b*a*d*a,d,,,a*d*a]);
 #						end,GeneratorsOfGroup(GrigorchukGroup)
 #		);
-		
+
 #SetFRBranchGroupConjugacyData(GuptaSidkiGroup,
 #	 rec(	initial_conj_dic:=NewDictionary([One(GuptaSidkiGroup),One(GuptaSidkiGroup)],true),
 #				Branchstructure:=BranchStructure(GuptaSidkiGroup),
 #				RepSystem:=List(~.Branchstructure.group,x->PreImagesRepresentativeNC(~.Branchstructure.quo,x)))
 #	 );
-#CallFuncList(function(a,t) 
+#CallFuncList(function(a,t)
 #							local G,D,g,h;
 #							G:= GuptaSidkiGroup;
 #							D:= FRBranchGroupConjugacyData(G).initial_conj_dic;
@@ -971,31 +971,31 @@ InstallMethod(IsConjugate,
 ###############     Algorithm for the         ##################*
 ###############       GrigorchukGroup         ##################*
 ################################################################*
-################################################################* 
+################################################################*
 #****************************************************************
-BindGlobal("GRIG_CON@",function(G,g,h)
+Fr.GRIG_CON := (function(G,g,h)
 local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_repr, K_repr_words, D, ConTup_a, Check, alternating_a_form, shorten_word, compute_conjugates, compute_conjugates_of_word, L_Decomp, Compute_K_rep, L_word_to_Grig, Merge_Ls, conjugators_grig_rek, Res, r, Join_to_first;
 
 ############   Spare Computing Time in trivial case.     #########
  	if AlphabetOfFRSemigroup(G) <> AlphabetOfFRObject(g) or AlphabetOfFRSemigroup(G) <> AlphabetOfFRObject(h) then
 		return fail;
 	fi;
-	if g = h then 
-	 return One(G); 
-	fi;	
+	if g = h then
+	 return One(G);
+	fi;
 ############       (Local) GLOBALS           #####################
 	f := EpimorphismFromFreeGroup(G);
 	gw:=PreImagesRepresentativeNC(f,g);
 	hw:=PreImagesRepresentativeNC(f,h);
-	
+
 	Gen := GeneratorsOfGroup(G);
-	a:= Position(Gen,MealyElement([[4,2],[4,3],[5,1],[5,5],[5,5]],[(),(),(),(1,2),()],4));	
-	b:= Position(Gen,MealyElement([[4,2],[4,3],[5,1],[5,5],[5,5]],[(),(),(),(1,2),()],1));	
-	c:= Position(Gen,MealyElement([[4,2],[4,3],[5,1],[5,5],[5,5]],[(),(),(),(1,2),()],2));	
-	d:= Position(Gen,MealyElement([[4,2],[4,3],[5,1],[5,5],[5,5]],[(),(),(),(1,2),()],3));	
-	Fam := FamilyObj(gw);		
+	a:= Position(Gen,MealyElement([[4,2],[4,3],[5,1],[5,5],[5,5]],[(),(),(),(1,2),()],4));
+	b:= Position(Gen,MealyElement([[4,2],[4,3],[5,1],[5,5],[5,5]],[(),(),(),(1,2),()],1));
+	c:= Position(Gen,MealyElement([[4,2],[4,3],[5,1],[5,5],[5,5]],[(),(),(),(1,2),()],2));
+	d:= Position(Gen,MealyElement([[4,2],[4,3],[5,1],[5,5],[5,5]],[(),(),(),(1,2),()],3));
+	Fam := FamilyObj(gw);
 ##################################################################
-	aw :=AssocWordByLetterRep(Fam,[a]);  
+	aw :=AssocWordByLetterRep(Fam,[a]);
 	dw :=AssocWordByLetterRep(Fam,[d]);
 	ae := ImageElm(f,AssocWordByLetterRep(Fam,[a]));
 	be := ImageElm(f,AssocWordByLetterRep(Fam,[b]));
@@ -1009,13 +1009,13 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 #[[],a,ad,ada,adad,adada,adadada,adadada,b,ba,bad,bada,badad,badada,badadad,badadada]
 	K_repr := [[],[a],[a,d],[a,d,a],[a,d,a,d],[a,d,a,d,a],[a,d,a,d,a,d],[a,d,a,d,a,d,a],[b],[b,a],[b,a,d],[b,a,d,a],[b,a,d,a,d],[b,a,d,a,d,a],[b,a,d,a,d,a,d],[b,a,d,a,d,a,d,a]];
 	K_repr_words := List(K_repr,x->AssocWordByLetterRep(Fam,x));
-	
+
 	#Precomputed words, which decompose to the K_repr.: <K_repr[i]·l,f(K_repr[i])·l'> = D[i]·<l,l'>
 	D:= List([[],[c],[c,a,c,a],[c,a,c,a,c],[c,a,c,a,c,a,c,a],[c,a,c,a,c,a,c,a,c],[c,a,c,a,c,a,c,a,c,a,c,a],[c,a,c,a,c,a,c,a,c,a,c,a,c],[a,d,a],[a,d,a,c],[a,d,a,c,a,c,a],[a,d,a,c,a,c,a,c],[a,d,a,c,a,c,a,c,a,c,a],[a,d,a,c,a,c,a,c,a,c,a,c],[a,d,a,c,a,c,a,c,a,c,a,c,a,c,a],[a,d,a,c,a,c,a,c,a,c,a,c,a,c,a,c]],x->AssocWordByLetterRep(Fam,x));
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 # %%%%%%%%%%%%%%%%%%        Functions       %%%%%%%%%%%%%%%%%%%%%%%
-# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
-	
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 	#TeporaryDebug function to locate possable errors.
 	Check := function(s,g,h,C)
 		local c;
@@ -1030,10 +1030,10 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 		fi;
 		return true;
 	end;
-	
+
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 # %%%%%%%%%%%%%%%%%%%%     Magic on words     %%%%%%%%%%%%%%%%%%%%%
-# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	#Given a word w in Generators of Grig, computes the form w= (a) x1 a x2 a x3… where xi in b,c,d
 	alternating_a_form := function(w)
@@ -1052,7 +1052,7 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 						last:=5;
 						last_ind:=-1;
 						change:= true;
-					else 
+					else
 						L := [b,c,d];
 						if (not last in [a,5]) and red_L[i] in L then
 							Remove(L,Position(L,last));
@@ -1066,7 +1066,7 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 							last_ind:=i;
 						fi;
 					fi;
-				fi;	
+				fi;
 			od;
 		od;
 		#Fill the gaps
@@ -1079,7 +1079,7 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 #-----------------------------------------------------------------
 
 	#Shortens a given Letter-word over Generators of L by killing all instances of x,-x and 1,1 and 2,2, -1,-1,-2,-2
-	shorten_word := function(w) 
+	shorten_word := function(w)
 		local change, last_pos, l, new_w;
 		change := true;
 		last_pos := Size(w)+1;
@@ -1087,7 +1087,7 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 		while change do
 			last_pos := Size(w);
 			change := false;
-			for l in [1..Size(w)-1] do 
+			for l in [1..Size(w)-1] do
 				if IsBound(w[l]) then
 					if w[l] = -1*(w[last_pos]) or (w[l]= w[last_pos] and w[l] in [-2,-1,1,2]) then
 						change := true;
@@ -1101,14 +1101,14 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 			od;
 		od;
 		new_w:=[];
-		for l in w do		
+		for l in w do
 			Add(new_w,l);
 		od;
 		return new_w{[1..Size(new_w)-1]};
 	end;
 #-----------------------------------------------------------------
 	#Given a generator gen of L and a Letter-word w in Grig, computes the gen^w in generators of L
-	compute_conjugates := function(gen,w) 
+	compute_conjugates := function(gen,w)
 		local gen_conjugates, Gen, x, g, L;
 		#Precomputed list gen_conjugates[x][y] is x^y as word in L_gen
 		#where L_gen = [[b],[a,b,a],[b,a,d,a,b,a,d,a],[a,b,a,d,a,b,a,d]];
@@ -1119,25 +1119,25 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 		gen_conjugates[1][b] := [1];
 		gen_conjugates[1][c] := [1];
 		gen_conjugates[1][d] := [1];
-		
+
 		gen_conjugates[2]  := [];
 		gen_conjugates[2][a] := [1];
 		gen_conjugates[2][b] := [1,2,1];
 		gen_conjugates[2][c] := [1,-4,2,1];
 		gen_conjugates[2][d] := [-4,2];
-		
+
 		gen_conjugates[3]  := [];
 		gen_conjugates[3][a] := [4];
 		gen_conjugates[3][b] := [1,3,1];
 		gen_conjugates[3][c] := [-3];
 		gen_conjugates[3][d] := [1,-3,1];
-		
+
 		gen_conjugates[4]  := [];
 		gen_conjugates[4][a] := [3];
 		gen_conjugates[4][b] := [1,4,1];
 		gen_conjugates[4][c] := [1,-4,1];
 		gen_conjugates[4][d] := [-4];
-		
+
 		#gen_conjugates := [[[1],[1],[1],[2]],
 		#										[[1,2,1],[1,-4,2,1],[-4,2],[1]],
 		#										[[1,3,1],[-3],[1,-3,1],[4]],
@@ -1148,7 +1148,7 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 			for g in Gen do
 				if g<0 then
 					Append(L,List(Reversed(gen_conjugates[-1*g][x]),y->-1*y));
-				else 
+				else
 					Append(L,gen_conjugates[g][x]);
 				fi;
 			od;
@@ -1168,7 +1168,7 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 	end;
 #-----------------------------------------------------------------
 	#Given a word w in Generators of Grig computes a unique representative of w·L and the corresponding word in Letters
-	#of generators of L. 
+	#of generators of L.
 	#The resulting representative is an element of K_repr_words{[1..8]}
 	L_Decomp := function(w)
 		local l_elm,l_elm_compl,k,l,i,L,red_L,new_L,change,gen_conjugates;
@@ -1188,7 +1188,7 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 					change := true;
 					Add(l_elm,Reversed(new_L));
 					Add(new_L,d);
-				else 
+				else
 					Add(new_L,red_L[i]);
 				fi;
 			od;
@@ -1200,7 +1200,7 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 			Append(l_elm_compl,compute_conjugates(1,l));
 		od;
 		#Force the form unique beginning with a.
-		if Length(w)>7 then 
+		if Length(w)>7 then
 			w:=Subword(w,1,Length(w) mod 8);
 		fi;
 		if Length(w)>0 and Subword(w,1,1) = AssocWordByLetterRep(Fam,[d]) then
@@ -1227,7 +1227,7 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 				elif l = c then
 					nb := nb +1;
 					Add(new_L,d);
-				else 
+				else
 					Add(new_L,l);
 				fi;
 			od;
@@ -1235,15 +1235,15 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 			if IsOddInt(nb) then
 				w := AssocWordByLetterRep(Fam,[b])*w;
 				b_exist := true;
-			else 
+			else
 				b_exist := false;
 			fi;
 		od;
-		#Force the word to begin with a (after the possable b) to gain a unique form.	
+		#Force the word to begin with a (after the possable b) to gain a unique form.
 		if b_exist then
 			w := Subword(w,2,Length(w));
 		fi;
-		if Length(w)>7 then 
+		if Length(w)>7 then
 			w:=Subword(w,1,Length(w) mod 8);
 		fi;
 		if Length(w)>0 and Subword(w,1,1) = AssocWordByLetterRep(Fam,[d]) then
@@ -1273,8 +1273,8 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 # %%%%%%%%%%%%%%%%%   Helping Functions    %%%%%%%%%%%%%%%%%%%%%%%%
-# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
-	#Computes the conjugator tuple for the pair (g,a): 
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	#Computes the conjugator tuple for the pair (g,a):
 	ConTup_a := function (g)
 		local g1_modL,l,Allowed_reps,Connected_conjs,con_at_1,con_word,con,Centr_a,Con_tuple;
 		if IsOne(Activity(g)) then
@@ -1284,7 +1284,7 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 			return [];
 		fi;
 		#L_gen := [[b],[a,b,a],[b,a,d,a,b,a,d,a],[a,b,a,d,a,b,a,d]];
-		g1_modL:=L_Decomp(PreImagesRepresentativeNC(f,State(g,1))); 
+		g1_modL:=L_Decomp(PreImagesRepresentativeNC(f,State(g,1)));
 		l:=g1_modL[2];
 		g1_modL:=LetterRepAssocWord(g1_modL[1]);
 		#See Lemma lem:conjugators_of_a for Details
@@ -1306,13 +1306,13 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 		Con_tuple:= [];
 		for con in Centr_a do
 			Con_tuple[Position(K_repr,LetterRepAssocWord(Compute_K_rep(con)))] := ImageElm(f,con);
-		od;	
+		od;
 		Check("ConTup_a",g,ae,Con_tuple);
 		return Con_tuple;
-	end;	
+	end;
 	#Finds all Elements <l1,l2> with <l1,l2> in Grig, for l1 in L1, l2 in L2 and return result as Conjugator tuple.
 	Merge_Ls := function(L1,L2,with_action)
-		local aw_w,aw_t,dw_w,res_Con,i,x;	
+		local aw_w,aw_t,dw_w,res_Con,i,x;
 		aw_w := One(aw);
 		aw_t := ();
 		dw_w := One(dw);
@@ -1339,7 +1339,7 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 						if L1[i]=ImageElm(f,K_repr_words[i]) and L2[x]=ImageElm(f,K_repr_words[x]) then
 							res_Con[Position(K_repr_words,Compute_K_rep(dw_w*D[i]*aw_w))] := ImageElm(f,dw_w*D[i]*aw_w);
 						else #Could always compute the words as generators, but seems uneccassary
-							res_Con[Position(K_repr_words,Compute_K_rep(dw_w*D[i]*aw_w))] := MEALY_FROM_STATES@([L1[i],L2[x]],aw_t);
+							res_Con[Position(K_repr_words,Compute_K_rep(dw_w*D[i]*aw_w))] := Fr.MEALY_FROM_STATES([L1[i],L2[x]],aw_t);
 						fi;
 					fi;
 				od;
@@ -1355,7 +1355,7 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 				L[i] := K[i];
 			fi;
 		od;
-	end;		
+	end;
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 # %%%%%%%%%%%%%%%%%%     Main Computor      %%%%%%%%%%%%%%%%%%%%%%%
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1399,7 +1399,7 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 			if Size(L1) > 0 then
 				L2 := conjugators_grig_rek(State(g,x_2),State(h,x_2));
 				res_Con := Merge_Ls(L1,L2,false);
-			fi;		
+			fi;
 
 			#Test for Conjugator with non-trivial Activity
 			L1 := conjugators_grig_rek(State(g,x_1),State(h,x_2));
@@ -1420,7 +1420,7 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 			if Size(L1) > 0 then
 				L2 := conjugators_grig_rek(State(g,x_2),State(h,x_2));
 				res_Con := Merge_Ls(L1,L2,false);
-			fi;	
+			fi;
 			#Test for Conjugator with non-trivial Activity
 			L1 := conjugators_grig_rek(State(g,x_1),State(h,x_2));
 			L2 := conjugators_grig_rek(State(g,x_2),State(h,x_1));
@@ -1468,7 +1468,7 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 			return res_Con;
 		fi;
 	end;
-	
+
 	Res:= conjugators_grig_rek(g,h);
 	Info(InfoFR,3,"Result of recursive computation: ",Res,"\n");
 	if Size(Res) = 0 then
@@ -1476,28 +1476,26 @@ local f,gw,hw,Gen,a, b, c, d, Fam, aw, dw, ae, be, ce, de, Alph, x_1, x_2, K_rep
 	fi;
 	return Representative(Res);
 end);
-SetFRConjugacyAlgorithm(GrigorchukGroup,GRIG_CON@);
+SetFRConjugacyAlgorithm(GrigorchukGroup,Fr.GRIG_CON);
 #################################################################
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
 # %%%%%%%%%%%%%%%%%%%%      IsConjugate        %%%%%%%%%%%%%%%%%%#
 # %%%%%%%%%%%%%%%%%%%%	 RepresentativeActionOp %%%%%%%%%%%%%%%%%%#
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
-#################################################################	
+#################################################################
 InstallMethod(IsConjugate,
 	" For FR groups with optimized conjugacy algorithm ",
-	[ IsFRGroup and HasFRConjugacyAlgorithm,IsFRElement,IsFRElement], 
+	[ IsFRGroup and HasFRConjugacyAlgorithm,IsFRElement,IsFRElement],
   function(G,a,b)
   	return FRConjugacyAlgorithm(G)(G,a,b) <> fail;
  	end);
 InstallOtherMethod(RepresentativeActionOp,
  " For FR groups with optimized conjugacy algorithm ",
-	[ IsFRGroup and HasFRConjugacyAlgorithm,IsFRElement,IsFRElement,IsFunction], 
+	[ IsFRGroup and HasFRConjugacyAlgorithm,IsFRElement,IsFRElement,IsFunction],
   function(G,a,b,f)
   	if f <> OnPoints then TryNextMethod(); fi;
   	return FRConjugacyAlgorithm(G)(G,a,b);
  	end);
- 	
-  
 
 
 
@@ -1513,11 +1511,13 @@ InstallOtherMethod(RepresentativeActionOp,
 
 
 
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
 
 
 

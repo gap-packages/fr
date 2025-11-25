@@ -73,13 +73,13 @@ end);
 InstallMethod(SCAlgebra, "(FR) for a linear machine",
         [IsLinearFRMachine], SCAlgebraNC);
 
-BindGlobal("SCALGEBRAWITHONE@", function(M)
+Fr.SCALGEBRAWITHONE := ( function(M)
     local a;
     a := Objectify(NewType(CollectionsFamily(FREFamily(M)),
                  IsFRAlgebraWithOne and IsAttributeStoringRep),
                  rec());
     SetLeftActingDomain(a,LeftActingDomain(M));
-    SetCorrespondence(a,List(GeneratorsOfFRMachine(M),x->FRElement(M,x)));    
+    SetCorrespondence(a,List(GeneratorsOfFRMachine(M),x->FRElement(M,x)));
     SetUnderlyingFRMachine(a,M);
     if IsVectorFRMachineRep(M) then
         SetFilterObj(a,IsVectorFRElementSpace);
@@ -87,12 +87,12 @@ BindGlobal("SCALGEBRAWITHONE@", function(M)
     SetFilterObj(a,IsLinearFRElementSpace);
     return a;
 end);
-        
+
 InstallMethod(SCAlgebraWithOneNC, "(FR) for a linear machine",
         [IsLinearFRMachine],
         function(M)
     local a;
-    a := SCALGEBRAWITHONE@(M);
+    a := Fr.SCALGEBRAWITHONE(M);
     SetGeneratorsOfLeftOperatorRingWithOne(a,Correspondence(a));
     return a;
 end);
@@ -101,7 +101,7 @@ InstallMethod(SCAlgebraWithOne, "(FR) for a linear machine",
         [IsLinearFRMachine],
         function(M)
     local a, g, p;
-    a := SCALGEBRAWITHONE@(M);
+    a := Fr.SCALGEBRAWITHONE(M);
     g := DuplicateFreeList(Correspondence(a));
     if Length(g)>=1 then
         p := Position(g,One(g[1]));
@@ -115,11 +115,11 @@ InstallMethod(SCLieAlgebra, "(FR) for a linear machine",
         [IsLinearFRMachine],
         function(M)
     local a;
-    a := Objectify(NewType(CollectionsFamily(FRJFAMILY@(M)),
+    a := Objectify(NewType(CollectionsFamily(Fr.FRJFAMILY(M)),
                  IsFRAlgebra and IsAttributeStoringRep),
                  rec());
     SetLeftActingDomain(a,LeftActingDomain(M));
-    SetGeneratorsOfLeftOperatorRing(a,List(GeneratorsOfFRMachine(M),x->FRElement(M,x,IsJacobianElement)));    
+    SetGeneratorsOfLeftOperatorRing(a,List(GeneratorsOfFRMachine(M),x->FRElement(M,x,IsJacobianElement)));
     SetUnderlyingFRMachine(a,M);
     if IsVectorFRMachineRep(M) then
         SetFilterObj(a,IsVectorFRElementSpace);
@@ -134,7 +134,7 @@ end);
 #F FRAlgebra
 #F FRAlgebraWithOne
 ##
-BindGlobal("TOTALDEGREE@", function(x)
+Fr.TOTALDEGREE := ( function(x)
     local d, i;
     d := -1;
     x := ExtRepOfObj(x)[2];
@@ -144,7 +144,7 @@ BindGlobal("TOTALDEGREE@", function(x)
     return d;
 end);
 
-BindGlobal("STRINGSTOLMACHINE@", function(r,args,creator)
+Fr.STRINGSTOLMACHINE := ( function(r,args,creator)
     local temp, i, j, gens, transitions, output, data;
 
     if not IsRing(r) or not ForAll(args,IsString) then
@@ -165,11 +165,11 @@ BindGlobal("STRINGSTOLMACHINE@", function(r,args,creator)
     for temp in List(temp,x->x[2]) do
         temp := SplitString(temp,":");
         if Length(temp)=2 then
-            Add(output,STRING_ATOM2GAP@(temp[2])*One(r));
+            Add(output,Fr.STRING_ATOM2GAP(temp[2])*One(r));
         else
             Add(output,One(r));
         fi;
-        temp := STRING_WORD2GAP@(gens,GeneratorsOfAlgebraWithOne(data.holder),temp[1])*One(data.holder);
+        temp := Fr.STRING_WORD2GAP(gens,GeneratorsOfAlgebraWithOne(data.holder),temp[1])*One(data.holder);
         if not IsMatrix(temp) then
             Error("<arg> should have the form a=[[...]...]\n");
         fi;
@@ -178,7 +178,7 @@ BindGlobal("STRINGSTOLMACHINE@", function(r,args,creator)
 
     i := AlgebraMachine(r,data.holder,transitions,output);
     if ValueOption("IsVectorElement")=true or
-       (ForAll(Flat(transitions),x->TOTALDEGREE@(x)<=1) and ValueOption("IsAlgebraElement")<>true) then
+       (ForAll(Flat(transitions),x->Fr.TOTALDEGREE(x)<=1) and ValueOption("IsAlgebraElement")<>true) then
         i := AsVectorMachine(i);
         i := List(Correspondence(i),x->FRElement(i,x));
         for temp in [1..Length(gens)] do
@@ -194,24 +194,24 @@ end);
 
 InstallGlobalFunction(FRAlgebra,
         function(arg)
-    return STRINGSTOLMACHINE@(arg[1],arg{[2..Length(arg)]},Algebra);
+    return Fr.STRINGSTOLMACHINE(arg[1],arg{[2..Length(arg)]},Algebra);
 end);
 
 InstallGlobalFunction(FRAlgebraWithOne,
         function(arg)
-    return STRINGSTOLMACHINE@(arg[1],arg{[2..Length(arg)]},AlgebraWithOne);
+    return Fr.STRINGSTOLMACHINE(arg[1],arg{[2..Length(arg)]},AlgebraWithOne);
 end);
 
 InstallMethod(AssignGeneratorVariables, "(FR) for an FR algebra",
         [IsFRAlgebra],
         function(G)
-    ASSIGNGENERATORVARIABLES@(GeneratorsOfAlgebra(G));
+    Fr.ASSIGNGENERATORVARIABLES(GeneratorsOfAlgebra(G));
 end);
 
 InstallMethod(AssignGeneratorVariables, "(FR) for an FR algebra with one",
         [IsFRAlgebraWithOne],
         function(G)
-    ASSIGNGENERATORVARIABLES@(GeneratorsOfAlgebraWithOne(G));
+    Fr.ASSIGNGENERATORVARIABLES(GeneratorsOfAlgebraWithOne(G));
 end);
 ############################################################################
 
@@ -240,7 +240,7 @@ InstallMethod(ThinnedAlgebra, "(FR) for a ring and a FR semigroup",
     return a;
 end);
 
-BindGlobal("THINNEDALGEBRAWITHONE@",
+Fr.THINNEDALGEBRAWITHONE := (
         function(r,G,s)
     local a, g;
     g := List(s,x->AsLinearElement(r,x));
@@ -259,7 +259,7 @@ end);
 InstallMethod(ThinnedAlgebraWithOne, "(FR) for a ring and a FR monoid",
         [IsRing, IsFRMonoid],
         function(r,G)
-    return THINNEDALGEBRAWITHONE@(r,G,GeneratorsOfMonoid(G));
+    return Fr.THINNEDALGEBRAWITHONE(r,G,GeneratorsOfMonoid(G));
 end);
 
 InstallMethod(Embedding, "(FR) for a semigroup and a FR algebra",
@@ -277,7 +277,7 @@ end);
 ##
 #O Nillity
 ##
-BindGlobal("ISNIL_GENERIC@", function(x) # returns false or 2-powers of x till 0
+Fr.ISNIL_GENERIC := ( function(x) # returns false or 2-powers of x till 0
     local powx, rank, oldrank, ring;
 
     powx := [x];
@@ -309,7 +309,7 @@ BindGlobal("ISNIL_GENERIC@", function(x) # returns false or 2-powers of x till 0
     return powx;
 end);
 
-BindGlobal("ISNIL_FR@", function(x)
+Fr.ISNIL_FR := ( function(x)
     # return either a list of non-trivial 2-powers of x, or false
     local powx, deg, testing, found, recur;
 
@@ -319,7 +319,7 @@ BindGlobal("ISNIL_FR@", function(x)
     found := NewDictionary(x,true); # elements for which we found the nillity
     AddDictionary(testing,Zero(x),infinity);
     AddDictionary(found,Zero(x),1);
-    
+
     recur := function(x,mult,level,depth)
         local i, c, d, order;
 
@@ -334,13 +334,13 @@ BindGlobal("ISNIL_FR@", function(x)
         fi;
 
         AddDictionary(testing,x,mult);
-            
+
         # first see if element is triangular
         d := DecompositionOfFRElement(x);
-        
+
         # c are indices of diagonal blocks of size 1
         c := List(Filtered(List(EquivalenceClasses(StronglyConnectedComponents(TransitiveClosureBinaryRelation(BinaryRelationOnPoints(List([1..deg],i->Filtered([1..deg],j->not IsZero(d[i][j]))))))),AsList),x->Length(x)=1),c->c[1]);
-        
+
         order := 1;
         for i in c do
             i := recur(d[i][i],mult,level+1,1);
@@ -350,7 +350,7 @@ BindGlobal("ISNIL_FR@", function(x)
         if IsDiagonalMat(d) then
             return order;
         fi;
-        
+
         # now see if a projection is non-nil
 
         if IsVectorFRMachineRep(x) then
@@ -359,11 +359,11 @@ BindGlobal("ISNIL_FR@", function(x)
             d := LogInt(Length(Flat(ExtRepOfObj(InitialState(x)))),deg)+2;
         fi;
         if d > depth then # work at new depth
-            if ISNIL_GENERIC@(Activity(x,depth))=false then
+            if Fr.ISNIL_GENERIC(Activity(x,depth))=false then
                 return infinity;
             fi;
         fi;
-        
+
         i := recur(x*x,mult+1,level,d);
         AddDictionary(found,x,i);
         return i;
@@ -375,14 +375,14 @@ BindGlobal("ISNIL_FR@", function(x)
     return powx;
 end);
 
-BindGlobal("NILLITY@", function(x,isnil)
+Fr.NILLITY := ( function(x,isnil)
     local powx, pown, n, y;
 
     powx := isnil(x);
 
     if powx=false then return infinity; fi;
 
-    Append(powx,ISNIL_GENERIC@(Remove(powx))); # get all 2-powers of x
+    Append(powx,Fr.ISNIL_GENERIC(Remove(powx))); # get all 2-powers of x
     Remove(powx);
     pown := List([0..Length(powx)-1],i->2^i);
 
@@ -405,36 +405,36 @@ end);
 InstallOtherMethod(Nillity, "(FR) for an associative element",
 #        [IsAssociativeElement and IsMultiplicativeElementWithZero],
         [IsAssociativeElement and IsMultiplicativeElement],
-        x->NILLITY@(x,ISNIL_GENERIC@));
+        x->Fr.NILLITY(x,Fr.ISNIL_GENERIC));
 
 InstallMethod(Nillity, "(FR) for an FR element",
         [IsLinearFRElement],
-        x->NILLITY@(x,ISNIL_FR@));
+        x->Fr.NILLITY(x,Fr.ISNIL_FR));
 
 InstallOtherMethod(IsNilElement, "(FR) for an associative element",
 #        [IsAssociativeElement and IsMultiplicativeElementWithZero], ## removed "WithZero" filter, because GAP doesn't set it for linear elements
         [IsAssociativeElement and IsMultiplicativeElement],
-        x->ISNIL_GENERIC@(x)<>false);
+        x->Fr.ISNIL_GENERIC(x)<>false);
 
 InstallMethod(IsNilElement, "(FR) for an FR element",
         [IsLinearFRElement],
-        x->ISNIL_FR@(x)<>false);
+        x->Fr.ISNIL(x)<>false);
 
 InstallTrueMethod(IsHomogeneousElement,# "(FR) for a vector with degree",
         IsLinearFRElement and HasDegreeOfHomogeneousElement);
 
 InstallMethod(NucleusOfFRAlgebra, "(FR) for a ss algebra",
         [IsFRAlgebra],
-        A->LINEARNUCLEUS@(VectorSpace(LeftActingDomain(A),GeneratorsOfAlgebra(A))));
+        A->Fr.LINEARNUCLEUS(VectorSpace(LeftActingDomain(A),GeneratorsOfAlgebra(A))));
 
 InstallMethod(NucleusOfFRAlgebra, "(FR) for a ss algebra with one",
         [IsFRAlgebraWithOne],
-        A->LINEARNUCLEUS@(VectorSpace(LeftActingDomain(A),GeneratorsOfAlgebraWithOne(A))));
+        A->Fr.LINEARNUCLEUS(VectorSpace(LeftActingDomain(A),GeneratorsOfAlgebraWithOne(A))));
 
 InstallMethod(NucleusMachine, "(FR) for a ss algebra",
         [IsFRAlgebra],
         A->AsVectorMachine(NucleusOfFRAlgebra(A)));
-        
+
 InstallMethod(IsContracting, "(FR) for a ss algebra",
         [IsFRAlgebra],
         function(A)
@@ -486,7 +486,7 @@ end);
 ##
 #M View
 ##
-BindGlobal("VIEWALGEBRA@", function(A)
+Fr.VIEWALGEBRA := ( function(A)
     local n, x, y, s;
     if HasIsJacobianRing(A) and IsJacobianRing(A) then
         x := "Lie ";
@@ -511,11 +511,11 @@ end);
 
 InstallMethod(ViewString, "(FR) for an FR algebra",
         [IsFRAlgebra],
-        VIEWALGEBRA@);
+        Fr.VIEWALGEBRA);
 InstallMethod(ViewString, "(FR) for an FR algebra-with-one",
         [IsFRAlgebraWithOne],
-        VIEWALGEBRA@);
-INSTALLPRINTERS@(IsFRAlgebra);
-INSTALLPRINTERS@(IsFRAlgebraWithOne);
+        Fr.VIEWALGEBRA);
+Fr.INSTALLPRINTERS(IsFRAlgebra);
+Fr.INSTALLPRINTERS(IsFRAlgebraWithOne);
 ############################################################################
 
