@@ -1406,7 +1406,7 @@ gap> Inverse(bacher(3));
     <Package>FR</Package>.
   </Description>
 </ManSection>
-<#Include Label="SEARCH@">
+<#Include Label="Fr.SEARCH">
 </Section>
 
 </Chapter>

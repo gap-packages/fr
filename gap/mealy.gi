@@ -26,7 +26,7 @@ InstallMethod(InitialState, "(FR) for a Mealy machine",
 #O Activity(<MealyElement>[, <Level>])
 #O WreathRecursion(<MealyElement>)
 ##
-BindGlobal("DOMALPHABET@", function(M)
+Fr.DOMALPHABET := ( function(M)
     local a;
     a := AlphabetOfFRObject(M);
     if IsDomain(a) then return a; else return Domain(a); fi;
@@ -53,14 +53,14 @@ end);
 InstallMethod(Output, "(FR) for a Mealy machine",
         [IsMealyMachine and IsMealyMachineDomainRep], 20,
         function(M)
-    return s->MappingByFunction(DOMALPHABET@(M), DOMALPHABET@(M),
+    return s->MappingByFunction(Fr.DOMALPHABET(M), Fr.DOMALPHABET(M),
                    a->M!.output(s,a));
 end);
 
 InstallMethod(Output, "(FR) for a Mealy machine and a state",
         [IsMealyMachine and IsMealyMachineDomainRep, IsObject], 20,
         function(M, s)
-    return MappingByFunction(DOMALPHABET@(M), DOMALPHABET@(M),
+    return MappingByFunction(Fr.DOMALPHABET(M), Fr.DOMALPHABET(M),
                    a->M!.output(s,a));
 end);
 
@@ -89,7 +89,7 @@ end);
 InstallMethod(Output, "(FR) for a Mealy element",
         [IsMealyElement and IsMealyMachineDomainRep],
         function(E)
-    return MappingByFunction(DOMALPHABET@(E), DOMALPHABET@(E),
+    return MappingByFunction(Fr.DOMALPHABET(E), Fr.DOMALPHABET(E),
                    a->E!.output(E!.initial,a));
 end);
 
@@ -177,7 +177,7 @@ InstallMethod(Transitions, "(FR) for a Mealy element",
     return i->M!.transitions(M!.initial,i);
 end);
 
-BindGlobal("MMACTIVITY@", function(E,l)
+Fr.MMACTIVITY := ( function(E,l)
     local d, i, r, s;
     d := Size(AlphabetOfFRObject(E));
     r := List([1..E!.nrstates], i->[1]);
@@ -191,19 +191,19 @@ end);
 InstallMethod(Activity, "(FR) for a Mealy element and a level",
         [IsMealyElement, IsInt],
         function(E,l)
-    return PERMORTRANSFORMATION@(Transformation(MMACTIVITY@(E,l)[E!.initial]));
+    return Fr.PERMORTRANSFORMATION(Transformation(Fr.MMACTIVITY(E,l)[E!.initial]));
 end);
 
 InstallMethod(ActivityTransformation, "(FR) for a Mealy element and a level",
         [IsMealyElement, IsInt],
         function(E,l)
-    return Transformation(MMACTIVITY@(E,l)[E!.initial]);
+    return Transformation(Fr.MMACTIVITY(E,l)[E!.initial]);
 end);
 
 InstallMethod(ActivityPerm, "(FR) for a Mealy element and a level",
         [IsMealyElement, IsInt],
         function(E,l)
-    return PermList(MMACTIVITY@(E,l)[E!.initial]);
+    return PermList(Fr.MMACTIVITY(E,l)[E!.initial]);
 end);
 
 InstallMethod(\^, "(FR) for an integer and a Mealy element",
@@ -266,7 +266,7 @@ end);
 InstallMethod(GeneratorsOfFRMachine, "(FR) for a Mealy machine",
         [IsMealyMachine], StateSet);
 
-BindGlobal("MEALYLIMITSTATES@", function(M)
+Fr.MEALYLIMITSTATES := ( function(M)
     local R, oldR, i, a;
     R := BlistList([1..M!.nrstates],[1..M!.nrstates]);
     repeat
@@ -281,14 +281,14 @@ end);
 
 InstallMethod(LimitStatesOfFRMachine, "(FR) for a Mealy machine",
         [IsMealyMachine and IsMealyMachineIntRep],
-        M->List(MEALYLIMITSTATES@(M),i->FRElement(M,i)));
+        M->List(Fr.MEALYLIMITSTATES(M),i->FRElement(M,i)));
 InstallMethod(LimitStates,  "(FR) for a Mealy machine",
         [IsMealyMachine and IsMealyMachineIntRep],
         LimitStatesOfFRMachine);
 
 InstallMethod(LimitStatesOfFRElement, "(FR) for a Mealy element",
         [IsMealyElement and IsMealyMachineIntRep],
-        E->List(MEALYLIMITSTATES@(E),i->FRElement(E,i)));
+        E->List(Fr.MEALYLIMITSTATES(E),i->FRElement(E,i)));
 
 InstallOtherMethod(State, "(FR) for a Mealy element and an integer",
         [IsMealyElement, IsInt],
@@ -346,7 +346,7 @@ end);
 # mode=0 means normal
 # mode=1 means all states are known to be accessible
 # mode=2 means all states are known to be distinct and accessible
-BindGlobal("MMMINIMIZE@", function(fam,alphabet,nrstates,transitions,output,initial,mode)
+Fr.MMMINIMIZE := ( function(fam,alphabet,nrstates,transitions,output,initial,mode)
     local a, sn, snart, part, trap, i, j, x, y, p, ci, todo, states;
 
     if initial<>fail and mode=0 then
@@ -471,14 +471,14 @@ InstallMethod(Minimized, "(FR) for a Mealy machine in int rep",
     if M!.output=[] then
         return M;
     else
-        return MMMINIMIZE@(FamilyObj(M),AlphabetOfFRObject(M),
+        return Fr.MMMINIMIZE(FamilyObj(M),AlphabetOfFRObject(M),
                        M!.nrstates,M!.transitions,M!.output,fail,0);
     fi;
 end);
 
 InstallMethod(Minimized, "(FR) for a Mealy element in int rep",
         [IsMealyElement and IsMealyMachineIntRep],
-        E->MMMINIMIZE@(FamilyObj(E),AlphabetOfFRObject(E),
+        E->Fr.MMMINIMIZE(FamilyObj(E),AlphabetOfFRObject(E),
                 E!.nrstates,E!.transitions,E!.output,E!.initial,0));
 
 InstallMethod(Minimized, "(FR) for a Mealy machine in domain rep",
@@ -535,7 +535,7 @@ InstallMethod(MealyElementNC, "(FR) for a family, two matrices and an initial st
                        initial := initial));
 end);
 
-BindGlobal("MEALYMACHINEINT@", function(transitions, output, initial)
+Fr.MEALYMACHINEINT := ( function(transitions, output, initial)
     local F, nrstates, i, out, inv;
     if Length(transitions)<>Length(output) then
         Error("<Transitions> and <Output> must have the same length\n");
@@ -553,8 +553,8 @@ BindGlobal("MEALYMACHINEINT@", function(transitions, output, initial)
     if ForAny(transitions, x->ForAny(x, i->not i in [1..nrstates])) then
         Error("An entry of <Transitions> is not in the state set\n");
     fi;
-    out := List(output,x->ANY2OUT@(x,Size(F!.alphabet)));
-    inv := ForAll(out,ISINVERTIBLE@);
+    out := List(output,x->Fr.ANY2OUT(x,Size(F!.alphabet)));
+    inv := ForAll(out,Fr.ISINVERTIBLE);
     if ForAny(out, x->not IsSubset(F!.alphabet, x)) then
         Error("An entry of <Output> is not in the alphabet\n");
     fi;
@@ -579,13 +579,13 @@ end);
 
 InstallMethod(MealyMachine, "(FR) for a matrix and a list",
         [IsMatrix, IsList],
-        function(t, o) return MEALYMACHINEINT@(t, o, fail); end);
+        function(t, o) return Fr.MEALYMACHINEINT(t, o, fail); end);
 
 InstallMethod(MealyElement, "(FR) for a matrix, a list and a state",
         [IsMatrix, IsList, IsInt],
-        function(t, o, s) return MEALYMACHINEINT@(t, o, s); end);
+        function(t, o, s) return Fr.MEALYMACHINEINT(t, o, s); end);
 
-BindGlobal("MEALYMACHINEDOM@", function(alphabet, transitions, output, has_init, initial)
+Fr.MEALYMACHINEDOM := ( function(alphabet, transitions, output, has_init, initial)
     local F, out, trans, i, t;
     if has_init then
         F := FREFamily(alphabet);
@@ -615,7 +615,7 @@ BindGlobal("MEALYMACHINEDOM@", function(alphabet, transitions, output, has_init,
             if IsFunction(i) then
                 Add(out, MappingByFunction(alphabet, alphabet, i));
             else
-                Add(out, ANY2OUT@(i,Size(alphabet)));
+                Add(out, Fr.ANY2OUT(i,Size(alphabet)));
             fi;
         od;
         t := IsMealyMachineIntRep;
@@ -663,11 +663,11 @@ end);
 
 InstallMethod(MealyMachine, "(FR) for an alphabet and two lists",
         [IsDomain, IsList, IsList],
-        function(a, t, o) return MEALYMACHINEDOM@(a, t, o, false, 0); end);
+        function(a, t, o) return Fr.MEALYMACHINEDOM(a, t, o, false, 0); end);
 
 InstallMethod(MealyElement, "(FR) for an alphabet, two lists and a state",
         [IsDomain, IsList, IsList, IsInt],
-        function(a, t, o, s) return MEALYMACHINEDOM@(a, t, o, true, s); end);
+        function(a, t, o, s) return Fr.MEALYMACHINEDOM(a, t, o, true, s); end);
 
 InstallMethod(MealyMachine, "(FR) for alphabet, stateset and two functions",
         [IsDomain, IsDomain, IsFunction, IsFunction],
@@ -696,14 +696,14 @@ end);
 InstallMethod(FRElement, "(FR) for a Mealy machine and a state",
         [IsMealyMachine and IsMealyMachineIntRep, IsInt],
         function(M,s)
-    return MMMINIMIZE@(FREFamily(M),AlphabetOfFRObject(M),
+    return Fr.MMMINIMIZE(FREFamily(M),AlphabetOfFRObject(M),
                    M!.nrstates,M!.transitions,M!.output,s,0);
 end);
 
 InstallMethod(FRElement, "(FR) for a Mealy element and a state",
         [IsMealyElement and IsMealyMachineIntRep, IsInt],
         function(E,s)
-    return MMMINIMIZE@(FamilyObj(E),AlphabetOfFRObject(E),
+    return Fr.MMMINIMIZE(FamilyObj(E),AlphabetOfFRObject(E),
                    E!.nrstates,E!.transitions,E!.output,s,2);
 end);
 
@@ -741,7 +741,7 @@ InstallMethod(FRElement, "(FR) for a Mealy element and a state",
                        initial := s));
 end);
 
-BindGlobal("COMPOSEELEMENT@", function(l,p)
+Fr.COMPOSEELEMENT := ( function(l,p)
     local m, i, init;
     if ForAll(l,IsMealyElement) then
         m := MealyMachineNC(FRMFamily(l[1]),[List(l,x->1)],[p]);
@@ -760,12 +760,12 @@ end);
 InstallMethod(ComposeElement, "(FR) for a list of elements and a permutation",
         [IsFRElementCollection, IsObject],
         function(l,p)
-    return COMPOSEELEMENT@(l,ANY2OUT@(p,Size(AlphabetOfFRObject(l[1]))));
+    return Fr.COMPOSEELEMENT(l,Fr.ANY2OUT(p,Size(AlphabetOfFRObject(l[1]))));
 end);
 
 InstallMethod(ComposeElement, "(FR) for a list of elements and a list",
         [IsFRElementCollection, IsList],
-        COMPOSEELEMENT@);
+        Fr.COMPOSEELEMENT);
 
 InstallMethod(VertexElement, "(FR) for a vertex index and a Mealy element",
         [IsPosInt, IsMealyElement],
@@ -796,7 +796,7 @@ InstallMethod(ViewString, "(FR) displays a Mealy machine in compact form",
         function(M)
     local s;
     s := "<Mealy machine on alphabet ";
-    APPEND@(s, AlphabetOfFRObject(M), " with ", M!.nrstates, " state");
+    Fr.APPEND(s, AlphabetOfFRObject(M), " with ", M!.nrstates, " state");
     if M!.nrstates<>1 then Append(s,"s"); fi;
     Append(s,">");
     return s;
@@ -804,19 +804,19 @@ end);
 
 InstallMethod(ViewString, "(FR) displays a Mealy machine in compact form",
         [IsMealyMachine and IsMealyMachineDomainRep],
-        M->CONCAT@("<Mealy machine on alphabet ", AlphabetOfFRObject(M), " with states ", M!.states,">"));
+        M->Fr.CONCAT("<Mealy machine on alphabet ", AlphabetOfFRObject(M), " with states ", M!.states,">"));
 
 InstallMethod(ViewString, "(FR) displays a Mealy element in compact form",
         [IsMealyElement and IsMealyMachineIntRep],
         function(E)
     local s;
     if IsOne(E) then
-        s := CONCAT@("<Trivial Mealy element on alphabet ", AlphabetOfFRObject(E), ">");
+        s := Fr.CONCAT("<Trivial Mealy element on alphabet ", AlphabetOfFRObject(E), ">");
     else
-        s := CONCAT@("<Mealy element on alphabet ", AlphabetOfFRObject(E),
+        s := Fr.CONCAT("<Mealy element on alphabet ", AlphabetOfFRObject(E),
             " with ", E!.nrstates, " state");
         if E!.nrstates<>1 then Append(s,"s"); fi;
-        if E!.initial<>1 then APPEND@(s,", initial state ",E!.initial); fi;
+        if E!.initial<>1 then Fr.APPEND(s,", initial state ",E!.initial); fi;
         Append(s,">");
     fi;
     return s;
@@ -824,7 +824,7 @@ end);
 
 InstallMethod(ViewString, "(FR) displays a Mealy element in compact form",
         [IsMealyElement and IsMealyMachineDomainRep],
-        E->CONCAT@("<Mealy element on alphabet ", AlphabetOfFRObject(E),
+        E->Fr.CONCAT("<Mealy element on alphabet ", AlphabetOfFRObject(E),
         " with states ", E!.states, ", initial state ", InitialState(E), ">"));
 #############################################################################
 
@@ -834,21 +834,21 @@ InstallMethod(ViewString, "(FR) displays a Mealy element in compact form",
 ##
 InstallMethod(String, "(FR) Mealy machine to string",
         [IsMealyMachine and IsMealyMachineIntRep],
-        M->CONCAT@("MealyMachine(",M!.transitions,", ", M!.output,")"));
+        M->Fr.CONCAT("MealyMachine(",M!.transitions,", ", M!.output,")"));
 
 InstallMethod(String, "(FR) Mealy element to string",
         [IsMealyElement and IsMealyMachineIntRep],
-        E->CONCAT@("MealyElement(",E!.transitions,", ",
+        E->Fr.CONCAT("MealyElement(",E!.transitions,", ",
                    E!.output,", ",InitialState(E),")"));
 
 InstallMethod(String, "(FR) Mealy machine to string",
         [IsMealyMachine and IsMealyMachineDomainRep],
-        M->CONCAT@("MealyMachine(",M!.states,", ", AlphabetOfFRObject(M),
+        M->Fr.CONCAT("MealyMachine(",M!.states,", ", AlphabetOfFRObject(M),
                 ", ",M!.transitions, ", ",M!.output,")"));
 
 InstallMethod(String, "(FR) Mealy element to string",
         [IsMealyElement and IsMealyMachineDomainRep],
-        E->CONCAT@("MealyElement(",E!.states,", ", AlphabetOfFRObject(E),
+        E->Fr.CONCAT("MealyElement(",E!.states,", ", AlphabetOfFRObject(E),
                 ", ",E!.transitions,", ",E!.output,", ",InitialState(E),")"));
 #############################################################################
 
@@ -856,7 +856,7 @@ InstallMethod(String, "(FR) Mealy element to string",
 ##
 #M  Display . . . . . . . . . . . . . . . . . . . .pretty-print Mealy machine
 ##
-BindGlobal("MEALYDISPLAY@", function(M)
+Fr.MEALYDISPLAY := ( function(M)
     local a, i, j, states, slen, alen, sprint, aprint, sblank, ablank, srule, arule, s;
     a := AlphabetOfFRObject(M);
     states := StateSet(M);
@@ -880,28 +880,28 @@ BindGlobal("MEALYDISPLAY@", function(M)
     arule := ListWithIdenticalEntries(alen,'-');
 
     s := Concatenation(sblank," |");
-    for i in a do APPEND@(s,sblank,aprint(i)," "); od;
-    APPEND@(s,"\n");
-    APPEND@(s,srule,"-+"); for i in a do APPEND@(s,srule,arule,"+"); od; APPEND@(s,"\n");
+    for i in a do Fr.APPEND(s,sblank,aprint(i)," "); od;
+    Fr.APPEND(s,"\n");
+    Fr.APPEND(s,srule,"-+"); for i in a do Fr.APPEND(s,srule,arule,"+"); od; Fr.APPEND(s,"\n");
     for i in states do
-        APPEND@(s,sprint(i)," |");
+        Fr.APPEND(s,sprint(i)," |");
         for j in a do
-            APPEND@(s,sprint(Transition(M,i,j)),",",aprint(Output(M,i,j)));
+            Fr.APPEND(s,sprint(Transition(M,i,j)),",",aprint(Output(M,i,j)));
         od;
-        APPEND@(s,"\n");
+        Fr.APPEND(s,"\n");
     od;
-    APPEND@(s,srule,"-+"); for i in a do APPEND@(s,srule,arule,"+"); od; APPEND@(s,"\n");
+    Fr.APPEND(s,srule,"-+"); for i in a do Fr.APPEND(s,srule,arule,"+"); od; Fr.APPEND(s,"\n");
     if IsMealyElement(M) then
-        APPEND@(s,"Initial state:",sprint(InitialState(M)),"\n");
+        Fr.APPEND(s,"Initial state:",sprint(InitialState(M)),"\n");
     fi;
     return s;
 end);
 
 InstallMethod(DisplayString, "(FR) for a Mealy machine",
-        [IsMealyMachine], MEALYDISPLAY@);
+        [IsMealyMachine], Fr.MEALYDISPLAY);
 
 InstallMethod(DisplayString, "(FR) for a Mealy element",
-        [IsMealyElement], MEALYDISPLAY@);
+        [IsMealyElement], Fr.MEALYDISPLAY);
 #############################################################################
 
 ############################################################################
@@ -915,7 +915,7 @@ InstallMethod(DisplayString, "(FR) for a Mealy element",
 #M  AsMonoidFRElement
 #M  AsSemigroupFRElement
 ##
-BindGlobal("DOMAINTOPERMTRANS@", function(X)
+Fr.DOMAINTOPERMTRANS := ( function(X)
     local a, s, i, t, out, trans;
     a := AsSortedList(AlphabetOfFRObject(X));
     s := AsSortedList(X!.states);
@@ -937,7 +937,7 @@ BindGlobal("DOMAINTOPERMTRANS@", function(X)
     return i;
 end);
 
-BindGlobal("MAKEMEALYMACHINE@", function(f,l,init)
+Fr.MAKEMEALYMACHINE := ( function(f,l,init)
     local M, d;
     d := List(l,DecompositionOfFRElement);
     M := List(d,x->List(x[1],y->Position(l,y)));
@@ -950,16 +950,16 @@ BindGlobal("MAKEMEALYMACHINE@", function(f,l,init)
     fi;
 end);
 
-BindGlobal("ASINTREP@", function(M)
+Fr.ASINTREP := ( function(M)
     if IsMealyMachineIntRep(M) then
         return M;
     elif IsMealyMachineDomainRep(M) then
-        return DOMAINTOPERMTRANS@(M);
+        return Fr.DOMAINTOPERMTRANS(M);
     elif IsFRMachine(M) then
-        return MAKEMEALYMACHINE@(FamilyObj(M),
+        return Fr.MAKEMEALYMACHINE(FamilyObj(M),
             States(List(GeneratorsOfFRMachine(M),x->FRElement(M,x))),fail);
     else
-        return MAKEMEALYMACHINE@(FamilyObj(M),States(M),M);
+        return Fr.MAKEMEALYMACHINE(FamilyObj(M),States(M),M);
     fi;
 end);
 
@@ -967,7 +967,7 @@ InstallMethod(AsMealyMachine, "(FR) for a list of FR elements",
         [IsFRElementCollection],
         function(l)
     local M, d;
-    M := MAKEMEALYMACHINE@(FamilyObj(UnderlyingFRMachine(l[1])),l,fail);
+    M := Fr.MAKEMEALYMACHINE(FamilyObj(UnderlyingFRMachine(l[1])),l,fail);
     SetCorrespondence(M,l);
     return M;
 end);
@@ -978,7 +978,7 @@ InstallMethod(AsMealyMachine, "(FR) for a FR machine",
     local gens, states, N;
     gens := List(GeneratorsOfFRMachine(M),x->FRElement(M,x));
     states := States(gens);
-    N := MAKEMEALYMACHINE@(FamilyObj(M),states,fail);
+    N := Fr.MAKEMEALYMACHINE(FamilyObj(M),states,fail);
     SetCorrespondence(N,MappingByFunction(StateSet(M),Integers,g->Position(states,g)));
     return N;
 end);
@@ -992,7 +992,7 @@ end);
 
 InstallMethod(AsMealyElement, "(FR) for a FR element",
         [IsFRElement],
-        E->MAKEMEALYMACHINE@(FamilyObj(E),States(E),E));
+        E->Fr.MAKEMEALYMACHINE(FamilyObj(E),States(E),E));
 
 InstallMethod(AsMealyElement, "(FR) for a Mealy element",
         [IsMealyElement], E->E);
@@ -1001,7 +1001,7 @@ InstallMethod(AsGroupFRMachine, "(FR) for a Mealy machine",
         [IsMealyMachine],
         function(M)
     local G, gen, gens, realm, ntrealm, corr, i, e;
-    M := ASINTREP@(M);
+    M := Fr.ASINTREP(M);
     if not IsInvertible(M) then return fail; fi;
     realm := StateSet(M);
     corr := []; ntrealm := []; gens := [];
@@ -1031,7 +1031,7 @@ InstallMethod(AsMonoidFRMachine, "(FR) for a Mealy machine",
         [IsMealyMachine],
         function(M)
     local G, gen, gens, realm, ntrealm, corr, i, e;
-    M := ASINTREP@(M);
+    M := Fr.ASINTREP(M);
     realm := StateSet(M);
     corr := []; ntrealm := []; gens := [];
     for i in realm do
@@ -1058,7 +1058,7 @@ InstallMethod(AsSemigroupFRMachine, "(FR) for a Mealy machine",
         [IsMealyMachine],
         function(M)
     local G, gen, gens, realm, ntrealm, corr, i, e;
-    M := ASINTREP@(M);
+    M := Fr.ASINTREP(M);
     realm := StateSet(M);
     corr := []; ntrealm := []; gens := [];
     for i in realm do
@@ -1104,14 +1104,14 @@ end);
 InstallMethod(AsIntMealyMachine, "(FR) for a Mealy machine",
         [IsMealyMachine and IsMealyMachineIntRep], AsMealyMachine);
 InstallMethod(AsIntMealyMachine, "(FR) for a Mealy machine",
-        [IsMealyMachine], DOMAINTOPERMTRANS@);
+        [IsMealyMachine], Fr.DOMAINTOPERMTRANS);
 
 InstallMethod(AsIntMealyElement, "(FR) for a Mealy machine",
         [IsMealyElement and IsMealyMachineIntRep], AsMealyElement);
 InstallMethod(AsIntMealyElement, "(FR) for a Mealy machine",
-        [IsMealyElement], DOMAINTOPERMTRANS@);
+        [IsMealyElement], Fr.DOMAINTOPERMTRANS);
 
-BindGlobal("TOPELEMENTPERM@", function(l)
+Fr.TOPELEMENTPERM := ( function(l)
     local n;
     n := Length(l);
     if l=[1..n] then
@@ -1124,19 +1124,19 @@ BindGlobal("TOPELEMENTPERM@", function(l)
 end);
 InstallMethod(TopElement, "(FR) for a permutation",
         [IsPerm],
-        p->TOPELEMENTPERM@(ListPerm(p)));
+        p->Fr.TOPELEMENTPERM(ListPerm(p)));
 InstallMethod(TopElement, "(FR) for a permutation and a degree",
         [IsPerm,IsInt],
         function(p,n)
-    return TOPELEMENTPERM@(ListPerm(p,n));
+    return Fr.TOPELEMENTPERM(ListPerm(p,n));
 end);
 InstallMethod(TopElement, "(FR) for a transformation",
         [IsTransformation],
-        t->TOPELEMENTPERM@(ListTransformation(t)));
+        t->Fr.TOPELEMENTPERM(ListTransformation(t)));
 InstallMethod(TopElement, "(FR) for a transformation and a degree",
         [IsTransformation,IsInt],
         function(t,n)
-    return TOPELEMENTPERM@(ListTransformation(t,n));
+    return Fr.TOPELEMENTPERM(ListTransformation(t,n));
 end);
 #############################################################################
 
@@ -1144,7 +1144,7 @@ end);
 ##
 #M  Draw . . . . . . . . . . . . . . . . . .draw Mealy machine using graphviz
 ##
-BindGlobal("MM2DOT@", function(M)
+Fr.MM2DOT := ( function(M)
     local names, i, j, S, stateset, alphabet;
 
     S := "digraph ";
@@ -1185,7 +1185,7 @@ BindGlobal("MM2DOT@", function(M)
             Append(S,"/");
             Append(S,String(Output(M,stateset[i],j)));
             Append(S,"\",color=");
-            Append(S,COLOURS@(Position(alphabet,j)));
+            Append(S,Fr.COLOURS(Position(alphabet,j)));
             Append(S,"];\n");
         od;
     od;
@@ -1193,75 +1193,75 @@ BindGlobal("MM2DOT@", function(M)
     return S;
 end);
 
-BindGlobal("DRAWMEALY@", function(M)
+Fr.DRAWMEALY := ( function(M)
      # more a hack than a clean implementation...
     if IsBoundGlobal("JupyterRenderable") then
-        return ValueGlobal("JupyterRenderable")(rec(("image/svg+xml") :=IO_PipeThrough("dot",["-Tsvg"],MM2DOT@(M))),rec());
+        return ValueGlobal("JupyterRenderable")(rec(("image/svg+xml") :=IO_PipeThrough("dot",["-Tsvg"],Fr.MM2DOT(M))),rec());
     else
-        DOT2DISPLAY@(MM2DOT@(M),"dot");
+        Fr.DOT2DISPLAY(Fr.MM2DOT(M),"dot");
     fi;
 end);
 
 InstallMethod(Draw, "(FR) draws a Mealy machine using graphviz",
         [IsMealyMachine],
-        DRAWMEALY@);
+        Fr.DRAWMEALY);
 
 InstallMethod(Draw, "(FR) draws a Mealy machine using graphviz",
         [IsMealyMachine, IsString],
         function(M,str)
-    AppendTo(str,MM2DOT@(M));
+    AppendTo(str,Fr.MM2DOT(M));
 end);
 
 InstallMethod(Draw, "(FR) draws a Mealy element using graphviz",
         [IsMealyElement],
-        DRAWMEALY@);
+        Fr.DRAWMEALY);
 
 InstallMethod(Draw, "(FR) draws a Mealy element using graphviz",
         [IsMealyElement, IsString],
         function(M,str)
-    AppendTo(str,MM2DOT@(M));
+    AppendTo(str,Fr.MM2DOT(M));
 end);
 
-BindGlobal("INSTALLMMHANDLER@", function(name,rv)
+Fr.INSTALLMMHANDLER := ( function(name,rv)
     InstallOtherMethod(name, "(FR) for a generic Mealy machine",
             [IsFRMachine],
             function(M)
         Info(InfoFR, 2, name, ": converting to Mealy machine");
         if rv then
-            return name(ASINTREP@(M));
+            return name(Fr.ASINTREP(M));
         else
-            name(ASINTREP@(M));
+            name(Fr.ASINTREP(M));
         fi;
     end);
 end);
-BindGlobal("INSTALLMEHANDLER@", function(name,rv)
+Fr.INSTALLMEHANDLER := ( function(name,rv)
     InstallOtherMethod(name, "(FR) for a generic Mealy element",
             [IsFRElement],
             function(E)
         Info(InfoFR, 2, name, ": converting to Mealy element");
         if rv then
-            return name(ASINTREP@(E));
+            return name(Fr.ASINTREP(E));
         else
-            name(ASINTREP@(E));
+            name(Fr.ASINTREP(E));
         fi;
     end);
 end);
 
-INSTALLMEHANDLER@(Draw,false);
-INSTALLMMHANDLER@(Draw,false);
+Fr.INSTALLMEHANDLER(Draw,false);
+Fr.INSTALLMMHANDLER(Draw,false);
 
 InstallOtherMethod(Draw, "(FR) for a FR machine and a filename",
         [IsFRMachine,IsString],
         function(M,S)
     Info(InfoFR, 1, "Draw: converting to Mealy machine");
-    Draw(ASINTREP@(M),S);
+    Draw(Fr.ASINTREP(M),S);
 end);
 
 InstallOtherMethod(Draw, "(FR) for a FR element and a filename",
         [IsFRElement,IsString],
         function(E,S)
     Info(InfoFR, 1, "Draw: converting to Mealy element");
-    Draw(ASINTREP@(E),S);
+    Draw(Fr.ASINTREP(E),S);
 end);
 ############################################################################
 
@@ -1274,7 +1274,7 @@ InstallMethod(IsOne, "(FR) for a Mealy element",
         function(E)
     return E!.output = [AlphabetOfFRObject(E)];
 end);
-INSTALLMEHANDLER@(IsOne,true);
+Fr.INSTALLMEHANDLER(IsOne,true);
 
 InstallMethod(\=, "(FR) for two Mealy elements", IsIdenticalObj,
         [IsMealyElement and IsMealyMachineIntRep, IsMealyElement and IsMealyMachineIntRep],
@@ -1315,7 +1315,7 @@ InstallMethod(IsOne, "(FR) for a Mealy machine",
         function(x)
     local ix;
     if IsFinite(AlphabetOfFRObject(x)) then
-        ix := ASINTREP@(x);
+        ix := Fr.ASINTREP(x);
         return ix!.output=[AlphabetOfFRObject(x)];
     else
         TryNextMethod();
@@ -1334,7 +1334,7 @@ InstallMethod(\=, "(FR) for two Mealy machines in domain rep", IsIdenticalObj,
         [IsMealyMachine and IsMealyMachineDomainRep, IsMealyMachine and IsMealyMachineDomainRep],
         function(x,y)
     if IsFinite(AlphabetOfFRObject(x)) then
-        return ASINTREP@(x)=ASINTREP@(y);
+        return Fr.ASINTREP(x)=Fr.ASINTREP(y);
     else
         return x!.nrstates = y!.nrstates and
                x!.transitions = y!.transitions and
@@ -1349,10 +1349,10 @@ InstallMethod(\=, "(FR) for two Mealy elements", IsIdenticalObj,
         Error("Don't know how to compare machines in domain representation");
     fi;
     if IsMealyMachineDomainRep(x) then
-        x := ASINTREP@(x);
+        x := Fr.ASINTREP(x);
     fi;
     if IsMealyMachineDomainRep(y) then
-        y := ASINTREP@(y);
+        y := Fr.ASINTREP(y);
     fi;
     return x=y;
 end);
@@ -1365,7 +1365,7 @@ InstallMethod(\<, "(FR) for two Mealy machines", IsIdenticalObj,
         [IsMealyMachine and IsMealyMachineDomainRep, IsMealyMachine and IsMealyMachineIntRep],
         ReturnFalse);
 
-BindGlobal("MMLTINTREP@", function(x,y)
+Fr.MMLTINTREP := ( function(x,y)
     local a, s;
     if x!.nrstates <> y!.nrstates then
         return x!.nrstates < y!.nrstates;
@@ -1378,13 +1378,13 @@ end);
 
 InstallMethod(\<, "(FR) for two Mealy machines", IsIdenticalObj,
         [IsMealyMachine and IsMealyMachineIntRep, IsMealyMachine and IsMealyMachineIntRep],
-        MMLTINTREP@);
+        Fr.MMLTINTREP);
 
 InstallMethod(\<, "(FR) for two Mealy machines", IsIdenticalObj,
         [IsMealyMachine and IsMealyMachineDomainRep, IsMealyMachine and IsMealyMachineDomainRep],
         function(x,y)
     if IsFinite(AlphabetOfFRObject(x)) then
-        return MMLTINTREP@(ASINTREP@(x), ASINTREP@(y));
+        return Fr.MMLTINTREP(Fr.ASINTREP(x), Fr.ASINTREP(y));
     else
         if x!.nrstates <> y!.nrstates then
             return x!.nrstates < y!.nrstates;
@@ -1404,10 +1404,10 @@ InstallMethod(\<, "(FR) for two Mealy elements", IsIdenticalObj,
         Error("Don't know how to compare machines in domain representation");
     fi;
     if IsMealyMachineDomainRep(x) then
-        x := ASINTREP@(x);
+        x := Fr.ASINTREP(x);
     fi;
     if IsMealyMachineDomainRep(y) then
-        y := ASINTREP@(y);
+        y := Fr.ASINTREP(y);
     fi;
     return x<y;
 end);
@@ -1434,7 +1434,7 @@ InstallMethod(\+, "(FR) for two Mealy machines", IsIdenticalObj,
         SetIsInvertible(a,ForAll(arg,IsInvertible));
     fi;
     SetCorrespondence(a,i->MappingByFunction(arg[i]!.states,q,s->[i,s]));
-    SET_NAME@(arg,"+",a);
+    Fr.SET_NAME(arg,"+",a);
     return a;
 end);
 
@@ -1450,14 +1450,14 @@ InstallMethod(\+, "(FR) for two Mealy machines", IsIdenticalObj,
         SetIsInvertible(a,IsInvertible(M) and IsInvertible(N));
     fi;
     SetCorrespondence(a,[IdentityTransformation,TransformationListList([1..N!.nrstates],M!.nrstates+[1..N!.nrstates])]);
-    SET_NAME@([M,N],"+",a);
+    Fr.SET_NAME([M,N],"+",a);
     return a;
 end);
 
 InstallMethod(\+, "(FR) for generic FR machines", IsIdenticalObj,
         [IsFRMachine,IsFRMachine],
         function(x,y)
-    return ASINTREP@(x)+ASINTREP@(y);
+    return Fr.ASINTREP(x)+Fr.ASINTREP(y);
 end);
 
 InstallMethod(\*, "(FR) for two Mealy machines", IsIdenticalObj,
@@ -1476,7 +1476,7 @@ InstallMethod(\*, "(FR) for two Mealy machines", IsIdenticalObj,
     if HasIsInvertible(M) and HasIsInvertible(N) then
         SetIsInvertible(a,IsInvertible(M) and IsInvertible(N));
     fi;
-    SET_NAME@([M,N],"*",a);
+    Fr.SET_NAME([M,N],"*",a);
     return a;
 end);
 
@@ -1500,14 +1500,14 @@ InstallMethod(\*, "(FR) for two Mealy machines", IsIdenticalObj,
     if HasIsInvertible(M) and HasIsInvertible(N) then
         SetIsInvertible(a,IsInvertible(M) and IsInvertible(N));
     fi;
-    SET_NAME@([M,N],"*",a);
+    Fr.SET_NAME([M,N],"*",a);
     return a;
 end);
 
 InstallMethod(\*, "(FR) for generic FR machines", IsIdenticalObj,
         [IsFRMachine,IsFRMachine],
         function(x,y)
-    return ASINTREP@(x)*ASINTREP@(y);
+    return Fr.ASINTREP(x)*Fr.ASINTREP(y);
 end);
 
 InstallMethod(TensorProductOp, "(FR) for Mealy machines",
@@ -1537,7 +1537,7 @@ InstallMethod(TensorProductOp, "(FR) for Mealy machines",
     if ForAll(M,HasIsInvertible) then
         SetIsInvertible(a,ForAll(M,IsInvertible));
     fi;
-    SET_NAME@(M,"(*)",a);
+    Fr.SET_NAME(M,"(*)",a);
     return a;
 end);
 
@@ -1574,14 +1574,14 @@ InstallMethod(TensorProductOp, "(FR) for two integer Mealy machines",
     if ForAll(M,HasIsInvertible) then
         SetIsInvertible(a,ForAll(M,IsInvertible));
     fi;
-    SET_NAME@(M,"(*)",a);
+    Fr.SET_NAME(M,"(*)",a);
     return a;
 end);
 
 InstallMethod(TensorProductOp, "(FR) for generic FR machines",
         [IsList,IsFRMachine],
         function(M,N)
-    M := List(M,ASINTREP@);
+    M := List(M,Fr.ASINTREP);
     return TensorProductOp(M,M[1]);
 end);
 
@@ -1605,7 +1605,7 @@ InstallMethod(TensorSumOp, "(FR) for two Mealy machines",
     if ForAll(M,HasIsInvertible) then
         SetIsInvertible(a,ForAll(M,IsInvertible));
     fi;
-    SET_NAME@(M,"(+)",a);
+    Fr.SET_NAME(M,"(+)",a);
     return a;
 end);
 
@@ -1636,14 +1636,14 @@ InstallMethod(TensorSumOp, "(FR) for two integer Mealy machines",
     if ForAll(M,HasIsInvertible) then
         SetIsInvertible(a,ForAll(M,IsInvertible));
     fi;
-    SET_NAME@(M,"(+)",a);
+    Fr.SET_NAME(M,"(+)",a);
     return a;
 end);
 
 InstallMethod(TensorSumOp, "(FR) for generic FR machines",
         [IsList,IsFRMachine],
         function(M,N)
-    M := List(M,ASINTREP@);
+    M := List(M,Fr.ASINTREP);
     return TensorSumOp(M,M[1]);
 end);
 
@@ -1673,7 +1673,7 @@ InstallMethod(DirectSumOp, "(FR) for two Mealy machines",
     if ForAll(M,HasIsInvertible) then
         SetIsInvertible(a,ForAll(M,IsInvertible));
     fi;
-    SET_NAME@(M,"(+)",a);
+    Fr.SET_NAME(M,"(+)",a);
     return a;
 end);
 
@@ -1708,14 +1708,14 @@ InstallMethod(DirectSumOp, "(FR) for two integer Mealy machines",
     if ForAll(M,HasIsInvertible) then
         SetIsInvertible(a,ForAll(M,IsInvertible));
     fi;
-    SET_NAME@(M,"#",a);
+    Fr.SET_NAME(M,"#",a);
     return a;
 end);
 
 InstallMethod(DirectSumOp, "(FR) for generic FR machines",
         [IsList,IsFRMachine],
         function(M,N)
-    M := List(M,ASINTREP@);
+    M := List(M,Fr.ASINTREP);
     return DirectSumOp(M,M[1]);
 end);
 
@@ -1737,7 +1737,7 @@ InstallMethod(DirectProductOp, "(FR) for two Mealy machines",
     if ForAll(M,HasIsInvertible) then
         SetIsInvertible(a,ForAll(M,IsInvertible));
     fi;
-    SET_NAME@(M,"@",a);
+    Fr.SET_NAME(M,"@",a);
     return a;
 end);
 
@@ -1771,14 +1771,14 @@ InstallMethod(DirectProductOp, "(FR) for two integer Mealy machines",
     if ForAll(M,HasIsInvertible) then
         SetIsInvertible(a,ForAll(M,IsInvertible));
     fi;
-    SET_NAME@(M,"@",a);
+    Fr.SET_NAME(M,"@",a);
     return a;
 end);
 
 InstallMethod(DirectProductOp, "(FR) for generic FR machines",
         [IsList,IsFRMachine],
         function(M,N)
-    M := List(M,ASINTREP@);
+    M := List(M,Fr.ASINTREP);
     return DirectProductOp(M,M[1]);
 end);
 
@@ -1820,7 +1820,7 @@ InstallMethod(TreeWreathProduct, "(FR) for two domain Mealy machines",
     if HasIsInvertible(g) and HasIsInvertible(h) then
         SetIsInvertible(m,IsInvertible(g) and IsInvertible(h));
     fi;
-    SET_NAME@([g,h],"~",m);
+    Fr.SET_NAME([g,h],"~",m);
     return m;
 end);
 
@@ -1892,14 +1892,14 @@ InstallMethod(TreeWreathProduct, "(FR) for two integer Mealy machines",
     if HasIsInvertible(g) and HasIsInvertible(h) then
         SetIsInvertible(m,IsInvertible(g) and IsInvertible(h));
     fi;
-    SET_NAME@([g,h],"~",m);
+    Fr.SET_NAME([g,h],"~",m);
     return m;
 end);
 
 InstallMethod(TreeWreathProduct, "for two generic FR machines",
         [IsFRMachine, IsFRMachine, IsObject, IsObject],
         function(g,h,x0,y0)
-    return TreeWreathProduct(ASINTREP@(g),ASINTREP@(h),x0,y0);
+    return TreeWreathProduct(Fr.ASINTREP(g),Fr.ASINTREP(h),x0,y0);
     # !!! probably x0, y0 should be changed to their int counterparts?
 end);
 ############################################################################
@@ -1924,7 +1924,7 @@ InstallMethod(\*, "(FR) for two Mealy elements", IsIdenticalObj,
     if HasIsInvertible(M) and HasIsInvertible(N) then
         SetIsInvertible(a,IsInvertible(M) and IsInvertible(N));
     fi;
-    SET_NAME@([M,N],"*",a);
+    Fr.SET_NAME([M,N],"*",a);
     return a;
 end);
 
@@ -1957,7 +1957,7 @@ InstallMethod(\*, "(FR) for two Mealy elements", IsIdenticalObj,
         Add(trans,tr);
         Add(out,N!.output[i[2]]{M!.output[i[1]]});
     od;
-    a := MMMINIMIZE@(FamilyObj(M),AlphabetOfFRObject(M),
+    a := Fr.MMMINIMIZE(FamilyObj(M),AlphabetOfFRObject(M),
                  Length(trans),trans,out,1,1);
     if HasIsInvertible(M) and HasIsInvertible(N) then
         SetIsInvertible(a,IsInvertible(M) and IsInvertible(N));
@@ -2020,11 +2020,11 @@ end);
 ##
 InstallMethod(IsInvertible, "(FR) for a Mealy machine",
         [IsMealyMachine and IsMealyMachineIntRep],
-        M->ForAll(StateSet(M),i->ISINVERTIBLE@(M!.output[i])));
+        M->ForAll(StateSet(M),i->Fr.ISINVERTIBLE(M!.output[i])));
 
 InstallMethod(IsInvertible, "(FR) for a Mealy element",
         [IsMealyElement and IsMealyMachineIntRep],
-        M->ForAll(StateSet(M),i->ISINVERTIBLE@(M!.output[i])));
+        M->ForAll(StateSet(M),i->Fr.ISINVERTIBLE(M!.output[i])));
 
 InstallMethod(IsGeneratorsOfMagmaWithInverses, "(FR) for a list of Mealy elements",
         [IsFRElementCollection],
@@ -2038,7 +2038,7 @@ InstallMethod(IsGeneratorsOfMagmaWithInverses, "(FR) for a list of Mealy element
     return true;
 end);
 
-BindGlobal("SETINVERSENAME@", function(M,N)
+Fr.SETINVERSENAME := ( function(M,N)
     local n;
     if HasName(N) then
         n := Name(N);
@@ -2058,13 +2058,13 @@ InstallMethod(InverseOp, "(FR) for a Mealy machine",
     if not IsInvertible(M) then return fail; fi;
     if HasOrder(M) and Order(M) = 2 then return M; fi;
 
-    out := List(M!.output,INVERSE@);
+    out := List(M!.output,Fr.INVERSE);
     s := MealyMachineNC(FamilyObj(M),
                  List([1..M!.nrstates], i->M!.transitions[i]{out[i]}),
                  out);
     SetInverse(M,s); SetInverse(s,M);
     if HasOrder(M) then SetOrder(s,Order(M)); fi;
-    SETINVERSENAME@(s,M);
+    Fr.SETINVERSENAME(s,M);
     return s;
 end);
 
@@ -2075,15 +2075,15 @@ InstallMethod(InverseOp, "(FR) for a Mealy element",
     if not IsInvertible(E) then return fail; fi;
     if HasOrder(E) and Order(E) = 2 then return E; fi;
 
-    out := List(E!.output,INVERSE@);
-    s := MMMINIMIZE@(FamilyObj(E),AlphabetOfFRObject(E),
+    out := List(E!.output,Fr.INVERSE);
+    s := Fr.MMMINIMIZE(FamilyObj(E),AlphabetOfFRObject(E),
                  E!.nrstates,
                  List([1..E!.nrstates],i->E!.transitions[i]{out[i]}),
                  out,
                  E!.initial,2);
     SetInverse(E,s); SetInverse(s,E);
     if HasOrder(E) then SetOrder(s,Order(E)); fi;
-    SETINVERSENAME@(s,E);
+    Fr.SETINVERSENAME(s,E);
     return s;
 end);
 
@@ -2126,7 +2126,7 @@ end);
 #P  IsReversible
 #P  IsBireversible
 ##
-BindGlobal("ALPHABETINVOLUTION@", function(N)
+Fr.ALPHABETINVOLUTION := ( function(N)
     local l;
     l := List(StateSet(N),x->FRElement(N,x));
     l := List(l,x->Position(l,x^-1));
@@ -2142,7 +2142,7 @@ InstallMethod(DualMachine, "(FR) for a Mealy machine in int rep",
                  TransposedMat(M!.output),
                  TransposedMat(M!.transitions));
     if HasAlphabetInvolution(M) then
-        l := ALPHABETINVOLUTION@(M);
+        l := Fr.ALPHABETINVOLUTION(M);
         if l<>fail then
             SetAlphabetInvolution(N,l);
         fi;
@@ -2181,13 +2181,13 @@ InstallMethod(AlphabetInvolution, "(FR) for a bireversible Mealy machine",
     if not IsBireversible(M) then
         return fail;
     fi;
-    return ALPHABETINVOLUTION@(DualMachine(M));
+    return Fr.ALPHABETINVOLUTION(DualMachine(M));
 end);
 
 InstallMethod(IsMinimized, "(FR) for a Mealy machine",
         [IsMealyMachine and IsMealyMachineIntRep],
         function(M)
-    return MMMINIMIZE@(FamilyObj(M),AlphabetOfFRObject(M),
+    return Fr.MMMINIMIZE(FamilyObj(M),AlphabetOfFRObject(M),
         M!.nrstates,M!.transitions,M!.output,fail,0)!.nrstates=M!.nrstates;
 end);
 
@@ -2198,7 +2198,7 @@ InstallTrueMethod(IsMinimized, IsMealyElement and IsMealyMachineIntRep);
 ##
 #M  StateGrowth
 ##
-BindGlobal("STATEGROWTH@", function(M,z)
+Fr.STATEGROWTH := ( function(M,z)
     local src, mat, dest, s, a, is, it, enum;
     src := [];
     enum := Enumerator(StateSet(M));
@@ -2222,24 +2222,24 @@ end);
 
 InstallMethod(StateGrowth, "(FR) for a Mealy machine and an indeterminate",
         [IsMealyMachine, IsRingElement],
-        STATEGROWTH@);
+        Fr.STATEGROWTH);
 
 InstallMethod(StateGrowth, "(FR) for a Mealy element and an indeterminate",
         [IsMealyElement, IsRingElement],
-        STATEGROWTH@);
+        Fr.STATEGROWTH);
 
 InstallMethod(StateGrowth, "(FR) for a FR machine and an indeterminate",
         [IsFRMachine, IsRingElement],
         function(M,z)
     Info(InfoFR, 1, "StateGrowth: converting to Mealy machine");
-    return StateGrowth(ASINTREP@(M),z);
+    return StateGrowth(Fr.ASINTREP(M),z);
 end);
 
 InstallMethod(StateGrowth, "(FR) for a FR element and an indeterminate",
         [IsFRElement, IsRingElement],
         function(M,z)
     Info(InfoFR, 1, "StateGrowth: converting to Mealy element");
-    return StateGrowth(ASINTREP@(M),z);
+    return StateGrowth(Fr.ASINTREP(M),z);
 end);
 
 InstallMethod(StateGrowth, "(FR) for a FR object",
@@ -2248,7 +2248,7 @@ InstallMethod(StateGrowth, "(FR) for a FR object",
     return StateGrowth(M,Indeterminate(Rationals));
 end);
 
-BindGlobal("DEGREE_MEALYME@", function(M)
+Fr.DEGREE_MEALYME := ( function(M)
     local d, e, f, i, j, k, fM;
     M := Minimized(M);
     if IsOne(M) then return -1; fi;
@@ -2258,7 +2258,7 @@ BindGlobal("DEGREE_MEALYME@", function(M)
     for i in e do
         if Size(i)=1 then
             j := Representative(i);
-            if ISONE@(M!.output[j]) and
+            if Fr.ISONE(M!.output[j]) and
                ForAll(M!.transitions[j],k->k=j) then
                 continue; # is identity element
             fi;
@@ -2289,26 +2289,26 @@ BindGlobal("DEGREE_MEALYME@", function(M)
 end);
 InstallMethod(DegreeOfFRMachine, "(FR) for a Mealy machine",
         [IsMealyMachine and IsMealyMachineIntRep],
-        DEGREE_MEALYME@);
+        Fr.DEGREE_MEALYME);
 InstallMethod(DegreeOfFRMachine, "(FR) for an FR machine",
         [IsFRMachine],
         function(M)
     Info(InfoFR, 1, "Degree: converting to Mealy machine");
-    return DEGREE_MEALYME@(ASINTREP@(M));
+    return Fr.DEGREE_MEALYME(Fr.ASINTREP(M));
 end);
 InstallMethod(DegreeOfFRElement, "(FR) for a Mealy element",
         [IsMealyElement and IsMealyMachineIntRep],
-        DEGREE_MEALYME@);
+        Fr.DEGREE_MEALYME);
 InstallMethod(DegreeOfFRElement, "(FR) for an FR element",
         [IsFRElement],
         function(E)
     Info(InfoFR, 1, "Degree: converting to Mealy element");
-    return DEGREE_MEALYME@(ASINTREP@(E));
+    return Fr.DEGREE_MEALYME(Fr.ASINTREP(E));
 end);
 InstallMethod(Degree, [IsFRMachine], DegreeOfFRMachine);
 InstallMethod(Degree, [IsFRElement], DegreeOfFRElement);
 
-BindGlobal("DEPTH_MEALYME@", function(M)
+Fr.DEPTH_MEALYME := ( function(M)
     local i, j, f, fM, one, d, todo;
     if IsOne(M) then return 0; fi;
     M := Minimized(M);
@@ -2337,21 +2337,21 @@ BindGlobal("DEPTH_MEALYME@", function(M)
 end);
 InstallMethod(DepthOfFRMachine, "(FR) for a Mealy machine",
         [IsMealyMachine and IsMealyMachineIntRep],
-        DEPTH_MEALYME@);
+        Fr.DEPTH_MEALYME);
 InstallMethod(DepthOfFRMachine, "(FR) for an FR machine",
         [IsFRMachine],
         function(M)
     Info(InfoFR, 1, "Depth: converting to Mealy machine");
-    return DEPTH_MEALYME@(ASINTREP@(M));
+    return Fr.DEPTH_MEALYME(Fr.ASINTREP(M));
 end);
 InstallMethod(DepthOfFRElement, "(FR) for a Mealy element",
         [IsMealyElement and IsMealyMachineIntRep],
-        DEPTH_MEALYME@);
+        Fr.DEPTH_MEALYME);
 InstallMethod(DepthOfFRElement, "(FR) for an FR element",
         [IsFRElement],
         function(E)
     Info(InfoFR, 1, "Depth: converting to Mealy element");
-    return DEPTH_MEALYME@(ASINTREP@(E));
+    return Fr.DEPTH_MEALYME(Fr.ASINTREP(E));
 end);
 InstallMethod(Depth, [IsFRMachine], DepthOfFRMachine);
 InstallMethod(Depth, [IsFRElement], DepthOfFRElement);
@@ -2391,7 +2391,7 @@ InstallTrueMethod(IsFiniteStateFRMachine, IsPolynomialGrowthFRMachine);
 ##
 #M  Guess Mealy machine
 ##
-BindGlobal("SHRINKPERM@", function(perm,d,n)
+Fr.SHRINKPERM := ( function(perm,d,n)
     local l, m;
 
     l := ListTransformation(perm,d^n);
@@ -2407,7 +2407,7 @@ BindGlobal("SHRINKPERM@", function(perm,d,n)
     fi;
 end);
 
-BindGlobal("DECOMPPERM@", function(perm,d,n)
+Fr.DECOMPPERM := ( function(perm,d,n)
     local l, m, i, trans, out;
 
     l := ListTransformation(perm,d^n);
@@ -2435,7 +2435,7 @@ InstallOtherMethod(GuessMealyElement, "(FR) for a perm/trans, degree and depth",
     s := [];
     for i in [n,n-1..1] do
         s[i] := [perm];
-        perm := SHRINKPERM@(perm,d,i);
+        perm := Fr.SHRINKPERM(perm,d,i);
     od;
     i := 1;
     while i<=Length(level) do
@@ -2443,7 +2443,7 @@ InstallOtherMethod(GuessMealyElement, "(FR) for a perm/trans, degree and depth",
             return fail; # refuse to guess
         fi;
         Add(trans,[]);
-        dec := DECOMPPERM@(s[level[i]][i],d,level[i]);
+        dec := Fr.DECOMPPERM(s[level[i]][i],d,level[i]);
         Add(out,dec[2]);
         for j in [1..d] do
             x := Position(s[level[i]-1],dec[1][j]);
@@ -2452,7 +2452,7 @@ InstallOtherMethod(GuessMealyElement, "(FR) for a perm/trans, degree and depth",
                 Add(level,level[i]-1);
                 for k in [level[i]-1,level[i]-2..1] do
                     Add(s[k],dec[1][j]);
-                    dec[1][j] := SHRINKPERM@(dec[1][j],d,k);
+                    dec[1][j] := Fr.SHRINKPERM(dec[1][j],d,k);
                 od;
                 x := Length(level);
             elif Position(s[level[i]-1],dec[1][j],x)<>fail then
@@ -2476,7 +2476,7 @@ InstallMethod(Signatures, "(FR) for a Mealy element",
     local mat, dest, a, s, t, maker;
     mat := 0*IdentityMat(E!.nrstates);
     dest := [];
-    if ForAll(E!.output,ISINVERTIBLE@) then
+    if ForAll(E!.output,Fr.ISINVERTIBLE) then
         maker := PermList;
     else
         maker := TransformationList;
@@ -2496,14 +2496,14 @@ InstallMethod(Signatures, "(FR) for a Mealy element",
                    List(a,v->v[Position(StateSet(E),InitialState(E))]),
                    Position(a,dest));
 end);
-INSTALLMEHANDLER@(Signatures,true);
+Fr.INSTALLMEHANDLER(Signatures,true);
 
 InstallMethod(VertexTransformationsFRMachine, "(FR) for an FR machine",
         [IsFRMachine],
         function(M)
     local t;
     t := List(GeneratorsOfFRMachine(M),s->Output(M,s));
-    if ForAll(t,ISINVERTIBLE@) then
+    if ForAll(t,Fr.ISINVERTIBLE) then
         return Group(List(t,PermList));
     else
         return Monoid(List(t,TransformationList));
@@ -2633,11 +2633,11 @@ InstallGlobalFunction(AllMealyMachines,
             list := true;
         fi;
         F := List(Orbits(SymmetricGroup(2),F,function(ML,g)
-            if IsOne(g) or not ForAll(ML,M->ForAll(M[2],ISINVERTIBLE@)) then
+            if IsOne(g) or not ForAll(ML,M->ForAll(M[2],Fr.ISINVERTIBLE)) then
                 return ML;
             else
                 return Set(ML,M->[List([1..Length(M[1])],i->M[1][i]{M[2][i]}),
-                               List(M[2],INVERSE@)]);
+                               List(M[2],Fr.INVERSE)]);
             fi;
         end),Representative);
     fi;
@@ -2692,7 +2692,7 @@ InstallMethod(ConfinalityClasses, "(FR) for a Mealy element",
     one := EquivalenceRelationByPairs(one,classes);
     return EquivalenceClasses(one);
 end);
-INSTALLMEHANDLER@(ConfinalityClasses,true);
+Fr.INSTALLMEHANDLER(ConfinalityClasses,true);
 
 InstallMethod(Germs, "(FR) for a Mealy element",
         [IsMealyElement],
@@ -2723,7 +2723,7 @@ InstallMethod(Germs, "(FR) for a Mealy element",
     recur(InitialState(E));
     return classes;
 end);
-INSTALLMEHANDLER@(Germs,true);
+Fr.INSTALLMEHANDLER(Germs,true);
 
 InstallMethod(NormOfBoundedFRElement, "(FR) for a Mealy element",
         [IsMealyElement],
@@ -2752,7 +2752,7 @@ InstallMethod(NormOfBoundedFRElement, "(FR) for a Mealy element",
     states := [];
     return recur(InitialState(E));
 end);
-INSTALLMEHANDLER@(NormOfBoundedFRElement,true);
+Fr.INSTALLMEHANDLER(NormOfBoundedFRElement,true);
 
 InstallMethod(HasOpenSetConditionFRElement, "(FR) for a Mealy element",
         [IsMealyElement],
@@ -2766,7 +2766,7 @@ InstallMethod(HasOpenSetConditionFRElement, "(FR) for a Mealy element",
     od;
     return true;
 end);
-INSTALLMEHANDLER@(HasOpenSetConditionFRElement,true);
+Fr.INSTALLMEHANDLER(HasOpenSetConditionFRElement,true);
 
 InstallMethod(IsWeaklyFinitaryFRElement, "(FR) for a Mealy element",
         [IsMealyElement],
@@ -2775,7 +2775,7 @@ InstallMethod(IsWeaklyFinitaryFRElement, "(FR) for a Mealy element",
     c := ConfinalityClasses(E);
     return c<>fail and c=[];
 end);
-INSTALLMEHANDLER@(IsWeaklyFinitaryFRElement,true);
+Fr.INSTALLMEHANDLER(IsWeaklyFinitaryFRElement,true);
 #############################################################################
 
 #############################################################################
@@ -2787,12 +2787,12 @@ InstallMethod(LimitFRMachine, "(FR) for a Mealy machine",
         [IsMealyMachine and IsMealyMachineIntRep],
         function(M)
     local S, pos, i;
-    S := MEALYLIMITSTATES@(M);
+    S := Fr.MEALYLIMITSTATES(M);
     pos := [];
     pos{S} := [1..Length(S)];
     return MealyMachineNC(FamilyObj(M),List(M!.transitions{S},r->List(r,i->pos[i])),M!.output{S});
 end);
-INSTALLMMHANDLER@(LimitFRMachine,true);
+Fr.INSTALLMMHANDLER(LimitFRMachine,true);
 
 InstallMethod(NucleusMachine, "(FR) for an FR machine",
         [IsFRMachine],

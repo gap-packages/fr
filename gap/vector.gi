@@ -13,7 +13,7 @@
 #############################################################################
 
 # Jacobian family
-BindGlobal("FRJFAMILY@",
+Fr.FRJFAMILY := (
         function(fam)
     local i, f;
     if IsListOrCollection(fam) then
@@ -53,7 +53,7 @@ InstallMethod(FREFamily, "(FR) for a jacobian linear element",
     od;
     return FREFamily(AlphabetOfFRObject(E));
 end);
-       
+
 ############################################################################
 ##
 #M  Minimized . . . . . . . . . . . . . . . . . . . .minimize linear machine
@@ -63,19 +63,19 @@ end);
 # mode=2 means all states are known to be distinct and accessible
 # boolean corr=true means compute correspondence
 ##
-BindGlobal("MATRIX@", function(l,f)
+Fr.MATRIX := ( function(l,f)
     return List(l,__x->List(__x,f));
 end);
 
-BindGlobal("VECTORZEROM@", function(f,n,r)
-    return VectorMachineNC(f,MATRIX@(IdentityMat(n),x->IdentityMat(0,r)),IdentityMat(0,r));
+Fr.VECTORZEROM := ( function(f,n,r)
+    return VectorMachineNC(f,Fr.MATRIX(IdentityMat(n),x->IdentityMat(0,r)),IdentityMat(0,r));
 end);
 
-BindGlobal("VECTORZEROE@", function(f,n,r)
-    return VectorElementNC(f,MATRIX@(IdentityMat(n),x->IdentityMat(0,r)),IdentityMat(0,r),IdentityMat(0,r));
+Fr.VECTORZEROE := ( function(f,n,r)
+    return VectorElementNC(f,Fr.MATRIX(IdentityMat(n),x->IdentityMat(0,r)),IdentityMat(0,r),IdentityMat(0,r));
 end);
 
-BindGlobal("COEFF@", function(B,v)
+Fr.COEFF := ( function(B,v)
     local x;
     x := Coefficients(B,v);
     ConvertToVectorRep(x);
@@ -83,14 +83,14 @@ BindGlobal("COEFF@", function(B,v)
     return x;
 end);
 
-BindGlobal("CONSTANTVECTOR@", function(S,x)
+Fr.CONSTANTVECTOR := ( function(S,x)
     local v;
     v := ListWithIdenticalEntries(Length(S),x);
     ConvertToVectorRep(v);
     return v;
 end);
 
-BindGlobal("VECTORMINIMIZE@", function(fam,r,transitions,output,input,mode,docorr)
+Fr.VECTORMINIMIZE := ( function(fam,r,transitions,output,input,mode,docorr)
     local B, i, n, v, V, W, t, m, todo, f, corr;
 
     if input<>fail then ConvertToVectorRep(input); fi;
@@ -115,13 +115,13 @@ BindGlobal("VECTORMINIMIZE@", function(fam,r,transitions,output,input,mode,docor
         od;
         if Dimension(V)<Length(input) then
             B := Basis(V);
-            input := COEFF@(B,input);
+            input := Fr.COEFF(B,input);
             v := transitions;
             transitions := [];
             for i in v do
                 t := [];
                 for i in i do
-                    m := List(B,x->COEFF@(B,x*i));
+                    m := List(B,x->Fr.COEFF(B,x*i));
                     MakeImmutable(m);
                     ConvertToMatrixRep(m);
                     Add(t,m);
@@ -129,7 +129,7 @@ BindGlobal("VECTORMINIMIZE@", function(fam,r,transitions,output,input,mode,docor
                 Add(transitions,t);
             od;
             if docorr then
-                corr := List(corr,v->COEFF@(B,v));
+                corr := List(corr,v->Fr.COEFF(B,v));
                 MakeImmutable(corr);
                 ConvertToMatrixRep(corr);
                 Error("cannot happen");
@@ -145,9 +145,9 @@ BindGlobal("VECTORMINIMIZE@", function(fam,r,transitions,output,input,mode,docor
     fi;
     if Length(output)=0 or IsZero(output) then
         if input=fail then
-            f := VECTORZEROM@(fam,Length(transitions),r);
+            f := Fr.VECTORZEROM(fam,Length(transitions),r);
         else
-            f := VECTORZEROE@(fam,Length(transitions),r);
+            f := Fr.VECTORZEROE(fam,Length(transitions),r);
         fi;
         if docorr then SetCorrespondence(f,[]); fi;
         return f;
@@ -172,14 +172,14 @@ BindGlobal("VECTORMINIMIZE@", function(fam,r,transitions,output,input,mode,docor
             W := List(B,x->PreImagesRepresentativeNC(f,x));
             ConvertToMatrixRep(W);
             if input <> fail then
-                input := COEFF@(B,input^f);
+                input := Fr.COEFF(B,input^f);
             fi;
             v := transitions;
             transitions := [];
             for i in v do
                 t := [];
                 for i in i do
-                    m := List(W,x->COEFF@(B,(x*i)^f));
+                    m := List(W,x->Fr.COEFF(B,(x*i)^f));
                     MakeImmutable(m);
                     ConvertToMatrixRep(m);
                     Add(t,m);
@@ -187,7 +187,7 @@ BindGlobal("VECTORMINIMIZE@", function(fam,r,transitions,output,input,mode,docor
                 Add(transitions,t);
             od;
             if docorr then
-                corr := List(corr,v->COEFF@(B,v^f));
+                corr := List(corr,v->Fr.COEFF(B,v^f));
                 MakeImmutable(corr);
                 ConvertToMatrixRep(corr);
             fi;
@@ -215,13 +215,13 @@ BindGlobal("VECTORMINIMIZE@", function(fam,r,transitions,output,input,mode,docor
         od;
         if todo<>IdentityMat(Length(output),r) then
             B := BasisNC(V,todo);
-            input := COEFF@(B,input);
+            input := Fr.COEFF(B,input);
             v := transitions;
             transitions := [];
             for i in v do
                 t := [];
                 for i in i do
-                    m := List(B,x->COEFF@(B,x*i));
+                    m := List(B,x->Fr.COEFF(B,x*i));
                     MakeImmutable(m);
                     ConvertToMatrixRep(m);
                     Add(t,m);
@@ -229,7 +229,7 @@ BindGlobal("VECTORMINIMIZE@", function(fam,r,transitions,output,input,mode,docor
                 Add(transitions,t);
             od;
             if docorr then
-                corr := List(corr,v->COEFF@(B,v));
+                corr := List(corr,v->Fr.COEFF(B,v));
                 MakeImmutable(corr);
                 ConvertToMatrixRep(corr);
             fi;
@@ -247,12 +247,12 @@ end);
 
 InstallMethod(Minimized, "(FR) for a vector machine",
         [IsLinearFRMachine and IsVectorFRMachineRep],
-        M->VECTORMINIMIZE@(FamilyObj(M),LeftActingDomain(M),
+        M->Fr.VECTORMINIMIZE(FamilyObj(M),LeftActingDomain(M),
                 M!.transitions,M!.output,fail,0,true));
 
 InstallMethod(Minimized, "(FR) for a vector element",
         [IsLinearFRElement and IsVectorFRMachineRep],
-        E->VECTORMINIMIZE@(FamilyObj(E),LeftActingDomain(E),
+        E->Fr.VECTORMINIMIZE(FamilyObj(E),LeftActingDomain(E),
                 E!.transitions,E!.output,E!.input,0,true));
 
 InstallMethod(IsMinimized, "(FR) for a vector machine",
@@ -335,7 +335,7 @@ end);
 InstallOtherMethod(\[\], "(FR) for a vector element and an index",
         [IsLinearFRElement and IsVectorFRMachineRep,IsPosInt],
         function(E,i)
-    return List(E!.transitions[i],v->VECTORMINIMIZE@(FamilyObj(E),LeftActingDomain(E),E!.transitions,E!.output,E!.input*v,0,false));
+    return List(E!.transitions[i],v->Fr.VECTORMINIMIZE(FamilyObj(E),LeftActingDomain(E),E!.transitions,E!.output,E!.input*v,0,false));
 end);
 
 InstallMethod(Transition, "(FR) for a vector element",
@@ -359,7 +359,7 @@ InstallMethod(GeneratorsOfFRMachine, "(FR) for a vector machine",
 InstallOtherMethod(\^, "(FR) for a vector and a vector element",
         [IsVector, IsLinearFRElement and IsVectorFRMachineRep],
         function(v,e)
-    return v*MATRIX@(e!.transitions,v->e!.input*v*e!.output);
+    return v*Fr.MATRIX(e!.transitions,v->e!.input*v*e!.output);
 end);
 
 InstallMethod(Activity, "(FR) for a vector element and a level",
@@ -377,11 +377,11 @@ InstallMethod(Activity, "(FR) for a vector element and a level",
         ConvertToMatrixRep(m);
         return m;
     fi;
-    m := MATRIX@(e!.transitions, function(v)
+    m := Fr.MATRIX(e!.transitions, function(v)
         v := [e!.input*v]; ConvertToMatrixRep(v); return v;
     end);
     for i in [2..n] do m := KroneckerProduct(m,e!.transitions,2); od;
-    m := MATRIX@(m,v->v[1]*e!.output);
+    m := Fr.MATRIX(m,v->v[1]*e!.output);
     b := ValueOption("blocks");
     if b=fail then
         ConvertToMatrixRep(m);
@@ -406,7 +406,7 @@ InstallMethod(Activities, "(FR) for a vector element and a level",
     m := e!.transitions;
     b := ValueOption("blocks");
     for i in [2..n] do
-        r := MATRIX@(m,v->e!.input*v*e!.output);
+        r := Fr.MATRIX(m,v->e!.input*v*e!.output);
         if b=fail then
             ConvertToMatrixRep(r);
         else
@@ -421,8 +421,8 @@ InstallMethod(Activities, "(FR) for a vector element and a level",
     return result;
 end);
 
-ACTIVITYSPARSE@ := fail; # shut up warning
-ACTIVITYSPARSE@ := function(l,e,v,n,x,y)
+Fr.ACTIVITYSPARSE := fail; # shut up warning
+Fr.ACTIVITYSPARSE := function(l,e,v,n,x,y)
     local d, p, i, j;
     if IsZero(v) then return; fi;
     if n=0 then
@@ -438,25 +438,24 @@ ACTIVITYSPARSE@ := function(l,e,v,n,x,y)
     else
         d := Length(e!.transitions);
         for i in [1..d] do for j in [1..d] do
-            ACTIVITYSPARSE@(l,e,v*e!.transitions[i][j],n-1,(x-1)*d+i,(y-1)*d+j);
+            Fr.ACTIVITYSPARSE(l,e,v*e!.transitions[i][j],n-1,(x-1)*d+i,(y-1)*d+j);
         od; od;
     fi;
 end;
-MakeReadOnlyGlobal("ACTIVITYSPARSE@");
 
 InstallMethod(ActivitySparse, "(FR) for a vector element and a level",
         [IsLinearFRElement and IsVectorFRMachineRep, IsInt],
         function(e,n)
     local l;
     l := [];
-    ACTIVITYSPARSE@(l,e,e!.input,n,1,1);
+    Fr.ACTIVITYSPARSE(l,e,e!.input,n,1,1);
     return l;
 end);
 
 InstallOtherMethod(State, "(FR) for a vector element and two vectors",
         [IsLinearFRElement and IsVectorFRMachineRep, IsVector, IsVector],
         function(E,a,b)
-    return VECTORMINIMIZE@(FamilyObj(E),LeftActingDomain(E),E!.transitions,E!.output,E!.input*(a*E!.transitions*b),0,false);
+    return Fr.VECTORMINIMIZE(FamilyObj(E),LeftActingDomain(E),E!.transitions,E!.output,E!.input*(a*E!.transitions*b),0,false);
 end);
 
 InstallOtherMethod(NestedMatrixState, "(FR) for a vector element and two lists",
@@ -467,7 +466,7 @@ InstallOtherMethod(NestedMatrixState, "(FR) for a vector element and two lists",
     for n in [1..Length(ilist)] do
         x := x*E!.transitions[ilist[n]][jlist[n]];
     od;
-    return VECTORMINIMIZE@(FamilyObj(E),LeftActingDomain(E),E!.transitions,E!.output,x,0,false);
+    return Fr.VECTORMINIMIZE(FamilyObj(E),LeftActingDomain(E),E!.transitions,E!.output,x,0,false);
 end);
 
 InstallOtherMethod(NestedMatrixCoefficient, "(FR) for a vector element and two lists",
@@ -484,7 +483,7 @@ end);
 InstallMethod(DecompositionOfFRElement, "(FR) for a vector element",
         [IsLinearFRElement and IsVectorFRMachineRep],
         function(E)
-    return MATRIX@(E!.transitions,v->VECTORMINIMIZE@(FamilyObj(E),LeftActingDomain(E),E!.transitions,E!.output,E!.input*v,0,false));
+    return Fr.MATRIX(E!.transitions,v->Fr.VECTORMINIMIZE(FamilyObj(E),LeftActingDomain(E),E!.transitions,E!.output,E!.input*v,0,false));
 end);
 
 InstallMethod(DecompositionOfFRElement, "(FR) for a vector element and a level",
@@ -517,7 +516,7 @@ InstallOtherMethod(States, "(FR) for a vector machine",
         M->VectorSpace(LeftActingDomain(M),
                 List(Basis(StateSet(M)),s->FRElement(M,s))));
 
-BindGlobal("DECOMPMATRIX@", function(m,d,n)
+Fr.DECOMPMATRIX := ( function(m,d,n)
     local result, N, i, j, k;
     result := List([1..d],i->List([1..d],j->[]));
     for k in [2..n] do
@@ -531,13 +530,13 @@ BindGlobal("DECOMPMATRIX@", function(m,d,n)
     return result;
 end);
 
-BindGlobal("GUESSMATRIX@", function(r,matlist,d)
+Fr.GUESSMATRIX := ( function(r,matlist,d)
     local spaces, bases, trans, inp, out, i, ii, j, jj, k, m, n, todo, c, x;
 
     n := Length(matlist);
     if n<=1 then return fail; fi;
     if IsZero(matlist[n]) then
-        return VECTORZEROE@(FREFamily(r^d),d,r);
+        return Fr.VECTORZEROE(FREFamily(r^d),d,r);
     fi;
     spaces := [];
     bases := [];
@@ -558,7 +557,7 @@ BindGlobal("GUESSMATRIX@", function(r,matlist,d)
             Add(inp,Zero(r));
         fi;
         n := Length(m)-1;
-        m := DECOMPMATRIX@(m,d,n+1);
+        m := Fr.DECOMPMATRIX(m,d,n+1);
         if spaces[n]=fail then return fail; fi;
         for i in [1..d] do
             for j in [1..d] do
@@ -630,17 +629,17 @@ InstallGlobalFunction(GuessVectorElement, # "(FR) for a matrix[list], ring, degr
     if not IsBound(r) then
         r := FieldOfMatrixList(matlist);
     fi;
-    return GUESSMATRIX@(r,matlist,d);
+    return Fr.GUESSMATRIX(r,matlist,d);
 end);
 
 InstallMethod(TransposedFRElement, "(FR) for a vector element",
         [IsLinearFRElement and IsVectorFRMachineRep],
         function(E)
-    return VECTORMINIMIZE@(FamilyObj(E),LeftActingDomain(E),
+    return Fr.VECTORMINIMIZE(FamilyObj(E),LeftActingDomain(E),
                    TransposedMat(E!.transitions),E!.output,E!.input,2,false);
 end);
 
-BindGlobal("ISTRIANGULARVECTOR@", function(e,prop)
+Fr.ISTRIANGULARVECTOR := ( function(e,prop)
     local V, x, n, v, w, i, j, todo;
     V := TrivialSubspace(StateSet(e));
     n := Length(e!.transitions);
@@ -675,15 +674,15 @@ InstallMethod(IsAntisymmetricFRElement, "(FR) for a linear element",
 
 InstallMethod(IsLowerTriangularFRElement, "(FR) for a vector element",
         [IsLinearFRElement and IsVectorFRMachineRep],
-        E->ISTRIANGULARVECTOR@(E,IsLowerTriangularFRElement));
+        E->Fr.ISTRIANGULARVECTOR(E,IsLowerTriangularFRElement));
 
 InstallMethod(IsUpperTriangularFRElement, "(FR) for a vector element",
         [IsLinearFRElement and IsVectorFRMachineRep],
-        E->ISTRIANGULARVECTOR@(E,IsUpperTriangularFRElement));
+        E->Fr.ISTRIANGULARVECTOR(E,IsUpperTriangularFRElement));
 
 InstallMethod(IsDiagonalFRElement, "(FR) for a vector element",
         [IsLinearFRElement and IsVectorFRMachineRep],
-        E->ISTRIANGULARVECTOR@(E,IsDiagonalFRElement));
+        E->Fr.ISTRIANGULARVECTOR(E,IsDiagonalFRElement));
 
 InstallMethod(LDUDecompositionFRElement, "(FR) for an FR element",
         [IsLinearFRElement],
@@ -722,7 +721,7 @@ end);
 #O  VectorMachine
 #O  VectorElement
 ##
-BindGlobal("VECTORCHECK@", function(transitions,output,input)
+Fr.VECTORCHECK := ( function(transitions,output,input)
     local m, n, i, j;
     if input<>fail then
         MakeImmutable(input);
@@ -762,7 +761,7 @@ end);
 InstallMethod(VectorMachine, "(FR) for lists of transitions and output",
         [IsRing,IsTransitionTensor,IsVector],
         function(r,transitions,output)
-    VECTORCHECK@(transitions,output,fail);
+    Fr.VECTORCHECK(transitions,output,fail);
     return VectorMachineNC(FRMFamily(r^Length(transitions)),
                    One(r)*transitions,One(r)*output);
 end);
@@ -787,8 +786,8 @@ end);
 InstallMethod(VectorElement, "(FR) for lists of transitions, output and input",
         [IsRing,IsTransitionTensor,IsVector,IsVector],
         function(r,transitions,output,input)
-    VECTORCHECK@(transitions,output,input);
-    return VECTORMINIMIZE@(FREFamily(r^Length(transitions)),r,
+    Fr.VECTORCHECK(transitions,output,input);
+    return Fr.VECTORMINIMIZE(FREFamily(r^Length(transitions)),r,
                    One(r)*transitions,One(r)*output,One(r)*input,0,false);
 end);
 
@@ -796,19 +795,19 @@ InstallMethod(VectorElement, "(FR) for lists of transitions, output and input, n
         [IsRing,IsTransitionTensor,IsVector,IsVector,IsOperation],
         function(r,transitions,output,input,cat)
     local fam;
-    VECTORCHECK@(transitions,output,input);
+    Fr.VECTORCHECK(transitions,output,input);
     if cat=IsJacobianElement then
-        fam := FRJFAMILY@(r^Length(transitions));
+        fam := Fr.FRJFAMILY(r^Length(transitions));
     else
         fam := FREFamily(r^Length(transitions));
     fi;
-    return VECTORMINIMIZE@(fam,r,One(r)*transitions,One(r)*output,One(r)*input,0,false);
+    return Fr.VECTORMINIMIZE(fam,r,One(r)*transitions,One(r)*output,One(r)*input,0,false);
 end);
 
 InstallMethod(FRElement, "(FR) for a vector machine and a state",
         [IsLinearFRMachine and IsVectorFRMachineRep, IsVector],
         function(M,s)
-    return VECTORMINIMIZE@(FREFamily(M),LeftActingDomain(M),M!.transitions,M!.output,s,0,false);
+    return Fr.VECTORMINIMIZE(FREFamily(M),LeftActingDomain(M),M!.transitions,M!.output,s,0,false);
 end);
 
 InstallMethod(FRElement, "(FR) for a vector machine, a state and a category",
@@ -816,40 +815,40 @@ InstallMethod(FRElement, "(FR) for a vector machine, a state and a category",
         function(M,s,cat)
     local f;
     if cat=IsJacobianElement then
-        f := FRJFAMILY@(M);
+        f := Fr.FRJFAMILY(M);
     else
         f := FREFamily(M);
     fi;
-    return VECTORMINIMIZE@(f,LeftActingDomain(M),M!.transitions,M!.output,s,0,false);
+    return Fr.VECTORMINIMIZE(f,LeftActingDomain(M),M!.transitions,M!.output,s,0,false);
 end);
 
 InstallMethod(FRElement, "(FR) for a vector element and a state",
         [IsLinearFRElement and IsVectorFRMachineRep, IsVector],
         function(E,s)
-    return VECTORMINIMIZE@(FamilyObj(E),LeftActingDomain(E),E!.transitions,E!.output,s,2,false);
+    return Fr.VECTORMINIMIZE(FamilyObj(E),LeftActingDomain(E),E!.transitions,E!.output,s,2,false);
 end);
 
 InstallMethod(FRElement, "(FR) for a vector machine and a state index",
         [IsLinearFRMachine and IsVectorFRMachineRep, IsInt],
         function(M,s)
     if IsZero(M) then
-        return VECTORZEROE@(FREFamily(M),Dimension(AlphabetOfFRObject(M)),LeftActingDomain(M));
+        return Fr.VECTORZEROE(FREFamily(M),Dimension(AlphabetOfFRObject(M)),LeftActingDomain(M));
     fi;
-    return VECTORMINIMIZE@(FREFamily(M),LeftActingDomain(M),M!.transitions,M!.output,\[\](M!.transitions[1][1]^0,s),0,false);
+    return Fr.VECTORMINIMIZE(FREFamily(M),LeftActingDomain(M),M!.transitions,M!.output,\[\](M!.transitions[1][1]^0,s),0,false);
 end);
 
 InstallMethod(FRElement, "(FR) for a vector element and a state index",
         [IsLinearFRElement and IsVectorFRMachineRep, IsInt],
         function(E,s)
     if IsZero(E) then
-        return VECTORZEROE@(FamilyObj(E),Dimension(AlphabetOfFRObject(E)),LeftActingDomain(E));
+        return Fr.VECTORZEROE(FamilyObj(E),Dimension(AlphabetOfFRObject(E)),LeftActingDomain(E));
     fi;
-    return VECTORMINIMIZE@(FamilyObj(E),LeftActingDomain(E),E!.transitions,E!.output,\[\](E!.transitions[1][1]^0,s),2,false);
+    return Fr.VECTORMINIMIZE(FamilyObj(E),LeftActingDomain(E),E!.transitions,E!.output,\[\](E!.transitions[1][1]^0,s),2,false);
 end);
 
 InstallMethod(LieObject, "(FR) for an associative vector element",
         [IsLinearFRElement and IsVectorFRMachineRep and IsAssociativeElement],
-        e->VectorElementNC(FRJFAMILY@(e),e!.transitions,e!.output,e!.input));
+        e->VectorElementNC(Fr.FRJFAMILY(e),e!.transitions,e!.output,e!.input));
 
 InstallMethod(AssociativeObject, "(FR) for a jacobian vector element",
         [IsLinearFRElement and IsVectorFRMachineRep and IsJacobianElement],
@@ -865,7 +864,7 @@ InstallMethod(AssociativeObject, "(FR) for a jacobian vector element",
 InstallMethod(ViewString, "(FR) for a vector machine",
         [IsLinearFRMachine and IsVectorFRMachineRep],
         function(M)
-    return CONCAT@("<Linear machine on alphabet ", LeftActingDomain(M), "^",
+    return Fr.CONCAT("<Linear machine on alphabet ", LeftActingDomain(M), "^",
                Length(M!.transitions), " with ", Length(M!.output), "-dimensional stateset>");
 end);
 
@@ -880,9 +879,9 @@ InstallMethod(ViewString, "(FR) for a vector element",
     else
         s := "<L"; skip := false;
     fi;
-    Append(s,CONCAT@("inear element on alphabet ",LeftActingDomain(E),"^", Length(E!.transitions)));
+    Append(s,Fr.CONCAT("inear element on alphabet ",LeftActingDomain(E),"^", Length(E!.transitions)));
     if not skip then
-        Append(s,CONCAT@(" with ",Length(E!.output), "-dimensional stateset"));
+        Append(s,Fr.CONCAT(" with ",Length(E!.output), "-dimensional stateset"));
     fi;
     if IsJacobianElement(E) then
         Append(s,"-");
@@ -894,7 +893,7 @@ end);
 InstallMethod(String, "(FR) vector machine to string",
         [IsLinearFRMachine and IsVectorFRMachineRep],
         function(M)
-    return CONCAT@("VectorMachine(",LeftActingDomain(M),", ", M!.transitions,", ", M!.output,")");
+    return Fr.CONCAT("VectorMachine(",LeftActingDomain(M),", ", M!.transitions,", ", M!.output,")");
 end);
 
 InstallMethod(String, "(FR) vector element to string",
@@ -906,11 +905,11 @@ InstallMethod(String, "(FR) vector element to string",
     else
         x := "";
     fi;
-    return CONCAT@("VectorElement(",LeftActingDomain(E),", ",
+    return Fr.CONCAT("VectorElement(",LeftActingDomain(E),", ",
                    E!.transitions,", ", E!.output,", ",E!.input,x,")");
 end);
 
-BindGlobal("VECTORDISPLAY@", function(M)
+Fr.VECTORDISPLAY := ( function(M)
     local r, i, j, k, l, m, n, xlen, xprint, xrule, headlen, headrule, headblank, s;
     r := LeftActingDomain(M);
     n := Length(M!.transitions);
@@ -929,63 +928,63 @@ BindGlobal("VECTORDISPLAY@", function(M)
 
     s := Concatenation(String(r,headlen)," |");
     for i in [1..n] do
-        APPEND@(s,String(i,QuoInt(xlen*m,2)+1),String("",xlen*m-QuoInt(xlen*m,2)),"|");
+        Fr.APPEND(s,String(i,QuoInt(xlen*m,2)+1),String("",xlen*m-QuoInt(xlen*m,2)),"|");
     od;
     Append(s,"\n");
-    APPEND@(s,headrule,"-+");
+    Fr.APPEND(s,headrule,"-+");
     for i in [1..n] do
         for j in [1..m] do Append(s,xrule); od;
         Append(s,"-+");
     od;
     Append(s,"\n");
     for i in [1..n] do
-        APPEND@(s,String(i,headlen)," ");
+        Fr.APPEND(s,String(i,headlen)," ");
         if m>=1 then
-            APPEND@(s,"|");
+            Fr.APPEND(s,"|");
             for j in [1..m] do
-                if j>1 then APPEND@(s,headblank," |"); fi;
+                if j>1 then Fr.APPEND(s,headblank," |"); fi;
                 for k in [1..n] do
                     for l in [1..m] do
-                        APPEND@(s," ",xprint(M!.transitions[i][k][j][l]));
+                        Fr.APPEND(s," ",xprint(M!.transitions[i][k][j][l]));
                     od;
-                    APPEND@(s," |");
+                    Fr.APPEND(s," |");
                 od;
-                APPEND@(s,"\n");
+                Fr.APPEND(s,"\n");
             od;
-            APPEND@(s,headrule,"-");
+            Fr.APPEND(s,headrule,"-");
         fi;
-        APPEND@(s,"+");
+        Fr.APPEND(s,"+");
         for i in [1..n] do
-            for j in [1..m] do APPEND@(s,xrule); od;
-            APPEND@(s,"-+");
+            for j in [1..m] do Fr.APPEND(s,xrule); od;
+            Fr.APPEND(s,"-+");
         od;
-        APPEND@(s,"\n");
+        Fr.APPEND(s,"\n");
     od;
-    APPEND@(s,"Output:");
+    Fr.APPEND(s,"Output:");
     for i in [1..m] do
-        APPEND@(s," ",xprint(M!.output[i]));
+        Fr.APPEND(s," ",xprint(M!.output[i]));
     od;
-    APPEND@(s,"\n");
+    Fr.APPEND(s,"\n");
     if IsLinearFRElement(M) then
         if IsJacobianElement(M) then
-            APPEND@(s,"Jacobian; ");
+            Fr.APPEND(s,"Jacobian; ");
         fi;
-        APPEND@(s,"Initial state:");
+        Fr.APPEND(s,"Initial state:");
         for i in [1..m] do
-            APPEND@(s," ",xprint(M!.input[i]));
+            Fr.APPEND(s," ",xprint(M!.input[i]));
         od;
-        APPEND@(s,"\n");
+        Fr.APPEND(s,"\n");
     fi;
     return s;
 end);
 
 InstallMethod(DisplayString, "(FR) for a vector machine",
         [IsLinearFRMachine and IsVectorFRMachineRep],
-        VECTORDISPLAY@);
+        Fr.VECTORDISPLAY);
 
 InstallMethod(DisplayString, "(FR) for a vector element",
         [IsLinearFRElement and IsVectorFRMachineRep],
-        VECTORDISPLAY@);
+        Fr.VECTORDISPLAY);
 #############################################################################
 
 #############################################################################
@@ -993,21 +992,21 @@ InstallMethod(DisplayString, "(FR) for a vector element",
 #M AsVectorMachine
 #M AsVectorElement
 ##
-BindGlobal("DELTA@", function(x) if x then return 1; else return 0; fi; end);
+Fr.DELTA := ( function(x) if x then return 1; else return 0; fi; end);
 
-BindGlobal("ASVECTORMACHINE@", function(r,M)
+Fr.ASVECTORMACHINE := ( function(r,M)
     local id, V;
     id := IdentityMat(Size(StateSet(M)),r);
     V := VectorMachineNC(FRMFamily(r^Size(AlphabetOfFRObject(M))),
-                 List(AlphabetOfFRObject(M),i->List(AlphabetOfFRObject(M),j->List(StateSet(M),s->DELTA@(Output(M,s,i)=j)*id[Transition(M,s,i)]))),
-                 CONSTANTVECTOR@(StateSet(M),One(r)));
+                 List(AlphabetOfFRObject(M),i->List(AlphabetOfFRObject(M),j->List(StateSet(M),s->Fr.DELTA(Output(M,s,i)=j)*id[Transition(M,s,i)]))),
+                 Fr.CONSTANTVECTOR(StateSet(M),One(r)));
     SetCorrespondence(V,id);
     return V;
 end);
 
 InstallMethod(AsVectorMachine, "(FR) for a Mealy machine",
         [IsRing,IsMealyMachine and IsMealyMachineIntRep],
-        ASVECTORMACHINE@);
+        Fr.ASVECTORMACHINE);
 
 InstallMethod(AsVectorMachine, "(FR) for a FR machine",
         [IsRing,IsFRMachine],
@@ -1015,7 +1014,7 @@ InstallMethod(AsVectorMachine, "(FR) for a FR machine",
     local N, V;
     Info(InfoFR,2,"AsVectorMachine: converting to Mealy machine");
     N := AsMealyMachine(M);
-    V := ASVECTORMACHINE@(r,N);
+    V := Fr.ASVECTORMACHINE(r,N);
     V!.Correspondence := Correspondence(V){Correspondence(N)};
     return V;
 end);
@@ -1035,32 +1034,32 @@ end);
 
 InstallMethod(AsLinearMachine, "(FR) for a Mealy machine",
         [IsRing,IsMealyMachine and IsMealyMachineIntRep],
-        ASVECTORMACHINE@);
+        Fr.ASVECTORMACHINE);
 
-BindGlobal("ASVECTORELEMENT@", function(r,E)
+Fr.ASVECTORELEMENT := ( function(r,E)
     local id, V;
     id := IdentityMat(Size(StateSet(E)),r);
-    V := VECTORMINIMIZE@(FREFamily(r^Size(AlphabetOfFRObject(E))),r,
-                 List(AlphabetOfFRObject(E),i->List(AlphabetOfFRObject(E),j->List(StateSet(E),s->DELTA@(Output(E,s,i)=j)*id[Transition(E,s,i)]))),
-                 CONSTANTVECTOR@(StateSet(E),One(r)),
+    V := Fr.VECTORMINIMIZE(FREFamily(r^Size(AlphabetOfFRObject(E))),r,
+                 List(AlphabetOfFRObject(E),i->List(AlphabetOfFRObject(E),j->List(StateSet(E),s->Fr.DELTA(Output(E,s,i)=j)*id[Transition(E,s,i)]))),
+                 Fr.CONSTANTVECTOR(StateSet(E),One(r)),
                  IdentityMat(Size(StateSet(E)),r)[1],0,true);
     return V;
 end);
 
 InstallMethod(AsVectorElement, "(FR) for a Mealy element",
         [IsRing,IsMealyElement and IsMealyMachineIntRep],
-        ASVECTORELEMENT@);
+        Fr.ASVECTORELEMENT);
 
 InstallMethod(AsVectorElement, "(FR) for a FR element",
         [IsRing,IsFRElement],
         function(r,E)
     Info(InfoFR,2,"AsVectorMachine: converting to Mealy machine");
-    return ASVECTORELEMENT@(r,AsMealyElement(E));
+    return Fr.ASVECTORELEMENT(r,AsMealyElement(E));
 end);
 
 InstallMethod(AsLinearElement, "(FR) for a Mealy element",
         [IsRing,IsMealyElement and IsMealyMachineIntRep],
-        ASVECTORELEMENT@);
+        Fr.ASVECTORELEMENT);
 
 InstallMethod(AsMealyElement, "(FR) for a vector element",
         [IsLinearFRElement and IsVectorFRMachineRep],
@@ -1101,10 +1100,10 @@ InstallMethod(TopElement, "(FR) for a ring and a matrix",
         function(r,m)
     if IsOne(m) then
         return VectorElementNC(FREFamily(r^Length(m)),
-                       One(r)*MATRIX@(m,x->[[x]]),[One(r)],[One(r)]);
+                       One(r)*Fr.MATRIX(m,x->[[x]]),[One(r)],[One(r)]);
     else
         return VectorElementNC(FREFamily(r^Length(m)),
-                       One(r)*(MATRIX@(m,x->[[0,x],[0,0]])+MATRIX@(m^0,x->[[0,0],[0,x]])),
+                       One(r)*(Fr.MATRIX(m,x->[[0,x],[0,0]])+Fr.MATRIX(m^0,x->[[0,0],[0,x]])),
             [One(r),One(r)],[One(r),Zero(r)]);
     fi;
 end);
@@ -1140,7 +1139,7 @@ InstallMethod(OneOp, "(FR) for a vector machine",
         [IsLinearFRMachine and IsVectorFRMachineRep],
         function(M)
     return VectorMachineNC(FamilyObj(M),
-                   MATRIX@(IdentityMat(Length(M!.transitions),LeftActingDomain(M)),x->[[x]]),
+                   Fr.MATRIX(IdentityMat(Length(M!.transitions),LeftActingDomain(M)),x->[[x]]),
                    [One(LeftActingDomain(M))]);
 end);
 
@@ -1148,22 +1147,22 @@ InstallMethod(OneOp, "(FR) for a vector element",
         [IsLinearFRElement and IsVectorFRMachineRep],
         function(E)
     return VectorElementNC(FamilyObj(E),
-                   MATRIX@(IdentityMat(Length(E!.transitions),LeftActingDomain(E)),x->[[x]]),
+                   Fr.MATRIX(IdentityMat(Length(E!.transitions),LeftActingDomain(E)),x->[[x]]),
                    [One(LeftActingDomain(E))],
                    [One(LeftActingDomain(E))]);
 end);
 
 InstallMethod(ZeroOp, "(FR) for a vector machine",
         [IsLinearFRMachine and IsVectorFRMachineRep],
-        M->VECTORZEROM@(FamilyObj(M),Length(M!.transitions),
+        M->Fr.VECTORZEROM(FamilyObj(M),Length(M!.transitions),
                 LeftActingDomain(M)));
 
 InstallMethod(ZeroOp, "(FR) for a vector element",
         [IsLinearFRElement and IsVectorFRMachineRep],
-        E->VECTORZEROE@(FamilyObj(E),Length(E!.transitions),
+        E->Fr.VECTORZEROE(FamilyObj(E),Length(E!.transitions),
                 LeftActingDomain(E)));
 
-BindGlobal("VECTORPLUS@", function(M,N)
+Fr.VECTORPLUS := ( function(M,N)
     local i, j, t, x, zM, zN, transitions, output, input;
 
     if IsZero(M) then return N; fi;
@@ -1190,7 +1189,7 @@ BindGlobal("VECTORPLUS@", function(M,N)
         input := Concatenation(M!.input,N!.input);
         MakeImmutable(input);
         ConvertToVectorRepNC(input);
-        return VECTORMINIMIZE@(FamilyObj(M),LeftActingDomain(M),
+        return Fr.VECTORMINIMIZE(FamilyObj(M),LeftActingDomain(M),
                        transitions,output,input,0,false);
     else
         return VectorMachineNC(FamilyObj(M),transitions,output);
@@ -1200,12 +1199,12 @@ end);
 InstallMethod(\+, "for two vector machines", IsIdenticalObj,
         [IsLinearFRMachine and IsVectorFRMachineRep,
          IsLinearFRMachine and IsVectorFRMachineRep],
-        VECTORPLUS@);
+        Fr.VECTORPLUS);
 
 InstallMethod(\+, "for two vector elements", IsIdenticalObj,
         [IsLinearFRElement and IsVectorFRMachineRep,
          IsLinearFRElement and IsVectorFRMachineRep],
-        VECTORPLUS@);
+        Fr.VECTORPLUS);
 
 InstallMethod(\*, "for a scalar and a vector machine",
         [IsScalar,IsLinearFRMachine and IsVectorFRMachineRep],
@@ -1247,7 +1246,7 @@ InstallMethod(AdditiveInverseSameMutability, "for a vector element",
     return VectorElementNC(FamilyObj(E),E!.transitions,-E!.output,E!.input);
 end);
 
-BindGlobal("VECTORTIMES@", function(M,N)
+Fr.VECTORTIMES := ( function(M,N)
     local i, j, k, t, x, transitions, output, input;
 
     if Length(M!.output)=0 or Length(N!.output)=0 then
@@ -1268,7 +1267,7 @@ BindGlobal("VECTORTIMES@", function(M,N)
         input := KroneckerProduct(M!.input,N!.input,1);
         MakeImmutable(input);
         ConvertToVectorRepNC(input);
-        x := VECTORMINIMIZE@(FamilyObj(M),LeftActingDomain(M),
+        x := Fr.VECTORMINIMIZE(FamilyObj(M),LeftActingDomain(M),
                        transitions,output,input,0,false);
     else
         x := VectorMachineNC(FamilyObj(M),transitions,output);
@@ -1279,18 +1278,18 @@ end);
 InstallMethod(\*, "for two vector machines", IsIdenticalObj,
         [IsLinearFRMachine and IsVectorFRMachineRep,
          IsLinearFRMachine and IsVectorFRMachineRep],
-        VECTORTIMES@);
+        Fr.VECTORTIMES);
 
 InstallMethod(\*, "for two vector elements", IsIdenticalObj,
         [IsLinearFRElement and IsVectorFRMachineRep and IsAssociativeElement,
          IsLinearFRElement and IsVectorFRMachineRep and IsAssociativeElement],
-        VECTORTIMES@);
+        Fr.VECTORTIMES);
 
 InstallMethod(\*, "for two vector elements", IsIdenticalObj,
         [IsLinearFRElement and IsVectorFRMachineRep and IsJacobianElement,
          IsLinearFRElement and IsVectorFRMachineRep and IsJacobianElement],
         function(x,y)
-    return VECTORTIMES@(x,y)-VECTORTIMES@(y,x);
+    return Fr.VECTORTIMES(x,y)-Fr.VECTORTIMES(y,x);
 end);
 
 InstallMethod(PthPowerImage, "for a vector element",
@@ -1301,7 +1300,7 @@ InstallMethod(PthPowerImage, "for a vector element",
     if not IsPrime(p) then TryNextMethod(); fi;
     return LieObject(AssociativeObject(x)^p);
 end);
-           
+
 InstallMethod(PthPowerImage, "for a vector element and a number",
         [IsLinearFRElement and IsVectorFRMachineRep and IsJacobianElement, IsInt],
         function(x,n)
@@ -1310,12 +1309,12 @@ InstallMethod(PthPowerImage, "for a vector element and a number",
     if not IsPrime(p) then TryNextMethod(); fi;
     return LieObject(AssociativeObject(x)^(p^n));
 end);
-           
+
 InstallMethod(\*, "for a scalar and a vector element",
         [IsScalar,IsLinearFRElement and IsVectorFRMachineRep],
         function(x,E)
     if not IsRat(x) and not x in LeftActingDomain(E) then TryNextMethod(); fi; # matrix?
-    return VECTORMINIMIZE@(FamilyObj(E),LeftActingDomain(E),
+    return Fr.VECTORMINIMIZE(FamilyObj(E),LeftActingDomain(E),
                    E!.transitions,x*E!.output,E!.input,1,false);
 end);
 
@@ -1323,7 +1322,7 @@ InstallMethod(\*, "for a vector element and a scalar",
         [IsLinearFRElement and IsVectorFRMachineRep,IsScalar],
         function(E,x)
     if not IsRat(x) and not x in LeftActingDomain(E) then TryNextMethod(); fi; # matrix?
-    return VECTORMINIMIZE@(FamilyObj(E),LeftActingDomain(E),
+    return Fr.VECTORMINIMIZE(FamilyObj(E),LeftActingDomain(E),
                    E!.transitions,E!.output*x,E!.input,1,false);
 end);
 
@@ -1449,9 +1448,9 @@ end);
 #!!! take limit states of vector machine
 #!!! multiply vector machine with generating machine
 #!!! minimize
-BindGlobal("VECTORLIMITMACHINE@", function(M)
+Fr.VECTORLIMITMACHINE := ( function(M)
     local V, W, i, j;
-    
+
     W := StateSet(M);
     repeat
         V := W;
@@ -1462,12 +1461,12 @@ BindGlobal("VECTORLIMITMACHINE@", function(M)
             od; od;
         od;
     until V=W;
-    return VectorMachineNC(FamilyObj(M),MATRIX@(M!.transitions,x->List(Basis(W),b->Coefficients(Basis(W),b*x))),Basis(W)*M!.output);
+    return VectorMachineNC(FamilyObj(M),Fr.MATRIX(M!.transitions,x->List(Basis(W),b->Coefficients(Basis(W),b*x))),Basis(W)*M!.output);
 end);
 
-BindGlobal("LINEARLIMITSTATES@", function(L)
+Fr.LINEARLIMITSTATES := ( function(L)
     local V, B, d, W, oldW, r;
-#!!!    V := LINEARSTATES@(L);
+#!!!    V := Fr.LINEARSTATES(L);
     B := Basis(V);
     d := TransposedMat(List(B,w->List(Concatenation(DecompositionOfFRElement(w)),x->Coefficients(B,x))));
     W := LeftActingDomain(V)^Length(B);
@@ -1480,17 +1479,17 @@ end);
 
 InstallMethod(LimitStates, "(FR) for a linear element",
         [IsLinearFRElement and IsFRElementStdRep],
-        x->LINEARLIMITSTATES@([x]));
+        x->Fr.LINEARLIMITSTATES([x]));
 #!!! disable / integrate in code. We need to keep track of the linear elements
 #with their natural machine rep
 
 InstallMethod(LimitStates, "(FR) for a vector machine",
         [IsLinearFRMachine and IsVectorFRMachineRep],
-        M->States(VECTORLIMITMACHINE@(M)));
+        M->States(Fr.VECTORLIMITMACHINE(M)));
 
 InstallMethod(LimitStates, "(FR) for a vector element",
         [IsLinearFRElement and IsVectorFRMachineRep],
-        E->States(VECTORLIMITMACHINE@(E)));
+        E->States(Fr.VECTORLIMITMACHINE(E)));
 
 InstallMethod(LimitStates, "(FR) for a space of linear elements",
         [IsFRElementCollection],
@@ -1504,16 +1503,16 @@ end);
 
 InstallMethod(LimitFRMachine, "(FR) for a vector machine",
         [IsLinearFRMachine and IsVectorFRMachineRep],
-        VECTORLIMITMACHINE@);
+        Fr.VECTORLIMITMACHINE);
 
 InstallMethod(LimitFRMachine, "(FR) for a vector element",
         [IsLinearFRElement and IsVectorFRMachineRep],
-        VECTORLIMITMACHINE@);
+        Fr.VECTORLIMITMACHINE);
 
 InstallMethod(LimitFRMachine, "(FR) for a space of linear elements",
         [IsVectorSpace and IsFRElementCollection],
         function(V)
-    return VECTORLIMITMACHINE@(Sum(GeneratorsOfVectorSpace(V),x->AsVectorMachine(UnderlyingFRMachine(x))));
+    return Fr.VECTORLIMITMACHINE(Sum(GeneratorsOfVectorSpace(V),x->AsVectorMachine(UnderlyingFRMachine(x))));
 end);
 
 InstallMethod(LimitFRMachine, "(FR) for a space of linear elements",
@@ -1522,10 +1521,10 @@ InstallMethod(LimitFRMachine, "(FR) for a space of linear elements",
     if not ForAll(L,IsLinearFRElement) then
         TryNextMethod();
     fi;
-    return VECTORLIMITMACHINE@(Sum(L,x->AsVectorMachine(UnderlyingFRMachine(x))));
+    return Fr.VECTORLIMITMACHINE(Sum(L,x->AsVectorMachine(UnderlyingFRMachine(x))));
 end);
 
-BindGlobal("LINEARNUCLEUS@", function(V)
+Fr.LINEARNUCLEUS := ( function(V)
     # V is a vector space of linear elements, e.g. state space of a machine
     local v, newv, oldv, x, gens;
     gens := Basis(V);
@@ -1546,7 +1545,7 @@ BindGlobal("LINEARNUCLEUS@", function(V)
         fi;
     od;
     return v;
-end);    
+end);
 #!!! disable
 
 InstallMethod(NucleusOfFRMachine, "(FR) for a linear machine",
@@ -1557,9 +1556,9 @@ InstallMethod(NucleusMachine, "(FR) for a linear machine",
         [IsLinearFRMachine],
         function(M)
     local l, oldl;
-    
+
     #!!! keep track of original generators, if they're linear elements
-    
+
     M := LimitFRMachine(Minimized(AsVectorMachine(M)));
     l := M;
     repeat
@@ -1595,7 +1594,7 @@ end,
     fi;
     m := Minimized(Sum(List(b,UnderlyingFRMachine)));
     init := List([1..Length(b)],i->Concatenation(List([1..Length(b)],
-                 j->DELTA@(i=j)*AsList(b[j]!.input))));
+                 j->Fr.DELTA(i=j)*AsList(b[j]!.input))));
     # need "AsList" because NullMapMatrix is not a list :(
 
     return rec(machine := m,

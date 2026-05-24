@@ -141,7 +141,7 @@ DeclareAttribute("AlphabetOfFRSemigroup", IsFRSemigroup);
 ##     <P/>Except in the semigroup case, <C>word-i</C> is allowed to be the
 ##     empty string; and the "&lt;...&gt;" may be skipped altogether.
 ##     In the group or IMG case, each <C>word-i</C> may also contain inverses.
-##         
+##
 ##     <P/>The following example constructs the "universal Grigorchuk machine".
 ## <Example><![CDATA[
 ## gap> m := NewGroupFRMachine("a=(1,2)(3,4)(5,6)","b=<a,b,a,b,,b>",
@@ -271,11 +271,11 @@ DeclareOperation("VirtualEndomorphism",[IsFRGroup,IsObject]);
 
 #############################################################################
 ##
-#O SEARCH@
+#O Fr.SEARCH
 ##
-## <#GAPDoc Label="SEARCH@">
+## <#GAPDoc Label="Fr.SEARCH">
 ## <ManSection>
-##   <Var Name="SEARCH@"/>
+##   <Var Name="Fr.SEARCH"/>
 ##   <Description>
 ##     This variable controls the search mechanism in FR groups. It is
 ##     a record with in particular entries <C>radius</C> and <C>depth</C>.
@@ -304,7 +304,7 @@ DeclareOperation("VirtualEndomorphism",[IsFRGroup,IsObject]);
 ## </ManSection>
 ## <#/GAPDoc>
 ##
-BindGlobal("SEARCH@", rec(depth := 6, volume := 5000));
+Fr.SEARCH := ( rec(depth := 6, volume := 5000));
 #############################################################################
 
 #############################################################################
