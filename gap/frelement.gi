@@ -28,7 +28,7 @@ InstallMethod(SetUnderlyingMealyElement, "(FR) for two FR elements",
         function(E,M)
     E![3] := M;
     SetFilterObj(E,HasUnderlyingMealyElement);
-end);    
+end);
 
 InstallMethod(UnderlyingMealyElement, "(FR) for an FR element",
         [IsFRElement and IsFRElementStdRep],
@@ -106,7 +106,7 @@ InstallMethod(FREFamily, "(FR) for a FR element",
 #O FRElement(Group, Transitions, Output, Init)
 #O FRElement(FRMachine, Init)
 ##
-BindGlobal("FRETYPE@", function(f)
+Fr.FRETYPE := ( function(f)
     if IsGroup(f) then
         return IsGroupFRElement and IsFRElementStdRep;
     elif HasIsFreeMonoid(f) and IsFreeMonoid(f) then
@@ -121,14 +121,14 @@ end);
 InstallOtherMethod(FRElementNC, "(FR) for a family, a free semigroup, a list of transitions, a list of outputs and an initial state",
         [IsFamily, IsSemigroup, IsList, IsList, IsAssocWord],
         function(fam,free,transitions,output,init)
-    return Objectify(NewType(fam, FRETYPE@(free)),
+    return Objectify(NewType(fam, Fr.FRETYPE(free)),
                    [FRMachineNC(FRMFamily(fam),free,transitions,output),Immutable(init)]);
 end);
 
 InstallMethod(FRElementNC, "(FR) for a FR machine and an initial word",
         [IsFamily, IsFRMachine and IsFRMachineStdRep, IsAssocWord],
         function(fam,M,init)
-    return Objectify(NewType(fam, FRETYPE@(M!.free)),
+    return Objectify(NewType(fam, Fr.FRETYPE(M!.free)),
                    [M,Immutable(init)]);
 end);
 
@@ -295,39 +295,39 @@ InstallMethod(ViewString, "(FR) for a FR element",
         function(E)
     local s;
     s := "";
-    APPEND@(s,"<", Size(AlphabetOfFRObject(E)), "|");
+    Fr.APPEND(s,"<", Size(AlphabetOfFRObject(E)), "|");
     if HasOne(UnderlyingFRMachine(E)!.free) and IsOne(InitialState(E)) then
-        APPEND@(s,"identity ...");
+        Fr.APPEND(s,"identity ...");
     else
-        APPEND@(s,InitialState(E));
+        Fr.APPEND(s,InitialState(E));
     fi;
     if HasUnderlyingMealyElement(E) then
-        APPEND@(s,"|",Length(StateSet(UnderlyingMealyElement(E))));
+        Fr.APPEND(s,"|",Length(StateSet(UnderlyingMealyElement(E))));
     fi;
-    APPEND@(s,">");
+    Fr.APPEND(s,">");
     return s;
 end);
 
 InstallMethod(String, "(FR) for a FR element",
         [IsFRElement and IsFRElementStdRep],
         function(E)
-    return CONCAT@("FRElement(...,",InitialState(E),")");
+    return Fr.CONCAT("FRElement(...,",InitialState(E),")");
 end);
 
 InstallMethod(DisplayString, "(FR) for a FR element",
         [IsFRElement and IsFRElementStdRep],
         function(E)
-    return CONCAT@(DisplayString(UnderlyingFRMachine(E)),"Initial state: ",InitialState(E),"\n");
+    return Fr.CONCAT(DisplayString(UnderlyingFRMachine(E)),"Initial state: ",InitialState(E),"\n");
 end);
 
-INSTALLPRINTERS@(IsFRElement);
+Fr.INSTALLPRINTERS(IsFRElement);
 #############################################################################
 
 #############################################################################
 ##
 #M One(FRElement)
 ##
-BindGlobal("ONE@", function(E)
+Fr.ONE := ( function(E)
     local e;
     e := FRElement(E![1],One(E![2]));
     if HasUnderlyingMealyElement(E) then
@@ -335,14 +335,14 @@ BindGlobal("ONE@", function(E)
     fi;
     return e;
 end);
-    
+
 InstallMethod(OneOp, "(FR) for a FR element",
         [IsGroupFRElement],
-        ONE@);
+        Fr.ONE);
 
 InstallMethod(OneOp, "(FR) for a FR element",
         [IsMonoidFRElement],
-        ONE@);
+        Fr.ONE);
 
 InstallMethod(OneOp, "(FR) for a FR element",
         [IsSemigroupFRElement],
@@ -361,7 +361,7 @@ end);
 ##
 #M InverseOp(FRElement)
 ##
-BindGlobal("INVOLVEDGENERATORS@", function(E)
+Fr.INVOLVEDGENERATORS := ( function(E)
     local s, olds;
     s := Set(List(LetterRepAssocWord(E![2]),AbsInt));
     repeat
@@ -371,7 +371,7 @@ BindGlobal("INVOLVEDGENERATORS@", function(E)
     return s;
 end);
 
-BindGlobal("REVERSEDWORD@", function(w)
+Fr.REVERSEDWORD := ( function(w)
     return AssocWordByLetterRep(FamilyObj(w),Reversed(LetterRepAssocWord(w)));
 end);
 
@@ -383,23 +383,23 @@ InstallMethod(InverseOp, "(FR) for a group FR element",
         rws := NewFRMachineRWS(E![1]);
         e := FRElement(E![1], rws.letterunrep(rws.reduce(rws.letterrep(E![2]^-1))));
     else
-        s := INVOLVEDGENERATORS@(E);
+        s := Fr.INVOLVEDGENERATORS(E);
         trans := [];
         out := [];
         for i in [1..Length(E![1]!.transitions)] do
             if i in s then
-                if ISINVERTIBLE@(E![1]!.output[i]) then
-                    Add(out,INVERSE@(E![1]!.output[i]));
+                if Fr.ISINVERTIBLE(E![1]!.output[i]) then
+                    Add(out,Fr.INVERSE(E![1]!.output[i]));
                 else
                     return fail;
                 fi;
-                Add(trans,List(E![1]!.transitions[i]{out[Length(out)]},REVERSEDWORD@));
+                Add(trans,List(E![1]!.transitions[i]{out[Length(out)]},Fr.REVERSEDWORD));
             else
                 Add(trans,E![1]!.transitions[i]);
                 Add(out,E![1]!.output[i]);
             fi;
         od;
-        e := FRElementNC(FamilyObj(E),E![1]!.free,trans,out,REVERSEDWORD@(E![2]));
+        e := FRElementNC(FamilyObj(E),E![1]!.free,trans,out,Fr.REVERSEDWORD(E![2]));
     fi;
     if HasUnderlyingMealyElement(E) then
         SetUnderlyingMealyElement(e,InverseOp(UnderlyingMealyElement(E)));
@@ -411,7 +411,7 @@ InstallMethod(IsInvertible, "(FR) for an FR element",
         [IsFRElement and IsFRElementStdRep],
         function(E)
     return (HasIsGroupFRMachine(E![1]) and IsGroupFRMachine(E![1])) or
-           ForAll(INVOLVEDGENERATORS@(E),s->ISINVERTIBLE@(E![1]!.output[s]));
+           ForAll(Fr.INVOLVEDGENERATORS(E),s->Fr.ISINVERTIBLE(E![1]!.output[s]));
 end);
 #############################################################################
 
@@ -427,7 +427,7 @@ InstallMethod(\*, "(FR) for two FR elements",
     if IsIdenticalObj(left![1],right![1]) then
         rws := NewFRMachineRWS(left![1]);
         e := FRElement(left![1], rws.letterunrep(rws.reduce(rws.letterrep(left![2]*right![2]))));
-    else    
+    else
         N := SubFRMachine(left![1],right![1]);
         if N <> fail then
             return FRElement(left![1],left![2]*right![2]^N);
@@ -522,7 +522,7 @@ InstallOtherMethod(State, "(FR) for an FR element and a list",
     if HasUnderlyingMealyElement(E) then
         SetUnderlyingMealyElement(e,State(UnderlyingMealyElement(E),x));
     fi;
-    return e;    
+    return e;
 end);
 #############################################################################
 
@@ -576,7 +576,7 @@ InstallMethod(Transitions, "(FR) for an FR element and a state",
     return Transitions(E![1],s);
 end);
 
-BindGlobal("MAKEPERMS@", function(M,l)
+Fr.MAKEPERMS := ( function(M,l)
     local d, i, j, k, s, p, q, perms, oldperms, S, SR;
     d := Size(AlphabetOfFRObject(M));
     S := GeneratorsOfFRMachine(M);
@@ -593,7 +593,7 @@ BindGlobal("MAKEPERMS@", function(M,l)
                     if k>0 then
                         q := oldperms[k]{q};
                     else
-                        q := INVERSE@(oldperms[-k]){q};
+                        q := Fr.INVERSE(oldperms[-k]){q};
                     fi;
                 od;
                 Append(p,q+d^(i-1)*(s[2][j]-1));
@@ -604,7 +604,7 @@ BindGlobal("MAKEPERMS@", function(M,l)
     return perms;
 end);
 
-BindGlobal("PERMORTRANSFORMATION@", function(t)
+Fr.PERMORTRANSFORMATION := ( function(t)
     if RankOfTransformation(t)=DegreeOfTransformation(t) then
         return AsPermutation(t);
     fi;
@@ -613,7 +613,7 @@ end);
 
 InstallMethod(Activity, "(FR) for an FR element",
         [IsFRElement],
-        E->PERMORTRANSFORMATION@(TransformationList(Output(E))));
+        E->Fr.PERMORTRANSFORMATION(TransformationList(Output(E))));
 
 InstallMethod(ActivityTransformation, "(FR) for an FR element",
         [IsFRElement],
@@ -639,28 +639,28 @@ end);
 InstallMethod(Activity, "(FR) for a group FR element and a level",
         [IsGroupFRElement and IsFRElementStdRep, IsInt],
         function(E,l)
-    return MAPPEDWORD@(E![2],List(MAKEPERMS@(E![1],l),PermList),());
+    return Fr.MAPPEDWORD(E![2],List(Fr.MAKEPERMS(E![1],l),PermList),());
 end);
 
 InstallMethod(Activity, "(FR) for an FR element and a level",
         [IsFRElement and IsFRElementStdRep, IsInt],
         function(E,l)
-    return PERMORTRANSFORMATION@(ActivityTransformation(E,l));
+    return Fr.PERMORTRANSFORMATION(ActivityTransformation(E,l));
 end);
 
 InstallMethod(ActivityTransformation, "(FR) for an FR element and a level",
         [IsFRElement and IsFRElementStdRep, IsInt],
         function(E,l)
-    return MAPPEDWORD@(E![2],List(MAKEPERMS@(E![1],l),Transformation),IdentityTransformation);
+    return Fr.MAPPEDWORD(E![2],List(Fr.MAKEPERMS(E![1],l),Transformation),IdentityTransformation);
 end);
 
 InstallMethod(ActivityPerm, "(FR) for an FR element and a level",
         [IsFRElement and IsFRElementStdRep, IsInt],
         function(E,l)
-    return MAPPEDWORD@(E![2],List(MAKEPERMS@(E![1],l),PermList),());
+    return Fr.MAPPEDWORD(E![2],List(Fr.MAKEPERMS(E![1],l),PermList),());
 end);
 
-BindGlobal("INT2SEQ@", function(x,l,n)
+Fr.INT2SEQ := ( function(x,l,n)
     local s, i;
     s := [];
     x := x-1;
@@ -671,7 +671,7 @@ BindGlobal("INT2SEQ@", function(x,l,n)
     return s;
 end);
 
-BindGlobal("SEQ2INT@", function(s,l,n)
+Fr.SEQ2INT := ( function(s,l,n)
     return 1+Sum([1..l],i->(s[i]-1)*n^(i-1));
 end);
 
@@ -680,9 +680,9 @@ InstallMethod(ActivityInt, "(FR) for an FR machine and a state",
         function(E,l)
     local p, n, i, delta, x;
     n := Size(AlphabetOfFRObject(E));
-    p := ANY2OUT@(Activity(E,l),n^l);
+    p := Fr.ANY2OUT(Activity(E,l),n^l);
     if p=fail then return fail; fi;
-    x := List([1..n^l],i->SEQ2INT@(Reversed(INT2SEQ@(i,l,n)),l,n));
+    x := List([1..n^l],i->Fr.SEQ2INT(Reversed(Fr.INT2SEQ(i,l,n)),l,n));
     delta := Position(x,p[1])-1;
     if p{x}=Concatenation(x{[1+delta..n^l]},x{[1..delta]}) then
         return delta;
@@ -691,38 +691,37 @@ InstallMethod(ActivityInt, "(FR) for an FR machine and a state",
     fi;
 end);
 
-PORTRAIT@ := fail; # shut up warning
-PORTRAIT@ := function(g,n,act)
+Fr.PORTRAIT := fail; # shut up warning
+Fr.PORTRAIT := function(g,n,act)
     if n=0 then
         return act(g,1);
     else
-        return List(AlphabetOfFRObject(g),a->PORTRAIT@(State(g,a),n-1,act));
+        return List(AlphabetOfFRObject(g),a->Fr.PORTRAIT(State(g,a),n-1,act));
     fi;
 end;
-MakeReadOnlyGlobal("PORTRAIT@");
 
 InstallMethod(Portrait, "(FR) for an FR element an a maximal level",
         [IsFRElement, IsInt],
         function(E,l)
-    return List([0..l],i->PORTRAIT@(E,i,Activity));
+    return List([0..l],i->Fr.PORTRAIT(E,i,Activity));
 end);
 
 InstallMethod(PortraitPerm, "(FR) for an FR element an a maximal level",
         [IsFRElement, IsInt],
         function(E,l)
-    return List([0..l],i->PORTRAIT@(E,i,ActivityPerm));
+    return List([0..l],i->Fr.PORTRAIT(E,i,ActivityPerm));
 end);
 
 InstallMethod(PortraitTransformation, "(FR) for an FR element an a maximal level",
         [IsFRElement, IsInt],
         function(E,l)
-    return List([0..l],i->PORTRAIT@(E,i,ActivityTransformation));
+    return List([0..l],i->Fr.PORTRAIT(E,i,ActivityTransformation));
 end);
 
 InstallMethod(PortraitInt, "(FR) for an FR element an a maximal level",
         [IsFRElement, IsInt],
         function(E,l)
-    return List([0..l],i->PORTRAIT@(E,i,ActivityInt));
+    return List([0..l],i->Fr.PORTRAIT(E,i,ActivityInt));
 end);
 
 InstallMethod(DecompositionOfFRElement, "(FR) for an FR element",
@@ -764,7 +763,7 @@ end);
 ##
 #M \=(FRElement, FRElement)
 ##
-BindGlobal("GROUPISONE@", function(m,w)
+Fr.GROUPISONE := ( function(m,w)
     local rws, todo, d, t, u;
 
     rws := NewFRMachineRWS(m);
@@ -773,7 +772,7 @@ BindGlobal("GROUPISONE@", function(m,w)
         u := rws.reduce(rws.cyclicallyreduce(t));
         if u<>[] then
             d := rws.pi(u);
-            if not ISONE@(d[2]) then return false; fi;
+            if not Fr.ISONE(d[2]) then return false; fi;
             rws.addgprule(u,true);
             Append(todo,d[1]);
         fi;
@@ -782,14 +781,14 @@ BindGlobal("GROUPISONE@", function(m,w)
     return true;
 end);
 
-BindGlobal("MONOIDCOMPARE@", function(m,v,w)
+Fr.MONOIDCOMPARE := ( function(m,v,w)
     # returns 0 if v=w in machine m,
     # returns -1 if v<w, and returns 1 if v>w
     local rws, todo, d, t;
 
     rws := NewFRMachineRWS(m);
     todo := NewFIFO([[rws.letterrep(v),rws.letterrep(w)]]);
-    
+
     for t in todo do
         t := List(t,rws.reduce);
         if t[1]<>t[2] then
@@ -817,17 +816,17 @@ InstallMethod(\=, "(FR) for two group FR elements",
         [IsGroupFRElement and IsFRElementStdRep, IsGroupFRElement and IsFRElementStdRep],
         function(left, right)
     local m;
-    
+
     if IsIdenticalObj(left![1], right![1]) then
         if left![2]=right![2] then
             return true;
         else
-            return GROUPISONE@(left![1],left![2]/right![2]);
+            return Fr.GROUPISONE(left![1],left![2]/right![2]);
         fi;
     fi;
-    m := FRMMINSUM@(left![1],right![1]);
+    m := Fr.FRMMINSUM(left![1],right![1]);
     left := left![2]^Correspondence(m)[1]/right![2]^Correspondence(m)[2];
-    return GROUPISONE@(m,left);
+    return Fr.GROUPISONE(m,left);
 end);
 
 InstallMethod(\=, "(FR) for two FR elements",
@@ -835,16 +834,16 @@ InstallMethod(\=, "(FR) for two FR elements",
         [IsFRElement and IsFRElementStdRep, IsFRElement and IsFRElementStdRep],
         function(left, right)
     local m;
-    
+
     if IsIdenticalObj(left![1], right![1]) then
         if left![2]=right![2] then
             return true;
         else
-            return MONOIDCOMPARE@(left![1],left![2],right![2])=0;
+            return Fr.MONOIDCOMPARE(left![1],left![2],right![2])=0;
         fi;
     fi;
-    m := FRMMINSUM@(left![1],right![1]);
-    return MONOIDCOMPARE@(m,left![2]^Correspondence(m)[1],right![2]^Correspondence(m)[2])=0;
+    m := Fr.FRMMINSUM(left![1],right![1]);
+    return Fr.MONOIDCOMPARE(m,left![2]^Correspondence(m)[1],right![2]^Correspondence(m)[2])=0;
 end);
 
 InstallMethod(IsOne, "(FR) for a group FR element",
@@ -859,7 +858,7 @@ InstallMethod(IsOne, "(FR) for a group FR element",
     if IsOne(E![2]) then
         return true;
     fi;
-    return GROUPISONE@(E![1],E![2]);
+    return Fr.GROUPISONE(E![1],E![2]);
 end);
 
 InstallMethod(IsOne, "(FR) for a FR element",
@@ -868,7 +867,7 @@ InstallMethod(IsOne, "(FR) for a FR element",
     if HasOne(E![1]!.free) and IsOne(E![2]) then
         return true;
     else
-        return MONOIDCOMPARE@(E![1],E![2],
+        return Fr.MONOIDCOMPARE(E![1],E![2],
                        AssocWordByLetterRep(FamilyObj(E![2]),[]))=0;
     fi;
 end);
@@ -899,10 +898,10 @@ InstallMethod(\<, "(FR) for two FR elements",
         function(left, right)
     local m;
     if IsIdenticalObj(left![1],right![1]) then
-        return MONOIDCOMPARE@(left![1],left![2],right![2])<0;
+        return Fr.MONOIDCOMPARE(left![1],left![2],right![2])<0;
     else
-        m := FRMMINSUM@(left![1],right![1]);
-        return MONOIDCOMPARE@(m,left![2]^Correspondence(m)[1],right![2]^Correspondence(m)[2])<0;
+        m := Fr.FRMMINSUM(left![1],right![1]);
+        return Fr.MONOIDCOMPARE(m,left![2]^Correspondence(m)[1],right![2]^Correspondence(m)[2])<0;
     fi;
 end);
 #############################################################################
@@ -1020,7 +1019,7 @@ InstallMethod(States, "(FR) for a list of FR elements",
     return states;
 end);
 
-BindGlobal("FRFIXEDSTATES@", function(L)
+Fr.FRFIXEDSTATES := ( function(L)
     local states, i, x, addstates, stateset;
     states := [];
     stateset := [];
@@ -1047,14 +1046,14 @@ end);
 
 InstallMethod(FixedStatesOfFRElement, "(FR) for an FR element",
         [IsFRElement],
-        E->FRFIXEDSTATES@([E]));
+        E->Fr.FRFIXEDSTATES([E]));
 InstallMethod(FixedStates, "(FR) for an FR element",
         [IsFRElement],
         FixedStatesOfFRElement);
 
 InstallMethod(FixedStates, "(FR) for a list of FR elements",
         [IsFRElementCollection],
-        FRFIXEDSTATES@);
+        Fr.FRFIXEDSTATES);
 
 InstallMethod(IsFiniteStateFRMachine, "(FR) for an FR machine",
         [IsFRMachine],
@@ -1064,7 +1063,7 @@ InstallMethod(IsFiniteStateFRElement, "(FR) for an FR element",
         [IsFRElement],
         e->CategoryCollections(IsFRElement)(States(e)));
 
-BindGlobal("FRLIMITSTATES@", function(L)
+Fr.FRLIMITSTATES := ( function(L)
     local s, d, S, oldS;
     s := Set(States(L));
     d := List(s,w->BlistList([1..Length(s)],List(DecompositionOfFRElement(w)[1],x->Position(s,x))));
@@ -1078,16 +1077,16 @@ end);
 
 InstallMethod(LimitStatesOfFRElement, "(FR) for an FR element",
         [IsFRElement],
-        E->FRLIMITSTATES@([E]));
+        E->Fr.FRLIMITSTATES([E]));
 InstallMethod(LimitStates, "(FR) for an FR element",
         [IsFRElement],
         LimitStatesOfFRElement);
 
 InstallMethod(LimitStates, "(FR) for a list of FR elements",
         [IsFRElementCollection],
-        FRLIMITSTATES@);
+        Fr.FRLIMITSTATES);
 
-BindGlobal("MAYBE_ORDER@", function(e,limit)
+Fr.MAYBE_ORDER := ( function(e,limit)
     # does the element e have provable infinite order, within raising to power
     # 'limit'?
     local testing, found, recur;
@@ -1129,7 +1128,7 @@ BindGlobal("MAYBE_ORDER@", function(e,limit)
     return recur(e,1);
 end);
 
-BindGlobal("NUCLEUS@", function(L)
+Fr.NUCLEUS := ( function(L)
     local s, news, olds, gens, i, j, maybeinf;
 
     gens := Set(L);
@@ -1145,7 +1144,7 @@ BindGlobal("NUCLEUS@", function(L)
         fi;
 
         i := 1; while i <= Size(maybeinf) do
-            j := MAYBE_ORDER@(maybeinf[i],Size(s));
+            j := Fr.MAYBE_ORDER(maybeinf[i],Size(s));
             if j=infinity then
                 return fail;
             elif j=fail then
@@ -1168,7 +1167,7 @@ end);
 
 InstallMethod(NucleusOfFRMachine, "(FR) for an FR machine",
         [IsFRMachine],
-        M->NUCLEUS@(List(GeneratorsOfFRMachine(M),x->FRElement(M,x))));
+        M->Fr.NUCLEUS(List(GeneratorsOfFRMachine(M),x->FRElement(M,x))));
 #############################################################################
 
 #############################################################################
@@ -1178,9 +1177,9 @@ InstallMethod(NucleusOfFRMachine, "(FR) for an FR machine",
 ## is proved to terminate for bounded elements, by Said Sidki (personal
 ## communication); otherwise could run forever
 ##
-BindGlobal("ORDER@", function(e)
+Fr.ORDER := ( function(e)
     local testing, found, recur;
-    
+
     if HasUnderlyingMealyElement(e) then
         e := UnderlyingMealyElement(e);
     fi;
@@ -1188,7 +1187,7 @@ BindGlobal("ORDER@", function(e)
     if not IsInvertible(e) then
 	return fail;
     fi;
-    
+
     if IsAbelian(VertexTransformationsFRElement(e)) then
         found := NewDictionary(e,false);
         recur := function(e)
@@ -1210,7 +1209,7 @@ BindGlobal("ORDER@", function(e)
             return infinity;
         fi;
     fi;
-    
+
     testing := NewDictionary(e,true); # current order during recursion
     found := NewDictionary(e,true); # elements for which we found the order
     AddDictionary(testing,One(e),infinity);
@@ -1250,11 +1249,11 @@ BindGlobal("ORDER@", function(e)
 end);
 
 InstallMethod(Order, "(FR) for an FR element; not guaranteed to terminate",
-        [IsFRElement and IsFRElementStdRep], ORDER@);
-        
+        [IsFRElement and IsFRElementStdRep], Fr.ORDER);
+
 InstallMethod(Order, "(FR) for a Mealy element; not guaranteed to terminate",
-        [IsMealyElement], ORDER@);
-        
+        [IsMealyElement], Fr.ORDER);
+
 InstallMethod(IsLevelTransitiveFRElement, "(FR) for a group FR element",
         [IsGroupFRMealyElement],
         E->IsLevelTransitiveFRElement(UnderlyingMealyElement(E)));

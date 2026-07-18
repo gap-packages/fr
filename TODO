@@ -21,7 +21,7 @@ group:
   * Exponent, IsSolvable, IsNilpotent, IsSimple
   * smarter IsTorsion, IsTorsionFree, HasCongruenceProperty
   * SubexponentialGrowth
-  * SEARCH@.BALL should not compute full balls if #gens is large (>100)
+  * Fr.SEARCH.BALL should not compute full balls if #gens is large (>100)
   * complex of groups covering contracting group
 
 vhgroup:
@@ -48,7 +48,7 @@ linear, vector:
   * Minimize, nice vectors for algebra elements
   * extend / restrict scalars
   * "in" method
-  
+
 algebra:
   * test membership in an algebra
   * test nillity of algebra (akin to IsTorsion for groups)

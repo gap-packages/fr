@@ -22,7 +22,7 @@ end);
 ##
 #M VHStructure
 ##
-BindGlobal("VHSTRUCTURE@", function(result,r,v,h)
+Fr.VHSTRUCTURE := ( function(result,r,v,h)
     local i, m, n, getv, geth, addrel;
 
     m := Length(v);
@@ -90,7 +90,7 @@ InstallMethod(VHStructure, "for a f.p. group",
     if Intersection(v,h)<>[] then TryNextMethod(); fi;
     result := rec(v := GeneratorsOfGroup(G){v},
                   h := GeneratorsOfGroup(G){h});
-    if VHSTRUCTURE@(result,r,v,h)=fail then
+    if Fr.VHSTRUCTURE(result,r,v,h)=fail then
         TryNextMethod();
     fi;
     SetVHStructure(FamilyObj(One(G)),result);
@@ -106,7 +106,7 @@ InstallMethod(ViewString, "for a VH group",
     t := String(VHStructure(G).h);
     return Concatenation("<VH group on the generators ",s{[1..Length(s)-1]},"|",t{[2..Length(t)]},">");
 end);
-INSTALLPRINTERS@(IsVHGroup);
+Fr.INSTALLPRINTERS(IsVHGroup);
 
 InstallMethod(FpElementNFFunction, "for a VH group",
         [IsElementOfFpGroupFamily and HasVHStructure],
@@ -117,9 +117,9 @@ InstallMethod(FpElementNFFunction, "for a VH group",
     gffam := FamilyObj(UnderlyingElement(Representative(CollectionsFamily(gfam)!.wholeGroup)));
     vgens := [];
     for i in r.v do Add(vgens,String(i)); od;
-    for i in Reversed(r.v) do Add(vgens,CONCAT@(i,"^-1")); od;
+    for i in Reversed(r.v) do Add(vgens,Fr.CONCAT(i,"^-1")); od;
     for i in r.h do Add(vgens,String(i)); od;
-    for i in Reversed(r.h) do Add(vgens,CONCAT@(i,"^-1")); od;
+    for i in Reversed(r.h) do Add(vgens,Fr.CONCAT(i,"^-1")); od;
     mon := FreeMonoid(vgens);
     mffam := FamilyObj(Representative(mon));
     m := Length(r.v);
@@ -283,15 +283,15 @@ InstallGlobalFunction(VHGroup, function(arg)
     if Length(l)<>m*n or ForAny(l,x->0 in x) then
         Error("Missing corners ",Difference(Cartesian(Concatenation([-m..-1],[1..m]),Concatenation([-n..-1],[1..n])),r));
     fi;
-    v := List([1..m],i->CONCAT@("a",i));
-    h := List([1..n],i->CONCAT@("b",i));
+    v := List([1..m],i->Fr.CONCAT("a",i));
+    h := List([1..n],i->Fr.CONCAT("b",i));
     f := FreeGroup(Concatenation(v,h));
     v := GeneratorsOfGroup(f){[1..m]};
     h := GeneratorsOfGroup(f){[m+1..m+n]};
     f := f / List(l,x->v[AbsInt(x[1])]^SignInt(x[1])*h[AbsInt(x[2])]^SignInt(x[2])*v[AbsInt(x[3])]^SignInt(x[3])*h[AbsInt(x[4])]^SignInt(x[4]));
     i := rec(v := GeneratorsOfGroup(f){[1..m]},
              h := GeneratorsOfGroup(f){[m+1..m+n]});
-    VHSTRUCTURE@(i,l,[1..m],[1..n]);
+    Fr.VHSTRUCTURE(i,l,[1..m],[1..n]);
     SetVHStructure(f,i);
     SetVHStructure(FamilyObj(One(f)),i);
     SetReducedMultiplication(f);
@@ -331,7 +331,7 @@ InstallMethod(IsIrreducibleVHGroup, "(FR) for a VH group",
         TryNextMethod();
     fi;
     for q in act do
-        if not IsPGroup(EDGESTABILIZER@(q)) then return true; fi;
+        if not IsPGroup(Fr.EDGESTABILIZER(q)) then return true; fi;
     od;
     if ForAny(act,IsFinite) then return false; fi;
     TryNextMethod();
@@ -428,13 +428,13 @@ InstallMethod(IsInfinitelyTransitive, "(FR) for an FR group",
     if not HasUnderlyingFRMachine(G) then TryNextMethod(); fi;
     M := UnderlyingFRMachine(G);
     if not IsBireversible(M) then TryNextMethod(); fi;
-    
+
     # first see if the top group is 2-transitive, and has sufficient
     # transitivity in its 2-neighbourhood (see [Rattaggi, Prop. 1.2(3a)])
     if Transitivity(VertexTransformations(G),AlphabetOfFRSemigroup(G))>=2 and
        not IsSolvable(Stabilizer(VertexTransformations(G),1)) then
         Info(InfoFR,3, "IsInfinitelyTransitive: testing non-solvability of edge stabilizers");
-        return not IsSolvable(EDGESTABILIZER@(G));
+        return not IsSolvable(Fr.EDGESTABILIZER(G));
     fi;
     if not HasAlphabetInvolution(M) then
         return IsLevelTransitiveFRGroup(G);
@@ -450,7 +450,7 @@ InstallMethod(IsInfinitelyTransitive, "(FR) for an FR group",
     Error("Should not be reached!");
 end);
 
-BindGlobal("MEALY2WORD@", function(x,g,h)
+Fr.MEALY2WORD := ( function(x,g,h)
     local stack, seen, work, i, nx, nw, n, time;
     if IsOne(x) then
         return One(h[1]);
@@ -470,7 +470,7 @@ BindGlobal("MEALY2WORD@", function(x,g,h)
         work := Remove(First(stack,x->x<>[]));
         time := time+1;
         if time mod 1000 = 0 then
-            Info(InfoFR,1,"MEALY2WORD@: considering now a Mealy machine on ",work[1]!.nrstates, " states");
+            Info(InfoFR,1,"Fr.MEALY2WORD: considering now a Mealy machine on ",work[1]!.nrstates, " states");
         fi;
         AddDictionary(seen,work[1]);
         for i in [1..Length(g)] do
@@ -506,7 +506,7 @@ InstallMethod(IsomorphismFpGroup, "(FR) for an FR group",
         g := m{StateSet(m)};
         h := GeneratorsOfGroup(f);
         SortParallel(g,h);
-        return GroupHomomorphismByFunction(G,f,x->MEALY2WORD@(x,g,GeneratorsOfGroup(f)),w->MappedWord(w,GeneratorsOfGroup(f),g));
+        return GroupHomomorphismByFunction(G,f,x->Fr.MEALY2WORD(x,g,GeneratorsOfGroup(f)),w->MappedWord(w,GeneratorsOfGroup(f),g));
     fi;
     TryNextMethod();
 end);
@@ -517,11 +517,11 @@ end);
 #E GammaPQMachine
 #E GammaPQGroup
 ##
-BindGlobal("QUATERNIONBASIS@", fail); # must be computed only at run-time
+Fr.QUATERNIONBASIS := ( fail); # must be computed only at run-time
 
-BindGlobal("QUATERNIONNORMP@", function(p)
+Fr.QUATERNIONNORMP := ( function(p)
     local a, b, c, d, bound, result, x, y, z;
-    
+
     if not IsPrime(p) then
         Error("Argument ",p," should be prime");
     fi;
@@ -543,9 +543,9 @@ BindGlobal("QUATERNIONNORMP@", function(p)
                 if a^2+b^2+c^2>p then continue; fi;
                 d := RootInt(p-a^2-b^2-c^2);
                 if a^2+b^2+c^2+d^2=p then
-                    Add(result,[a,b,c,d]*QUATERNIONBASIS@);
+                    Add(result,[a,b,c,d]*Fr.QUATERNIONBASIS);
                     if d<>0 then
-                        Add(result,[a,b,c,-d]*QUATERNIONBASIS@);
+                        Add(result,[a,b,c,-d]*Fr.QUATERNIONBASIS);
                     fi;
                 fi;
             od;
@@ -556,28 +556,28 @@ end);
 
 #qconj := function(q)
 #    local c;
-#    c := Coefficients(QUATERNIONBASIS@,q);
-#    return [c[1],-c[2],-c[3],-c[4]]*QUATERNIONBASIS@;
+#    c := Coefficients(Fr.QUATERNIONBASIS,q);
+#    return [c[1],-c[2],-c[3],-c[4]]*Fr.QUATERNIONBASIS;
 #end;
 
 #qnorm := function(q)
-#    return Coefficients(QUATERNIONBASIS@,q)^2;
+#    return Coefficients(Fr.QUATERNIONBASIS,q)^2;
 #end;
 
-BindGlobal("QUATERNIONFACTOR@", function(q,l)
+Fr.QUATERNIONFACTOR := ( function(q,l)
     local result, i, j, p, qq;
     result := [];
     for i in l do
-        p := Coefficients(QUATERNIONBASIS@,i[1])^2;
+        p := Coefficients(Fr.QUATERNIONBASIS,i[1])^2;
         for j in [1..Length(i)] do
             qq := Inverse(i[j])*q;
-            if ForAll(Coefficients(QUATERNIONBASIS@,qq),IsInt) then
+            if ForAll(Coefficients(Fr.QUATERNIONBASIS,qq),IsInt) then
                 q := qq;
                 Add(result,j);
                 break;
             fi;
         od;
-        if not ForAll(Coefficients(QUATERNIONBASIS@,qq),IsInt) then
+        if not ForAll(Coefficients(Fr.QUATERNIONBASIS,qq),IsInt) then
             return fail;
         fi;
     od;
@@ -588,25 +588,23 @@ end);
 InstallGlobalFunction(GammaPQMachine, function(p,q)
     local i, j, k, pset, qset, trans, out;
 
-    if QUATERNIONBASIS@=fail then
-        MakeReadWriteGlobal("QUATERNIONBASIS@FR");
-        QUATERNIONBASIS@ := Basis(QuaternionAlgebra(Rationals));
-        MakeReadOnlyGlobal("QUATERNIONBASIS@FR");
+    if Fr.QUATERNIONBASIS=fail then
+        Fr.QUATERNIONBASIS := Basis(QuaternionAlgebra(Rationals));
     fi;
 
-    pset := QUATERNIONNORMP@(p);
-    qset := QUATERNIONNORMP@(q);
+    pset := Fr.QUATERNIONNORMP(p);
+    qset := Fr.QUATERNIONNORMP(q);
     trans := List(pset,x->[]);
     out := List(pset,x->[]);
     for i in [1..p+1] do
         for j in [1..q+1] do
-            k := QUATERNIONFACTOR@(pset[i]*qset[j],[qset,pset]);
+            k := Fr.QUATERNIONFACTOR(pset[i]*qset[j],[qset,pset]);
             out[i][k[1]] := j;
             trans[i][k[1]] := k[2];
         od;
     od;
     i := MealyMachine(trans,out);
-    SetName(i,CONCAT@("GammaPQMachine(",p,",",q,")"));
+    SetName(i,Fr.CONCAT("GammaPQMachine(",p,",",q,")"));
     SetCorrespondence(i,[pset,qset]);
     out := [];
     for j in qset do
@@ -767,7 +765,7 @@ BindGlobal("RattaggiGroup",
                    # CONJ 2.70: G0 is simple
                    2_70 := VHGroup([1,1,-1,-2],[1,2,-2,-1],[1,3,-2,1],
                            [1,-3,2,3],[1,-2,-2,-3],[2,1,-2,2]),
-                   
+
                    # PROP 3.27: (PGL(2,13),PGL(2,17)), virtually simplex
                    # if V=<1+2i+2j+2k,3+2i,1+4j,3+2i+2j>, then group is V/ZV
                    3_26 := VHGroup([1,1,3,3],[1,2,2,1],[1,3,4,2],

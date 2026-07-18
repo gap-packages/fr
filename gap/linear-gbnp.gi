@@ -38,7 +38,7 @@ InstallMethod(FRMachineRWS, "(FR) for an algebra machine",
     return rws;
 end);
 
-BindGlobal("ALGEBRAISZERO@", function(M,x)
+Fr.ALGEBRAISZERO := ( function(M,x)
     local rws, todo, i;
 
     rws := NewFRMachineRWS(M);
@@ -46,9 +46,9 @@ BindGlobal("ALGEBRAISZERO@", function(M,x)
     for x in todo do
         x := rws.reduce(x);
         if not IsZero(x) then
-            if not IsZero(SUBS@(x,M!.output)) then return false; fi;
+            if not IsZero(Fr.SUBS(x,M!.output)) then return false; fi;
             rws.addrule(x);
-            x := SUBS@(x,M!.transitions);
+            x := Fr.SUBS(x,M!.transitions);
             for i in x do Append(todo,i); od;
         fi;
     od;

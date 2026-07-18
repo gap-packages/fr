@@ -15,7 +15,7 @@
 # apply a ring homomorphism to expr. here im is the list of images of
 # generators of a free algebra; expr is an element of the free algebra.
 # the last two entries in im are 0 and 1.
-BindGlobal("SUBS@", function(expr,im)
+Fr.SUBS := ( function(expr,im)
     local mapped, i, j, m, e, w, one;
 
     e := ExtRepOfObj(expr);
@@ -43,7 +43,7 @@ BindGlobal("SUBS@", function(expr,im)
     return mapped;
 end);
 
-BindGlobal("AUGMENTATION@", function(expr)
+Fr.AUGMENTATION := ( function(expr)
     local e;
 
     e := ExtRepOfObj(expr);
@@ -54,7 +54,7 @@ BindGlobal("AUGMENTATION@", function(expr)
     fi;
 end);
 
-BindGlobal("ALGEBRAELEMENT@", function(f,M,s)
+Fr.ALGEBRAELEMENT := ( function(f,M,s)
     return Objectify(NewType(f,IsLinearFRElement and IsFRElementStdRep),
                    [M,s]);
 end);
@@ -72,41 +72,41 @@ InstallMethod(InitialState, "(FR) for a linear machine",
 InstallMethod(Output, "(FR) for a linear machine",
         [IsLinearFRMachine and IsAlgebraFRMachineRep,IsElementOfFreeMagmaRing],
         function(M,s)
-    return SUBS@(s,M!.output);
+    return Fr.SUBS(s,M!.output);
 end);
 
 InstallMethod(Output, "(FR) for a linear element",
         [IsLinearFRElement and IsFRElementStdRep],
-        E->SUBS@(E![2],E![1]!.output));
+        E->Fr.SUBS(E![2],E![1]!.output));
 
 InstallMethod(Transitions, "(FR) for a linear machine",
         [IsLinearFRMachine and IsAlgebraFRMachineRep,IsElementOfFreeMagmaRing,IsVector],
         function(M,s,a)
-    return a*SUBS@(s,M!.transitions);
+    return a*Fr.SUBS(s,M!.transitions);
 end);
 
 InstallMethod(Transition, "(FR) for a linear machine",
         [IsLinearFRMachine and IsAlgebraFRMachineRep,IsElementOfFreeMagmaRing,IsVector,IsVector],
         function(M,s,a,b)
-    return a*SUBS@(s,M!.transitions)*b;
+    return a*Fr.SUBS(s,M!.transitions)*b;
 end);
 
 InstallMethod(Transitions, "(FR) for a linear element",
         [IsLinearFRElement and IsFRElementStdRep,IsVector],
         function(E,a)
-    return a*SUBS@(E![2],E![1]!.transitions);
+    return a*Fr.SUBS(E![2],E![1]!.transitions);
 end);
 
 InstallOtherMethod(\[\], "(FR) for a linear element",
         [IsLinearFRElement and IsFRElementStdRep,IsPosInt],
         function(E,i)
-    return List(SUBS@(E![2],E![1]!.transitions)[i],v->ALGEBRAELEMENT@(FamilyObj(E),E![1],v));
+    return List(Fr.SUBS(E![2],E![1]!.transitions)[i],v->Fr.ALGEBRAELEMENT(FamilyObj(E),E![1],v));
 end);
 
 InstallMethod(Transition, "(FR) for a linear element",
         [IsLinearFRElement and IsFRElementStdRep,IsVector,IsVector],
         function(E,a,b)
-    return a*SUBS@(E![2],E![1]!.transitions)*b;
+    return a*Fr.SUBS(E![2],E![1]!.transitions)*b;
 end);
 
 InstallMethod(StateSet, "(FR) for a linear machine in vector rep",
@@ -124,7 +124,7 @@ InstallMethod(GeneratorsOfFRMachine, "(FR) for a linear machine",
 InstallOtherMethod(\^, "(FR) for a vector and a linear element",
         [IsVector, IsLinearFRElement and IsFRElementStdRep],
         function(v,E)
-    return v*MATRIX@(SUBS@(E![1],E![2]!.transitions),v->SUBS@(v,E![1]!.output));
+    return v*Fr.MATRIX(Fr.SUBS(E![1],E![2]!.transitions),v->Fr.SUBS(v,E![1]!.output));
 end);
 
 InstallMethod(Activity, "(FR) for a linear machine and a level",
@@ -138,7 +138,7 @@ InstallMethod(Activity, "(FR) for a linear machine and a level",
         for x in oldm do
             mm := List(E![1]!.transitions[1],i->[]);
             for x in x do
-                e := SUBS@(x,E![1]!.transitions);
+                e := Fr.SUBS(x,E![1]!.transitions);
                 for i in [1..Length(e)] do
                     Append(mm[i],e[i]);
                 od;
@@ -146,7 +146,7 @@ InstallMethod(Activity, "(FR) for a linear machine and a level",
             Append(m,mm);
         od;
     od;
-    m := MATRIX@(m,v->SUBS@(v,E![1]!.output));
+    m := Fr.MATRIX(m,v->Fr.SUBS(v,E![1]!.output));
     b := ValueOption("blocks");
     if b=fail then
         ConvertToMatrixRep(m);
@@ -164,7 +164,7 @@ InstallMethod(Activities, "(FR) for a linear machine and a level",
         function(E,n)
     local b, i, j, m, mm, oldm, e, x, result;
     m := [[E![2]]];
-    result := [[[SUBS@(E![2],E![1]!.output)]]];
+    result := [[[Fr.SUBS(E![2],E![1]!.output)]]];
     b := ValueOption("blocks");
     for j in [1..n] do
         oldm := m;
@@ -172,14 +172,14 @@ InstallMethod(Activities, "(FR) for a linear machine and a level",
         for x in oldm do
             mm := List(E![1]!.transitions[1],i->[]);
             for x in x do
-                e := SUBS@(x,E![1]!.transitions);
+                e := Fr.SUBS(x,E![1]!.transitions);
                 for i in [1..Length(e)] do
                     Append(mm[i],e[i]);
                 od;
             od;
             Append(m,mm);
         od;
-        x := MATRIX@(m,v->SUBS@(v,E![1]!.output));
+        x := Fr.MATRIX(m,v->Fr.SUBS(v,E![1]!.output));
         if b=fail then
             ConvertToMatrixRep(m);
         else
@@ -193,7 +193,7 @@ InstallMethod(Activities, "(FR) for a linear machine and a level",
     return result;
 end);
 
-BindGlobal("LINEARSTATES@", function(l)
+Fr.LINEARSTATES := ( function(l)
     local W, todo, x;
     todo := NewFIFO(l);
     W := VectorSpace(LeftActingDomain(l[1]),[],Zero(l[1]));
@@ -214,7 +214,7 @@ end);
 InstallOtherMethod(State, "(FR) for a linear element and two vectors",
         [IsLinearFRElement and IsFRElementStdRep, IsVector, IsVector],
         function(E,a,b)
-    return ALGEBRAELEMENT@(FamilyObj(E),E![1],a*SUBS@(E![2],E![1]!.transitions)*b);
+    return Fr.ALGEBRAELEMENT(FamilyObj(E),E![1],a*Fr.SUBS(E![2],E![1]!.transitions)*b);
 end);
 
 InstallOtherMethod(NestedMatrixState, "(FR) for a linear element and two lists",
@@ -223,9 +223,9 @@ InstallOtherMethod(NestedMatrixState, "(FR) for a linear element and two lists",
     local x, n;
     x := E![2];
     for n in [1..Length(ilist)] do
-        x := SUBS@(x,E![1]!.transitions)[ilist[n]][jlist[n]];
+        x := Fr.SUBS(x,E![1]!.transitions)[ilist[n]][jlist[n]];
     od;
-    return ALGEBRAELEMENT@(FamilyObj(E),E![1],x);
+    return Fr.ALGEBRAELEMENT(FamilyObj(E),E![1],x);
 end);
 
 InstallOtherMethod(NestedMatrixCoefficient, "(FR) for a linear element and two lists",
@@ -234,25 +234,25 @@ InstallOtherMethod(NestedMatrixCoefficient, "(FR) for a linear element and two l
     local x, n;
     x := E![2];
     for n in [1..Length(ilist)] do
-        x := SUBS@(x,E![1]!.transitions)[ilist[n]][jlist[n]];
+        x := Fr.SUBS(x,E![1]!.transitions)[ilist[n]][jlist[n]];
     od;
-    return SUBS@(x,E![1]!.output);
+    return Fr.SUBS(x,E![1]!.output);
 end);
 
 InstallMethod(DecompositionOfFRElement, "(FR) for a linear element",
         [IsLinearFRElement and IsFRElementStdRep],
         function(E)
-    return MATRIX@(SUBS@(E![2],E![1]!.transitions),
-                   v->ALGEBRAELEMENT@(FamilyObj(E),E![1],v));
+    return Fr.MATRIX(Fr.SUBS(E![2],E![1]!.transitions),
+                   v->Fr.ALGEBRAELEMENT(FamilyObj(E),E![1],v));
 end);
 
 InstallMethod(States, "(FR) for a linear element",
         [IsLinearFRElement and IsFRElementStdRep],
-        E->LINEARSTATES@([E]));
+        E->Fr.LINEARSTATES([E]));
 
 InstallMethod(States, "(FR) for a space of linear elements",
         [IsVectorSpace and IsFRElementCollection],
-        V->LINEARSTATES@(GeneratorsOfVectorSpace(V)));
+        V->Fr.LINEARSTATES(GeneratorsOfVectorSpace(V)));
 
 InstallMethod(States, "(FR) for a collection of linear elements",
         [IsFRElementCollection],1, # give it higher priority than FR method
@@ -260,7 +260,7 @@ InstallMethod(States, "(FR) for a collection of linear elements",
     if not ForAll(L,IsLinearFRElement) then
         TryNextMethod();
     fi;
-    return LINEARSTATES@(L);
+    return Fr.LINEARSTATES(L);
 end);
 
 InstallMethod(TransposedFRElement, "(FR) for a linear element",
@@ -286,7 +286,7 @@ InstallMethod(AlgebraMachineNC, "(FR) for family, free, transitions, output",
     return M;
 end);
 
-BindGlobal("PREPARESUBS@", function(n,l)
+Fr.PREPARESUBS := ( function(n,l)
     if Length(l)<n then
         Error("Substitution list is too short -- should have at least ",n," elements\n");
     fi;
@@ -302,8 +302,8 @@ InstallMethod(AlgebraMachine, "(FR) for domain, free, transitions, output",
         function(r,free,transitions,output)
     local n;
     n := Length(GeneratorsOfAlgebraWithOne(free));
-    transitions := PREPARESUBS@(n,transitions);
-    output := PREPARESUBS@(n,output);
+    transitions := Fr.PREPARESUBS(n,transitions);
+    output := Fr.PREPARESUBS(n,output);
     return AlgebraMachineNC(FRMFamily(r^Length(transitions[1])),
                    free,transitions,output);
 end);
@@ -324,7 +324,7 @@ InstallMethod(AlgebraElementNC, "(FR) for family, free, transitions, output and 
         function(f,free,transitions,output,input)
     local M;
     M := AlgebraMachineNC(FRMFamily(f), free, transitions, output);
-    return ALGEBRAELEMENT@(f,M,input);
+    return Fr.ALGEBRAELEMENT(f,M,input);
 end);
 
 InstallMethod(AlgebraElement, "(FR) for domain, free, transitions, output and input",
@@ -333,7 +333,7 @@ InstallMethod(AlgebraElement, "(FR) for domain, free, transitions, output and in
         function(r,free,transitions,output,input)
     local M;
     M := AlgebraMachine(r, free, transitions, output);
-    return ALGEBRAELEMENT@(FREFamily(M),M,input);
+    return Fr.ALGEBRAELEMENT(FREFamily(M),M,input);
 end);
 
 InstallMethod(AlgebraElement, "(FR) for domain, free, transitions, output, input and category",
@@ -343,11 +343,11 @@ InstallMethod(AlgebraElement, "(FR) for domain, free, transitions, output, input
     local M, f;
     M := AlgebraMachine(r, free, transitions, output);
     if cat=IsJacobianElement then
-        f := FRJFAMILY@(M);
+        f := Fr.FRJFAMILY(M);
     else
         f := FREFamily(M);
     fi;
-    return ALGEBRAELEMENT@(f,M,input);
+    return Fr.ALGEBRAELEMENT(f,M,input);
 end);
 
 InstallMethod(AlgebraElement, "(FR) for free, transitions, output and input",
@@ -359,7 +359,7 @@ end);
 InstallMethod(FRElement, "(FR) for a linear machine and a state",
         [IsLinearFRMachine and IsAlgebraFRMachineRep,IsElementOfFreeMagmaRing],
         function(M,s)
-    return ALGEBRAELEMENT@(FREFamily(M),M,s);
+    return Fr.ALGEBRAELEMENT(FREFamily(M),M,s);
 end);
 
 InstallMethod(FRElement, "(FR) for a linear machine, a state and a category",
@@ -367,38 +367,38 @@ InstallMethod(FRElement, "(FR) for a linear machine, a state and a category",
         function(M,s,cat)
     local f;
     if cat=IsJacobianElement then
-        f := FRJFAMILY@(M);
+        f := Fr.FRJFAMILY(M);
     else
         f := FREFamily(M);
     fi;
-    return ALGEBRAELEMENT@(f,M,s);
+    return Fr.ALGEBRAELEMENT(f,M,s);
 end);
 
 InstallMethod(FRElement, "(FR) for a linear element and a state",
         [IsLinearFRElement and IsFRElementStdRep, IsElementOfFreeMagmaRing],
         function(E,s)
-    return ALGEBRAELEMENT@(FamilyObj(E),E![1],s);
+    return Fr.ALGEBRAELEMENT(FamilyObj(E),E![1],s);
 end);
 
 InstallMethod(FRElement, "(FR) for a linear machine and a state index",
         [IsLinearFRMachine and IsAlgebraFRMachineRep,IsInt],
         function(M,s)
-    return ALGEBRAELEMENT@(FREFamily(M),M,GeneratorsOfAlgebraWithOne(M!.free)[s]);
+    return Fr.ALGEBRAELEMENT(FREFamily(M),M,GeneratorsOfAlgebraWithOne(M!.free)[s]);
 end);
 
 InstallMethod(FRElement, "(FR) for a linear element and a state index",
         [IsLinearFRElement and IsFRElementStdRep, IsInt],
         function(E,s)
-    return ALGEBRAELEMENT@(FamilyObj(E),E![1],GeneratorsOfAlgebraWithOne(E![1]!.free)[s]);
+    return Fr.ALGEBRAELEMENT(FamilyObj(E),E![1],GeneratorsOfAlgebraWithOne(E![1]!.free)[s]);
 end);
 
 InstallMethod(LieObject, "(FR) for an associative linear element",
         [IsLinearFRElement and IsFRElementStdRep and IsAssociativeElement],
-        e->ALGEBRAELEMENT@(FRJFAMILY@(e),e![1],e![2]));
+        e->Fr.ALGEBRAELEMENT(Fr.FRJFAMILY(e),e![1],e![2]));
 
 InstallMethod(AssociativeObject, "(FR) for a jacobian linear element",
         [IsLinearFRElement and IsFRElementStdRep and IsJacobianElement],
-        e->ALGEBRAELEMENT@(FREFamily(e),e![1],e![2]));
+        e->Fr.ALGEBRAELEMENT(FREFamily(e),e![1],e![2]));
 #############################################################################
 
 #############################################################################
@@ -410,7 +410,7 @@ InstallMethod(AssociativeObject, "(FR) for a jacobian linear element",
 InstallMethod(ViewString, "(FR) for a linear machine",
         [IsLinearFRMachine and IsAlgebraFRMachineRep],
         function(M)
-    return CONCAT@("<Linear machine on alphabet ", LeftActingDomain(M), "^",
+    return Fr.CONCAT("<Linear machine on alphabet ", LeftActingDomain(M), "^",
           Length(M!.transitions[1]), " with generators ",
           GeneratorsOfAlgebraWithOne(M!.free), ">");
 end);
@@ -419,7 +419,7 @@ InstallMethod(ViewString, "(FR) for a linear element",
         [IsLinearFRElement and IsFRElementStdRep],
         function(E)
     local s;
-    s := CONCAT@("<", LeftActingDomain(E), "^", Length(E![1]!.transitions[1]), "|",
+    s := Fr.CONCAT("<", LeftActingDomain(E), "^", Length(E![1]!.transitions[1]), "|",
           E![2]);
     if IsJacobianElement(E) then Append(s,"-"); fi;
     Append(s,">");
@@ -429,7 +429,7 @@ end);
 InstallMethod(String, "(FR) Linear machine to string",
         [IsLinearFRMachine and IsAlgebraFRMachineRep],
         function(M)
-    return CONCAT@("AlgebraMachine(",LeftActingDomain(M),", ", M!.transitions,", ", M!.output,")");
+    return Fr.CONCAT("AlgebraMachine(",LeftActingDomain(M),", ", M!.transitions,", ", M!.output,")");
 end);
 
 InstallMethod(String, "(FR) Linear element to string",
@@ -441,13 +441,13 @@ InstallMethod(String, "(FR) Linear element to string",
     else
         x := "";
     fi;
-    return CONCAT@("AlgebraElement(",LeftActingDomain(E),", ",
+    return Fr.CONCAT("AlgebraElement(",LeftActingDomain(E),", ",
                    E![1]!.free,", ",
                    E![1]!.transitions,", ",
                    E![1]!.output,", ",E![2],x,")");
 end);
 
-BindGlobal("ALG2STRING@", function(expr)
+Fr.ALG2STRING := ( function(expr)
     local i, j, m, e, w, map, mapped, one;
 
     e := ExtRepOfObj(expr);
@@ -499,8 +499,8 @@ InstallMethod(DisplayString, "(FR) for a linear machine",
     r := LeftActingDomain(M);
     n := Length(M!.transitions[1]);
     m := Length(GeneratorsOfAlgebraWithOne(M!.free));
-    xlen := Maximum(List(Flat(M!.transitions),x->Length(ALG2STRING@(x))))+1;
-    xprint := x->String(ALG2STRING@(x),xlen-1);
+    xlen := Maximum(List(Flat(M!.transitions),x->Length(Fr.ALG2STRING(x))))+1;
+    xprint := x->String(Fr.ALG2STRING(x),xlen-1);
     xrule := ListWithIdenticalEntries(xlen,'-');
     headlen := Length(String(r))+1;
     headrule := ListWithIdenticalEntries(headlen,'-');
@@ -508,35 +508,35 @@ InstallMethod(DisplayString, "(FR) for a linear machine",
 
     s := Concatenation(String(r,headlen)," |");
     for i in [1..n] do
-        APPEND@(s,String(i,QuoInt(xlen,2)+1),String("",xlen-QuoInt(xlen,2)),"|");
+        Fr.APPEND(s,String(i,QuoInt(xlen,2)+1),String("",xlen-QuoInt(xlen,2)),"|");
     od;
-    APPEND@(s,"\n");
-    APPEND@(s,headrule, "-+");
-    for i in [1..n] do APPEND@(s,xrule,"-+"); od;
-    APPEND@(s,"\n");
+    Fr.APPEND(s,"\n");
+    Fr.APPEND(s,headrule, "-+");
+    for i in [1..n] do Fr.APPEND(s,xrule,"-+"); od;
+    Fr.APPEND(s,"\n");
     for i in [1..n] do
-        APPEND@(s,String(i,headlen)," |");
+        Fr.APPEND(s,String(i,headlen)," |");
         for j in [1..m] do
-            if j>1 then APPEND@(s,headblank," |"); fi;
+            if j>1 then Fr.APPEND(s,headblank," |"); fi;
             for k in [1..n] do
-                APPEND@(s," ",xprint(M!.transitions[j][i][k])," |");
+                Fr.APPEND(s," ",xprint(M!.transitions[j][i][k])," |");
             od;
-            APPEND@(s,"\n");
+            Fr.APPEND(s,"\n");
         od;
-        APPEND@(s,headrule,"-+");
-        for i in [1..n] do APPEND@(s,xrule,"-+"); od;
-        APPEND@(s,"\n");
+        Fr.APPEND(s,headrule,"-+");
+        for i in [1..n] do Fr.APPEND(s,xrule,"-+"); od;
+        Fr.APPEND(s,"\n");
     od;
-    APPEND@(s,"Output:");
+    Fr.APPEND(s,"Output:");
     for i in [1..m] do
-        APPEND@(s," ");
+        Fr.APPEND(s," ");
         if IsFFE(M!.output[i]) then
-            APPEND@(s,IntFFE(M!.output[i]));
+            Fr.APPEND(s,IntFFE(M!.output[i]));
         else
-            APPEND@(s,M!.output[i]);
+            Fr.APPEND(s,M!.output[i]);
         fi;
     od;
-    APPEND@(s,"\n");
+    Fr.APPEND(s,"\n");
     return s;
 end);
 
@@ -548,7 +548,7 @@ InstallMethod(DisplayString, "(FR) for a linear element",
     if IsJacobianElement(E) then
         Append(s, "Jacobian; ");
     fi;
-    APPEND@(s,"Initial state: ",ALG2STRING@(E![2]),"\n");
+    Fr.APPEND(s,"Initial state: ",Fr.ALG2STRING(E![2]),"\n");
     return s;
 end);
 #############################################################################
@@ -558,7 +558,7 @@ end);
 #M AsAlgebraMachine
 #M AsAlgebraElement
 ##
-BindGlobal("ASALGEBRAMACHINE@", function(r,M)
+Fr.ASALGEBRAMACHINE := ( function(r,M)
     local s, f, g, inj, A, trans, out, zero, i, x;
     g := GeneratorsOfFRMachine(M);
     f := FreeAssociativeAlgebraWithOne(r,ElementsFamily(FamilyObj(M!.free))!.names);
@@ -585,18 +585,18 @@ end);
 
 InstallMethod(AsAlgebraMachine, "(FR) for a semigroup FR machine",
         [IsRing,IsSemigroupFRMachine],
-        ASALGEBRAMACHINE@);
+        Fr.ASALGEBRAMACHINE);
 
 InstallMethod(AsAlgebraMachine, "(FR) for a monoid FR machine",
         [IsRing,IsMonoidFRMachine],
-        ASALGEBRAMACHINE@);
+        Fr.ASALGEBRAMACHINE);
 
 InstallMethod(AsAlgebraMachine, "(FR) for a group FR machine",
         [IsRing,IsGroupFRMachine],
         function(r,M)
     local N, A;
     N := AsMonoidFRMachine(M);
-    A := ASALGEBRAMACHINE@(r,N);
+    A := Fr.ASALGEBRAMACHINE(r,N);
     A!.Correspondence := Correspondence(N)*Correspondence(A);
     return A;
 end);
@@ -607,7 +607,7 @@ InstallMethod(AsAlgebraMachine, "(FR) for a Mealy machine",
     local N, A;
     Info(InfoFR,2,"AsAlgebraMachine: converting to monoid machine");
     N := AsMonoidFRMachine(M);
-    A := ASALGEBRAMACHINE@(r,N);
+    A := Fr.ASALGEBRAMACHINE(r,N);
     A!.Correspondence := List(Correspondence(N),x->x^Correspondence(A));
     return A;
 end);
@@ -616,13 +616,13 @@ InstallMethod(AsLinearMachine, "(FR) for an FR machine",
         [IsRing,IsFRMachine],
         AsAlgebraMachine);
 
-BindGlobal("VECTOR2ALGEBRA@", function(fam,M)
+Fr.VECTOR2ALGEBRA := ( function(fam,M)
     local i, f, g, N, trans, out;
     f := FreeAssociativeAlgebraWithOne(LeftActingDomain(M),Length(M!.output));
     g := GeneratorsOfAlgebraWithOne(f);
     trans := [];
     for i in [1..Length(g)] do
-        Add(trans,MATRIX@(M!.transitions,v->v[i]*g));
+        Add(trans,Fr.MATRIX(M!.transitions,v->v[i]*g));
     od;
     Add(trans,Zero(trans[1]));
     Add(trans,One(trans[1]));
@@ -636,7 +636,7 @@ end);
 
 InstallMethod(AsAlgebraMachine, "(FR) for a vector machine",
         [IsLinearFRMachine and IsVectorFRMachineRep],
-        M->VECTOR2ALGEBRA@(FamilyObj(M),M));
+        M->Fr.VECTOR2ALGEBRA(FamilyObj(M),M));
 
 InstallMethod(AsAlgebraMachine, "(FR) for an algebra machine",
         [IsLinearFRMachine],
@@ -648,7 +648,7 @@ InstallMethod(AsVectorMachine, "(FR) for an algebra machine",
     local gens, states, B, corr, d, trans, out, i, j, s, t;
 
     gens := List(GeneratorsOfFRMachine(M),x->FRElement(M,x));
-    states := LINEARSTATES@(gens);
+    states := Fr.LINEARSTATES(gens);
     B := Basis(states);
     d := List(B,DecompositionOfFRElement);
     trans := [];
@@ -669,26 +669,26 @@ InstallMethod(AsVectorMachine, "(FR) for a linear machine",
         [IsLinearFRMachine],
         X->X);
 
-BindGlobal("ASALGEBRAELEMENT@", function(r,E)
+Fr.ASALGEBRAELEMENT := ( function(r,E)
     local A;
-    A := ASALGEBRAMACHINE@(r,E![1]);
+    A := Fr.ASALGEBRAMACHINE(r,E![1]);
     return FRElement(A,E![2]^Correspondence(A));
 end);
 
 InstallMethod(AsAlgebraElement, "(FR) for a semigroup FR element",
         [IsRing,IsSemigroupFRElement],
-        ASALGEBRAELEMENT@);
+        Fr.ASALGEBRAELEMENT);
 
 InstallMethod(AsAlgebraElement, "(FR) for a monoid FR element",
         [IsRing,IsMonoidFRElement],
-        ASALGEBRAELEMENT@);
+        Fr.ASALGEBRAELEMENT);
 
 InstallMethod(AsAlgebraElement, "(FR) for a group FR element",
         [IsRing,IsGroupFRElement],
         function(r,E)
     local M, A;
     M := AsMonoidFRMachine(E![1]);
-    A := ASALGEBRAMACHINE@(r,M);
+    A := Fr.ASALGEBRAMACHINE(r,M);
     return FRElement(A,(E![2]^Correspondence(M))^Correspondence(A));
 end);
 
@@ -696,7 +696,7 @@ InstallMethod(AsAlgebraElement, "(FR) for a Mealy element",
         [IsRing,IsMealyElement and IsMealyMachineIntRep],
         function(r,E)
     Info(InfoFR,2,"AsAlgebraElement: converting to monoid element");
-    return ASALGEBRAELEMENT@(r,AsMonoidFRElement(E));
+    return Fr.ASALGEBRAELEMENT(r,AsMonoidFRElement(E));
 end);
 
 InstallMethod(AsLinearElement, "(FR) for an FR element",
@@ -707,7 +707,7 @@ InstallMethod(AsAlgebraElement, "(FR) for a vector element",
         [IsLinearFRElement and IsVectorFRMachineRep],
         function(E)
     local N;
-    N := VECTOR2ALGEBRA@(FRMFamily(E),E);
+    N := Fr.VECTOR2ALGEBRA(FRMFamily(E),E);
     return FRElement(N,Correspondence(N)[1]);
 end);
 
@@ -735,7 +735,7 @@ InstallMethod(AsVectorElement, "(FR) for an algebra element",
         od;
         Add(trans,row);
     od;
-    B := VECTORMINIMIZE@(FamilyObj(E),LeftActingDomain(E),
+    B := Fr.VECTORMINIMIZE(FamilyObj(E),LeftActingDomain(E),
                  trans,output,input,0,false);
     return B;
 end);
@@ -770,7 +770,7 @@ end);
 
 InstallMethod(OneOp, "(FR) for a linear element",
         [IsLinearFRElement and IsFRElementStdRep],
-        E->ALGEBRAELEMENT@(FamilyObj(E),E![1],One(E![2])));
+        E->Fr.ALGEBRAELEMENT(FamilyObj(E),E![1],One(E![2])));
 
 InstallMethod(ZeroOp, "(FR) for a linear machine",
         [IsLinearFRMachine and IsAlgebraFRMachineRep],
@@ -784,7 +784,7 @@ end);
 
 InstallMethod(ZeroOp, "(FR) for a linear element",
         [IsLinearFRElement and IsFRElementStdRep],
-        E->ALGEBRAELEMENT@(FamilyObj(E),E![1],Zero(E![2])));
+        E->Fr.ALGEBRAELEMENT(FamilyObj(E),E![1],Zero(E![2])));
 
 InstallMethod(\+, "for two linear machines", IsIdenticalObj,
         [IsLinearFRMachine and IsAlgebraFRMachineRep,
@@ -810,10 +810,10 @@ InstallMethod(\+, "for two linear machines", IsIdenticalObj,
     Add(y[2],Zero(x)); Add(y[2],One(x));
     trans := [];
     for i in [1..m] do
-        Add(trans,MATRIX@(M!.transitions[i],v->SUBS@(v,y[1])));
+        Add(trans,Fr.MATRIX(M!.transitions[i],v->Fr.SUBS(v,y[1])));
     od;
     for i in N!.transitions do
-        Add(trans,MATRIX@(i,v->SUBS@(v,y[2])));
+        Add(trans,Fr.MATRIX(i,v->Fr.SUBS(v,y[2])));
     od;
     x := AlgebraMachineNC(FamilyObj(M),x,
                  trans,Concatenation(M!.output{[1..m]},N!.output));
@@ -827,12 +827,12 @@ InstallMethod(\+, "for two linear elements", IsIdenticalObj,
         function(E,F)
     local M;
     if E![1]=F![1] then
-        return ALGEBRAELEMENT@(FamilyObj(E),E![1],E![2]+F![2]);
+        return Fr.ALGEBRAELEMENT(FamilyObj(E),E![1],E![2]+F![2]);
     else
         M := E![1]+F![1];
-        return ALGEBRAELEMENT@(FamilyObj(E),M,
-                       SUBS@(E![2],Correspondence(M)[1])+
-                       SUBS@(F![2],Correspondence(M)[2]));
+        return Fr.ALGEBRAELEMENT(FamilyObj(E),M,
+                       Fr.SUBS(E![2],Correspondence(M)[1])+
+                       Fr.SUBS(F![2],Correspondence(M)[2]));
     fi;
 end);
 
@@ -840,14 +840,14 @@ InstallMethod(\+, "for a scalar and a linear element",
         [IsScalar,IsLinearFRElement and IsFRElementStdRep],
         function(x,E)
     if not IsRat(x) and not x in LeftActingDomain(E) then TryNextMethod(); fi; # matrix?
-    return ALGEBRAELEMENT@(FamilyObj(E),E![1],x*One(E![1]!.free)+E![2]);
+    return Fr.ALGEBRAELEMENT(FamilyObj(E),E![1],x*One(E![1]!.free)+E![2]);
 end);
 
 InstallMethod(\+, "for a linear element and a scalar",
         [IsLinearFRElement and IsFRElementStdRep,IsScalar],
         function(E,x)
     if not IsRat(x) and not x in LeftActingDomain(E) then TryNextMethod(); fi; # matrix?
-    return ALGEBRAELEMENT@(FamilyObj(E),E![1],E![2]+x*One(E![1]!.free));
+    return Fr.ALGEBRAELEMENT(FamilyObj(E),E![1],E![2]+x*One(E![1]!.free));
 end);
 
 InstallMethod(\+, "(FR) for two linear elements", IsIdenticalObj,
@@ -875,7 +875,7 @@ end);
 InstallMethod(AdditiveInverseSameMutability, "for a linear element",
         [IsLinearFRElement and IsFRElementStdRep],
         function(E)
-    return ALGEBRAELEMENT@(FamilyObj(E),E![1],-E![2]);
+    return Fr.ALGEBRAELEMENT(FamilyObj(E),E![1],-E![2]);
 end);
 
 InstallMethod(\*, "for two linear machines", IsIdenticalObj,
@@ -891,12 +891,12 @@ InstallMethod(\*, "for two linear elements", IsIdenticalObj,
         function(E,F)
     local M;
     if E![1]=F![1] then
-        return ALGEBRAELEMENT@(FamilyObj(E),E![1],E![2]*F![2]);
+        return Fr.ALGEBRAELEMENT(FamilyObj(E),E![1],E![2]*F![2]);
     else
         M := E![1]+F![1];
-        return ALGEBRAELEMENT@(FamilyObj(E),M,
-                       SUBS@(E![2],Correspondence(M)[1])*
-                       SUBS@(F![2],Correspondence(M)[2]));
+        return Fr.ALGEBRAELEMENT(FamilyObj(E),M,
+                       Fr.SUBS(E![2],Correspondence(M)[1])*
+                       Fr.SUBS(F![2],Correspondence(M)[2]));
     fi;
 end);
 
@@ -906,12 +906,12 @@ InstallMethod(\*, "for two linear elements", IsIdenticalObj,
         function(E,F)
     local M;
     if E![1]=F![1] then
-        return ALGEBRAELEMENT@(FamilyObj(E),E![1],LieBracket(E![2],F![2]));
+        return Fr.ALGEBRAELEMENT(FamilyObj(E),E![1],LieBracket(E![2],F![2]));
     else
         M := E![1]+F![1];
-        return ALGEBRAELEMENT@(FamilyObj(E),M,
-                       LieBracket(SUBS@(E![2],Correspondence(M)[1]),
-                               SUBS@(F![2],Correspondence(M)[2])));
+        return Fr.ALGEBRAELEMENT(FamilyObj(E),M,
+                       LieBracket(Fr.SUBS(E![2],Correspondence(M)[1]),
+                               Fr.SUBS(F![2],Correspondence(M)[2])));
     fi;
 end);
 
@@ -921,16 +921,16 @@ InstallMethod(PthPowerImage, "for a linear element",
     local p;
     p := Characteristic(LeftActingDomain(x));
     if not IsPrime(p) then TryNextMethod(); fi;
-    return ALGEBRAELEMENT@(FamilyObj(x),x![1],x![2]^p);
+    return Fr.ALGEBRAELEMENT(FamilyObj(x),x![1],x![2]^p);
 end);
-           
+
 InstallMethod(PthPowerImage, "for a linear element and a number",
         [IsLinearFRElement and IsFRElementStdRep and IsJacobianElement,IsInt],
         function(x,n)
     local p;
     p := Characteristic(LeftActingDomain(x));
     if not IsPrime(p) then TryNextMethod(); fi;
-    return ALGEBRAELEMENT@(FamilyObj(x),x![1],x![2]^(p^n));
+    return Fr.ALGEBRAELEMENT(FamilyObj(x),x![1],x![2]^(p^n));
 end);
 
 InstallMethod(\*, "for a scalar and a linear machine",
@@ -951,14 +951,14 @@ InstallMethod(\*, "for a scalar and a linear element",
         [IsScalar,IsLinearFRElement and IsFRElementStdRep],
         function(x,E)
     if not IsRat(x) and not x in LeftActingDomain(E) then TryNextMethod(); fi; # matrix?
-    return ALGEBRAELEMENT@(FamilyObj(E),E![1],x*E![2]);
+    return Fr.ALGEBRAELEMENT(FamilyObj(E),E![1],x*E![2]);
 end);
 
 InstallMethod(\*, "for a linear element and a scalar",
         [IsLinearFRElement and IsFRElementStdRep,IsScalar],
         function(E,x)
     if not IsRat(x) and not x in LeftActingDomain(E) then TryNextMethod(); fi; # matrix?
-    return ALGEBRAELEMENT@(FamilyObj(E),E![1],E![2]*x);
+    return Fr.ALGEBRAELEMENT(FamilyObj(E),E![1],E![2]*x);
 end);
 
 InstallMethod(\*, "(FR) for two linear elements", IsIdenticalObj,
@@ -1023,7 +1023,7 @@ InstallMethod(Minimized, "(FR) for a linear machine",
     trans := [];
     out := [];
     for j in [1..Length(gens)-2] do if imgs[j][1]<>fail then
-        Add(trans,MATRIX@(M!.transitions[j],v->SUBS@(v,gens)));
+        Add(trans,Fr.MATRIX(M!.transitions[j],v->Fr.SUBS(v,gens)));
         Add(out,M!.output[j]);
     fi; od;
     Add(trans,Zero(trans[1]));
@@ -1080,18 +1080,18 @@ if IsPackageMarkedForLoading("gbnp","") then
 
 ReadPackage("FR","gap/linear-gbnp.gi");
 
-else    
+else
 
-BindGlobal("ALGEBRAISZERO@", function(M,x)
+Fr.ALGEBRAISZERO := ( function(M,x)
     local zero, todo, i;
 
     zero := Subspace(M!.free,[]);
     todo := NewFIFO([x]);
     for x in todo do
         if not x in zero then
-            if not IsZero(SUBS@(x,M!.output)) then return false; fi;
+            if not IsZero(Fr.SUBS(x,M!.output)) then return false; fi;
             zero := ClosureLeftModule(zero,x);
-            x := SUBS@(x,M!.transitions);
+            x := Fr.SUBS(x,M!.transitions);
             for i in x do Append(todo,i); od;
         fi;
     od;
@@ -1106,12 +1106,12 @@ InstallMethod(\=, "(FR) for two linear elements", IsIdenticalObj,
         function(E,F)
     local M;
     if IsIdenticalObj(E![1], F![1]) then
-        return ALGEBRAISZERO@(E![1],E![2]-F![2]);
+        return Fr.ALGEBRAISZERO(E![1],E![2]-F![2]);
     else
         M := E![1]+F![1];
-        return ALGEBRAISZERO@(M,
-                       SUBS@(E![2],Correspondence(M)[1])-
-                       SUBS@(F![2],Correspondence(M)[2]));
+        return Fr.ALGEBRAISZERO(M,
+                       Fr.SUBS(E![2],Correspondence(M)[1])-
+                       Fr.SUBS(F![2],Correspondence(M)[2]));
     fi;
 end);
 
@@ -1152,8 +1152,8 @@ InstallMethod(\<, "(FR) for two linear elements", IsIdenticalObj,
         for p in [1,2] do
             if i <= Length(todo[p]) then
                 idle[p] := false;
-                x := SUBS@(todo[p][i],mach[p]!.transitions);
-                Add(out[p],SUBS@(todo[p][i],mach[p]!.output));
+                x := Fr.SUBS(todo[p][i],mach[p]!.transitions);
+                Add(out[p],Fr.SUBS(todo[p][i],mach[p]!.output));
                 t := [];
                 Add(trans[p],t);
                 for a in x do
@@ -1217,13 +1217,13 @@ end);
 InstallMethod(IsOne, "(FR) for a linear element",
         [IsLinearFRElement and IsFRElementStdRep],
         function(E)
-    return ALGEBRAISZERO@(E![1],E![2]-One(E![1]!.free));
+    return Fr.ALGEBRAISZERO(E![1],E![2]-One(E![1]!.free));
 end);
 
 InstallMethod(IsZero, "(FR) for a linear element",
         [IsLinearFRElement and IsFRElementStdRep],
         function(E)
-    return ALGEBRAISZERO@(E![1],E![2]);
+    return Fr.ALGEBRAISZERO(E![1],E![2]);
 end);
 ############################################################################
 
@@ -1275,18 +1275,18 @@ end,
         for i in [1..m] do
             x := Length(GeneratorsOfAlgebraWithOne(info.gens[i]![1]!.free));
             o := Concatenation(GeneratorsOfAlgebraWithOne(machine!.free){[j+1..j+x]},[Zero(machine!.free),One(machine!.free)]);
-            Add(todo[3],SUBS@(info.gens[i]![2],o));
+            Add(todo[3],Fr.SUBS(info.gens[i]![2],o));
             j := j+x;
         od;
         machine := Minimized(machine);
         for i in [1..m] do
-            todo[3][i] := SUBS@(todo[3][i],Correspondence(machine));
+            todo[3][i] := Fr.SUBS(todo[3][i],Correspondence(machine));
         od;
     fi;
     todo := NewFIFO([todo]);
 
     for t in todo do
-        o := List(t[3],v->SUBS@(v,machine!.output));
+        o := List(t[3],v->Fr.SUBS(v,machine!.output));
         if not o in image then
             image := ClosureLeftModule(image,o);
             Add(info.where,[t[1],t[2],o]);
@@ -1295,7 +1295,7 @@ end,
                 break;
             fi;
         fi;
-        x := List(t[3],e->SUBS@(e,machine!.transitions));
+        x := List(t[3],e->Fr.SUBS(e,machine!.transitions));
         # !!! and reduce... keep space of FreeAlgebra-tuples that have been considered.
         # unfortunately, GAP cannot handle vector spaces over machine!.free
         for i in [1..n] do
