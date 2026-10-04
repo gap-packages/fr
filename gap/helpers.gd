@@ -141,7 +141,7 @@ DeclareProperty("IsProjectiveRepresentation", IsMapping);
 DeclareProperty("IsLinearRepresentation", IsProjectiveRepresentation);
 InstallTrueMethod(IsProjectiveRepresentation, IsLinearRepresentation);
 
-DeclareAttribute("IrreducibleRepresentations@", IsGroup);
+DeclareAttribute("Fr_IrreducibleRepresentations", IsGroup);
 
 DeclareOperation("ProjectiveRepresentationByFunction", [IsDomain,IsDomain,IsFunction]);
 DeclareOperation("LinearRepresentationByImages", [IsDomain,IsDomain,IsList,IsList]);
@@ -155,7 +155,7 @@ DeclareOperation("ProjectiveQuotient", [IsProjectiveRepresentation,IsGroupHomomo
 DeclareAttribute("CoboundaryMatrix", IsGroup);
 DeclareOperation("AreCohomologous", [IsList,IsList,IsGroup]);
 
-DeclareAttribute("EpimorphismSchurCover@", IsGroup);
+DeclareAttribute("Fr_EpimorphismSchurCover", IsGroup);
 
 #############################################################################
 

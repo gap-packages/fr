@@ -11,7 +11,7 @@
 ##
 #############################################################################
 
-BindGlobal("SETGENERATORNAMES@", function(G,n)
+Fr.SETGENERATORNAMES := ( function(G,n)
     local i;
     for i in [1..Length(n)] do
         if IsGroup(G) then
@@ -24,7 +24,7 @@ BindGlobal("SETGENERATORNAMES@", function(G,n)
     od;
 end);
 
-BindGlobal("LPGROUPIMAGE@", function(G,F,Ggens,Fgens,Sgens,Scoord)
+Fr.LPGROUPIMAGE := ( function(G,F,Ggens,Fgens,Sgens,Scoord)
     local knows, Gtop, Ftop, Ptop, init, recur, bootstrap;
 
     bootstrap := true;
@@ -36,7 +36,7 @@ BindGlobal("LPGROUPIMAGE@", function(G,F,Ggens,Fgens,Sgens,Scoord)
         if p<>fail then return p; fi;
         if KnowsDictionary(seen,g) then
             if bootstrap then
-                AddDictionary(knows,g,MAPPEDWORD@(ShortGroupWordInSet(Group(Ggens),g,infinity)[2],Fgens));
+                AddDictionary(knows,g,Fr.MAPPEDWORD(ShortGroupWordInSet(Group(Ggens),g,infinity)[2],Fgens));
                 Info(InfoFR,3,"Added ",g,"=",LookupDictionary(knows,g));
             fi;
             # we reached a recurring state not yet known
@@ -46,7 +46,7 @@ BindGlobal("LPGROUPIMAGE@", function(G,F,Ggens,Fgens,Sgens,Scoord)
         w := Position(Ptop,ActivityPerm(g));
         if w=fail then return fail; fi; # even activity is impossible
         w := Ftop[w];
-        h := LeftQuotient(MAPPEDWORD@(w,Ggens),g);
+        h := LeftQuotient(Fr.MAPPEDWORD(w,Ggens),g);
         todoh := [];
         while not IsOne(h) do
             if h in todoh then return fail; fi; # stuck in a loop
@@ -63,10 +63,10 @@ BindGlobal("LPGROUPIMAGE@", function(G,F,Ggens,Fgens,Sgens,Scoord)
             p := PositionProperty(Ptop,s->p^s=Scoord);
             x := recur(State(h^Gtop[p],Scoord),seen);
             if x=fail then return fail; fi;
-            x := MAPPEDWORD@(x,Sgens)^(Ftop[p]^-1);
+            x := Fr.MAPPEDWORD(x,Sgens)^(Ftop[p]^-1);
             w := w*x;
-            h := LeftQuotient(MAPPEDWORD@(x,Ggens),h);
-            Assert(1,MAPPEDWORD@(w,Ggens)*h=g);
+            h := LeftQuotient(Fr.MAPPEDWORD(x,Ggens),h);
+            Assert(1,Fr.MAPPEDWORD(w,Ggens)*h=g);
         od;
         AddDictionary(knows,g,w);
         return w;
@@ -81,9 +81,9 @@ BindGlobal("LPGROUPIMAGE@", function(G,F,Ggens,Fgens,Sgens,Scoord)
         Ptop := AsList(TopVertexTransformations(G));
         Ftop := [];
         for x in Ptop do
-            Add(Ftop,MAPPEDWORD@(ShortGroupWordInSet(Group(Ggens),g->ActivityPerm(g)=x,infinity)[2],Fgens));
+            Add(Ftop,Fr.MAPPEDWORD(ShortGroupWordInSet(Group(Ggens),g->ActivityPerm(g)=x,infinity)[2],Fgens));
         od;
-        Gtop := List(Ftop,x->MAPPEDWORD@(x,Ggens));
+        Gtop := List(Ftop,x->Fr.MAPPEDWORD(x,Ggens));
 
         todo := NewFIFO(TransposedMat([Ggens,Fgens]));
         for x in todo do
@@ -101,7 +101,7 @@ BindGlobal("LPGROUPIMAGE@", function(G,F,Ggens,Fgens,Sgens,Scoord)
             fi;
         od;
         bootstrap := false;
-    end;	
+    end;
 
     return function(g)
         if bootstrap then init(); fi;
@@ -109,7 +109,7 @@ BindGlobal("LPGROUPIMAGE@", function(G,F,Ggens,Fgens,Sgens,Scoord)
     end;
 end);
 
-BindGlobal("LPGROUPPREIMAGE@", function(Fgens,Sgens,Ggens,depth,Scoord)
+Fr.LPGROUPPREIMAGE := ( function(Fgens,Sgens,Ggens,depth,Scoord)
     local Sletter;
 
     Sletter := Length(Ggens)+1;
@@ -138,9 +138,9 @@ BindGlobal("LPGROUPPREIMAGE@", function(Fgens,Sgens,Ggens,depth,Scoord)
                 else
                     i := Fgens[AbsInt(i)];
                     for j in [1..up] do
-                        i := MAPPEDWORD@(i,Sgens);
+                        i := Fr.MAPPEDWORD(i,Sgens);
                     od;
-                    g := g*MAPPEDWORD@(i,Ggens);
+                    g := g*Fr.MAPPEDWORD(i,Ggens);
                 fi;
             od;
             if up<>down then
@@ -153,7 +153,7 @@ BindGlobal("LPGROUPPREIMAGE@", function(Fgens,Sgens,Ggens,depth,Scoord)
             return g;
         end;
     else
-        return w->MAPPEDWORD@(w,Ggens);
+        return w->Fr.MAPPEDWORD(w,Ggens);
     fi;
 end);
 
@@ -326,14 +326,14 @@ BindGlobal("GrigorchukMachine",
 BindGlobal("GrigorchukGroup",SCGroup(GrigorchukMachine));
 SetName(GrigorchukGroup,"GrigorchukGroup");
 
-SETGENERATORNAMES@(GrigorchukGroup,["a","b","c","d"]);
+Fr.SETGENERATORNAMES(GrigorchukGroup,["a","b","c","d"]);
 CallFuncList(function(a,b,c,d)
     local x;
     x := Comm(a,b);
     SetBranchingSubgroup(GrigorchukGroup,Group(x,x^c,x^(c*a)));
 end, GeneratorsOfGroup(GrigorchukGroup));
-        
-BindGlobal("ITERATEMAP@", function(s,n,w)
+
+Fr.ITERATEMAP := ( function(s,n,w)
     local r, i;
     r := [w];
     for i in [1..n] do
@@ -343,7 +343,7 @@ BindGlobal("ITERATEMAP@", function(s,n,w)
     return r;
 end);
 
-BindGlobal("GRIGP_IMAGE@", function(nuke,nukeimg,Fgens,Sgens,tau,reduce)
+Fr.GRIGP_IMAGE := ( function(nuke,nukeimg,Fgens,Sgens,tau,reduce)
     local image, knows, i;
     knows := NewDictionary(nuke[1],true);
     for i in [1..Length(nuke)] do
@@ -368,8 +368,8 @@ BindGlobal("GRIGP_IMAGE@", function(nuke,nukeimg,Fgens,Sgens,tau,reduce)
             if not IsOne(tau(y)) then return fail; fi;
             y := recur(y);
             if y=fail then return fail; fi;
-            x := MAPPEDWORD@(x,Sgens)*Fgens[1]*MAPPEDWORD@(y,Sgens);
-            if ISONE@(i[2]) then x:=x*Fgens[1]; fi;
+            x := Fr.MAPPEDWORD(x,Sgens)*Fgens[1]*Fr.MAPPEDWORD(y,Sgens);
+            if Fr.ISONE(i[2]) then x:=x*Fgens[1]; fi;
             x := reduce(x);
             AddDictionary(knows,g,x);
             return x;
@@ -395,8 +395,8 @@ SetFRGroupPreImageData(GrigorchukGroup, function(depth)
         rels := [a^2,b^2,c^2,d^2,b*c*d,(a*d)^4,(a*d*a*c*a*c)^4];
         if depth>=0 then
             F := F / Concatenation(rels{[1..5]},
-                         ITERATEMAP@(s,depth+1,rels[6]),
-                         ITERATEMAP@(s,depth,rels[7]));
+                         Fr.ITERATEMAP(s,depth+1,rels[6]),
+                         Fr.ITERATEMAP(s,depth,rels[7]));
             creator := ElementOfFpGroup;
         else
             F := LPresentedGroup(F,[],[s],rels);
@@ -448,15 +448,15 @@ SetFRGroupPreImageData(GrigorchukGroup, function(depth)
     nukeimg := [One(F),F.1,F.2,F.3,F.4];
     SortParallel(nuke,nukeimg);
     return rec(F:=F,
-               image:=GRIGP_IMAGE@(nuke,nukeimg,Fgens,Sgens,tau,reduce),
-               preimage:=LPGROUPPREIMAGE@(Fgens,Sgens,Ggens,depth,2),
+               image:=Fr.GRIGP_IMAGE(nuke,nukeimg,Fgens,Sgens,tau,reduce),
+               preimage:=Fr.LPGROUPPREIMAGE(Fgens,Sgens,Ggens,depth,2),
                reduce:=reduce);
 end);
 
 BindGlobal("GrigorchukOverGroup", MixerGroup(Group((1,2)),Group((1,2)),
         [[IdentityMapping(Group((1,2)))],[],[]]));
 SetName(GrigorchukOverGroup,"GrigorchukOverGroup");
-SETGENERATORNAMES@(GrigorchukOverGroup,["a","bb","cc","dd"]);
+Fr.SETGENERATORNAMES(GrigorchukOverGroup,["a","bb","cc","dd"]);
 
 # growth of PermGroup(GrigorchukOverGroup,5), generated by nucleus, is
 # [1, 8, 14, 56, 89, 248, 416, 1160, 1804, 3816, 5871, 13400, 20344, 42248, 64020, 134072, 189600, 317984, 445352, 786144, 1066211, 1700736, 2340722, 3767744, 4833667, 6942160, 9039846, 13509040, 17041513, 24065960, 31045388, 43791128, 39928094, 23152344, 19514220, 13313384, 7589784, 2289688, 1030745, 386408, 60027]
@@ -484,8 +484,8 @@ SetFRGroupPreImageData(GrigorchukOverGroup, function(depth)
         creator := ElementOfLpGroup;
     else
         F := F / Concatenation(rels{[1..7]},
-                     Concatenation(List(rels{[8..11]},x->ITERATEMAP@(s,depth+1,x))),
-                     Concatenation(List(rels{[12..14]},x->ITERATEMAP@(s,depth,x))));
+                     Concatenation(List(rels{[8..11]},x->Fr.ITERATEMAP(s,depth+1,x))),
+                     Concatenation(List(rels{[12..14]},x->Fr.ITERATEMAP(s,depth,x))));
         creator := ElementOfFpGroup;
     fi;
     tau := function(g)
@@ -535,15 +535,15 @@ SetFRGroupPreImageData(GrigorchukOverGroup, function(depth)
     nukeimg := [One(F),F.1,F.2,F.3,F.4,F.2*F.3,F.2*F.4,F.3*F.4,F.2*F.3*F.4];
     SortParallel(nuke,nukeimg);
     return rec(F:=F,
-               image:=GRIGP_IMAGE@(nuke,nukeimg,Fgens,Sgens,tau,reduce),
-               preimage:=LPGROUPPREIMAGE@(Fgens,Sgens,Ggens,depth,2),
+               image:=Fr.GRIGP_IMAGE(nuke,nukeimg,Fgens,Sgens,tau,reduce),
+               preimage:=Fr.LPGROUPPREIMAGE(Fgens,Sgens,Ggens,depth,2),
                reduce:=reduce);
 end);
 
 BindGlobal("GrigorchukTwistedTwin", SCGroup(MealyMachine(
         [[5,5],[3,1],[1,4],[5,2],[5,5]],
         [(1,2),(),(),(),()])));
-SETGENERATORNAMES@(GrigorchukTwistedTwin,["a","x","y","z"]);
+Fr.SETGENERATORNAMES(GrigorchukTwistedTwin,["a","x","y","z"]);
 SetFRGroupPreImageData(GrigorchukTwistedTwin, function(depth)
     local F, a, x, y, z, s, rels, Fgens, Ggens, Sgens;
 
@@ -571,7 +571,7 @@ SetFRGroupPreImageData(GrigorchukTwistedTwin, function(depth)
     elif depth=-1 then
         F := LPresentedGroup(F,[],[s],rels);
     else
-        F := F / Concatenation(List(rels,x->ITERATEMAP@(s,depth,x)));
+        F := F / Concatenation(List(rels,x->Fr.ITERATEMAP(s,depth,x)));
     fi;
     Fgens := GeneratorsOfGroup(F){[1..4]};
     if depth=-1 then
@@ -580,8 +580,8 @@ SetFRGroupPreImageData(GrigorchukTwistedTwin, function(depth)
         Sgens := List(Sgens,x->ElementOfFpGroup(FamilyObj(F.1),x));
     fi;
     return rec(F:=F,
-               image:=LPGROUPIMAGE@(GrigorchukTwistedTwin,F,Ggens,GeneratorsOfGroup(F){[1..4]},Sgens,2),
-               preimage:=LPGROUPPREIMAGE@(Fgens,Sgens,Ggens,depth,2),
+               image:=Fr.LPGROUPIMAGE(GrigorchukTwistedTwin,F,Ggens,GeneratorsOfGroup(F){[1..4]},Sgens,2),
+               preimage:=Fr.LPGROUPPREIMAGE(Fgens,Sgens,Ggens,depth,2),
                reduce:=w->w);
 end);
 GermData(GrigorchukTwistedTwin).init := function(data)
@@ -688,14 +688,14 @@ end);
 BindGlobal("AleshinMachine", AleshinMachines(3));
 BindGlobal("AleshinGroup", SCGroup(AleshinMachine)); # the main example
 AleshinGroup!.Name := "AleshinGroup";
-SETGENERATORNAMES@(AleshinGroup,["a","b","c"]);
+Fr.SETGENERATORNAMES(AleshinGroup,["a","b","c"]);
 
 BindGlobal("BabyAleshinMachine",
         MealyMachine([[2,3],[3,2],[1,1]],[(),(),(1,2)]));
 
 BindGlobal("BabyAleshinGroup", SCGroup(BabyAleshinMachine));
 SetName(BabyAleshinGroup,"BabyAleshinGroup");
-SETGENERATORNAMES@(BabyAleshinGroup,["a","b","c"]);
+Fr.SETGENERATORNAMES(BabyAleshinGroup,["a","b","c"]);
 
 BindGlobal("SidkiFreeGroup", FRGroup("a=<a^2,a^t>","t=<,t>(1,2)"));
 SetName(SidkiFreeGroup,"SidkiFreeGroup");
@@ -735,7 +735,7 @@ BindGlobal("BrunnerSidkiVieiraMachine",
 
 BindGlobal("BrunnerSidkiVieiraGroup", SCGroup(BrunnerSidkiVieiraMachine));
 SetName(BrunnerSidkiVieiraGroup,"BrunnerSidkiVieiraGroup");
-SETGENERATORNAMES@(BrunnerSidkiVieiraGroup,["tau","mu"]);
+Fr.SETGENERATORNAMES(BrunnerSidkiVieiraGroup,["tau","mu"]);
 SetFRGroupPreImageData(BrunnerSidkiVieiraGroup, function(depth)
     local F, rels, sigma, tau, lambda, mu, Fgens, Ggens, Sgens;
 
@@ -755,7 +755,7 @@ SetFRGroupPreImageData(BrunnerSidkiVieiraGroup, function(depth)
     else
         sigma := GroupHomomorphismByImagesNC(F,F,[tau,mu],Sgens);
         if depth>=0 then
-            F := F / Concatenation(List(rels,r->ITERATEMAP@(sigma,depth,r)));
+            F := F / Concatenation(List(rels,r->Fr.ITERATEMAP(sigma,depth,r)));
         else
             F := LPresentedGroup(F,[],[sigma],rels);
         fi;
@@ -768,8 +768,8 @@ SetFRGroupPreImageData(BrunnerSidkiVieiraGroup, function(depth)
         Sgens := List(Sgens,x->ElementOfFpGroup(FamilyObj(Representative(F)),x));
     fi;
     return rec(F:=F,
-               image:=LPGROUPIMAGE@(BrunnerSidkiVieiraGroup,F,Ggens,Fgens,Sgens,2),
-               preimage:=LPGROUPPREIMAGE@(Fgens,Sgens,Ggens,depth,2),
+               image:=Fr.LPGROUPIMAGE(BrunnerSidkiVieiraGroup,F,Ggens,Fgens,Sgens,2),
+               preimage:=Fr.LPGROUPPREIMAGE(Fgens,Sgens,Ggens,depth,2),
                reduce:=w->w);
 end);
 
@@ -824,27 +824,27 @@ end);
 InstallGlobalFunction(GuptaSidkiGroups, function(n)
     local G, a, t;
     G := SCGroup(GuptaSidkiMachines(n));
-    SETGENERATORNAMES@(G,["a","t"]);
+    Fr.SETGENERATORNAMES(G,["a","t"]);
     a := G.1; t := G.2;
     SetBranchingSubgroup(G,GroupByGenerators(ListX([0..n-1],[0..n-1],function(x,y) return Comm(a,t)^(a^x*t^y); end)));
     SetName(G,Concatenation("GuptaSidkiGroups(",String(n),")"));
     return G;
 end);
 
-BindGlobal("GUPTASIDKIGROUPIMAGE@", function(g,f,Ggens,Fgens,Sgens,Scoord)
+Fr.GUPTASIDKIGROUPIMAGE := ( function(g,f,Ggens,Fgens,Sgens,Scoord)
     local nuke, knows, x, y, Gtop, Ftop, Ptop, GENREDUCE;
 
     nuke := NucleusOfFRSemigroup(g);
     knows := NewDictionary(nuke[1],true);
     for x in nuke do
-        AddDictionary(knows,x,MAPPEDWORD@(ShortGroupWordInSet(Group(Ggens),x,infinity)[2],Fgens));
+        AddDictionary(knows,x,Fr.MAPPEDWORD(ShortGroupWordInSet(Group(Ggens),x,infinity)[2],Fgens));
     od;
     Ptop := AsList(TopVertexTransformations(g));
     Ftop := [];
     for x in Ptop do
-        Add(Ftop,MAPPEDWORD@(ShortGroupWordInSet(Group(Ggens),g->ActivityPerm(g)=x,infinity)[2],Fgens));
+        Add(Ftop,Fr.MAPPEDWORD(ShortGroupWordInSet(Group(Ggens),g->ActivityPerm(g)=x,infinity)[2],Fgens));
     od;
-    Gtop := List(Ftop,x->MAPPEDWORD@(x,Ggens));
+    Gtop := List(Ftop,x->Fr.MAPPEDWORD(x,Ggens));
     GENREDUCE := function(h,w)
         local n, i, j, x;
         n := NormOfBoundedFRElement(h);
@@ -872,7 +872,7 @@ BindGlobal("GUPTASIDKIGROUPIMAGE@", function(g,f,Ggens,Fgens,Sgens,Scoord)
             w := Position(Ptop,ActivityPerm(g));
             if w=fail then return fail; fi;
             w := Ftop[w];
-            h := LeftQuotient(MAPPEDWORD@(w,Ggens),g);
+            h := LeftQuotient(Fr.MAPPEDWORD(w,Ggens),g);
             while not IsOne(h) do
                 x := GENREDUCE(h,w);
                 if x<>fail then
@@ -888,10 +888,10 @@ BindGlobal("GUPTASIDKIGROUPIMAGE@", function(g,f,Ggens,Fgens,Sgens,Scoord)
                 p := PositionProperty(Ptop,s->p^s=Scoord);
                 x := recur(State(h^Gtop[p],Scoord));
                 if x=fail then return fail; fi;
-                x := MAPPEDWORD@(x,Sgens)^(Ftop[p]^-1);
+                x := Fr.MAPPEDWORD(x,Sgens)^(Ftop[p]^-1);
                 w := w*x;
-                h := LeftQuotient(MAPPEDWORD@(x,Ggens),h);
-                Assert(1,MAPPEDWORD@(w,Ggens)*h=g);
+                h := LeftQuotient(Fr.MAPPEDWORD(x,Ggens),h);
+                Assert(1,Fr.MAPPEDWORD(w,Ggens)*h=g);
             od;
             AddDictionary(knows,g,w);
             return w;
@@ -900,7 +900,7 @@ BindGlobal("GUPTASIDKIGROUPIMAGE@", function(g,f,Ggens,Fgens,Sgens,Scoord)
     end;
 end);
 
-BindGlobal("GUPTASIDKIFRDATA@", function(G,p,depth,fullgroup)
+Fr.GUPTASIDKIFRDATA := ( function(G,p,depth,fullgroup)
     local F, rels, rels0, sigma, a, t, tt, Fgens, Ggens, Sgens, creator,
           i, j, k, l, e, image;
 
@@ -946,7 +946,7 @@ BindGlobal("GUPTASIDKIFRDATA@", function(G,p,depth,fullgroup)
         fi;
 
         if depth>=0 then
-            F := F / Flat([rels0,List(rels,r->ITERATEMAP@(sigma,depth,r))]);
+            F := F / Flat([rels0,List(rels,r->Fr.ITERATEMAP(sigma,depth,r))]);
             creator := x->ElementOfFpGroup(FamilyObj(Representative(F)),x);
         elif fullgroup then
             F := LPresentedGroup(F,rels0,[sigma],rels);
@@ -964,8 +964,8 @@ BindGlobal("GUPTASIDKIFRDATA@", function(G,p,depth,fullgroup)
     Sgens := List(MappingGeneratorsImages(sigma)[2],creator);
     if fullgroup then
         return rec(F:=F,
-                   image:=GUPTASIDKIGROUPIMAGE@(G,F,Ggens,Fgens,Sgens,p),
-                   preimage:=LPGROUPPREIMAGE@(Ggens,Fgens,Sgens,depth,p),
+                   image:=Fr.GUPTASIDKIGROUPIMAGE(G,F,Ggens,Fgens,Sgens,p),
+                   preimage:=Fr.LPGROUPPREIMAGE(Ggens,Fgens,Sgens,depth,p),
                    reduce:=w->w);
     else
         return rec(F:=F);
@@ -977,7 +977,7 @@ InstallGlobalFunction(GeneralizedGuptaSidkiGroups, function(p)
     P := CyclicGroup(IsPermGroup,p);
     P := MixerMachine(P,P,[List([1..p-1],i->GroupHomomorphismByImages(P,P,[P.1],[P.1^i]))]);
     G := Group(FRElement(P,2),FRElement(P,p+1));
-    SETGENERATORNAMES@(G,["a","t"]);
+    Fr.SETGENERATORNAMES(G,["a","t"]);
     SetName(G,Concatenation("GeneralizedGuptaSidkiGroups(",String(p),")"));
     SetUnderlyingFRMachine(G,P);
     SetIsStateClosed(G,true);
@@ -986,9 +986,9 @@ InstallGlobalFunction(GeneralizedGuptaSidkiGroups, function(p)
 
     SetFRGroupPreImageData(G,function(depth)
         local r, s;
-        r := GUPTASIDKIFRDATA@(G,p,depth,true);
+        r := Fr.GUPTASIDKIFRDATA(G,p,depth,true);
         if depth=-1 then
-            s := GUPTASIDKIFRDATA@(G,p,depth,false);
+            s := Fr.GUPTASIDKIFRDATA(G,p,depth,false);
             SetEmbeddingOfAscendingSubgroup(r.F,GroupHomomorphismByImagesNC(
                     s.F,r.F,GeneratorsOfGroup(s.F),List([1..p],i->r.F.2^(r.F.1^(i-1)))));
         fi;
@@ -1070,7 +1070,7 @@ InstallGlobalFunction(NeumannGroup, function(P)
     local G, M;
     M := NeumannMachine(P);
     G := SCGroup(M);
-    SetName(G,Concatenation("NeumannGroup(",STRINGGROUP@(P),")"));
+    SetName(G,Concatenation("NeumannGroup(",Fr.STRINGGROUP(P),")"));
     G!.Correspondence := [GroupHomomorphismByImages(P,G,GeneratorsOfGroup(P),
       GeneratorsOfGroup(G){Correspondence(G){Correspondence(M)[1]}}),
     GroupHomomorphismByImages(P,G,GeneratorsOfGroup(P),
@@ -1082,7 +1082,7 @@ InstallGlobalFunction(FabrykowskiGuptaGroups, function(p)
     local G;
     G := NeumannGroup(CyclicGroup(IsPermGroup,p));
     G!.Name := Concatenation("FabrykowskiGuptaGroups(",String(p),")");
-    SETGENERATORNAMES@(G,["a","r"]);
+    Fr.SETGENERATORNAMES(G,["a","r"]);
     SetFRGroupPreImageData(G,function(depth)
         local F, rels, sigma, a, r, Fgens, Ggens, Sgens, j, k, l;
 
@@ -1115,7 +1115,7 @@ InstallGlobalFunction(FabrykowskiGuptaGroups, function(p)
         else
             sigma := GroupHomomorphismByImagesNC(F,F,[a,r[1]],Sgens);
             if depth>=0 then
-                F := F / Flat([rels[1],r[1]^p,List(rels{[2..Length(rels)]},r->ITERATEMAP@(sigma,depth,r))]);
+                F := F / Flat([rels[1],r[1]^p,List(rels{[2..Length(rels)]},r->Fr.ITERATEMAP(sigma,depth,r))]);
             else
                 F := LPresentedGroup(F,[],[sigma],rels);
             fi;
@@ -1128,8 +1128,8 @@ InstallGlobalFunction(FabrykowskiGuptaGroups, function(p)
             Sgens := List(Sgens,x->ElementOfFpGroup(FamilyObj(Representative(F)),x));
         fi;
         return rec(F:=F,
-                   image:=LPGROUPIMAGE@(G,F,Ggens,Fgens,Sgens,p),
-                   preimage:=LPGROUPPREIMAGE@(Ggens,Fgens,Sgens,depth,p),
+                   image:=Fr.LPGROUPIMAGE(G,F,Ggens,Fgens,Sgens,p),
+                   preimage:=Fr.LPGROUPPREIMAGE(Ggens,Fgens,Sgens,depth,p),
                    reduce:=w->w);
     end);
     return G;
@@ -1141,7 +1141,7 @@ FabrykowskiGuptaGroup!.Name := "FabrykowskiGuptaGroup";
 BindGlobal("ZugadiSpinalGroup", MixerGroup(Group((1,2,3)),Group((1,2,3)),
         [[IdentityMapping(Group((1,2,3))),IdentityMapping(Group((1,2,3)))]]));
 SetName(ZugadiSpinalGroup,"ZugadiSpinalGroup");
-SETGENERATORNAMES@(ZugadiSpinalGroup,["a","s"]);
+Fr.SETGENERATORNAMES(ZugadiSpinalGroup,["a","s"]);
 #############################################################################
 
 #############################################################################
@@ -1166,14 +1166,14 @@ InstallGlobalFunction(HanoiGroup, function(k)
     if k=3 then
         SetFRGroupPreImageData(G,function(depth)
             local F, Fgens, Ggens, Sgens, a, b, c, d, e, f, g, h, i, tau, rels;
-            
+
             if depth=infinity then
                 F := FreeGroup("a","b","c","tau");
                 tau := F.4;
             else
                 F := FreeGroup("a","b","c");
             fi;
-            
+
             a := F.1; b := F.2; c := F.3;
             d := Comm(a,b); e := Comm(b,c); f := Comm(c,a);
             g := d^c; h := e^a; i := f^b;
@@ -1187,7 +1187,7 @@ InstallGlobalFunction(HanoiGroup, function(k)
             else
                 tau := GroupHomomorphismByImagesNC(F,F,Fgens,Sgens);
                 if depth>=0 then
-                    F := F / Flat([rels{[1..3]},List(rels{[4..Length(rels)]},r->ITERATEMAP@(tau,depth,r))]);
+                    F := F / Flat([rels{[1..3]},List(rels{[4..Length(rels)]},r->Fr.ITERATEMAP(tau,depth,r))]);
                 else
                     F := LPresentedGroup(F,[],[tau],rels);
                 fi;
@@ -1200,8 +1200,8 @@ InstallGlobalFunction(HanoiGroup, function(k)
                 Sgens := List(Sgens,x->ElementOfFpGroup(FamilyObj(Representative(F)),x));
             fi;
             return rec(F:=F,
-                   image:=LPGROUPIMAGE@(G,F,Ggens,Fgens,Sgens,3),
-                   preimage:=LPGROUPPREIMAGE@(Ggens,Fgens,Sgens,depth,3),
+                   image:=Fr.LPGROUPIMAGE(G,F,Ggens,Fgens,Sgens,3),
+                   preimage:=Fr.LPGROUPPREIMAGE(Ggens,Fgens,Sgens,depth,3),
                    reduce:=w->w);
         end);
     fi;
@@ -1309,7 +1309,7 @@ InstallMethod(FRAffineGroup, "(FR) for a dimension, a ring, an element, a transv
             od;
             Add(trans,t);
             Add(out,o);
-            if not ISINVERTIBLE@(out[i]) then return fail; fi;
+            if not Fr.ISINVERTIBLE(out[i]) then return fail; fi;
             i := i+1;
             if RemInt(i,10)=0 then
                 Info(InfoFR, 2, "FRAffineGroup: at least ",i," states");
@@ -1334,7 +1334,7 @@ InstallGlobalFunction(CayleyGroup, function(g)
     s := GeneratorsOfGroup(m);
     id := First(s,x->ActivityPerm(x)=());
     m!.Correspondence := [GroupHomomorphismByImages(g,m,GeneratorsOfGroup(g),List(GeneratorsOfGroup(g),x->First(s,y->ActivityPerm(y)=(x^h)^-1)^-1*id)),id];
-    SetName(m,Concatenation("CayleyGroup(",STRINGGROUP@(g),")"));
+    SetName(m,Concatenation("CayleyGroup(",Fr.STRINGGROUP(g),")"));
     return m;
 end);
 
@@ -1357,7 +1357,7 @@ end);
 #E BinaryKneadingGroup
 #E BasilicaGroup
 ##
-BindGlobal("BINARYKNEADINGMACHINE@", function(arg)
+Fr.BINARYKNEADINGMACHINE := ( function(arg)
     local dbl, i, s, G, M, gen, act, h0, h1, k, n, ksym, transition, output, name, kseq, preperiod, period;
 
     if arg=[] then arg := ["*"]; fi;
@@ -1512,7 +1512,7 @@ BindGlobal("BINARYKNEADINGMACHINE@", function(arg)
     return [M,G,name];
 end);
 
-BindGlobal("PERIODICBKG_PREIMAGE@", function(G,depth)
+Fr.PERIODICBKG_PREIMAGE := ( function(G,depth)
     local a, s, t, kseq, i, j, n, d, epsilon, F, r, tau, image, knows,
           nuke, nukeimg, Ggens, Fgens, Sgens, preimage, makeSgens;
     kseq := KneadingSequence(G);
@@ -1579,10 +1579,10 @@ BindGlobal("PERIODICBKG_PREIMAGE@", function(G,depth)
         fi;
         for i in [2..n] do for j in [2..n] do
             if kseq[i-1]=kseq[j-1] then
-                Append(r,ITERATEMAP@(s,depth,Comm(a[i],a[j]^a[1])));
+                Append(r,Fr.ITERATEMAP(s,depth,Comm(a[i],a[j]^a[1])));
             else
-                Append(r,ITERATEMAP@(s,depth,Comm(a[i],a[j])));
-                Append(r,ITERATEMAP@(s,depth,Comm(a[i],a[j]^(a[1]^2))));
+                Append(r,Fr.ITERATEMAP(s,depth,Comm(a[i],a[j])));
+                Append(r,Fr.ITERATEMAP(s,depth,Comm(a[i],a[j]^(a[1]^2))));
             fi;
         od; od;
         if knows then
@@ -1633,7 +1633,7 @@ BindGlobal("PERIODICBKG_PREIMAGE@", function(G,depth)
                 y := recur(LeftQuotient(tau(i[1][1]),i[1][2]));
                 if x=fail or y=fail then return fail; fi;
                 x := x^t*a*y^t;
-                if ISONE@(i[2]) then x := x/a; fi;
+                if Fr.ISONE(i[2]) then x := x/a; fi;
                 AddDictionary(knows,g,x);
                 return x;
             end;
@@ -1702,7 +1702,7 @@ BindGlobal("PERIODICBKG_PREIMAGE@", function(G,depth)
                 if x=fail or y=fail then return fail; fi;
                 x := MappedWord(x,Fgens,Sgens)/Fgens[1]*
                      MappedWord(y,Fgens,Sgens);
-                if ISONE@(i[2]) then x := x*Fgens[1]; fi;
+                if Fr.ISONE(i[2]) then x := x*Fgens[1]; fi;
                 if MappedWord(x,Fgens,Ggens)<>g then return fail; fi;
                 AddDictionary(knows,g,x);
                 return x;
@@ -1714,7 +1714,7 @@ BindGlobal("PERIODICBKG_PREIMAGE@", function(G,depth)
     return rec(F:=F, image:=image, preimage:=preimage, reduce:=w->w);
 end);
 
-BindGlobal("PREPERIODICBKG_PREIMAGE@", function(G,depth)
+Fr.PREPERIODICBKG_PREIMAGE := ( function(G,depth)
     local kseq, k, n, d, a, b, i, j, rel, sigma, t, w,
           glob_t, glob_s, glob_m, glob_u,
           makeSgens, image, knows, preimage, dihedralimage, reduce, tau,
@@ -1869,7 +1869,7 @@ BindGlobal("PREPERIODICBKG_PREIMAGE@", function(G,depth)
             creator := ElementOfFpGroup;
         fi;
         if glob_m<infinity then
-            Append(rel,ITERATEMAP@(sigma,depth,(Fgens[1]*glob_t)^(2^(glob_m+1))));
+            Append(rel,Fr.ITERATEMAP(sigma,depth,(Fgens[1]*glob_t)^(2^(glob_m+1))));
             for i in [1..2^glob_m] do
                 Add(O[2-RemInt(i,2)], (glob_t*Fgens[1])^i);
                 Add(O[1+RemInt(i,2)], (Fgens[1]*glob_t)^(i+1));
@@ -1880,9 +1880,9 @@ BindGlobal("PREPERIODICBKG_PREIMAGE@", function(G,depth)
         for i in Concatenation([2..k],[k+2..k+n]) do
             for j in Concatenation([2..k],[k+2..k+n]) do
                 if kseq[i-1]=kseq[j-1] then
-                    for w in O[1] do Append(rel,ITERATEMAP@(sigma,depth,Comm(Fgens[i],Fgens[j]^w))); od;
+                    for w in O[1] do Append(rel,Fr.ITERATEMAP(sigma,depth,Comm(Fgens[i],Fgens[j]^w))); od;
                 else
-                    for w in O[2] do Append(rel,ITERATEMAP@(sigma,depth,Comm(Fgens[i],Fgens[j]^w))); od;
+                    for w in O[2] do Append(rel,Fr.ITERATEMAP(sigma,depth,Comm(Fgens[i],Fgens[j]^w))); od;
                 fi;
             od;
         od;
@@ -1992,7 +1992,7 @@ BindGlobal("PREPERIODICBKG_PREIMAGE@", function(G,depth)
                     y := recur(i[1][2]);
                     if x=fail or y=fail then return fail; fi;
                     x := x^t*b/tau(i[1][1],rel[1],rel[2])^t*y^t;
-                    if ISONE@(i[2]) then x := x*b; fi;
+                    if Fr.ISONE(i[2]) then x := x*b; fi;
                     if MappedWord(x,Fgens,Ggens)<>g then return fail; fi;
                     AddDictionary(knows,g,x);
                     return x;
@@ -2078,7 +2078,7 @@ BindGlobal("PREPERIODICBKG_PREIMAGE@", function(G,depth)
                     x := MappedWord(x,Fgens,Sgens)*Fgens[1]/
                          MappedWord(tau(i[1][1],glob_s,Fgens[k]),Fgens,Sgens)*
                          MappedWord(y,Fgens,Sgens);
-                    if ISONE@(i[2]) then x := x*Fgens[1]; fi;
+                    if Fr.ISONE(i[2]) then x := x*Fgens[1]; fi;
                     if MappedWord(x,Fgens,Ggens)<>g then return fail; fi;
                     AddDictionary(knows,g,x);
                     return x;
@@ -2093,19 +2093,19 @@ end);
 
 InstallGlobalFunction(BinaryKneadingMachine, function(arg)
     local t;
-    t := CallFuncList(BINARYKNEADINGMACHINE@,arg);
+    t := CallFuncList(Fr.BINARYKNEADINGMACHINE,arg);
     SetName(t[1],Concatenation("BinaryKneadingMachine",t[3]));
     return t[1];
 end);
 
 InstallGlobalFunction(BinaryKneadingGroup, function(arg)
     local t;
-    t := CallFuncList(BINARYKNEADINGMACHINE@,arg);
+    t := CallFuncList(Fr.BINARYKNEADINGMACHINE,arg);
     SetName(t[2],Concatenation("BinaryKneadingGroup",t[3]));
     if PrePeriod(KneadingSequence(t[2]))="" then
-        SetFRGroupPreImageData(t[2],n->PERIODICBKG_PREIMAGE@(t[2],n));
+        SetFRGroupPreImageData(t[2],n->Fr.PERIODICBKG_PREIMAGE(t[2],n));
     else
-        SetFRGroupPreImageData(t[2],n->PREPERIODICBKG_PREIMAGE@(t[2],n));
+        SetFRGroupPreImageData(t[2],n->Fr.PREPERIODICBKG_PREIMAGE(t[2],n));
     fi;
     SetIsBoundedFRSemigroup(t[2],true);
     NucleusOfFRSemigroup(t[2]);
@@ -2114,7 +2114,7 @@ end);
 
 BindGlobal("BasilicaGroup", BinaryKneadingGroup("1"));
 BasilicaGroup!.Name := "BasilicaGroup";
-SETGENERATORNAMES@(BasilicaGroup,["a","b"]);
+Fr.SETGENERATORNAMES(BasilicaGroup,["a","b"]);
 SetName(GeneratorsOfSemigroup(BasilicaGroup)[4],"a^-1");
 SetName(GeneratorsOfSemigroup(BasilicaGroup)[5],"b^-1");
 SetName(NucleusOfFRSemigroup(BasilicaGroup)[4],"a"); #???
@@ -2135,13 +2135,13 @@ BindGlobal("I2Machine",MealyMachine([[1,1],[2,1]],[(1,2),[2,2]]));
 
 BindGlobal("I2Monoid",SCMonoid(I2Machine));
 SetName(I2Monoid,"I2");
-SETGENERATORNAMES@(I2Monoid,["f0","f1"]);
+Fr.SETGENERATORNAMES(I2Monoid,["f0","f1"]);
 
 BindGlobal("I4Machine",MealyMachine([[3,3],[1,2],[3,3]],[(1,2),[1,1],()]));
 
 BindGlobal("I4Monoid",SCMonoid(I4Machine));
 SetName(I4Monoid,"I4");
-SETGENERATORNAMES@(I4Monoid,["s","f"]);
+Fr.SETGENERATORNAMES(I4Monoid,["s","f"]);
 #############################################################################
 
 #############################################################################
@@ -2149,7 +2149,7 @@ SETGENERATORNAMES@(I4Monoid,["s","f"]);
 #
 InstallGlobalFunction(PSZAlgebra, function(arg)
     local p, t, u, i, k, m;
-    
+
     while Length(arg)=0 or Length(arg)>2 do
         Error("PSZAlgebra: need 1 or 2 arguments");
     od;
@@ -2172,25 +2172,25 @@ InstallGlobalFunction(PSZAlgebra, function(arg)
     else
         m := 2;
     fi;
-    
+
     u := NullMat(m+1,m+1,k);
-    t := MATRIX@(IdentityMat(p,k),i->u);
-    
+    t := Fr.MATRIX(IdentityMat(p,k),i->u);
+
     u := NullMat(m+1,m+1,k);
     for i in [1..m-1] do
         u[i+1][i] := One(k);
     od;
     u[m+1][m+1] := One(k);
     for i in [1..p] do t[i][i] := u; od;
-    
+
     u := NullMat(m+1,m+1,k);
     u[1][m+1] := One(k);
     for i in [1..p-1] do t[i+1][i] := u; od;
-    
+
     u := NullMat(m+1,m+1,k);
     u[m][m] := -One(k);
     t[1][p] := u;
-    
+
     u := ListWithIdenticalEntries(m+1,Zero(k)); u[m+1] := One(k);
     t := SCAlgebraWithOne(VectorMachine(k,t,u));
     SetName(t,Concatenation("PSZAlgebra(",String(k),",",String(m),")"));
@@ -2202,7 +2202,7 @@ InstallGlobalFunction(PSZAlgebra, function(arg)
         od;
     fi;
     SetName(t.2,"v");
-    
+
     for i in [1..m] do
         SetDegreeOfHomogeneousElement(t.(i),IdentityMat(m)[i]);
     od;
@@ -2213,7 +2213,7 @@ InstallGlobalFunction(PSZAlgebra, function(arg)
     AddDictionary(t!.components,Zero(Integers^m),i);
     SetGrading(t,rec(source := Integers^m, hom_components := function(arg)
         local i, j, v;
-        
+
         while not arg in Grading(t).source do
             Error("Grading degree ",arg," must belong to ",Grading(t).source);
         od;
@@ -2281,7 +2281,7 @@ InstallGlobalFunction(GuptaSidkiThinnedAlgebra, function(k)
 
     if IsPosInt(k) then k := GF(k); fi;
 
-    a := THINNEDALGEBRAWITHONE@(k,GuptaSidkiGroup,GeneratorsOfGroup(GuptaSidkiGroup));
+    a := Fr.THINNEDALGEBRAWITHONE(k,GuptaSidkiGroup,GeneratorsOfGroup(GuptaSidkiGroup));
     return a;
 end);
 

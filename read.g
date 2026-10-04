@@ -66,7 +66,7 @@ end);
 ##
 #X install shortcuts
 ##
-INSTALL@ := function()
+Fr.INSTALL := function()
     CallFuncList(function(arg)
         local s;
         for s in arg do
@@ -116,9 +116,9 @@ DeclareAttribute("IsLevelTransitive", IsFRElement);
 DeclareAttribute("IsLevelTransitive", IsFRGroup);
 InstallMethod(IsLevelTransitive, [IsFRGroup], IsLevelTransitiveFRGroup);
 InstallMethod(IsLevelTransitive, [IsFRElement], IsLevelTransitiveFRElement);
-        
-while not IsEmpty(POSTHOOK@fr) do Remove(POSTHOOK@fr)(); od;
-Unbind(POSTHOOK@fr);
+
+while not IsEmpty(Fr.POSTHOOK) do Remove(Fr.POSTHOOK)(); od;
+Unbind(Fr.POSTHOOK);
 
 if IsBound(IO_Pickle) then
     ReadPackage("fr","gap/pickle.g");

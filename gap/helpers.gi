@@ -11,7 +11,7 @@
 ##
 #############################################################################
 
-BindGlobal("INSTALLPRINTERS@", function(filter)
+Fr.INSTALLPRINTERS := ( function(filter)
     InstallMethod(PrintObj, "(FR)", [filter], 2*SUM_FLAGS, function(x) Print(String(x)); end);
     InstallMethod(ViewObj, "(FR)", [filter], 2*SUM_FLAGS, function(x) Print(ViewString(x)); end);
     InstallMethod(Display, "(FR)", [filter], 2*SUM_FLAGS, function(x) Print(DisplayString(x)); end);
@@ -48,24 +48,24 @@ end);
 ##
 #H WordGrowth(g,options)
 ##
-COLOURLIST@ :=
+Fr.COLOURLIST :=
   ["red","blue","green","gray","yellow","cyan","orange","purple"];
-BindGlobal("COLOURS@", function(i)
-    return COLOURLIST@[(i-1) mod Length(COLOURLIST@)+1];
+Fr.COLOURS := ( function(i)
+    return Fr.COLOURLIST[(i-1) mod Length(Fr.COLOURLIST)+1];
 end);
 
-BindGlobal("EXEC@", rec());
+Fr.EXEC := ( rec());
 # If 1 argument is passed, search path to find appropriate executable.
 # If >1 arguments, the first is a generic name, such as "psviewer", and the
 #     other arguments are possibilities to be searched in sequence, in the
 #     form ["progname","arg1",...,"argn"]. If the last argument is true, then
 #     do not raise an error if nothing was found.
-BindGlobal("CHECKEXEC@", function(arg)
+Fr.CHECKEXEC := ( function(arg)
     local a, prog, command;
     prog := arg[1];
-    
-    if IsBound(EXEC@.(prog)) then return; fi;
-    
+
+    if IsBound(Fr.EXEC.(prog)) then return; fi;
+
     if Length(arg)=1 then
         command := IO_FindExecutable(prog);
     else
@@ -78,21 +78,21 @@ BindGlobal("CHECKEXEC@", function(arg)
             fi;
         od;
     fi;
-    
+
     while command=fail do
-        Error("Could not find program \"",prog,"\" -- make sure it is installed, and/or set manually EXEC@FR.",prog);
+        Error("Could not find program \"",prog,"\" -- make sure it is installed, and/or set manually Fr.EXECFR.",prog);
     od;
-    EXEC@.(prog) := command;
+    Fr.EXEC.(prog) := command;
 end);
 
-BindGlobal("OUTPUTTEXTSTRING@", function(s)
+Fr.OUTPUTTEXTSTRING := ( function(s)
     local f;
     f := OutputTextString(s,false);
     SetPrintFormattingStatus(f,false);
     return f;
 end);
 
-BindGlobal("STRINGGROUP@",
+Fr.STRINGGROUP := (
         function(O)
     local s, os;
     s := "";
@@ -102,51 +102,51 @@ BindGlobal("STRINGGROUP@",
     return s;
 end);
 
-BindGlobal("EXECINSHELL@", function(input,command,detach)
+Fr.EXECINSHELL := ( function(input,command,detach)
     local tmp, outs, output;
     outs := "";
-    output := OUTPUTTEXTSTRING@(outs);
-    CHECKEXEC@("sh");
+    output := Fr.OUTPUTTEXTSTRING(outs);
+    Fr.CHECKEXEC("sh");
 
     if detach=fail then
         if IsString(input) then input := InputTextString(input); fi;
     else
 	tmp := Filename(DirectoryTemporary(), "stdin");
- 
+
         if not IsString(input) then
 	    input := ReadAll(input);
         fi;
         WriteAll(OutputTextFile(tmp,false), input);
         input := InputTextNone();
-        CHECKEXEC@("cat");
+        Fr.CHECKEXEC("cat");
         command := Concatenation("cat ",tmp,"|",command,"&");
     fi;
-    Process(DirectoryCurrent(), EXEC@.sh, input, output, ["-c", command]);
+    Process(DirectoryCurrent(), Fr.EXEC.sh, input, output, ["-c", command]);
     return outs;
 end);
 
-BindGlobal("DOT2DISPLAY@", function(str,prog)
+Fr.DOT2DISPLAY := ( function(str,prog)
     local command;
-    
-    CHECKEXEC@(prog);
-    CHECKEXEC@("psviewer",["display","-flatten","-"],["gv","-"],true);
-    if ValueOption("usesvg")<>fail or EXEC@.psviewer=fail then
-        CHECKEXEC@("svgviewer",["svg-view","--stdin"]);
-        command := Concatenation(EXEC@.(prog)," -Tsvg 2>/dev/null | ",EXEC@.svgviewer);
+
+    Fr.CHECKEXEC(prog);
+    Fr.CHECKEXEC("psviewer",["display","-flatten","-"],["gv","-"],true);
+    if ValueOption("usesvg")<>fail or Fr.EXEC.psviewer=fail then
+        Fr.CHECKEXEC("svgviewer",["svg-view","--stdin"]);
+        command := Concatenation(Fr.EXEC.(prog)," -Tsvg 2>/dev/null | ",Fr.EXEC.svgviewer);
     else
-        command := Concatenation(EXEC@.(prog)," -Gbgcolor=white -Tps 2>/dev/null | ",EXEC@.psviewer);
+        command := Concatenation(Fr.EXEC.(prog)," -Gbgcolor=white -Tps 2>/dev/null | ",Fr.EXEC.psviewer);
     fi;
-    return EXECINSHELL@(str,command,ValueOption("detach"));
+    return Fr.EXECINSHELL(str,command,ValueOption("detach"));
 end);
 
-BindGlobal("APPEND@", function(arg)
+Fr.APPEND := ( function(arg)
     local i;
     for i in [2..Length(arg)] do
         Append(arg[1],String(arg[i]));
     od;
 end);
 
-BindGlobal("CONCAT@", function(arg)
+Fr.CONCAT := ( function(arg)
     local i, s;
     s := "";
     for i in arg do
@@ -160,7 +160,7 @@ InstallGlobalFunction(WordGrowth, function(arg)
           tile, point, draw, S, plotedge, plotvertex,
           trackgroup, trackgens, track, trackhom,
           group, options, optionnames;
-    
+
     optionnames := ["track","limit","draw","point","ball","sphere","balls",
                     "spheres","spheresizes","ballsizes","act","tile"];
     if Length(arg)=2 then
@@ -177,7 +177,7 @@ InstallGlobalFunction(WordGrowth, function(arg)
             fi;
         od;
     fi;
-    
+
     if IsInt(options) then
         options := rec(spheresizes := options);
     fi;
@@ -298,10 +298,10 @@ InstallGlobalFunction(WordGrowth, function(arg)
             else
                 col := Position(gens,gen);
             fi;
-            APPEND@(S,"  ",nsrc,".",src," -> ",ndst,".",dst," [color=",COLOURS@(col),",dir=",dir,"];\n");
+            Fr.APPEND(S,"  ",nsrc,".",src," -> ",ndst,".",dst," [color=",Fr.COLOURS(col),",dir=",dir,"];\n");
         end;
         plotvertex := function(nsrc,src)
-            APPEND@(S,"  ",nsrc,".",src," [height=0.3,width=0.6,fixedsize=true]\n");
+            Fr.APPEND(S,"  ",nsrc,".",src," [height=0.3,width=0.6,fixedsize=true]\n");
         end;
     fi;
 
@@ -487,7 +487,7 @@ InstallGlobalFunction(WordGrowth, function(arg)
             if IsBoundGlobal("JupyterRenderable") then
                 return ValueGlobal("JupyterRenderable")(rec(("image/svg+xml") :=IO_PipeThrough("dot",["-Tsvg"],S)),rec());
             else
-                DOT2DISPLAY@(S, "neato");
+                Fr.DOT2DISPLAY(S, "neato");
             fi;
         fi;
     else
@@ -549,29 +549,29 @@ end);
 ##
 #H Draw order relations
 ##
-BindGlobal("ORDER2DOT@", function(R)
+Fr.ORDER2DOT := ( function(R)
     local i, j, succ, S;
-    
+
     if not IsBinaryRelationOnPointsRep(R) then
         R := AsBinaryRelationOnPoints(R);
     fi;
 
     S := "digraph ";
     if HasName(R) and ForAll(Name(R),IsAlphaChar) then
-        APPEND@(S, "\"",Name(R),"\"");
+        Fr.APPEND(S, "\"",Name(R),"\"");
     else
         Append(S,"HasseDiagram");
     fi;
     Append(S," {\n");
     for i in [1..DegreeOfBinaryRelation(R)] do
-        APPEND@(S,i," [shape=circle]\n");
+        Fr.APPEND(S,i," [shape=circle]\n");
     od;
-    
+
     succ := Successors(R);
 
     for i in [1..DegreeOfBinaryRelation(R)] do
         for j in succ[i] do
-            APPEND@(S,"  ",i," -> ",j," [label=\".\"];\n");
+            Fr.APPEND(S,"  ",i," -> ",j," [label=\".\"];\n");
         od;
     od;
     Append(S,"}\n");
@@ -581,13 +581,13 @@ end);
 InstallMethod(Draw, "(FR) for a binary relation",
         [IsBinaryRelation],
         function(R)
-    DOT2DISPLAY@(ORDER2DOT@(R),"dot");
+    Fr.DOT2DISPLAY(Fr.ORDER2DOT(R),"dot");
 end);
 
 InstallMethod(Draw, "(FR) for a binary relation and a filename",
         [IsBinaryRelation,IsString],
         function(R,S)
-    AppendTo(S,ORDER2DOT@(R));
+    AppendTo(S,Fr.ORDER2DOT(R));
 end);
 
 InstallMethod(HeightOfPoset, "(FR) for a binary relation",
@@ -709,7 +709,7 @@ InstallGlobalFunction(CoefficientsInAbelianExtension, function(x,seq,G)
                    s->Product([1..Length(seq)],n->seq[n]^s[n])/x in G);
 end);
 
-BindGlobal("MAPPEDWORD@", function(arg)
+Fr.MAPPEDWORD := ( function(arg)
     local i, e, w, gens;
 
     w := arg[1];
@@ -751,7 +751,7 @@ InstallGlobalFunction(MagmaHomomorphismByImagesNC, function(f,g,im)
         else
             one := fail;
         fi;
-        return MagmaHomomorphismByFunctionNC(f,g,w->MAPPEDWORD@(w,im,one));
+        return MagmaHomomorphismByFunctionNC(f,g,w->Fr.MAPPEDWORD(w,im,one));
     fi;
 
     if IsMonoid(f) and IsMonoid(g) then
@@ -759,14 +759,14 @@ InstallGlobalFunction(MagmaHomomorphismByImagesNC, function(f,g,im)
             local s;
             s := ShortMonoidWordInSet(f,x,infinity);
             if Length(s)<2 then return fail; fi;
-            return MAPPEDWORD@(s[2],im,One(g));
+            return Fr.MAPPEDWORD(s[2],im,One(g));
         end);
     else
         return MagmaHomomorphismByFunctionNC(f,g,function(x)
             local s;
             s := ShortSemigroupWordInSet(f,x,infinity);
             if Length(s)<2 then return fail; fi;
-            return MAPPEDWORD@(s[2],im,fail);
+            return Fr.MAPPEDWORD(s[2],im,fail);
         end);
     fi;
 end);
@@ -798,7 +798,7 @@ end);
 ##
 #H ShortMonoidRelations
 ##
-BindGlobal("FINDMONOIDRELATIONS@", function(gens,n)
+Fr.FINDMONOIDRELATIONS := ( function(gens,n)
     local free, seen, reducible, i, iterate, result, freegens;
     free := FreeMonoid(Length(gens));
     freegens := GeneratorsOfMonoid(free);
@@ -830,13 +830,13 @@ end);
 InstallMethod(ShortMonoidRelations, "for a monoid and a length",
         [IsMonoid,IsInt],
         function(m,n)
-    return FINDMONOIDRELATIONS@(GeneratorsOfMonoid(m),n);
+    return Fr.FINDMONOIDRELATIONS(GeneratorsOfMonoid(m),n);
 end);
 InstallMethod(ShortMonoidRelations, "for a list and a length",
         [IsListOrCollection,IsInt],
-        FINDMONOIDRELATIONS@);
+        Fr.FINDMONOIDRELATIONS);
 
-BindGlobal("FINDGROUPRELATIONS_ADD@", function(result,w)
+Fr.FINDGROUPRELATIONS_ADD := ( function(result,w)
     if Sum(ExponentSums(w))>=0 then
         Add(result,w);
     else
@@ -844,7 +844,7 @@ BindGlobal("FINDGROUPRELATIONS_ADD@", function(result,w)
     fi;
 end);
 
-BindGlobal("FINDGROUPRELATIONS@", function(group,gens,n)
+Fr.FINDGROUPRELATIONS := ( function(group,gens,n)
     local freegens, pigens, freegensinv, pi, inv,
           i, j, k, m, mm, newf, newg, result, rws, seen, todo, x, y, z;
 
@@ -855,9 +855,9 @@ BindGlobal("FINDGROUPRELATIONS@", function(group,gens,n)
     for i in [1..Length(y)] do
         for j in [i+1..Length(y)] do
             if y[i]=y[j] then
-                FINDGROUPRELATIONS_ADD@(result,z[i]/z[j]);
+                Fr.FINDGROUPRELATIONS_ADD(result,z[i]/z[j]);
             elif y[i]=y[j]^-1 then
-                FINDGROUPRELATIONS_ADD@(result,z[i]*z[j]);
+                Fr.FINDGROUPRELATIONS_ADD(result,z[i]*z[j]);
             fi;
         od;
     od;
@@ -872,7 +872,7 @@ BindGlobal("FINDGROUPRELATIONS@", function(group,gens,n)
         Add(freegensinv,freegens[j]);
         AddRuleReduced(rws,[[i,j],[]]);
         if j=i then
-            FINDGROUPRELATIONS_ADD@(result,(freegens[i]^pi)^2);
+            Fr.FINDGROUPRELATIONS_ADD(result,(freegens[i]^pi)^2);
         fi;
     od;
     freegensinv := List([1..Length(freegens)],
@@ -895,7 +895,7 @@ BindGlobal("FINDGROUPRELATIONS@", function(group,gens,n)
                 mm := Length(x);
                 newf := ReducedForm(rws,newf*x^inv);
                 if Length(newf)<m+mm then continue; fi;
-                FINDGROUPRELATIONS_ADD@(result,newf^pi);
+                Fr.FINDGROUPRELATIONS_ADD(result,newf^pi);
                 x := [newf^2,(newf^inv)^2];
                 for j in [1..2] do
                     if m=mm then
@@ -924,15 +924,15 @@ end);
 InstallMethod(ShortGroupRelations, "for a group and a length",
         [IsGroup,IsInt],
         function(g,n)
-    return FINDGROUPRELATIONS@(g,GeneratorsOfGroup(g),n);
+    return Fr.FINDGROUPRELATIONS(g,GeneratorsOfGroup(g),n);
 end);
 InstallMethod(ShortGroupRelations, "for a list and a length",
         [IsListOrCollection,IsInt],
         function(g,n)
-    return FINDGROUPRELATIONS@(Group(g),g,n);
+    return Fr.FINDGROUPRELATIONS(Group(g),g,n);
 end);
 
-BindGlobal("SHORTWORDINSET@", function(f,fgen,fone,ggen,gone,set,result,n)
+Fr.SHORTWORDINSET := ( function(f,fgen,fone,ggen,gone,set,result,n)
     local x, newfx, newlen, i, seen, forbidden, todo, justone, compare;
     if n<0 then
         n := -n;
@@ -944,7 +944,7 @@ BindGlobal("SHORTWORDINSET@", function(f,fgen,fone,ggen,gone,set,result,n)
         if IsFunction(set) then
             return set(elm);
         elif FamilyObj(elm)=FamilyObj(set) and elm=set then
-            return true;    
+            return true;
         elif IsListOrCollection(set) then
             return elm in set;
         fi;
@@ -991,7 +991,7 @@ InstallMethod(ShortGroupWordInSet, "(FR) for a group, an object and an int",
     s := GeneratorsOfGroup(g);
     f := FreeGroup(Length(s));
     sinv := Concatenation(List(s,x->[x^-1,x]));
-    return SHORTWORDINSET@(f,GeneratorsOfMonoid(f),One(f),sinv,One(g),
+    return Fr.SHORTWORDINSET(f,GeneratorsOfMonoid(f),One(f),sinv,One(g),
             set,[GroupHomomorphismByImagesNC(f,g,GeneratorsOfGroup(f),s)],n);
 end);
 
@@ -1001,7 +1001,7 @@ InstallMethod(ShortMonoidWordInSet, "(FR) for a monoid, an object and an int",
     local f, s;
     s := GeneratorsOfMonoid(g);
     f := FreeMonoid(Length(s));
-    return SHORTWORDINSET@(f,GeneratorsOfMonoid(f),One(f),s,One(g),
+    return Fr.SHORTWORDINSET(f,GeneratorsOfMonoid(f),One(f),s,One(g),
             set,[FreeMonoidNatHomByGeneratorsNC(f,g)],n);
 end);
 
@@ -1012,7 +1012,7 @@ InstallMethod(ShortSemigroupWordInSet, "(FR) for a semigroup, an object and an i
     s := GeneratorsOfSemigroup(g);
     f := FreeSemigroup(Length(s));
     #!!! bug: GAP refuses free semigroups on 0 generators
-    return SHORTWORDINSET@(f,GeneratorsOfSemigroup(f),fail,s,fail,
+    return Fr.SHORTWORDINSET(f,GeneratorsOfSemigroup(f),fail,s,fail,
             set,[FreeSemigroupNatHomByGeneratorsNC(f,g)],n);
 end);
 #############################################################################
@@ -1023,11 +1023,11 @@ end);
 ##
 InstallGlobalFunction(SurfaceBraidFpGroup, function(n,g,p)
   local G, R, a, b, z, s;
-  a := List([1..g],i->CONCAT@("a",i));
-  b := List([1..g],i->CONCAT@("b",i));
-  s := List([1..n-1],i->CONCAT@("s",i));
+  a := List([1..g],i->Fr.CONCAT("a",i));
+  b := List([1..g],i->Fr.CONCAT("b",i));
+  s := List([1..n-1],i->Fr.CONCAT("s",i));
   if p>0 then
-    z := List([1..p-1],i->CONCAT@("z",i));
+    z := List([1..p-1],i->Fr.CONCAT("z",i));
   else
     z := [];
   fi;
@@ -1093,12 +1093,12 @@ InstallGlobalFunction(ArtinRepresentation, function(n)
                                    S{[i+2..n]}))));
 end);
 
-BindGlobal("ENDOISONE@", function(x)
+Fr.ENDOISONE := ( function(x)
     return ForAll(GeneratorsOfGroup(Source(x)),s->s=s^x);
 end);
 
-BindGlobal("ENDONORM@", function(x)
-    if ENDOISONE@(x) then
+Fr.ENDONORM := ( function(x)
+    if Fr.ENDOISONE(x) then
         return 0;
     else
         return LogInt(Maximum(List(GeneratorsOfGroup(Source(x)),s->Length(s^x)))^4,2);
@@ -1170,7 +1170,7 @@ InstallMethod(ProductBOIIdeal, "for two ideals over ring with invertible basis",
     return c;
 end);
 
-BindGlobal("DIMENSIONSERIES@", function(A,n)
+Fr.DIMENSIONSERIES := ( function(A,n)
     local L, k, i;
     L := [AsTwoSidedIdeal(A,A)];
     i := AugmentationIdeal(A);
@@ -1185,11 +1185,11 @@ end);
 
 InstallMethod(DimensionSeries, "for an algebra with one",
         [IsAlgebra and HasAugmentationIdeal],
-        A->DIMENSIONSERIES@(A,infinity));
+        A->Fr.DIMENSIONSERIES(A,infinity));
 
 InstallMethod(DimensionSeries, "for an algebra with one and a limit",
         [IsAlgebra and HasAugmentationIdeal,IsInt],
-        DIMENSIONSERIES@);
+        Fr.DIMENSIONSERIES);
 #############################################################################
 
 #############################################################################
@@ -1340,31 +1340,31 @@ end);
 #############################################################################
 # Dirichlet series
 #############################################################################
-BindGlobal("NEWDIRICHLETSERIES@", function(arg)
+Fr.NEWDIRICHLETSERIES := ( function(arg)
     return Objectify(NewType(DS_FAMILY,IsDirichletSeries),arg);
 end);
 
 InstallMethod(DirichletSeries, [], function()
-    return NEWDIRICHLETSERIES@([],[],infinity);
+    return Fr.NEWDIRICHLETSERIES([],[],infinity);
 end);
 
 InstallMethod(DirichletSeries, [IsInt], function(n)
-    return NEWDIRICHLETSERIES@([],[],n);
+    return Fr.NEWDIRICHLETSERIES([],[],n);
 end);
 
 InstallMethod(DirichletSeries, [IsList,IsList], function(ind,coeff)
-    return NEWDIRICHLETSERIES@(ind,coeff,Maximum(ind));
+    return Fr.NEWDIRICHLETSERIES(ind,coeff,Maximum(ind));
 end);
 
 InstallMethod(DirichletSeries, [IsList,IsList,IsInt], function(ind,coeff,n)
-    return NEWDIRICHLETSERIES@(ind,coeff,n);
+    return Fr.NEWDIRICHLETSERIES(ind,coeff,n);
 end);
-      
+
 InstallMethod(DirichletSeries, [IsDirichletSeries,IsInt],
         function(s,n)
     local p;
     p := First([1..Length(s![1])+1],i->not IsBound(s![1][i]) or s![1][i] > n);
-    return NEWDIRICHLETSERIES@(s![1]{[1..p-1]},s![2]{[1..p-1]},n);
+    return Fr.NEWDIRICHLETSERIES(s![1]{[1..p-1]},s![2]{[1..p-1]},n);
 end);
 
 InstallMethod(ShrunkDirichletSeries, [IsDirichletSeries],
@@ -1372,7 +1372,7 @@ InstallMethod(ShrunkDirichletSeries, [IsDirichletSeries],
     local p, n;
     n := DegreeOfDirichletSeries(s);
     p := First([1..Length(s![1])+1],i->not IsBound(s![1][i]) or s![1][i] > n);
-    return NEWDIRICHLETSERIES@(s![1]{[1..p-1]},s![2]{[1..p-1]},n);
+    return Fr.NEWDIRICHLETSERIES(s![1]{[1..p-1]},s![2]{[1..p-1]},n);
 end);
 
 InstallMethod(String,[IsDirichletSeries],
@@ -1412,12 +1412,12 @@ end);
 InstallMethod(\+, [IsDirichletSeries,IsDirichletSeries],
         function(s1,s2)
     local i, p, maxdeg, coeff, val;
-    
+
     maxdeg := Maximum(s1![3],s2![3]);
-    
+
     coeff := ShallowCopy(s1![1]);
     val := ShallowCopy(s1![2]);
-    
+
     for i in [1..Length(s2![1])] do
         p := PositionSorted(coeff,s2![1][i]);
         if p>Length(coeff) or coeff[p]<>s2![1][i] then
@@ -1426,43 +1426,43 @@ InstallMethod(\+, [IsDirichletSeries,IsDirichletSeries],
         fi;
         val[p] := val[p] + s2![2][i];
     od;
-    return NEWDIRICHLETSERIES@(coeff,val,maxdeg);
+    return Fr.NEWDIRICHLETSERIES(coeff,val,maxdeg);
 end);
 
 InstallMethod(AdditiveInverseSameMutability, [IsDirichletSeries],
         function(s)
-    return NEWDIRICHLETSERIES@(s![1],-s![2],s![3]);
+    return Fr.NEWDIRICHLETSERIES(s![1],-s![2],s![3]);
 end);
 
 InstallMethod(Zero, [IsDirichletSeries],
         function(s)
-    return NEWDIRICHLETSERIES@([],[],s![3]);
+    return Fr.NEWDIRICHLETSERIES([],[],s![3]);
 end);
 
 InstallMethod(OneMutable, [IsDirichletSeries],
         function(s)
-    return NEWDIRICHLETSERIES@([1],[1],s![3]);
+    return Fr.NEWDIRICHLETSERIES([1],[1],s![3]);
 end);
 
 InstallMethod(\*, [IsDirichletSeries,IsScalar],
         function(s,x)
-    return NEWDIRICHLETSERIES@(s![1],s![2]*x,s![3]);
+    return Fr.NEWDIRICHLETSERIES(s![1],s![2]*x,s![3]);
 end);
 
 InstallMethod(\*, [IsScalar,IsDirichletSeries],
         function(x,s)
-    return NEWDIRICHLETSERIES@(s![1],x*s![2],s![3]);
+    return Fr.NEWDIRICHLETSERIES(s![1],x*s![2],s![3]);
 end);
 
 InstallMethod(\*, [IsDirichletSeries,IsDirichletSeries],
         function(s1,s2)
     local coeff, val, i, j, degree, p, maxdeg;
-    
+
     maxdeg := Maximum(s1![3],s2![3]);
 
     coeff := [];
     val := [];
- 
+
     for i in [1..Length(s1![1])] do
         for j in [1..Length(s2![1])] do
             degree := s1![1][i]*s2![1][j];
@@ -1475,7 +1475,7 @@ InstallMethod(\*, [IsDirichletSeries,IsDirichletSeries],
             val[p] := val[p] + s1![2][i]*s2![2][j];
         od;
     od;
-    return NEWDIRICHLETSERIES@(coeff,val,maxdeg);
+    return Fr.NEWDIRICHLETSERIES(coeff,val,maxdeg);
 end);
 
 InstallMethod(\=, [IsDirichletSeries,IsDirichletSeries],
@@ -1528,14 +1528,14 @@ InstallMethod(SpreadDirichletSeries, [IsDirichletSeries, IsInt],
         function(s,n)
     local p;
     p := First([1..Length(s![1])+1],i->not IsBound(s![1][i]) or s![1][i]^n > s![3]);
-    return NEWDIRICHLETSERIES@(List(s![1]{[1..p-1]},i->i^n),s![2]{[1..p-1]},s![3]);
+    return Fr.NEWDIRICHLETSERIES(List(s![1]{[1..p-1]},i->i^n),s![2]{[1..p-1]},s![3]);
 end);
 
 InstallMethod(ShiftDirichletSeries, [IsDirichletSeries,IsInt],
         function(s,n)
     local p;
     p := First([1..Length(s![1])+1],i->not IsBound(s![1][i]) or s![1][i]*n > s![3]);
-    return NEWDIRICHLETSERIES@(n*s![1]{[1..p-1]},s![2]{[1..p-1]},s![3]);
+    return Fr.NEWDIRICHLETSERIES(n*s![1]{[1..p-1]},s![2]{[1..p-1]},s![3]);
 end);
 
 InstallMethod(ZetaSeriesOfGroup, [IsGroup],
@@ -1563,29 +1563,29 @@ InstallOtherMethod(Value, [IsDirichletSeries,IsRingElement],
 ##
 #F JenningsLieAlgebra
 ##
-BindGlobal("LIEELEMENT@", function(A,l)
+Fr.LIEELEMENT := ( function(A,l)
     return Objectify(A!.type,[A,l]);
 end);
 
-LIEEXTENDLCS@ := fail; # shut up warning
+Fr.LIEEXTENDLCS := fail; # shut up warning
 
-BindGlobal("LIECOMPUTEBASIS@", function(A,d)
+Fr.LIECOMPUTEBASIS := ( function(A,d)
     local i, l;
 
     if IsBound(A!.basis[d]) then return; fi;
 
-    LIEEXTENDLCS@(A,d);
+    Fr.LIEEXTENDLCS(A,d);
     A!.hom[d] := NaturalHomomorphismByNormalSubgroup(A!.lcs[d],A!.lcs[d+1]);
     A!.basis[d] := [];
     for i in IdentityMat(Length(AbelianInvariants(Range(A!.hom[d]))),A!.ring) do
         l := []; l[d] := i;
-        Add(A!.basis[d],LIEELEMENT@(A,l));
+        Add(A!.basis[d],Fr.LIEELEMENT(A,l));
     od;
     A!.transversal[d] := List(A!.pcp(Range(A!.hom[d])),
                               x->PreImagesRepresentativeNC(A!.hom[d],x));
 end);
 
-BindGlobal("JENNINGSSERIES@", function(G,p,d)
+Fr.JENNINGSSERIES := ( function(G,p,d)
     local n, L, C, T;
 
     L := [G];
@@ -1605,8 +1605,7 @@ end);
 if not IsBound(PqEpimorphism) then PqEpimorphism := ReturnFail; fi;
 if not IsBound(NqEpimorphismNilpotentQuotient) then NqEpimorphismNilpotentQuotient := ReturnFail; fi;
 
-UnbindGlobal("LIEEXTENDLCS@");
-BindGlobal("LIEEXTENDLCS@", function(A,d)
+Fr.LIEEXTENDLCS := ( function(A,d)
     local i;
 
     if d<=A!.degree then return; fi;
@@ -1620,11 +1619,11 @@ BindGlobal("LIEEXTENDLCS@", function(A,d)
         A!.pcp := Pcgs;
         A!.exp := ExponentsOfPcElement;
     fi;
-    A!.lcs := JENNINGSSERIES@(Range(A!.quo),Characteristic(A!.ring),d+1);
+    A!.lcs := Fr.JENNINGSSERIES(Range(A!.quo),Characteristic(A!.ring),d+1);
     A!.degree := d;
     for i in BoundPositions(A!.basis) do
         Unbind(A!.basis[i]);
-        LIECOMPUTEBASIS@(A,i);
+        Fr.LIECOMPUTEBASIS(A,i);
     od;
 end);
 
@@ -1651,7 +1650,7 @@ InstallOtherMethod(JenningsLieAlgebra, "(FR) for a ring and an FP group",
                      basis := []));
     A!.type := NewType(A!.family,IsLieObject and IsLieFpElementRep);
     Grading(A);
-    SetRepresentative(A,LIEELEMENT@(A,[]));
+    SetRepresentative(A,Fr.LIEELEMENT(A,[]));
     SetLeftActingDomain(A,R);
     SetZero(C,Representative(A));
     return A;
@@ -1660,15 +1659,15 @@ end);
 InstallMethod(GeneratorsOfAlgebra, "(FR) for an FP Lie algebra",
         [IsFpLieAlgebra],
         function(A)
-    LIECOMPUTEBASIS@(A,1);
-    return List(GeneratorsOfGroup(A!.group),x->LIEELEMENT@(A,[One(A!.ring)*A!.exp(A!.pcp(Range(A!.hom[1])),(x^A!.quo)^A!.hom[1])]));
+    Fr.LIECOMPUTEBASIS(A,1);
+    return List(GeneratorsOfGroup(A!.group),x->Fr.LIEELEMENT(A,[One(A!.ring)*A!.exp(A!.pcp(Range(A!.hom[1])),(x^A!.quo)^A!.hom[1])]));
 end);
 
 InstallMethod(Grading, "(FR) for a FP Lie algebra",
         [IsFpLieAlgebra],
         function(A)
     return rec(min_degree := 1, source := Integers, hom_components := function(d)
-        LIECOMPUTEBASIS@(A,d);
+        Fr.LIECOMPUTEBASIS(A,d);
         return VectorSpace(A!.ring,A!.basis[d],Representative(A));
     end);
 end);
@@ -1684,12 +1683,12 @@ InstallMethod(ViewString, "(FR) for a FP Lie algebra",
         else
             Append(s,", computed up to");
         fi;
-        APPEND@(s," degree ",A!.degree);
+        Fr.APPEND(s," degree ",A!.degree);
     fi;
     Append(s,">");
     return s;
 end);
-INSTALLPRINTERS@(IsFpLieAlgebra);
+Fr.INSTALLPRINTERS(IsFpLieAlgebra);
 
 InstallOtherMethod(ZeroOp, "(FR) for a FP Lie algebra",
         [IsFpLieAlgebra],
@@ -1700,7 +1699,7 @@ end);
 InstallMethod(ZeroOp, "(FR) for a FP Lie algebra element",
         [IsLieObject and IsLieFpElementRep],
         function(X)
-    return LIEELEMENT@(X![1],[]);
+    return Fr.LIEELEMENT(X![1],[]);
 end);
 
 InstallMethod(EQ, "(FR) for FP Lie algebra elements",
@@ -1756,7 +1755,7 @@ InstallMethod(\+, "(FR) for FP Lie algebra elements",
             m[n] := X![2][n]+Y![2][n];
         fi;
     od;
-    return LIEELEMENT@(X![1],m);
+    return Fr.LIEELEMENT(X![1],m);
 end);
 
 InstallMethod(\-, "(FR) for FP Lie algebra elements",
@@ -1774,7 +1773,7 @@ InstallMethod(\-, "(FR) for FP Lie algebra elements",
             m[n] := X![2][n]-Y![2][n];
         fi;
     od;
-    return LIEELEMENT@(X![1],m);
+    return Fr.LIEELEMENT(X![1],m);
 end);
 
 InstallMethod(AdditiveInverseSameMutability, "(FR) for an FP Lie algebra element",
@@ -1785,7 +1784,7 @@ InstallMethod(AdditiveInverseSameMutability, "(FR) for an FP Lie algebra element
     for n in BoundPositions(X![2]) do
         m[n] := -X![2][n];
     od;
-    return LIEELEMENT@(X![1],m);
+    return Fr.LIEELEMENT(X![1],m);
 end);
 
 InstallMethod(\*, "(FR) for FP Lie algebra elements",
@@ -1799,7 +1798,7 @@ InstallMethod(\*, "(FR) for FP Lie algebra elements",
         if not IsBound(A!.bracket[i]) then A!.bracket[i] := []; fi;
         for j in BoundPositions(Y![2]) do
             if not IsBound(A!.bracket[i][j]) then A!.bracket[i][j] := []; fi;
-            LIECOMPUTEBASIS@(A,i+j);
+            Fr.LIECOMPUTEBASIS(A,i+j);
             if not IsBound(m[i+j]) then
                 m[i+j] := List(A!.basis[i+j],i->Zero(A!.ring));
             fi;
@@ -1819,26 +1818,26 @@ InstallMethod(\*, "(FR) for FP Lie algebra elements",
     for i in BoundPositions(m) do
         if ForAll(m[i],IsZero) then Unbind(m[i]); fi;
     od;
-    return LIEELEMENT@(X![1],m);
+    return Fr.LIEELEMENT(X![1],m);
 end);
 
 InstallMethod(\*, "(FR) for a scalar and an FP Lie algebra element",
         [IsScalar,IsLieObject and IsLieFpElementRep],
         function(X,Y)
-    return LIEELEMENT@(Y![1],X*Y![2]);
+    return Fr.LIEELEMENT(Y![1],X*Y![2]);
 end);
 
 InstallMethod(\*, "(FR) for an FP Lie algebra element and a scalar",
         [IsLieObject and IsLieFpElementRep,IsScalar],
         function(X,Y)
-    return LIEELEMENT@(X![1],X![2]*Y);
+    return Fr.LIEELEMENT(X![1],X![2]*Y);
 end);
 
-BindGlobal("PTHPOWER@", function(X,A,p,s)
+Fr.PTHPOWER := ( function(X,A,p,s)
     local m, i, ii, j, t;
     m := [];
     for i in BoundPositions(X![2]) do
-        LIECOMPUTEBASIS@(A,p*i);
+        Fr.LIECOMPUTEBASIS(A,p*i);
         if not IsBound(m[p*i]) then
             m[p*i] := List(A!.basis[p*i],i->Zero(A!.ring));
         fi;
@@ -1850,7 +1849,7 @@ BindGlobal("PTHPOWER@", function(X,A,p,s)
             m[p*i] := m[p*i] + X![2][i][ii]^p*A!.pmap[i][ii];
         od;
     od;
-    m := LIEELEMENT@(X![1],m);
+    m := Fr.LIEELEMENT(X![1],m);
     for i in BoundPositions(X![2]) do
         for ii in [1..Length(A!.basis[i])] do
             if IsBound(X![2][i]) and not IsZero(X![2][i][ii]) then
@@ -1872,7 +1871,7 @@ InstallMethod(\^, "(FR) for an FR Lie algebra element and a p-power",
         Error(Y," must be a power of the characteristic");
     fi;
     for n in [1..LogInt(Y,p)] do
-        X := PTHPOWER@(X,X![1],p,PowerS(X![1]));
+        X := Fr.PTHPOWER(X,X![1],p,PowerS(X![1]));
     od;
     return X;
 end);
@@ -1899,14 +1898,14 @@ InstallMethod(ViewString, "(FR) for a FP Lie algebra element",
         if ForAll([n+1..Length(X![2])],i->not IsBound(X![2][i]) or ForAll(X![2][i],IsZero)) then
             Append(s,"homogeneous ");
         fi;
-        APPEND@(s,"degree-",n);
+        Fr.APPEND(s,"degree-",n);
     fi;
     Append(s," Lie element>");
     return s;
 end);
-INSTALLPRINTERS@(IsLieObject and IsLieFpElementRep);
+Fr.INSTALLPRINTERS(IsLieObject and IsLieFpElementRep);
 
-BindGlobal("LIE2VECTOR@", function(dims,dim,x)
+Fr.LIE2VECTOR := ( function(dims,dim,x)
     local i, v;
     v := List([1..dim],i->Zero(x![1]!.ring));
     for i in BoundPositions(x![2]) do
@@ -1947,16 +1946,16 @@ end,
         dims[i] := [dim+1..dim+Length(R!.basis[i])];
         dim := dim+Length(R!.basis[i]);
     od;
-    b := List(b,x->LIE2VECTOR@(dims,dim,x));
+    b := List(b,x->Fr.LIE2VECTOR(dims,dim,x));
     return rec(dims := dims,
                dim := dim,
                ring := R,
-               space := VectorSpace(LeftActingDomain(V),b,LIE2VECTOR@(dims,dim,Zero(V))));
+               space := VectorSpace(LeftActingDomain(V),b,Fr.LIE2VECTOR(dims,dim,Zero(V))));
 end,
   NiceVector := function(V,v)
     local info, x;
     info := NiceFreeLeftModuleInfo(V);
-    x := LIE2VECTOR@(info.dims,info.dim,v);
+    x := Fr.LIE2VECTOR(info.dims,info.dim,v);
     if x=fail or not x in info.space then
         return fail;
     else
@@ -1971,7 +1970,7 @@ end,
     for i in BoundPositions(info.dims) do
         l[i] := v{info.dims[i]};
     od;
-    return LIEELEMENT@(info.ring,l);
+    return Fr.LIEELEMENT(info.ring,l);
 end));
 #############################################################################
 
@@ -1981,10 +1980,10 @@ end));
 InstallMethod(SolutionMatModN, [IsMatrix,IsVector,IsPosInt],
         function(mat,vec,N)
     local sol, i, p, s0, M, row;
-    
+
     sol := List(mat,row->0);
     if N=1 then return sol; fi; # bug with FactorsInt containing 1
-    
+
     mat := SmithNormalFormIntegerMatTransforms(mat);
     vec := vec*mat.coltrans;
     row := mat.rowtrans;
@@ -2006,11 +2005,11 @@ InstallMethod(SolutionMatModN, [IsMatrix,IsVector,IsPosInt],
         sol := sol + M*s0;
         M := M*p;
     od;
-    
+
     return sol*row;
 end);
 
-BindGlobal("FRAC@", function(x)
+Fr.FRAC := ( function(x)
     x := x-Int(x);
     if x>=0 then return x; else return x+1; fi;
 end);
@@ -2022,7 +2021,7 @@ end);
 InstallMethod(SolutionMatMod1, [IsMatrix, IsVector],
         function(mat,vec)
     local sol, N, d, i, snf, row;
-    
+
     # non-optimal: should store the Smith normal form as an attribute
     snf := SmithNormalFormIntegerMatTransforms(mat);
     vec := vec*snf.coltrans;
@@ -2036,10 +2035,10 @@ InstallMethod(SolutionMatMod1, [IsMatrix, IsVector],
         else
             d := 0;
         fi;
-        
+
         if d=0 then
-            if FRAC@(vec[i])<>0 then return fail; fi; # no solution
-            
+            if Fr.FRAC(vec[i])<>0 then return fail; fi; # no solution
+
             if i<=Length(snf.normal) then
                 Add(sol,[0]); # infinite set of solutions, this is one
             fi;
@@ -2047,7 +2046,7 @@ InstallMethod(SolutionMatMod1, [IsMatrix, IsVector],
             Add(sol,(vec[i]+[0..d-1])/d);
         fi;
     od;
-    return Set(Cartesian(sol)*row,x->List(x,FRAC@));
+    return Set(Cartesian(sol)*row,x->List(x,Fr.FRAC));
 end);
 
 # argument of a cyclotomic number, assumed to be a multiple of a root of unity.
@@ -2068,7 +2067,7 @@ InstallMethod(ArgumentOfCyclotomic, [IsCyc], function(z)
 end);
 
 ################################################################
-InstallMethod(IrreducibleRepresentations@, [IsGroup], function(G)
+InstallMethod(Fr_IrreducibleRepresentations, [IsGroup], function(G)
     local reps, r;
     reps := IrreducibleRepresentations(G);
     for r in reps do SetIsLinearRepresentation(r,true); od;
@@ -2095,7 +2094,7 @@ InstallMethod(DegreeOfProjectiveRepresentation, [IsProjectiveRepresentation],
         function(rep)
     return Length(Image(rep,One(Source(rep))));
 end);
-        
+
 InstallMethod(Degree, [IsProjectiveRepresentation],
         DegreeOfProjectiveRepresentation);
 
@@ -2105,17 +2104,17 @@ InstallMethod(Degree, [IsProjectiveRepresentation],
 InstallMethod(ProjectiveExtension, [IsLinearRepresentation, IsGroup],
         function(rep, group)
     local n, rank, transversal, mat, res, t, g, P, m, a, b;
-     
+
     n := Source(rep);
-    
+
     if n=group then # special cases, which GAP doesn't handle well
         return rep;
     elif IsTrivial(n) then
         return LinearRepresentationByImages(group,Range(rep),GeneratorsOfGroup(group),List(GeneratorsOfGroup(group),x->One(Range(rep))));
     fi;
-    
+
     rank := Length(Image(rep,One(n)));
- 
+
     res := [];
     transversal := List(RightTransversal(group,n),x->CanonicalRightCosetElement(n,x));
     for t in transversal do
@@ -2143,7 +2142,7 @@ InstallMethod(ProjectiveExtension, [IsLinearRepresentation, IsGroup],
         t := CanonicalRightCosetElement(n,x);
         return Image(rep,x/t)*res[Position(transversal,t)];
     end);
-end);    
+end);
 
 InstallMethod(ProjectiveExtension, [IsProjectiveRepresentation, IsGroup],
         function(rep, group)
@@ -2151,7 +2150,7 @@ InstallMethod(ProjectiveExtension, [IsProjectiveRepresentation, IsGroup],
     if Source(rep)=group then
         return rep;
     fi;
-    
+
     # don't bother
     TryNextMethod();
 end);
@@ -2161,10 +2160,10 @@ InstallMethod(ProjectiveQuotient, [IsProjectiveRepresentation,IsGroupHomomorphis
     return ProjectiveRepresentationByFunction(Image(epi),Range(rep),
                    x->CanonicalRightCosetElement(Kernel(epi),PreImagesRepresentativeNC(epi,x))^rep);
 end);
-        
+
 InstallMethod(CoboundaryMatrix, [IsGroup], function(G)
     local mat, i, j, k, m, elements;
-    
+
     elements := AsSortedList(G);
     mat := [];
     for i in [1..Length(elements)] do
@@ -2180,9 +2179,9 @@ InstallMethod(CoboundaryMatrix, [IsGroup], function(G)
     return mat;
 end);
 
-InstallMethod(EpimorphismSchurCover@, [IsGroup], EpimorphismSchurCover);
+InstallMethod(Fr_EpimorphismSchurCover, [IsGroup], EpimorphismSchurCover);
 
-InstallMethod(EpimorphismSchurCover@, [IsPcGroup],
+InstallMethod(Fr_EpimorphismSchurCover, [IsPcGroup],
         function(G)
     local c;
     c := EpimorphismSchurCover(G);
@@ -2191,7 +2190,7 @@ InstallMethod(EpimorphismSchurCover@, [IsPcGroup],
     return c;
 end);
 
-InstallMethod(EpimorphismSchurCover@, [IsPermGroup],
+InstallMethod(Fr_EpimorphismSchurCover, [IsPermGroup],
         function(G)
     local c;
     c := EpimorphismSchurCover(G);
@@ -2201,7 +2200,7 @@ end);
 InstallMethod(TensorProductOp, [IsLinearRepresentation,IsLinearRepresentation],
         function(r1,r2)
     local range, g, gens, img;
-    
+
     g := Source(r1);
     gens := GeneratorsOfGroup(g);
     img := List(gens,x->KroneckerProduct(x^r1,x^r2));
@@ -2212,10 +2211,10 @@ end);
 InstallMethod(TensorProductOp, [IsProjectiveRepresentation,IsProjectiveRepresentation],
         function(r1,r2)
     local range, g, img;
-    
+
     g := Source(r1);
     img := List(AsSortedList(g),x->KroneckerProduct(x^r1,x^r2));
-    
+
     return ProjectiveRepresentationByFunction(g,Group(img),x->KroneckerProduct(x^r1,x^r2));
 end);
 
@@ -2223,9 +2222,9 @@ end);
 InstallMethod(AreCohomologous, [IsList,IsList,IsGroup],
         function(c1,c2,Q)
     local elements, diff, i, j, k, m, denom;
-    
+
     if c1=c2 then return true; fi; # speedup
-    
+
     return SolutionMatMod1(CoboundaryMatrix(Q),c1-c2)<>fail;
 end);
 

@@ -16,7 +16,7 @@
 InstallMethod(BisetByFRMachine, [IsFRMachine],
         function(M)
     local b, g;
-    
+
     if IsMealyMachine(M) then
         if IsInvertible(M) then
             M := AsGroupFRMachine(M);
@@ -72,7 +72,7 @@ InstallMethod(ViewString, "(FR) for a biset",
     od;
     if not s[Length(s)] in " <" then Append(s," "); fi;
     if HasName(LeftActingDomain(b)) and HasName(RightActingDomain(b)) then
-        APPEND@(s,Name(LeftActingDomain(b)),"-",Name(RightActingDomain(b)),"-");
+        Fr.APPEND(s,Name(LeftActingDomain(b)),"-",Name(RightActingDomain(b)),"-");
     fi;
     Append(s,"biset>");
     return s;
@@ -82,7 +82,7 @@ InstallMethod(DisplayString, "(FR) for a biset",
         function(b)
     return Concatenation("Biset:\n",DisplayString(b!.machine));
 end);
-INSTALLPRINTERS@(IsFRBiset);
+Fr.INSTALLPRINTERS(IsFRBiset);
 
 ################################################################
 # biset elements
@@ -91,7 +91,7 @@ InstallMethod(BisetElement, "(FR) for a machine biset",
         [IsFRBiset,IsMultiplicativeElement,IsObject],
         function(biset,g,x)
     local type, elt;
-    
+
     type := NewType(FRBISET_FAMILY,IsBisetElement and IsBisetElementByPair);
     elt := rec(biset := biset, element := g, letter := x);
     return Objectify(type,elt);
@@ -101,7 +101,7 @@ InstallMethod(BisetElement, "(FR) for a homomorphism biset",
         [IsFRBisetByHomomorphismRep,IsMultiplicativeElement],
         function(biset,g)
     local type, elt;
-    
+
     type := NewType(FRBISET_FAMILY,IsBisetElement and IsBisetElementByElement);
     elt := rec(biset := biset, element := g);
     return Objectify(type,elt);
@@ -117,7 +117,7 @@ InstallMethod(\<, "(FR) for two biset elements",
         function(e,f)
     return e!.biset<f!.biset or (e!.biset=f!.biset and (e!.letter<f!.letter or (e!.letter=f!.letter and e!.element<f!.element)));
 end);
-         
+
 InstallMethod(\=, "(FR) for two biset elements",
         [IsBisetElementByElement,IsBisetElementByElement],
         function(e,f)
@@ -149,18 +149,18 @@ InstallOtherMethod(\*, "(FR) for a semigroup element and a biset element",
     if not g in RightActingDomain(b!.biset) then TryNextMethod(); fi;
     return BisetElement(b!.biset,g*b!.element,b!.letter);
 end);
-  
+
 InstallMethod(ViewString, "(FR) for a biset element by pair",
         [IsBisetElement and IsBisetElementByPair],
         function(e)
-    return CONCAT@("(",e!.element,"*",e!.letter,")");
+    return Fr.CONCAT("(",e!.element,"*",e!.letter,")");
 end);
 InstallMethod(PrintString, "(FR) for a biset element by pair",
         [IsBisetElement and IsBisetElementByPair],
         function(e)
-    return CONCAT@("BisetElement(",e!.biset,",",e!.element,",",e!.letter,")");
+    return Fr.CONCAT("BisetElement(",e!.biset,",",e!.element,",",e!.letter,")");
 end);
-INSTALLPRINTERS@(IsBisetElement);
+Fr.INSTALLPRINTERS(IsBisetElement);
 
 ################################################################
 # bases
@@ -173,18 +173,18 @@ InstallMethod(LeftBasis, "(FR) for a machine biset",
         [IsFRBiset and IsLeftFree],
         CanonicalBasis);
 
-BindGlobal("CANONICALBASIS@", function(b,alphabet)
+Fr.CANONICALBASIS := ( function(b,alphabet)
     return Objectify(NewType(FRBISET_FAMILY,IsLeftBisetBasis and IsCanonicalBasis),
                      List(alphabet,i->BisetElement(b,One(LeftActingDomain(b)),i)));
 end);
 
 InstallMethod(CanonicalBasis, "(FR) for a machine biset",
         [IsFRBisetByFRMachineRep],
-        b->CANONICALBASIS@(b,AlphabetOfFRObject(b!.machine)));
+        b->Fr.CANONICALBASIS(b,AlphabetOfFRObject(b!.machine)));
 
 InstallMethod(CanonicalBasis, "(FR) for a machine biset",
         [IsFRBisetByFRSemigroupRep],
-        b->CANONICALBASIS@(b,AlphabetOfFRSemigroup(b!.semigroup)));
+        b->Fr.CANONICALBASIS(b,AlphabetOfFRSemigroup(b!.semigroup)));
 
 InstallMethod(ELM_LIST, "(FR) for a biset basis",
         [IsBisetBasis,IsPosInt],
@@ -243,5 +243,5 @@ InstallMethod(ViewString, "(FR) for a biset basis",
         function(basis)
     return "RightBasis(...)";
 end);
-INSTALLPRINTERS@(IsBisetBasis);
+Fr.INSTALLPRINTERS(IsBisetBasis);
 

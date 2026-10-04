@@ -13,24 +13,24 @@
 
 #############################################################################
 ##
-#O SEARCH@
+#O Fr.SEARCH
 ##
-SEARCH@.DEPTH := function()
+Fr.SEARCH.DEPTH := function()
     local v;
     v := ValueOption("FRdepth");
-    if v=fail then return SEARCH@.depth; else return v; fi;
+    if v=fail then return Fr.SEARCH.depth; else return v; fi;
 end;
 
-SEARCH@.VOLUME := function()
+Fr.SEARCH.VOLUME := function()
     local v;
     v := ValueOption("FRvolume");
-    if v=fail then return SEARCH@.volume; else return v; fi;
+    if v=fail then return Fr.SEARCH.volume; else return v; fi;
 end;
 
-SEARCH@.BALL := 1;
-SEARCH@.QUOTIENT := 2;
+Fr.SEARCH.BALL := 1;
+Fr.SEARCH.QUOTIENT := 2;
 
-SEARCH@.INIT := function(G)
+Fr.SEARCH.INIT := function(G)
     # initializes search structure, stored in semigroup G
     if IsBound(G!.FRData) then return; fi;
     if IsFRGroup(G) then
@@ -54,18 +54,18 @@ SEARCH@.INIT := function(G)
     fi;
 end;
 
-SEARCH@.RESET := function(G)
+Fr.SEARCH.RESET := function(G)
     Unbind(G!.FRData);
 end;
 
-SEARCH@.ERROR := function(G,str)
+Fr.SEARCH.ERROR := function(G,str)
     # allow user to increase the search limits
     local obm, volume, depth;
     obm := OnBreakMessage;
     volume := fail; depth := fail;
     OnBreakMessage := function()
-        Print("current limits are (volume = ",SEARCH@.VOLUME(),
-              ", depth = ",SEARCH@.DEPTH(),")\n",
+        Print("current limits are (volume = ",Fr.SEARCH.VOLUME(),
+              ", depth = ",Fr.SEARCH.DEPTH(),")\n",
               "to increase search volume, type 'volume := <value>; return;'\n",
               "to increase search depth, type 'depth := <value>; return;'\n",
               "type 'quit;' if you want to abort the computation.\n");
@@ -76,22 +76,22 @@ SEARCH@.ERROR := function(G,str)
     if depth <> fail then PushOptions(rec(FRdepth := depth)); fi;
 end;
 
-SEARCH@.EXTEND := function(arg)
+Fr.SEARCH.EXTEND := function(arg)
     # extend the search structure. argument1 is a group; argument2 is optional,
-    # and is SEARCH@.BALL to extend search ball radius,
-    # and is SEARCH@.QUOTIENT to extend search depth.
+    # and is Fr.SEARCH.BALL to extend search ball radius,
+    # and is Fr.SEARCH.QUOTIENT to extend search depth.
     # returns fail if the search limits do not allow extension.
     local i, j, k, l, d, r, strategy;
     d := arg[1]!.FRData;
     if Length(arg)=2 then
         strategy := [arg[2]];
     else
-        strategy := [SEARCH@.BALL,SEARCH@.QUOTIENT]; fi;
-    if d.volume>=SEARCH@.VOLUME() then
-        strategy := Difference(strategy,[SEARCH@.BALL]);
+        strategy := [Fr.SEARCH.BALL,Fr.SEARCH.QUOTIENT]; fi;
+    if d.volume>=Fr.SEARCH.VOLUME() then
+        strategy := Difference(strategy,[Fr.SEARCH.BALL]);
     fi;
-    if d.level>=SEARCH@.DEPTH() then
-        strategy := Difference(strategy,[SEARCH@.QUOTIENT]);
+    if d.level>=Fr.SEARCH.DEPTH() then
+        strategy := Difference(strategy,[Fr.SEARCH.QUOTIENT]);
     fi;
     if Length(strategy)=0 then
         return fail;
@@ -102,13 +102,13 @@ SEARCH@.EXTEND := function(arg)
             # at least 20% on each strategy
             strategy := Position(d.runtimes,Minimum(d.runtimes));
         elif d.index > d.volume^2 then
-            strategy := SEARCH@.BALL;
+            strategy := Fr.SEARCH.BALL;
         else
-            strategy := SEARCH@.QUOTIENT;
+            strategy := Fr.SEARCH.QUOTIENT;
         fi;
     fi;
     r := Runtime();
-    if strategy=SEARCH@.BALL then
+    if strategy=Fr.SEARCH.BALL then
         d.radius := d.radius+1;
         d.sphere[d.radius+1] := [];
         if IsFRGroup(arg[1]) then
@@ -139,7 +139,7 @@ SEARCH@.EXTEND := function(arg)
             d.volume := d.volume+10^9; # force quotient searches
 #            d.runtimes[strategy] := d.runtimes[strategy]+10^9; # infinity messes up arithmetic later
         fi;
-    elif strategy=SEARCH@.QUOTIENT then
+    elif strategy=Fr.SEARCH.QUOTIENT then
         d.level := d.level+1;
         d.pi := d.pifunc(arg[1],d.level);
         if IsPcpGroup(Range(d.pi)) then
@@ -154,7 +154,7 @@ SEARCH@.EXTEND := function(arg)
     return true;
 end;
 
-SEARCH@.IN := function(x,G)
+Fr.SEARCH.IN := function(x,G)
     # check in x is in G. can return true, false or fail
     if not x^G!.FRData.pi in Image(G!.FRData.pi) then
         return false;
@@ -164,7 +164,7 @@ SEARCH@.IN := function(x,G)
     return fail;
 end;
 
-SEARCH@.CONJUGATE := function(G,x,y)
+Fr.SEARCH.CONJUGATE := function(G,x,y)
     # check if x,y is conjugate in G. can return true, false or fail
     if not IsConjugate(Range(G!.FRData.pi),x^G!.FRData.pi,y^G!.FRData.pi) then
         return false;
@@ -174,7 +174,7 @@ SEARCH@.CONJUGATE := function(G,x,y)
     return fail;
 end;
 
-SEARCH@.CONJUGATE_WITNESS := function(G,x,y)
+Fr.SEARCH.CONJUGATE_WITNESS := function(G,x,y)
     # check if x,y is conjugate in G. can return a conjugator, false or fail
     local s,t;
     if not IsConjugate(Range(G!.FRData.pi),x^G!.FRData.pi,y^G!.FRData.pi) then
@@ -191,7 +191,7 @@ SEARCH@.CONJUGATE_WITNESS := function(G,x,y)
     return fail;
 end;
 
-SEARCH@.CONJUGATE_COSET := function(G,c,x,y)
+Fr.SEARCH.CONJUGATE_COSET := function(G,c,x,y)
     # check if x,y is conjugate in c can return a conjugator, false or fail
     local s,t,r,B,K,K_pi;
     B := BranchStructure(G);
@@ -218,7 +218,7 @@ SEARCH@.CONJUGATE_COSET := function(G,c,x,y)
     return fail;
 end;
 
-SEARCH@.EXTENDTRANSVERSAL := function(G,H,trans)
+Fr.SEARCH.EXTENDTRANSVERSAL := function(G,H,trans)
     # completes the tranversal trans of H^pi in G^pi, and returns it,
     # or "fail" if the search volume limit of G is too small.
     # trans is a partial transversal.
@@ -232,7 +232,7 @@ SEARCH@.EXTENDTRANSVERSAL := function(G,H,trans)
     if todo=0 then return got; fi;
     i := 1;
     while true do
-        if not IsBound(G!.FRData.sphere[i]) and SEARCH@.EXTEND(G,SEARCH@.BALL)=fail then
+        if not IsBound(G!.FRData.sphere[i]) and Fr.SEARCH.EXTEND(G,Fr.SEARCH.BALL)=fail then
             return fail;
         fi;
         for j in G!.FRData.sphere[i] do
@@ -249,7 +249,7 @@ SEARCH@.EXTENDTRANSVERSAL := function(G,H,trans)
     return fail;
 end;
 
-SEARCH@.CHECKTRANSVERSAL := function(G,H,trans)
+Fr.SEARCH.CHECKTRANSVERSAL := function(G,H,trans)
     # check that trans is a transversal of H in G.
     # returns true on success, false on failure, and fail if the search
     # volume of H is too limited.
@@ -259,7 +259,7 @@ SEARCH@.CHECKTRANSVERSAL := function(G,H,trans)
         repeat
             found := false;
             for u in transinv do
-                b := SEARCH@.IN(t*g*u,H);
+                b := Fr.SEARCH.IN(t*g*u,H);
                 if b=true then
                     found := true;
                     break;
@@ -269,7 +269,7 @@ SEARCH@.CHECKTRANSVERSAL := function(G,H,trans)
             od;
             if found=false then
                 return false;
-            elif found=fail and SEARCH@.EXTEND(H)=fail then
+            elif found=fail and Fr.SEARCH.EXTEND(H)=fail then
                 return fail;
             fi;
         until found=true;
@@ -292,7 +292,7 @@ end;
 
 # the next method is also there to cache an attribute giving the data required
 # to express group elements as words.
-if @.nql then
+if Fr.locals.nql then
     InstallMethod(FRGroupImageData, "(FR) for a FR group with preimage data",
             [IsFRGroup and HasFRGroupPreImageData],
             G->FRGroupPreImageData(G)(-1));
@@ -482,11 +482,11 @@ end);
 #O FullSCSemigroup
 #O FullSCMonoid
 ##
-FILTERORDER@ := [IsFRObject, IsFinitaryFRElement, IsBoundedFRElement, IsPolynomialGrowthFRElement, IsFiniteStateFRElement, IsFRElement];
+Fr.FILTERORDER := [IsFRObject, IsFinitaryFRElement, IsBoundedFRElement, IsPolynomialGrowthFRElement, IsFiniteStateFRElement, IsFRElement];
 # value IsFRObject means a group for which the exact category of elements is
 # not known; it really stand for "unspecified subgroup of FullSCGroup"
 
-BindGlobal("FULLGETDATA@", function(arglist,
+Fr.FULLGETDATA := ( function(arglist,
         cat, Iscat, IsFRcat, GeneratorsOfcat, AscatFRElement,
         makevertex, stype)
     local a, G, rep, alphabet, i, x, name, filter, depth, vertex, o, onerep;
@@ -498,7 +498,7 @@ BindGlobal("FULLGETDATA@", function(arglist,
         elif IsList(a) or IsDomain(a) then
             alphabet := a;
         elif IsFilter(a) then
-            if Position(FILTERORDER@,a)<Position(FILTERORDER@,filter) then filter := a; fi;
+            if Position(Fr.FILTERORDER,a)<Position(Fr.FILTERORDER,filter) then filter := a; fi;
         elif IsInt(a) then
             depth := a;
         else
@@ -601,8 +601,8 @@ BindGlobal("FULLGETDATA@", function(arglist,
             Append(name,", "); Append(name,x);
         fi;
         Append(name,")");
-        for x in [2..Position(FILTERORDER@,filter)-1] do
-            Setter(FILTERORDER@[x])(G,false);
+        for x in [2..Position(Fr.FILTERORDER,filter)-1] do
+            Setter(Fr.FILTERORDER[x])(G,false);
         od;
         SetIsStateClosed(G, true);
         SetIsRecurrentFRSemigroup(G, depth=infinity);
@@ -637,7 +637,7 @@ end);
 InstallGlobalFunction(FullSCGroup, # "(FR) full tree automorphism group",
         function(arg)
     local  G;
-    G := FULLGETDATA@(arg,Group,IsGroup,IsFRGroup,GeneratorsOfGroup,AsGroupFRElement,
+    G := Fr.FULLGETDATA(arg,Group,IsGroup,IsFRGroup,GeneratorsOfGroup,AsGroupFRElement,
                  SymmetricGroup,"Group");
     if IsTrivial(G) or FullSCFilter(G)=IsFRObject then
         return G;
@@ -655,7 +655,7 @@ end);
 InstallGlobalFunction(FullSCMonoid,
         function(arg)
     local M;
-    M := FULLGETDATA@(arg,Monoid,IsMonoid,IsFRMonoid,GeneratorsOfMonoid,AsMonoidFRElement,
+    M := Fr.FULLGETDATA(arg,Monoid,IsMonoid,IsFRMonoid,GeneratorsOfMonoid,AsMonoidFRElement,
                  FullTransformationMonoid,
                  "Monoid");
     return M;
@@ -664,7 +664,7 @@ end);
 InstallGlobalFunction(FullSCSemigroup,
         function(arg)
     local S;
-    S := FULLGETDATA@(arg,Semigroup,IsSemigroup,IsFRSemigroup,GeneratorsOfSemigroup,AsSemigroupFRElement,
+    S := Fr.FULLGETDATA(arg,Semigroup,IsSemigroup,IsFRSemigroup,GeneratorsOfSemigroup,AsSemigroupFRElement,
                  FullTransformationSemigroup,"Semigroup");
     return S;
 end);
@@ -704,7 +704,7 @@ end);
 #M  Random
 #M  Pseudorandom
 ##
-BindGlobal("RANDOMFINITARY@", function(G,d)
+Fr.RANDOMFINITARY := ( function(G,d)
     local i, a, t, transitions, output;
     if d=0 then return One(G); fi;
     transitions := [];
@@ -724,13 +724,13 @@ BindGlobal("RANDOMFINITARY@", function(G,d)
     return MealyElement(transitions,output,1);
 end);
 
-BindGlobal("RANDOMBOUNDED@", function(G)
+Fr.RANDOMBOUNDED := ( function(G)
     local E, F, M, s, n, i, j;
     if IsTrivial(G) then
         return One(G);
     fi;
     s := Size(AlphabetOfFRSemigroup(G));
-    F := RANDOMFINITARY@(G,Random([2..4]));
+    F := Fr.RANDOMFINITARY(G,Random([2..4]));
     M := UnderlyingFRMachine(F);
     for i in [0..5] do
         n := Random([1..4]);
@@ -743,18 +743,18 @@ BindGlobal("RANDOMBOUNDED@", function(G)
     return F;
 end);
 
-BindGlobal("RANDOMPOLYNOMIALGROWTH@", function(G)
+Fr.RANDOMPOLYNOMIALGROWTH := ( function(G)
     local E, F, i, j, one, n, p;
-#    F := RANDOMBOUNDED@(G);
+#    F := Fr.RANDOMBOUNDED(G);
     for i in [0..5] do
-        E := UnderlyingFRMachine(RANDOMBOUNDED@(G));
+        E := UnderlyingFRMachine(Fr.RANDOMBOUNDED(G));
         for j in [1..Random([0..4])] do
             one := First([1..E!.nrstates],i->IsOne(FRElement(E,i)));
             repeat
                 n := Random([1..E!.nrstates]);
                 p := Random([1..Size(AlphabetOfFRSemigroup(G))]);
             until E!.transitions[n][p]=one;
-            E := E+UnderlyingFRMachine(RANDOMBOUNDED@(G));
+            E := E+UnderlyingFRMachine(Fr.RANDOMBOUNDED(G));
             E!.transitions[n^Correspondence(E)[1]][p] := 1^Correspondence(E)[2];
         od;
         return FRElement(E,1);
@@ -768,13 +768,13 @@ InstallMethodWithRandomSource(Random, "for a random source and a full SC Group",
         function (rs, G)
     local n, f;
     if DepthOfFRSemigroup(G)<infinity then
-        return Minimized(RANDOMFINITARY@(G,DepthOfFRSemigroup(G)));
+        return Minimized(Fr.RANDOMFINITARY(G,DepthOfFRSemigroup(G)));
     elif IsFinitaryFRSemigroup(G) then
-        return Minimized(RANDOMFINITARY@(G,Random(rs, 0, 5)));
+        return Minimized(Fr.RANDOMFINITARY(G,Random(rs, 0, 5)));
     elif IsBoundedFRSemigroup(G) then
-        return RANDOMBOUNDED@(G);
+        return Fr.RANDOMBOUNDED(G);
     elif IsPolynomialGrowthFRSemigroup(G) then
-        return RANDOMPOLYNOMIALGROWTH@(G);
+        return Fr.RANDOMPOLYNOMIALGROWTH(G);
     elif IsFiniteStateFRSemigroup(G) then
         n := Random(rs, 1, 20);
         return MealyElement(List([1..n],s->List(AlphabetOfFRSemigroup(G),a->Random(rs, 1, n))),List([1..n],s->Random(rs, FullSCVertex(G))),1);
@@ -789,7 +789,7 @@ InstallMethodWithRandomSource(Random, "for a random source and a full SC Group",
     fi;
 end);
 
-BindGlobal("INITPSEUDORANDOM@", function(g, len, scramble)
+Fr.INITPSEUDORANDOM := ( function(g, len, scramble)
     local gens, seed, i;
     gens := GeneratorsOfSemigroup(g);
     if 0 = Length(gens) then
@@ -807,11 +807,11 @@ BindGlobal("INITPSEUDORANDOM@", function(g, len, scramble)
     od;
 end);
 
-BindGlobal("PSEUDORANDOM@", function (g)
+Fr.PSEUDORANDOM := ( function (g)
     local seed, i, j;
     if not HasPseudoRandomSeed(g) then
         i := Length( GeneratorsOfSemigroup(g) );
-        INITPSEUDORANDOM@(g, i+10, Maximum(i*10,100));
+        Fr.INITPSEUDORANDOM(g, i+10, Maximum(i*10,100));
     fi;
     seed := PseudoRandomSeed(g);
     if 0 = Length(seed[1]) then
@@ -834,7 +834,7 @@ InstallMethod(PseudoRandom, "(FR) for an FR group",
         function(g)
     local lim, gens, i, x;
     lim := ValueOption("radius");
-    if lim=fail then return PSEUDORANDOM@(g); fi;
+    if lim=fail then return Fr.PSEUDORANDOM(g); fi;
     gens := GeneratorsOfSemigroup(g);
     x := Random(gens);
     for i in [1..lim] do x := x*Random(gens); od;
@@ -866,7 +866,7 @@ InstallMethod(IsSubset, "(FR) for two full FR semigroups",
         return false;
     elif DepthOfFRSemigroup(H)<infinity then
         return true;
-    elif Position(FILTERORDER@,FullSCFilter(G))<Position(FILTERORDER@,FullSCFilter(H)) then
+    elif Position(Fr.FILTERORDER,FullSCFilter(G))<Position(Fr.FILTERORDER,FullSCFilter(H)) then
         return false;
     else
         return true;
@@ -957,12 +957,12 @@ InstallMethod(\in, "(FR) for an FR element and an FR semigroup",
             return false;
         fi;
     fi;
-    SEARCH@.INIT(G);
+    Fr.SEARCH.INIT(G);
     while true do
-        b := SEARCH@.IN(g,G);
+        b := Fr.SEARCH.IN(g,G);
         if b<>fail then return b; fi;
-        while SEARCH@.EXTEND(G)=fail do
-            SEARCH@.ERROR(G,"\\in");
+        while Fr.SEARCH.EXTEND(G)=fail do
+            Fr.SEARCH.ERROR(G,"\\in");
         od;
         Info(InfoFR, 3, "\\in: searching at level ",G!.FRData.level," and in sphere of radius ",G!.FRData.radius);
     od;
@@ -972,12 +972,12 @@ InstallMethod(IsConjugate, "(FR) for an FR element and an FR group",
         [IsFRGroup,IsFRElement, IsFRElement],
         function ( G, g, h )
     local b;
-    SEARCH@.INIT(G);
+    Fr.SEARCH.INIT(G);
     while true do
-        b := SEARCH@.CONJUGATE(G,g,h);
+        b := Fr.SEARCH.CONJUGATE(G,g,h);
         if b<>fail then return b; fi;
-        while SEARCH@.EXTEND(G)=fail do
-            SEARCH@.ERROR(G,"IsConjugate");
+        while Fr.SEARCH.EXTEND(G)=fail do
+            Fr.SEARCH.ERROR(G,"IsConjugate");
         od;
         Info(InfoFR, 3, "IsConjugate: searching at level ",G!.FRData.level," and in sphere of radius ",G!.FRData.radius);
     od;
@@ -988,24 +988,24 @@ InstallOtherMethod(RepresentativeActionOp, "(FR) for an FR element and an FR gro
         function ( G, g, h, f )
     local b;
     if f <> OnPoints then TryNextMethod(); fi;
-    SEARCH@.INIT(G);
+    Fr.SEARCH.INIT(G);
     while true do
-        b := SEARCH@.CONJUGATE_WITNESS(G,g,h);
-        if b<>fail then 
-        	if b=false 
-        		then return fail; 
-        	else 
-        		return b; 
+        b := Fr.SEARCH.CONJUGATE_WITNESS(G,g,h);
+        if b<>fail then
+        	if b=false
+        		then return fail;
+        	else
+        		return b;
         	fi;
         fi;
-        while SEARCH@.EXTEND(G)=fail do
-            SEARCH@.ERROR(G,"RepresentativeActionOp");
+        while Fr.SEARCH.EXTEND(G)=fail do
+            Fr.SEARCH.ERROR(G,"RepresentativeActionOp");
         od;
         Info(InfoFR, 3, "RepresentativeActionOp: searching at level ",G!.FRData.level," and in sphere of radius ",G!.FRData.radius);
     od;
 end);
 
-BindGlobal("EDGESTABILIZER@", function(G)
+Fr.EDGESTABILIZER := ( function(G)
     # returns the stabilizer of an edge in the tree; i.e.
     # computes the action on the second level, and takes the stabilizer of a subtree and at the root.
     local i, a, s;
@@ -1019,8 +1019,8 @@ BindGlobal("EDGESTABILIZER@", function(G)
     #s := Stabilizer(s,List(AlphabetOfFRSemigroup(G),i->(i-1)*Size(AlphabetOfFRSemigroup(G))+AlphabetOfFRSemigroup(G)),OnTuplesSets);
     return s;
 end);
-    
-BindGlobal("ISFINITE_THOMPSONWIELANDT@", function(G)
+
+Fr.ISFINITE_THOMPSONWIELANDT := ( function(G)
     # returns 'true' if G is finite, 'false' if not, 'fail' otherwise
     #
     # Thompson-Wielandt's theorem says that G is infinite if the stabilizer of a vertex is primitive
@@ -1030,7 +1030,7 @@ BindGlobal("ISFINITE_THOMPSONWIELANDT@", function(G)
 
     if HasUnderlyingFRMachine(G) and IsBireversible(UnderlyingFRMachine(G))
        and IsPrimitive(VertexTransformations(G),AlphabetOfFRSemigroup(G)) then
-        s := EDGESTABILIZER@(G);
+        s := Fr.EDGESTABILIZER(G);
         if not IsPGroup(s) then
             return false;
         fi;
@@ -1038,14 +1038,14 @@ BindGlobal("ISFINITE_THOMPSONWIELANDT@", function(G)
     return fail;
 end);
 
-BindGlobal("ISFINITE_MINIMIZEDUAL@", function(G)
+Fr.ISFINITE_MINIMIZEDUAL := ( function(G)
     # keep taking dual and minimizing, ask whether we get the trivial machine
     local gens, m, oldm;
-    
+
     if not HasGeneratorsOfGroup(G) then
         return fail;
     fi;
-    
+
     gens := GeneratorsOfGroup(G);
     if ForAll(gens,HasIsFiniteStateFRElement) and ForAll(gens,IsFiniteStateFRElement) then
         m := Sum(List(gens,UnderlyingFRMachine));
@@ -1069,25 +1069,25 @@ InstallMethod(IsFinite, "(FR) for an FR group",
     if IsFinitaryFRSemigroup(G) then
         return true;
     fi;
-    
-    b := ISFINITE_MINIMIZEDUAL@(G);
+
+    b := Fr.ISFINITE_MINIMIZEDUAL(G);
     if b<>fail then
         return b;
     fi;
 
-    b := ISFINITE_THOMPSONWIELANDT@(G);
+    b := Fr.ISFINITE_THOMPSONWIELANDT(G);
     if b<>fail then
         return b;
     fi;
-    
+
     if IsLevelTransitiveFRGroup(G) then
         return false;
     fi;
-    
+
     TryNextMethod();
 end);
 
-BindGlobal("SIZE@", function(G,testorder)
+Fr.SIZE := ( function(G,testorder)
     local n, g, iter;
     iter := Iterator(G);
     n := 0;
@@ -1123,38 +1123,38 @@ end);
 InstallMethod(Size, "(FR) for an FR semigroup",
         [IsFRSemigroup],
         function(G)
-    return SIZE@(G,false);
+    return Fr.SIZE(G,false);
 end);
 
 InstallMethod(Size, "(FR) for an FR group",
         [IsFRGroup],
         function(G)
     local b, gens, rays;
-    b := ISFINITE_THOMPSONWIELANDT@(G);
+    b := Fr.ISFINITE_THOMPSONWIELANDT(G);
     if b=true then
-        return SIZE@(G,false);
+        return Fr.SIZE(G,false);
     elif b=false then
         return infinity;
     elif IsBoundedFRSemigroup(G) then
         gens := GeneratorsOfGroup(G);
         rays := Union(List(gens,g->List(Germs(g),p->p[1])));
         if ForAll(rays,x->ForAll(gens,s->x^s=x)) then
-            return SIZE@(G,false);
+            return Fr.SIZE(G,false);
         fi;
     fi;
     if IsLevelTransitiveFRGroup(G) then return infinity; fi;
     #!!! try to find a subgroup that acts transitively on a subtree
-    return SIZE@(G,true);
+    return Fr.SIZE(G,true);
 end);
 
-SEARCH@.NEXTITERATOR := function(iter)
+Fr.SEARCH.NEXTITERATOR := function(iter)
     if iter!.pos < Length(iter!.G!.FRData.sphere[iter!.radius+1]) then
         iter!.pos := iter!.pos+1;
     else
         iter!.pos := 1;
         while iter!.radius=iter!.G!.FRData.radius and
-           SEARCH@.EXTEND(iter!.G,SEARCH@.BALL)=fail do
-            SEARCH@.ERROR(iter!.G,"NextIterator");
+           Fr.SEARCH.EXTEND(iter!.G,Fr.SEARCH.BALL)=fail do
+            Fr.SEARCH.ERROR(iter!.G,"NextIterator");
         od;
         iter!.radius := iter!.radius+1;
         if iter!.G!.FRData.sphere[iter!.radius+1]=[] then return fail; fi;
@@ -1162,52 +1162,52 @@ SEARCH@.NEXTITERATOR := function(iter)
     return iter!.G!.FRData.sphere[iter!.radius+1][iter!.pos];
 end;
 
-SEARCH@.ISDONEITERATOR := function(iter)
+Fr.SEARCH.ISDONEITERATOR := function(iter)
     if iter!.pos < Length(iter!.G!.FRData.sphere[iter!.radius+1]) then
         return false;
     else
         iter!.pos := 0;
         while iter!.radius=iter!.G!.FRData.radius and
-           SEARCH@.EXTEND(iter!.G,SEARCH@.BALL)=fail do
-            SEARCH@.ERROR(iter!.G,"IsDoneIterator");
+           Fr.SEARCH.EXTEND(iter!.G,Fr.SEARCH.BALL)=fail do
+            Fr.SEARCH.ERROR(iter!.G,"IsDoneIterator");
         od;
         iter!.radius := iter!.radius+1;
         return iter!.G!.FRData.sphere[iter!.radius+1]=[];
     fi;
 end;
 
-SEARCH@.SHALLOWCOPY := function(iter)
+Fr.SEARCH.SHALLOWCOPY := function(iter)
     return rec(
-               NextIterator := SEARCH@.NEXTITERATOR,
-               IsDoneIterator := SEARCH@.ISDONEITERATOR,
-               ShallowCopy := SEARCH@.SHALLOWCOPY,
+               NextIterator := Fr.SEARCH.NEXTITERATOR,
+               IsDoneIterator := Fr.SEARCH.ISDONEITERATOR,
+               ShallowCopy := Fr.SEARCH.SHALLOWCOPY,
                G := iter!.G,
                pos := iter!.pos,
                radius := iter!.radius);
 end;
 
-SEARCH@.ELEMENTNUMBER := function(iter,n)
+Fr.SEARCH.ELEMENTNUMBER := function(iter,n)
     local i;
     i := 1;
     while n > Length(iter!.G!.FRData.sphere[i]) do
         n := n-Length(iter!.G!.FRData.sphere[i]);
         i := i+1;
         while not IsBound(iter!.G!.FRData.sphere[i]) and
-           SEARCH@.EXTEND(iter!.G,SEARCH@.BALL)=fail do
-            SEARCH@.ERROR(iter!.G,"ElementNumber");
+           Fr.SEARCH.EXTEND(iter!.G,Fr.SEARCH.BALL)=fail do
+            Fr.SEARCH.ERROR(iter!.G,"ElementNumber");
         od;
         if iter!.G!.FRData.sphere[i]=[] then return fail; fi;
     od;
     return iter!.G!.FRData.sphere[i][n];
 end;
 
-SEARCH@.NUMBERELEMENT := function(iter,x)
+Fr.SEARCH.NUMBERELEMENT := function(iter,x)
     local i, n, p;
     i := 1; n := 0;
     repeat
         while not IsBound(iter!.G!.FRData.sphere[i]) and
-           SEARCH@.EXTEND(iter!.G,SEARCH@.BALL)=fail do
-            SEARCH@.ERROR(iter!.G,"NumberElement");
+           Fr.SEARCH.EXTEND(iter!.G,Fr.SEARCH.BALL)=fail do
+            Fr.SEARCH.ERROR(iter!.G,"NumberElement");
         od;
         p := Position(iter!.G!.FRData.sphere[i],x);
         if p<>fail then return n+p; fi;
@@ -1219,11 +1219,11 @@ end;
 InstallMethod(Iterator, "(FR) for an FR semigroup",
         [IsFRSemigroup],
         function(G)
-    SEARCH@.INIT(G);
+    Fr.SEARCH.INIT(G);
     return IteratorByFunctions(rec(
-                   NextIterator := SEARCH@.NEXTITERATOR,
-                   IsDoneIterator := SEARCH@.ISDONEITERATOR,
-                   ShallowCopy := SEARCH@.SHALLOWCOPY,
+                   NextIterator := Fr.SEARCH.NEXTITERATOR,
+                   IsDoneIterator := Fr.SEARCH.ISDONEITERATOR,
+                   ShallowCopy := Fr.SEARCH.SHALLOWCOPY,
                    G := G,
                    pos := 0,
                    radius := 0));
@@ -1273,10 +1273,10 @@ end);
 InstallMethod(Enumerator, "(FR) for an FR semigroup",
         [IsFRSemigroup],
         function(G)
-    SEARCH@.INIT(G);
+    Fr.SEARCH.INIT(G);
     return EnumeratorByFunctions(G,rec(
-                   ElementNumber := SEARCH@.ELEMENTNUMBER,
-                   NumberElement := SEARCH@.NUMBERELEMENT,
+                   ElementNumber := Fr.SEARCH.ELEMENTNUMBER,
+                   NumberElement := Fr.SEARCH.NUMBERELEMENT,
                    G := G));
 end);
 
@@ -1298,7 +1298,7 @@ end);
 ##
 #M View
 ##
-BindGlobal("VIEWFRGROUP@", function(G,gens,name)
+Fr.VIEWFRGROUP := ( function(G,gens,name)
     local n, s;
     s := "<";
     if HasIsStateClosed(G) then
@@ -1329,28 +1329,28 @@ BindGlobal("VIEWFRGROUP@", function(G,gens,name)
         Append(s,", branched");
     fi;
     n := Length(gens(G));
-    APPEND@(s," ",name," over ",AlphabetOfFRSemigroup(G)," with ",n," generator");
+    Fr.APPEND(s," ",name," over ",AlphabetOfFRSemigroup(G)," with ",n," generator");
     if n<>1 then Append(s,"s"); fi;
-    if HasSize(G) then APPEND@(s,", of size ",Size(G)); fi;
+    if HasSize(G) then Fr.APPEND(s,", of size ",Size(G)); fi;
     Append(s,">");
     return s;
 end);
 
 InstallMethod(ViewString, "(FR) for an FR group",
         [IsFRGroup and IsFinitelyGeneratedGroup],
-        G->VIEWFRGROUP@(G,GeneratorsOfGroup,"group"));
+        G->Fr.VIEWFRGROUP(G,GeneratorsOfGroup,"group"));
 
 InstallMethod(ViewString, "(FR) for an FR monoid",
         [IsFRMonoid],
-        G->VIEWFRGROUP@(G,GeneratorsOfMonoid,"monoid"));
+        G->Fr.VIEWFRGROUP(G,GeneratorsOfMonoid,"monoid"));
 
 InstallMethod(ViewString, "(FR) for an FR semigroup",
         [IsFRSemigroup],
-        G->VIEWFRGROUP@(G,GeneratorsOfSemigroup,"semigroup"));
+        G->Fr.VIEWFRGROUP(G,GeneratorsOfSemigroup,"semigroup"));
 
-INSTALLPRINTERS@(IsFRGroup);
-INSTALLPRINTERS@(IsFRMonoid);
-INSTALLPRINTERS@(IsFRSemigroup);
+Fr.INSTALLPRINTERS(IsFRGroup);
+Fr.INSTALLPRINTERS(IsFRMonoid);
+Fr.INSTALLPRINTERS(IsFRSemigroup);
 #############################################################################
 
 #############################################################################
@@ -1466,7 +1466,7 @@ InstallMethod(EpimorphismPermGroup, "(FR) for a full FR group and a level",
     return q;
 end);
 
-BindGlobal("PERMTRANS2COLL@", function(l)
+Fr.PERMTRANS2COLL := ( function(l)
     local i;
     if IsCollection(l) then
         return l;
@@ -1478,7 +1478,7 @@ BindGlobal("PERMTRANS2COLL@", function(l)
     fi;
 end);
 
-BindGlobal("TRANSMONOID@", function(g,n,gens,filt,fullconstr,mconstr,constr,subconstr,activity)
+Fr.TRANSMONOID := ( function(g,n,gens,filt,fullconstr,mconstr,constr,subconstr,activity)
     local s;
     if ForAny(filt,x->x(g)) then
         s := gens(g);
@@ -1490,13 +1490,13 @@ BindGlobal("TRANSMONOID@", function(g,n,gens,filt,fullconstr,mconstr,constr,subc
     if s=[] then # GAP hates monoids and semigroups with 0 generators
         return subconstr(mconstr(constr([1..Size(AlphabetOfFRSemigroup(g))^n])),[]);
     fi;
-    return mconstr(PERMTRANS2COLL@(List(s,x->activity(x,n))));
+    return mconstr(Fr.PERMTRANS2COLL(List(s,x->activity(x,n))));
 end);
 
 InstallMethod(TransformationMonoid, "(FR) for a f.g. FR monoid and a level",
         [IsFRMonoid, IsInt],
         function(g, n)
-    return TRANSMONOID@(g,n,GeneratorsOfMonoid,[HasGeneratorsOfMonoid,HasGeneratorsOfGroup],FullSCMonoid,Monoid,Transformation,Submonoid,ActivityTransformation);
+    return Fr.TRANSMONOID(g,n,GeneratorsOfMonoid,[HasGeneratorsOfMonoid,HasGeneratorsOfGroup],FullSCMonoid,Monoid,Transformation,Submonoid,ActivityTransformation);
 end);
 
 InstallMethod(EpimorphismTransformationMonoid, "(FR) for a f.g. FR monoid and a level",
@@ -1512,7 +1512,7 @@ end);
 InstallMethod(TransformationSemigroup, "(FR) for a f.g. FR semigroup and a level",
         [IsFRSemigroup, IsInt],
         function(g, n)
-    return TRANSMONOID@(g,n,GeneratorsOfSemigroup,[HasGeneratorsOfSemigroup,HasGeneratorsOfMonoid,HasGeneratorsOfGroup],FullSCSemigroup,Semigroup,Transformation,Subsemigroup,ActivityTransformation);
+    return Fr.TRANSMONOID(g,n,GeneratorsOfSemigroup,[HasGeneratorsOfSemigroup,HasGeneratorsOfMonoid,HasGeneratorsOfGroup],FullSCSemigroup,Semigroup,Transformation,Subsemigroup,ActivityTransformation);
 end);
 
 InstallMethod(EpimorphismTransformationSemigroup, "(FR) for a f.g. FR semigroup and a level",
@@ -1569,16 +1569,16 @@ end);
 
 InstallMethod(NucleusOfFRSemigroup, "(FR) for an FR semigroup",
         [IsFRSemigroup],
-        G->NUCLEUS@(GeneratorsOfSemigroup(G)));
+        G->Fr.NUCLEUS(GeneratorsOfSemigroup(G)));
 
 InstallMethod(NucleusMachine, "(FR) for an FR semigroup",
         [IsFRSemigroup],
         G->AsMealyMachine(NucleusOfFRSemigroup(G)));
 
-BindGlobal("ADJACENCYBASESWITHONE@",
+Fr.ADJACENCYBASESWITHONE := (
         function(nuke)
     local seen, i, j, a, len, u, bases, basepos, machine, skip, addelt;
-    
+
     addelt := function(new)
         local i;
         i := 1;
@@ -1595,10 +1595,10 @@ BindGlobal("ADJACENCYBASESWITHONE@",
         Add(bases,new);
         return true;
     end;
-    
+
     nuke := Set(nuke);
     machine := AsMealyMachine(nuke);
-    
+
     seen := [[[1..Length(nuke)],[],false]];
     bases := [];
     len := 1;
@@ -1624,7 +1624,7 @@ BindGlobal("ADJACENCYBASESWITHONE@",
         od;
         len := len+1;
     od;
-    
+
     basepos := 1;
     while basepos <= Length(bases) do
         for i in AlphabetOfFRObject(machine) do
@@ -1637,20 +1637,20 @@ end);
 
 InstallMethod(AdjacencyBasesWithOne, "(FR) for a nucleus",
         [IsFRElementCollection],
-        L->ADJACENCYBASESWITHONE@(L)[3]);
+        L->Fr.ADJACENCYBASESWITHONE(L)[3]);
 
 InstallMethod(AdjacencyBasesWithOne, "(FR) for an FR semigroup",
         [IsFRSemigroup],
-        G->ADJACENCYBASESWITHONE@(NucleusOfFRSemigroup(G))[3]);
+        G->Fr.ADJACENCYBASESWITHONE(NucleusOfFRSemigroup(G))[3]);
 
-BindGlobal("ADJACENCYPOSET@",
+Fr.ADJACENCYPOSET := (
         function(nuke)
     local b, c, x, y, elements, oldelements, rel, bases, dom;
-    
-    bases := ADJACENCYBASESWITHONE@(nuke);
+
+    bases := Fr.ADJACENCYBASESWITHONE(nuke);
     nuke := bases[2];
     bases := bases[1];
-    
+
     elements := [];
     for b in bases do
 #        for x in b do # that would be to include adjacent tiles in the relation
@@ -1675,22 +1675,22 @@ end);
 
 InstallMethod(AdjacencyPoset, "(FR) for a nucleus",
         [IsFRElementCollection],
-        ADJACENCYPOSET@);
+        Fr.ADJACENCYPOSET);
 
 InstallMethod(AdjacencyPoset, "(FR) for an FR semigroup",
         [IsFRSemigroup],
-        G->ADJACENCYPOSET@(NucleusOfFRSemigroup(G)));
+        G->Fr.ADJACENCYPOSET(NucleusOfFRSemigroup(G)));
 #############################################################################
 
 #############################################################################
 ##
 #M  Degree
 ##
-BindGlobal("FILTERCOMPARE@", function(G,filter)
+Fr.FILTERCOMPARE := ( function(G,filter)
     if FullSCFilter(G)=IsFRObject then
         TryNextMethod();
     fi;
-    return Position(FILTERORDER@,FullSCFilter(G))<=Position(FILTERORDER@,filter);
+    return Position(Fr.FILTERORDER,FullSCFilter(G))<=Position(Fr.FILTERORDER,filter);
 end);
 
 InstallMethod(DegreeOfFRSemigroup, "(FR) for a self-similar semigroup",
@@ -1716,7 +1716,7 @@ InstallMethod(IsFinitaryFRSemigroup, "(FR) for a self-similar semigroup",
         G->ForAll(GeneratorsOfSemigroup(G),IsFinitaryFRElement));
 InstallMethod(IsFinitaryFRSemigroup, "(FR) for a full SC semigroup",
         [IsFRSemigroup and HasFullSCData],
-        G->FILTERCOMPARE@(G,IsFinitaryFRElement));
+        G->Fr.FILTERCOMPARE(G,IsFinitaryFRElement));
 
 InstallMethod(IsWeaklyFinitaryFRSemigroup, "(FR) for a self-similar semigroup",
         [IsFRSemigroup],
@@ -1733,21 +1733,21 @@ InstallMethod(IsBoundedFRSemigroup, "(FR) for a self-similar semigroup",
         G->ForAll(GeneratorsOfSemigroup(G),IsBoundedFRElement));
 InstallMethod(IsBoundedFRSemigroup, "(FR) for a full SC semigroup",
         [IsFRSemigroup and HasFullSCData],
-        G->FILTERCOMPARE@(G,IsBoundedFRElement));
+        G->Fr.FILTERCOMPARE(G,IsBoundedFRElement));
 
 InstallMethod(IsPolynomialGrowthFRSemigroup, "(FR) for a self-similar semigroup",
         [IsFRSemigroup],
         G->ForAll(GeneratorsOfSemigroup(G),IsPolynomialGrowthFRElement));
 InstallMethod(IsPolynomialGrowthFRSemigroup, "(FR) for a full SC semigroup",
         [IsFRSemigroup and HasFullSCData],
-        G->FILTERCOMPARE@(G,IsPolynomialGrowthFRElement));
+        G->Fr.FILTERCOMPARE(G,IsPolynomialGrowthFRElement));
 
 InstallMethod(IsFiniteStateFRSemigroup, "(FR) for a self-similar semigroup",
         [IsFRSemigroup],
         G->ForAll(GeneratorsOfSemigroup(G),IsFiniteStateFRElement));
 InstallMethod(IsFiniteStateFRSemigroup, "(FR) for a full SC semigroup",
         [IsFRSemigroup and HasFullSCData],
-        G->FILTERCOMPARE@(G,IsFiniteStateFRElement));
+        G->Fr.FILTERCOMPARE(G,IsFiniteStateFRElement));
 #############################################################################
 
 #############################################################################
@@ -1811,7 +1811,7 @@ InstallMethod(IsSQUniversal, "(FR) for an amenable group",
     TryNextMethod();
 end);
 
-BindGlobal("TORSIONSTATES@", function(g)
+Fr.TORSIONSTATES := ( function(g)
     local s, todo, i, j, x, y;
     todo := [g];
     i := 1;
@@ -1831,11 +1831,11 @@ BindGlobal("TORSIONSTATES@", function(g)
     return todo;
 end);
 
-BindGlobal("TORSIONLIMITSTATES@", function(L)
+Fr.TORSIONLIMITSTATES := ( function(L)
     local s, d, dd, S, oldS, i, x;
     s := [];
     for i in L do
-        x := TORSIONSTATES@(i);
+        x := Fr.TORSIONSTATES(i);
         if x=fail then return fail; fi;
         UniteSet(s,x);
     od;
@@ -1856,11 +1856,11 @@ BindGlobal("TORSIONLIMITSTATES@", function(L)
     return Set(s{S});
 end);
 
-BindGlobal("TORSIONNUCLEUS@", function(G)
+Fr.TORSIONNUCLEUS := ( function(G)
     local s, olds, news, gens, i, j;
 
     gens := Set(GeneratorsOfSemigroup(G));
-    s := TORSIONLIMITSTATES@(gens);
+    s := Fr.TORSIONLIMITSTATES(gens);
     if s=fail then return fail; fi;
     olds := [];
     repeat
@@ -1869,7 +1869,7 @@ BindGlobal("TORSIONNUCLEUS@", function(G)
         for i in news do
             for j in gens do AddSet(s,i*j); od;
         od;
-        s := TORSIONLIMITSTATES@(s);
+        s := Fr.TORSIONLIMITSTATES(s);
         if s=fail then return fail; fi;
         Info(InfoFR, 2, "TorsionNucleus: The nucleus contains at least ",s);
     until olds=s;
@@ -1882,7 +1882,7 @@ InstallMethod(IsTorsionGroup, "(FR) for a self-similar group",
         [IsFRGroup],
         function(G)
     Info(InfoFR,1,"Beware! This code has not been tested nor proven valid!");
-    return TORSIONNUCLEUS@(G)<>fail;
+    return Fr.TORSIONNUCLEUS(G)<>fail;
 end);
 
 InstallMethod(IsTorsionFreeGroup, "(FR) for a self-similar group",
@@ -1931,7 +1931,7 @@ InstallMethod(IsAmenableGroup, [IsFreeGroup],
 #F  FRSemigroup
 #F  FRMonoid
 ##
-BindGlobal("STRING_ATOM2GAP@", function(s)
+Fr.STRING_ATOM2GAP := ( function(s)
     local stream, result;
     stream := "return ";
     Append(stream,s);
@@ -1944,7 +1944,7 @@ end);
 # gens: list of strings corresponding to generator names
 # imgs: a list of the same length as imgs
 # w: a string containing an expression in terms of the generators names in `gens`
-BindGlobal("STRING_WORD2GAP@", function(gens,imgs,w)
+Fr.STRING_WORD2GAP := ( function(gens,imgs,w)
     local s, f, i, argname;
     # generate an identifier that is definitely not in gens by making it
     # longer than any element of gens
@@ -1966,9 +1966,9 @@ BindGlobal("STRING_WORD2GAP@", function(gens,imgs,w)
     # ... and evaluate it at the given input
     return f(imgs);
 end);
-BindGlobal("STRING_TRANSFORMATION2GAP@", function(t,data)
+Fr.STRING_TRANSFORMATION2GAP := ( function(t,data)
     local p;
-    p := STRING_ATOM2GAP@(t);
+    p := Fr.STRING_ATOM2GAP(t);
     if IsPerm(p) then
         p := ListPerm(p);
     elif IsTransformation(p) then
@@ -1977,15 +1977,15 @@ BindGlobal("STRING_TRANSFORMATION2GAP@", function(t,data)
     data.degree := Maximum(data.degree,Length(p),MaximumList(p,0));
     return p;
 end);
-BindGlobal("STRING_GROUP@", function(freecreator, s_generator, creator, args)
+Fr.STRING_GROUP := ( function(freecreator, s_generator, creator, args)
     local temp, i, gens, states, action, mgens, data, category, machine, group;
-    
+
     if not IsString(args[Length(args)]) then
         category := Remove(args);
     else
         category := IsFRObject;
     fi;
-    
+
     if args=[] or not ForAll(args,IsString) then
         Error("<arg> should be a non-empty sequence of strings\n");
     fi;
@@ -2004,7 +2004,7 @@ BindGlobal("STRING_GROUP@", function(freecreator, s_generator, creator, args)
     for temp in List(temp,x->x[2]) do
         temp := SplitString(temp,"<");
         if Size(temp)=1 then
-            Add(action,STRING_TRANSFORMATION2GAP@(temp[1],data));
+            Add(action,Fr.STRING_TRANSFORMATION2GAP(temp[1],data));
             Add(states,[]);
         elif Size(temp)=2 and temp[1]="" then
             temp := SplitString(temp[2],">");
@@ -2013,9 +2013,9 @@ BindGlobal("STRING_GROUP@", function(freecreator, s_generator, creator, args)
             elif Size(temp)=1 then
                 Add(action,[]);
             else
-                Add(action,STRING_TRANSFORMATION2GAP@(temp[2],data));
+                Add(action,Fr.STRING_TRANSFORMATION2GAP(temp[2],data));
             fi;
-            temp := STRING_WORD2GAP@(gens,s_generator(data.holder),Concatenation("[",temp[1],"]"));
+            temp := Fr.STRING_WORD2GAP(gens,s_generator(data.holder),Concatenation("[",temp[1],"]"));
             for i in [1..Length(temp)] do
                 if not IsBound(temp[i]) or temp[i]=1 then
                     if IsMagmaWithOne(data.holder) then
@@ -2031,7 +2031,7 @@ BindGlobal("STRING_GROUP@", function(freecreator, s_generator, creator, args)
             Error("<arg> should have the form g=<...\n");
         fi;
     od;
-    
+
     for i in action do
         for temp in [1..data.degree] do
             if not IsBound(i[temp]) then
@@ -2048,7 +2048,7 @@ BindGlobal("STRING_GROUP@", function(freecreator, s_generator, creator, args)
             fi;
         od;
     od;
-    if freecreator=FreeGroup and not ForAll(action,ISINVERTIBLE@) then
+    if freecreator=FreeGroup and not ForAll(action,Fr.ISINVERTIBLE) then
         Error("<arg> should have the form g=<...>permutation\n");
     fi;
     machine := FRMachine(data.holder,states,action);
@@ -2076,37 +2076,37 @@ end);
 
 InstallGlobalFunction(FRGroup,
         function(arg)
-    return STRING_GROUP@(FreeGroup, GeneratorsOfGroup, Group, arg);
+    return Fr.STRING_GROUP(FreeGroup, GeneratorsOfGroup, Group, arg);
 end);
 
 InstallGlobalFunction(FRMonoid,
         function(arg)
-    return STRING_GROUP@(FreeMonoid, GeneratorsOfMonoid, Monoid, arg);
+    return Fr.STRING_GROUP(FreeMonoid, GeneratorsOfMonoid, Monoid, arg);
 end);
 
 InstallGlobalFunction(FRSemigroup,
         function(arg)
-    return STRING_GROUP@(FreeSemigroup, GeneratorsOfSemigroup, Semigroup, arg);
+    return Fr.STRING_GROUP(FreeSemigroup, GeneratorsOfSemigroup, Semigroup, arg);
 end);
 
 InstallGlobalFunction(NewSemigroupFRMachine,
         function(arg)
     if Length(arg)=1 and HasIsSemigroupFRMachine(arg[1]) and IsSemigroupFRMachine(arg[1]) then
-        return COPYFRMACHINE@(arg[1]);
+        return Fr.COPYFRMACHINE(arg[1]);
     fi;
     return UnderlyingFRMachine(CallFuncList(FRSemigroup,Concatenation(arg,[IsFRElement])).1);
 end);
 InstallGlobalFunction(NewMonoidFRMachine,
         function(arg)
     if Length(arg)=1 and HasIsMonoidFRMachine(arg[1]) and IsMonoidFRMachine(arg[1]) then
-        return COPYFRMACHINE@(arg[1]);
+        return Fr.COPYFRMACHINE(arg[1]);
     fi;
     return UnderlyingFRMachine(CallFuncList(FRMonoid,Concatenation(arg,[IsFRElement])).1);
 end);
 InstallGlobalFunction(NewGroupFRMachine,
         function(arg)
     if Length(arg)=1 and HasIsGroupFRMachine(arg[1]) and IsGroupFRMachine(arg[1]) then
-        return COPYFRMACHINE@(arg[1]);
+        return Fr.COPYFRMACHINE(arg[1]);
     fi;
     return UnderlyingFRMachine(CallFuncList(FRGroup,Concatenation(arg,[IsFRElement])).1);
 end);
@@ -2181,7 +2181,7 @@ InstallMethod(FRGroupByVirtualEndomorphism, "(FR) for a virtual endomorphism and
                 od;
                 Add(trans,t);
                 Add(out,o);
-                if not ISINVERTIBLE@(o) then return fail; fi;
+                if not Fr.ISINVERTIBLE(o) then return fail; fi;
                 i := i+1;
                 if RemInt(i,10)=0 then
                     Info(InfoFR, 2, "FRGroupByVirtualEndomorphism: at least ",i," states");
@@ -2212,7 +2212,7 @@ end);
 #F  IsomorphismFRGroup( <arg> )
 #F  IsomorphismMealyGroup( <arg> )
 ##
-BindGlobal("ISOMORPHICFRGENS@", function(g,iso)
+Fr.ISOMORPHICFRGENS := ( function(g,iso)
     local m, e, i, f, gens;
 
     m := fail;
@@ -2246,44 +2246,44 @@ end);
 InstallMethod(FRMachineFRGroup, "(FR) for a state-closed group",
         [IsFRGroup],
         function(G)
-    return ISOMORPHICFRGENS@(GeneratorsOfGroup(G),AsGroupFRElement)[1];
+    return Fr.ISOMORPHICFRGENS(GeneratorsOfGroup(G),AsGroupFRElement)[1];
 end);
 
 InstallMethod(FRMachineFRMonoid, "(FR) for a state-closed monoid",
         [IsFRMonoid],
         function(G)
-    return ISOMORPHICFRGENS@(GeneratorsOfMonoid(G),AsMonoidFRElement)[1];
+    return Fr.ISOMORPHICFRGENS(GeneratorsOfMonoid(G),AsMonoidFRElement)[1];
 end);
 
 InstallMethod(FRMachineFRSemigroup, "(FR) for a state-closed semigroup",
         [IsFRSemigroup],
         function(G)
-    return ISOMORPHICFRGENS@(GeneratorsOfSemigroup(G),AsSemigroupFRElement)[1];
+    return Fr.ISOMORPHICFRGENS(GeneratorsOfSemigroup(G),AsSemigroupFRElement)[1];
 end);
 
 InstallMethod(MealyMachineFRGroup, "(FR) for a state-closed group",
         [IsFRGroup],
         function(G)
-    return ISOMORPHICFRGENS@(GeneratorsOfGroup(G),AsMealyElement)[1];
+    return Fr.ISOMORPHICFRGENS(GeneratorsOfGroup(G),AsMealyElement)[1];
 end);
 
 InstallMethod(MealyMachineFRMonoid, "(FR) for a state-closed monoid",
         [IsFRMonoid],
         function(G)
-    return ISOMORPHICFRGENS@(GeneratorsOfMonoid(G),AsMealyElement)[1];
+    return Fr.ISOMORPHICFRGENS(GeneratorsOfMonoid(G),AsMealyElement)[1];
 end);
 
 InstallMethod(MealyMachineFRSemigroup, "(FR) for a state-closed semigroup",
         [IsFRSemigroup],
         function(G)
-    return ISOMORPHICFRGENS@(GeneratorsOfSemigroup(G),AsMealyElement)[1];
+    return Fr.ISOMORPHICFRGENS(GeneratorsOfSemigroup(G),AsMealyElement)[1];
 end);
 
 InstallMethod(IsomorphismFRGroup, "(FR) for a self-similar group",
         [IsFRGroup],
         function(G)
     local gens;
-    gens := ISOMORPHICFRGENS@(GeneratorsOfGroup(G),AsGroupFRElement)[2];
+    gens := Fr.ISOMORPHICFRGENS(GeneratorsOfGroup(G),AsGroupFRElement)[2];
     return GroupHomomorphismByImagesNC(G,Group(gens),GeneratorsOfGroup(G),gens);
 end);
 
@@ -2291,17 +2291,17 @@ InstallMethod(IsomorphismFRMonoid, "(FR) for a self-similar monoid",
         [IsFRMonoid],
         function(G)
     return MagmaHomomorphismByFunctionNC(G,
-                   Monoid(ISOMORPHICFRGENS@(GeneratorsOfMonoid(G),AsMonoidFRElement)[2]),AsMonoidFRElement);
+                   Monoid(Fr.ISOMORPHICFRGENS(GeneratorsOfMonoid(G),AsMonoidFRElement)[2]),AsMonoidFRElement);
 end);
 
 InstallMethod(IsomorphismFRSemigroup, "(FR) for a self-similar semigroup",
         [IsFRSemigroup],
         function(G)
     return MagmaHomomorphismByFunctionNC(G,
-                   Semigroup(ISOMORPHICFRGENS@(GeneratorsOfSemigroup(G),AsSemigroupFRElement)[2]),AsSemigroupFRElement);
+                   Semigroup(Fr.ISOMORPHICFRGENS(GeneratorsOfSemigroup(G),AsSemigroupFRElement)[2]),AsSemigroupFRElement);
 end);
 
-BindGlobal("ISOMORPHISMMEALYXXX@", function(G,gens,cons)
+Fr.ISOMORPHISMMEALYXXX := ( function(G,gens,cons)
     local H, Hgens, m, states, g;
     states := [];
     Hgens := ShallowCopy(gens(G));
@@ -2314,7 +2314,7 @@ BindGlobal("ISOMORPHISMMEALYXXX@", function(G,gens,cons)
         return IdentityMapping(G);
     fi;
     states := States(states);
-    m := MAKEMEALYMACHINE@(FamilyObj(states[1]),states,fail);
+    m := Fr.MAKEMEALYMACHINE(FamilyObj(states[1]),states,fail);
     for g in [1..Length(Hgens)] do
         if not IsMealyElement(Hgens[g]) then
             Hgens[g] := FRElement(m,Position(states,Hgens[g]));
@@ -2326,15 +2326,15 @@ end);
 
 InstallMethod(IsomorphismMealyGroup, "(FR) for a self-similar group",
         [IsFRGroup],
-        G->ISOMORPHISMMEALYXXX@(G,GeneratorsOfGroup,Group));
+        G->Fr.ISOMORPHISMMEALYXXX(G,GeneratorsOfGroup,Group));
 
 InstallMethod(IsomorphismMealyMonoid, "(FR) for a self-similar monoid",
         [IsFRMonoid],
-        G->ISOMORPHISMMEALYXXX@(G,GeneratorsOfMonoid,Monoid));
+        G->Fr.ISOMORPHISMMEALYXXX(G,GeneratorsOfMonoid,Monoid));
 
 InstallMethod(IsomorphismMealySemigroup, "(FR) for a self-similar semigroup",
         [IsFRSemigroup],
-        G->ISOMORPHISMMEALYXXX@(G,GeneratorsOfSemigroup,Semigroup));
+        G->Fr.ISOMORPHISMMEALYXXX(G,GeneratorsOfSemigroup,Semigroup));
 #############################################################################
 
 #############################################################################
@@ -2348,12 +2348,12 @@ InstallMethod(IsStateClosed, "(FR) for a self-similar group",
         [IsFRGroup and HasGeneratorsOfGroup],
         function(G)
     local g, x, b;
-    SEARCH@.INIT(G);
+    Fr.SEARCH.INIT(G);
     for g in GeneratorsOfGroup(G) do for x in DecompositionOfFRElement(g)[1] do
         while true do
-            b := SEARCH@.IN(x,G);
+            b := Fr.SEARCH.IN(x,G);
             if b=false then return false; elif b=true then break; fi;
-            if SEARCH@.EXTEND(G)=fail then return fail; fi;
+            if Fr.SEARCH.EXTEND(G)=fail then return fail; fi;
             Info(InfoFR, 3, "IsStateClosed: searching at level ",G!.FRData.level," and in sphere of radius ",G!.FRData.radius);
         od;
     od; od;
@@ -2482,20 +2482,20 @@ InstallMethod(RightCosetsNC, "(FR) for two self-similar groups",
         function(G,H)
     local trans, b;
     trans := [One(G)];
-    SEARCH@.INIT(G);
-    SEARCH@.INIT(H);
+    Fr.SEARCH.INIT(G);
+    Fr.SEARCH.INIT(H);
     repeat
-        while SEARCH@.EXTENDTRANSVERSAL(G,H,trans)=fail do
-           SEARCH@.ERROR(G,"RightCosets");
+        while Fr.SEARCH.EXTENDTRANSVERSAL(G,H,trans)=fail do
+           Fr.SEARCH.ERROR(G,"RightCosets");
         od;
-        b := SEARCH@.CHECKTRANSVERSAL(G,H,trans);
+        b := Fr.SEARCH.CHECKTRANSVERSAL(G,H,trans);
         if b=fail then
             return fail;
         elif b=true then
             return List(trans,x->RightCoset(H,x));
         else
-            while SEARCH@.EXTEND(G,SEARCH@.QUOTIENT)=fail do
-                SEARCH@.ERROR(G,"RightCosets");
+            while Fr.SEARCH.EXTEND(G,Fr.SEARCH.QUOTIENT)=fail do
+                Fr.SEARCH.ERROR(G,"RightCosets");
             od;
         fi;
         Info(InfoFR, 3, "RightCosets: searching at level ",G!.FRData.level);
@@ -2512,7 +2512,7 @@ InstallMethod(NormalClosure, "(FR) for two FR groups -- avoid using IsFinite",
         function(G,N)
     local g, gens, n, x;
 
-    SEARCH@.INIT(G);
+    Fr.SEARCH.INIT(G);
     gens := ShallowCopy(GeneratorsOfGroup(N));
     for n in gens do
         for g in G!.FRData.sphere[2] do
@@ -2560,15 +2560,15 @@ InstallMethod(NaturalHomomorphismByNormalSubgroupOp, "(FR) for a FR group and a 
         [IsFRGroup,IsFRGroup],
         function(G,N)
     local d, f;
-    SEARCH@.INIT(G);
+    Fr.SEARCH.INIT(G);
     d := Index(G,N);
     repeat
         f := G!.FRData.pi*NaturalHomomorphismByNormalSubgroupNC(Image(G!.FRData.pi),Image(G!.FRData.pi,N));
         if Size(Image(f))=d then
             return f;
         else
-            while SEARCH@.EXTEND(G,SEARCH@.QUOTIENT)=fail do
-                SEARCH@.ERROR(G,"NaturalHomomorphismByNormalSubgroupOp");
+            while Fr.SEARCH.EXTEND(G,Fr.SEARCH.QUOTIENT)=fail do
+                Fr.SEARCH.ERROR(G,"NaturalHomomorphismByNormalSubgroupOp");
             od;
         fi;
         Info(InfoFR, 2, "NaturalHomomorphismByNormalSubgroupOp: extending to level ",G!.FRData.level);
@@ -2742,10 +2742,10 @@ InstallMethod(FindBranchingSubgroup, "(FR) for an FR group, a level and a radius
         oldK := K;
         H := Stabilizer(K,AlphabetOfFRSemigroup(G),OnTuples);
         K := TrivialSubgroup(G);
-        SEARCH@.INIT(H);
+        Fr.SEARCH.INIT(H);
         for i in [2..radius] do
-            while not IsBound(H!.FRData.sphere[i]) and SEARCH@.EXTEND(H,SEARCH@.BALL)=fail do
-                SEARCH@.ERROR(G,"FindBranchingSubgroup");
+            while not IsBound(H!.FRData.sphere[i]) and Fr.SEARCH.EXTEND(H,Fr.SEARCH.BALL)=fail do
+                Fr.SEARCH.ERROR(G,"FindBranchingSubgroup");
             od;
             for g in H!.FRData.sphere[i] do
                 d := DecompositionOfFRElement(g);
@@ -2769,7 +2769,7 @@ end);
 InstallMethod(BranchStructure, [IsFRGroup and HasFullSCData],
         function(G)
     local X, Q;
-    
+
     X := AlphabetOfFRSemigroup(G);
     Q := TopVertexTransformations(G);
     return rec(group := TrivialSubgroup(Q),
@@ -2783,9 +2783,9 @@ end);
 InstallMethod(BranchStructure, [IsFRGroup],
         function(G)
     local pi, K, Q, W, S, SS, g, d, set, i;
-    
+
     K := BranchingSubgroup(G);
-    
+
     # a shortcut in case it's difficult to compute coset actions
     if false and HasHasCongruenceProperty(G) and HasCongruenceProperty(G) then
         d := 1;
@@ -2819,7 +2819,7 @@ end);
 
 #############################################################################
 
-BindGlobal("ASSIGNGENERATORVARIABLES@", function(gens)
+Fr.ASSIGNGENERATORVARIABLES := ( function(gens)
     local names, i;
     if ForAny(gens,g->HasName(g) or not IsMealyElement(g)) then
         names := [];
@@ -2852,19 +2852,19 @@ end);
 InstallMethod(AssignGeneratorVariables, "(FR) for an FR group",
         [IsFRGroup],
         function(G)
-    ASSIGNGENERATORVARIABLES@(GeneratorsOfGroup(G));
+    Fr.ASSIGNGENERATORVARIABLES(GeneratorsOfGroup(G));
 end);
 
 InstallMethod(AssignGeneratorVariables, "(FR) for an FR monoid",
         [IsFRMonoid],
         function(G)
-    ASSIGNGENERATORVARIABLES@(GeneratorsOfMonoid(G));
+    Fr.ASSIGNGENERATORVARIABLES(GeneratorsOfMonoid(G));
 end);
 
 InstallMethod(AssignGeneratorVariables, "(FR) for an FR semigroup",
         [IsFRSemigroup],
         function(G)
-    ASSIGNGENERATORVARIABLES@(GeneratorsOfSemigroup(G));
+    Fr.ASSIGNGENERATORVARIABLES(GeneratorsOfSemigroup(G));
 end);
 #############################################################################
 
@@ -2910,7 +2910,7 @@ InstallMethod(GermData, "(FR) for a FR group",
     # they are not generators of isotropy groups.
 
     for g in NucleusOfFRSemigroup(G) do
-        g := ASINTREP@(g);
+        g := Fr.ASINTREP(g);
         Add(data.nucleus,g);
         h := Germs(g);
         map := [];
@@ -3069,7 +3069,7 @@ InstallMethod(GermValue, "(FR) for a Mealy element and germ data",
         fi;
     end;
 
-    elm := ASINTREP@(elm);
+    elm := Fr.ASINTREP(elm);
     m := UnderlyingFRMachine(elm);
     m0 := m+data.nucleusmachine;
     corr := [ListTransformation(Correspondence(m0)[1],Size(StateSet(m))),
@@ -3098,13 +3098,13 @@ InstallMethod(GermValue, "(FR) for an FR element and germ data",
     p := First(data.machines,x->IsIdenticalObj(x[1],m));
     if p=fail then
         p := List(GeneratorsOfFRMachine(m),
-                  w->GermValue(ASINTREP@(FRElement(m,w)),data));
+                  w->GermValue(Fr.ASINTREP(FRElement(m,w)),data));
         if fail in p then return fail; fi;
         Add(data.machines,[m,p]);
     else
         p := p[2];
     fi;
-    return MAPPEDWORD@(InitialState(elm),p,One(data.group));
+    return Fr.MAPPEDWORD(InitialState(elm),p,One(data.group));
 end);
 
 InstallMethod(EpimorphismGermGroup, "(FR) for a group",
@@ -3115,7 +3115,7 @@ InstallMethod(EpimorphismGermGroup, "(FR) for a group",
     return GroupHomomorphismByFunction(G,data.group,x->GermValue(x,data));
 end);
 
-BindGlobal("HOMOMORPHISMGERMPERMGROUP@", function(G,data,n)
+Fr.HOMOMORPHISMGERMPERMGROUP := ( function(G,data,n)
     local l, e0, e1, Q;
 
     l := Length(AlphabetOfFRSemigroup(G))^n;
@@ -3130,13 +3130,13 @@ BindGlobal("HOMOMORPHISMGERMPERMGROUP@", function(G,data,n)
     end);
 end);
 
-BindGlobal("HOMOMORPHISMGERMPCGROUP@", function(G,data,n)
+Fr.HOMOMORPHISMGERMPCGROUP := ( function(G,data,n)
     local pcpP, pcpG, Q, pcpQ, l, i;
 
     l := Length(AlphabetOfFRSemigroup(G))^n;
     i := IsomorphismPcGroup(PermGroup(G,n));
     if i=fail then
-        return HOMOMORPHISMGERMPERMGROUP@(G,data,n);
+        return Fr.HOMOMORPHISMGERMPERMGROUP(G,data,n);
     fi;
     Q := WreathProduct(data.group,Range(i),InverseGeneralMapping(i),l);
     pcpP := Pcgs(Range(i));
@@ -3148,7 +3148,7 @@ BindGlobal("HOMOMORPHISMGERMPCGROUP@", function(G,data,n)
         x := PermList(d[2]);
         if not x in Source(i) then return fail; fi;
         e := ExponentsOfPcElement(pcpP,x^i);
-        for x in INVERSE@(d[2]) do
+        for x in Fr.INVERSE(d[2]) do
             y := GermValue(d[1][x],data);
             if y=fail then return fail; fi;
             Append(e,ExponentsOfPcElement(pcpG,y));
@@ -3157,13 +3157,13 @@ BindGlobal("HOMOMORPHISMGERMPCGROUP@", function(G,data,n)
     end);
 end);
 
-BindGlobal("HOMOMORPHISMGERMPCPGROUP@", function(G,data,n)
+Fr.HOMOMORPHISMGERMPCPGROUP := ( function(G,data,n)
     local pcpP, pcpG, Q, pcpQ, l, i;
 
     l := Length(AlphabetOfFRSemigroup(G))^n;
     i := IsomorphismPcpGroup(PermGroup(G,n));
     if i=fail then
-        return HOMOMORPHISMGERMPERMGROUP@(G,data,n);
+        return Fr.HOMOMORPHISMGERMPERMGROUP(G,data,n);
     fi;
     Q := WreathProduct(data.group,Range(i),InverseGeneralMapping(i),l);
     pcpP := Pcp(Range(i));
@@ -3175,7 +3175,7 @@ BindGlobal("HOMOMORPHISMGERMPCPGROUP@", function(G,data,n)
         x := PermList(d[2]);
         if not x in Source(i) then return fail; fi;
         e := ExponentsByPcp(pcpP,x^i);
-        for x in INVERSE@(d[2]) do
+        for x in Fr.INVERSE(d[2]) do
             y := GermValue(d[1][x],data);
             if y=fail then return fail; fi;
             Append(e,ExponentsByPcp(pcpG,y));
@@ -3184,7 +3184,7 @@ BindGlobal("HOMOMORPHISMGERMPCPGROUP@", function(G,data,n)
     end);
 end);
 
-BindGlobal("DIRECTPRODUCT@", function( list )
+Fr.DIRECTPRODUCT := ( function( list )
     local len, D, F, G, pcgsG, gensF, s, h, i, j, t,
           info, first, coll, orders, exp;
 
@@ -3253,9 +3253,9 @@ InstallMethod(EpimorphismGermGroup, "(FR) for a group and a level",
     data := GermData(G);
     emb := [GroupHomomorphismByFunction(G,data.group,x->GermValue(x,data))];
     if IsPcGroup(data.group) then
-        Append(emb,List([1..n],i->HOMOMORPHISMGERMPCGROUP@(G,data,i)));
+        Append(emb,List([1..n],i->Fr.HOMOMORPHISMGERMPCGROUP(G,data,i)));
     else
-        Append(emb,List([1..n],i->HOMOMORPHISMGERMPCPGROUP@(G,data,i)));
+        Append(emb,List([1..n],i->Fr.HOMOMORPHISMGERMPCPGROUP(G,data,i)));
     fi;
     if n=0 then
         pi := emb[1];
@@ -3265,7 +3265,7 @@ InstallMethod(EpimorphismGermGroup, "(FR) for a group and a level",
             pi := emb[n+1];
         else
             # P := DirectProduct(List(emb,Image));
-            P := DIRECTPRODUCT@(List(emb,Image));
+            P := Fr.DIRECTPRODUCT(List(emb,Image));
             emb := List([1..n+1],i->emb[i]*Embedding(P,i));
             pi := GroupHomomorphismByFunction(G,P,x->Product(emb,i->x^i));
         fi;
@@ -3345,7 +3345,7 @@ InstallMethod(IsomorphismFRGroup, "(FR) for a self-similar group with preimage d
         function(G)
     local r, gens;
 
-    gens := ISOMORPHICFRGENS@(GeneratorsOfGroup(G),AsGroupFRElement)[2];
+    gens := Fr.ISOMORPHICFRGENS(GeneratorsOfGroup(G),AsGroupFRElement)[2];
     r := FRGroupPreImageData(G)(0);
     return GroupHomomorphismByFunction(G,Group(gens),
                    g->FRElement(gens[1],UnderlyingElement(r.image(g))),
